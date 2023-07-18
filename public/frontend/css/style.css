@@ -1,0 +1,3199 @@
+:root{
+  --pinkColor: #E487AF;
+  --lightGreen: rgba(24, 197, 76, 0.769);
+}
+/* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.text-opacity07 {
+  opacity: 0.7;
+  color: #fff;
+}
+/* line 37, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.fbbg, .fbbg-hover:hover {
+  background-color: #3b5999;
+  color: #fff;
+}
+/* line 42, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.twitterbg, .twitterbg-hover:hover {
+  background-color: #55acee;
+  color: #fff;
+}
+/* line 47, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.pinterestbg, .pinterestbg-hover:hover {
+  background-color: #bd081c;
+  color: #fff;
+}
+/* line 52, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.google-plusbg, .google-plusbg-hover:hover {
+  background-color: #dd4b39;
+  color: #fff;
+}
+/* line 57, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.youtubebg, .youtubebg-hover:hover {
+  background-color: #cd201f;
+  color: #fff;
+}
+/* line 62, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.instagrambg, .instagrambg-hover:hover {
+  background-color: #e4405f;
+  color: #fff;
+}
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.depth1 {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+/* line 75, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.make-row-flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+/* line 80, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.nopaddingX {
+  padding-left: 0;
+  padding-right: 0;
+}
+/* line 85, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.fullscreen-overlay {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  background-color: rgba(57, 36, 16, 0.5);
+  display: none;
+}
+/* line 94, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.fullscreen-overlay.active {
+  display: block;
+}
+/* line 99, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+/* line 100, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+body.active-100vh {
+  height: 100vh;
+  overflow: hidden;
+}
+/* line 106, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.button {
+  border-radius: 0;
+  padding: 6px 15px;
+  cursor: pointer;
+}
+/* line 112, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.button-block {
+  display: block;
+  width: 100%;
+}
+/* line 117, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.dark-button {
+  border: 1px solid #392410;
+  background-color: #392410;
+  color: #fff;
+}
+/* line 121, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.dark-button:hover {
+  background-color: #fff;
+  color: #392410;
+}
+/* line 127, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.dark-button-o {
+  border: 1px solid #392410;
+  background-color: #fff;
+  color: #392410;
+}
+/* line 131, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.dark-button-o:hover {
+  background-color: #392410;
+  color: #fff;
+}
+/* line 137, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm-100 {
+  width: 100% !important;
+}
+/* line 141, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm-66 {
+  width: 66.6666% !important;
+  box-sizing: border-box;
+}
+/* line 146, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm-50 {
+  width: 50% !important;
+  box-sizing: border-box;
+}
+/* line 151, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm-33 {
+  width: 33.3333% !important;
+  box-sizing: border-box;
+}
+/* line 156, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm {
+  padding: 8px;
+  float: left;
+}
+/* line 158, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm input, .frm textarea, .frm select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #939393;
+}
+/* line 164, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+.frm input:focus, .frm textarea:focus, .frm select:focus {
+  border-color: #392410;
+}
+/* line 172, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox, label.custom-radio {
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* line 177, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox input, label.custom-radio input {
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+}
+/* line 181, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox input:checked + .fake-input, label.custom-radio input:checked + .fake-input {
+  border-color: #333;
+}
+/* line 183, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox input:checked + .fake-input:before, label.custom-radio input:checked + .fake-input:before {
+  transform: translate(-50%, -50%) rotate(45deg) scale(1);
+}
+/* line 188, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox .fake-input, label.custom-radio .fake-input {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #bdbdbd;
+  vertical-align: middle;
+  position: relative;
+}
+/* line 195, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox .fake-input:before, label.custom-radio .fake-input:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg) scale(0);
+  transition: all 0.2s;
+}
+/* line 205, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox .text, label.custom-radio .text {
+  margin-left: 4px;
+  display: inline-block;
+  vertical-align: middle;
+}
+/* line 212, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+/* line 213, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox .fake-input {
+  border-radius: 4px;
+}
+/* line 215, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-checkbox .fake-input:before {
+  width: 4px;
+  height: 8px;
+  border-right: 2px solid #333;
+  border-bottom: 2px solid #333;
+}
+/* line 224, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+/* line 225, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-radio .fake-input {
+  border-radius: 50%;
+}
+/* line 227, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */
+label.custom-radio .fake-input:before {
+  width: 8px;
+  height: 8px;
+  background-color: #333;
+  border-radius: 50%;
+}
+/* line 4, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+html, body {
+  font-family: 'Cabin';
+  font-weight: 400;
+  line-height: 24px;
+  font-size: 16px;
+  background-color: #f3f4f9;
+}
+/* line 14, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+a {
+  color: #000;
+  text-decoration: none !important;
+  transition: color 0.3s;
+}
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+a:hover {
+  color: #392410;
+}
+/* line 29, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.text-yellow {
+  color: var(--pinkColor) !important;
+}
+/* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.see-more {
+  text-align: center;
+}
+/* line 37, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.btn-see-more {
+  border-radius: 12px;
+  font-weight: 500;
+  border: 1px solid #f4c522;
+}
+/* line 43, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.breadcrumb {
+  padding-left: 0px;
+  background: none;
+  margin-bottom: 0px;
+}
+/* line 49, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.breadcrumb-item + .breadcrumb-item::before {
+  border-style: solid;
+  border-width: 2px 2px 0 0;
+  content: '';
+  display: inline-block;
+  height: 10px;
+  position: relative;
+  top: 0px;
+  left: 0;
+  transform: rotate(45deg);
+  width: 10px;
+  padding: 0px;
+  margin-right: 10px;
+}
+/* line 64, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.btn-save-kinhdoanh {
+  background-color: var(--pinkColor);
+  border-radius: 30px;
+  color: #fff;
+}
+/* line 70, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100000000;
+}
+/* line 77, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+/* line 78, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayDoor:before, .overlay .overlayDoor:after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: rgba(228, 185, 30, 0.937);
+  transition: 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+  transition-delay: 0.8s;
+}
+/* line 88, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayDoor:before {
+  left: 0;
+}
+/* line 91, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayDoor:after {
+  right: 0;
+}
+/* line 95, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+/* line 96, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+/* line 97, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay.loaded .overlayDoor:before {
+  left: -50%;
+}
+/* line 100, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay.loaded .overlayDoor:after {
+  right: -50%;
+}
+/* line 104, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay.loaded .overlayContent {
+  opacity: 0;
+  margin-top: -15px;
+}
+/* line 109, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  transition: 0.5s cubic-bezier(0.77, 0, 0.18, 1);
+}
+/* line 118, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayContent .skip {
+  display: block;
+  width: 130px;
+  text-align: center;
+  margin: 50px auto 0;
+  cursor: pointer;
+  color: #fff;
+  font-family: 'Nunito';
+  font-weight: 700;
+  padding: 12px 0;
+  border: 2px solid #fff;
+  border-radius: 3px;
+  transition: 0.2s ease;
+}
+/* line 131, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.overlay .overlayContent .skip:hover {
+  background: #ddd;
+  color: #444;
+  border-color: #ddd;
+}
+/* line 140, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.loader {
+  width: 128px;
+  height: 128px;
+  border: 3px solid #fff;
+  border-bottom: 3px solid transparent;
+  border-radius: 50%;
+  position: relative;
+  animation: spin 1s linear infinite;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* line 151, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.loader .inner {
+  width: 64px;
+  height: 64px;
+  border: 3px solid transparent;
+  border-top: 3px solid #fff;
+  border-radius: 50%;
+  animation: spinInner 1s linear infinite;
+}
+@keyframes spin {
+  /* line 162, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+  0% {
+    transform: rotate(0deg);
+  }
+  /* line 165, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinInner {
+  /* line 171, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+  0% {
+    transform: rotate(0deg);
+  }
+  /* line 174, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+  100% {
+    transform: rotate(-720deg);
+  }
+}
+/* line 179, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.show-mobile {
+  display: none;
+}
+/* line 183, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_reset.scss */
+.show-desktop {
+  display: block;
+}
+@keyframes slideUp {
+  /* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    opacity: 0.3;
+    transform: translateY(30px);
+  }
+  /* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes fadeIn {
+  /* line 14, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    opacity: 0;
+  }
+  /* line 19, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  50% {
+    opacity: 0.5;
+  }
+  /* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes floating {
+  /* line 30, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    transform: translateY(0px);
+  }
+  /* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  50% {
+    transform: translateY(-10px);
+  }
+  /* line 38, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    transform: translateY(0px);
+  }
+}
+@keyframes slideDown {
+  /* line 44, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    opacity: 0.3;
+    transform: translateY(-100%);
+  }
+  /* line 49, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scaleDown {
+  /* line 56, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    opacity: 0.1;
+    transform: translate(-50%, -50%) scale(3);
+  }
+  /* line 61, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  70% {
+    opacity: 0.3;
+  }
+  /* line 65, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes newsletterPopup {
+  /* line 72, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  0% {
+    opacity: 0.1;
+  }
+  /* line 75, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_animation.scss */
+  100% {
+    opacity: 1;
+  }
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header {
+  background-color: #fff;
+}
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-top {
+  min-height: 40px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background: #FFF6F2;
+}
+/* line 8, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-top .sologan {
+  color: rgba(0, 128, 0, 0.651);
+}
+/* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+/* line 17, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 19, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .left .logo .big-logo img {
+  /* max-width: 264px; */
+}
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+}
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .form-search-header {
+  position: relative;
+}
+/* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .form-search-header .icon {
+  color: #777e90;
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  font-size: 16px;
+}
+/* line 40, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .form-search-header input {
+  border-radius: 20px;
+  padding-left: 25px;
+}
+/* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .btn-toggle-search-box, .header .header-topbar-inner-container .right .shopping-bag, .header .header-topbar-inner-container .right .user-header {
+  margin-left: 20px;
+}
+/* line 49, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .btn-toggle-search-box img, .header .header-topbar-inner-container .right .shopping-bag img, .header .header-topbar-inner-container .right .user-header img {
+  width: 20px;
+}
+/* line 53, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .shopping-bag {
+  position: relative;
+}
+/* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .shopping-bag .counter {
+  position: absolute;
+  top: -8px;
+  background-color: #f4c522;
+  border-radius: 18px;
+  padding-left: 1px;
+  width: 16px;
+  height: 16px;
+  font-size: 14px;
+  color: #fcfcfd;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+/* line 70, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header {
+  position: relative;
+}
+/* line 72, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header .user-header-button {
+  background-color: var(--lightGreen);
+  padding: 10px;
+  border-radius: 18px;
+  color: #fff;
+}
+/* line 78, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header .user-nav-header {
+  display: none;
+  position: absolute;
+  top: 32px;
+  width: 200px;
+  background-color: #fff;
+  z-index: 2;
+  padding: 4px 0;
+  border: 1px solid #f0f0f0;
+}
+/* line 87, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header .user-nav-header li {
+  font-size: 15px;
+}
+/* line 89, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header .user-nav-header li.divider {
+  width: 100%;
+  height: 1px;
+  background-color: #eee;
+  border: 0;
+}
+/* line 95, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header .header-topbar-inner-container .right .user-header .user-nav-header li a {
+  display: block;
+  padding: 8px;
+}
+/* line 106, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav {
+  background-color: #E487AF;
+}
+/* line 108, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav.fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+  background-color: #fff;
+  animation: slideDown 0.3s linear;
+  transform: translateY(-100%);
+  transition: transform 0.3s;
+  transition-delay: 2s;
+}
+/* line 120, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav.slide-down {
+  transform: translateY(0%);
+  transition: transform 0.3s;
+  z-index: 2;
+}
+/* line 125, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container {
+  min-height: 45px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+}
+/* line 133, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container a {
+  color: #fcfcfd;
+}
+/* line 136, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .search-box {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 1;
+}
+/* line 144, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .search-box form {
+  height: 100%;
+}
+/* line 147, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .search-box input {
+  width: 100%;
+  height: 100%;
+  padding: 0 40px 0 0px;
+  border: 0;
+  font-size: 25px;
+}
+/* line 153, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .search-box input::placeholder {
+  font-size: 25px;
+}
+/* line 157, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .search-box .toggle-search-box {
+  position: absolute;
+  width: 40px;
+  height: 100%;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+/* line 169, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .toggle-mobile-menu {
+  flex: 1;
+}
+/* line 172, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category {
+  background-color: #fff;
+  position: absolute;
+  top: 48px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-end-end-radius: 10px;
+  border-end-start-radius: 10px;
+  min-width: 250px;
+  left: 0px;
+  z-index: 1000;
+  max-height: 355px;
+  overflow: visible;
+  display: none;
+}
+/* line 185, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li {
+  padding: 0px;
+  position: relative;
+}
+/* line 188, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li a {
+  padding-left: 30px;
+  width: 100%;
+  color: #E487AF;
+  border-radius: 0px;
+}
+/* line 193, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li a:hover {
+  color: #fff;
+  -webkit-transition: color 0s;
+  transition: color 0s;
+  background-color: #f4c522;
+}
+/* line 200, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li .submenu {
+  display: none;
+  position: absolute;
+  left: 250px;
+  top: 0px;
+  z-index: 10000;
+  background: #fff;
+  overflow: visible;
+  width: 200px;
+  opacity: 0;
+  border-radius: 8px;
+}
+/* line 211, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 212, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 213, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li .submenu li:first-child a {
+  border-start-start-radius: 8px;
+  border-start-end-radius: 8px;
+}
+/* line 218, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 219, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li .submenu li:last-child a {
+  border-end-start-radius: 8px;
+  border-end-end-radius: 8px;
+}
+/* line 226, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 227, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-nav .header-nav-inner-container .menu-category li:hover .submenu {
+  display: block;
+  opacity: 1;
+}
+/* line 237, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container {
+  display: flex;
+  align-items: center;
+}
+/* line 241, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+/* line 247, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 8px;
+  font-size: 12px;
+  position: relative;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  color: #252a2b;
+}
+/* line 257, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li:last-child {
+  margin-left: auto;
+  border: 0;
+}
+/* line 261, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+/* line 262, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li:hover .expand-content {
+  display: block;
+}
+/* line 266, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li img {
+  width: 30px;
+  margin-right: 10px;
+}
+/* line 270, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li .expand-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  display: none;
+  z-index: 2;
+  background-color: #fff;
+  padding: 8px 8px 12px 8px;
+  border: 1px solid #ebebee;
+}
+/* line 280, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li .expand-content:before, .header-bottom-inner-container ul li .expand-content:after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 20px;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+/* line 290, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li .expand-content:before {
+  border-bottom-color: #fff;
+  z-index: 1;
+}
+/* line 294, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
+.header-bottom-inner-container ul li .expand-content:after {
+  left: 18px;
+  border-bottom-color: #ebebee;
+  border-width: 10px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+section.has-loader {
+  position: relative;
+}
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+section.has-loader .section-loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 1);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+  opacity: 0;
+}
+/* line 16, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+section.has-loader .section-loader.active {
+  visibility: visible;
+  opacity: 1;
+}
+/* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-paddingY {
+  padding: 10px 0;
+}
+/* line 27, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.middle-section {
+  padding-bottom: 0;
+}
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-paddingXY {
+  padding: 70px;
+}
+/* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.first-section {
+  padding-top: 100px;
+}
+/* line 39, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-header {
+  margin-bottom: 10px;
+}
+/* line 43, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-title {
+  margin-bottom: 0;
+  font-size: 32px;
+  font-weight: 500;
+  color: #252a2b;
+  line-height: 1.3;
+}
+/* line 51, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-title-seperator {
+  margin: 20px 0;
+}
+/* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-subtitle {
+  font-size: 18px;
+  color: #414042;
+}
+/* line 60, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 61, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.section-bottom.has-pagination {
+  padding: 8px 0;
+}
+/* line 66, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 68, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.tabs-categories .nav-item .nav-link {
+  border-radius: 25px;
+  color: #23262f;
+  font-weight: 500;
+}
+/* line 73, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 74, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.tabs-categories .nav-item:hover .nav-link {
+  color: #f4c522;
+}
+/* line 78, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.tabs-categories .nav-item .active {
+  color: #23262f !important;
+  background-color: var(--pinkColor);  
+}
+/* line 85, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-product {
+  height: 590px;
+  width: 100%;
+  overflow: hidden;
+  margin-top: 20px;
+}
+/* line 90, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-product img {
+  width: 100%;
+  object-fit: cover;
+  height: 100%;
+  border-radius: 12px;
+}
+/* line 96, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 97, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-product:hover img {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+/* line 104, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-qc {
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+/* line 108, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-qc img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+/* line 113, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+/* line 114, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+.banner-qc:hover img {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer {
+  margin-top: 20px;
+  padding-top: 30px;
+  height: auto;
+  background-color: #fff;
+}
+/* line 6, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer .tags-footer {
+  margin-top: 10px;
+  border-top: 1px solid #e1e1e1;
+  padding-top: 10px;
+  padding-bottom: 20px;
+  display: flex;
+}
+/* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+/* line 13, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer .tags-footer ul li {
+  float: left;
+  width: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-right: 1px solid #e1e1e1;
+}
+/* line 22, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer title {
+  color: #252a2b;
+  font-weight: bold;
+}
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer .text, footer ul li a {
+  color: #414042;
+  font-size: 15px;
+}
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+/* line 32, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer ul.social-links li {
+  display: inline-block;
+  margin-right: 20px;
+}
+/* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer ul.social-links li:last-child {
+  margin-right: 0;
+}
+/* line 38, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer ul.social-links li a {
+  font-size: 30px;
+}
+/* line 43, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+/* line 44, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+/* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer ul li a {
+  display: block;
+  transition: all 0.5s;
+}
+/* line 48, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_footer.scss */
+footer ul li a:hover {
+  padding-left: 10px;
+  color: var(--pinkColor);
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .section-title {
+  font-weight: 600px;
+}
+/* line 5, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .header-info {
+  margin-top: 10px;
+}
+/* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .header-info .created-at {
+  margin-right: 10px;
+}
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .header-info .article-category {
+  margin-left: 10px;
+}
+/* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .header-info .article-category:hover {
+  text-decoration: underline !important;
+  color: #939393;
+}
+/* line 17, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .header-info .created-at, .article-page .header-info .article-category {
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-block;
+}
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .section-body {
+  text-align: justify;
+}
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .section-body img {
+  max-width: 100%;
+  margin: 0 auto;
+  display: block;
+}
+/* line 32, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_blog.scss */
+.article-page .card {
+  margin-top: 10px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: inherit;
+}
+/* line 8, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu {
+  text-transform: uppercase;
+  min-height: inherit;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+/* line 16, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li {
+  padding-left: 12px;
+  padding-right: 12px;
+  margin-left: 12px;
+  position: relative;
+}
+/* line 21, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li i {
+  margin-left: 10px;
+}
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 25, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li:hover > ul.submenu {
+  display: block;
+}
+/* line 29, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 30, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li.change-direction > ul.submenu {
+  left: unset !important;
+  right: 100% !important;
+}
+/* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li ul.submenu {
+  position: absolute;
+  width: max-content;
+  z-index: 2;
+  background-color: #fff;
+  display: none;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.3);
+  padding: 4px 0;
+}
+/* line 43, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 44, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li ul.submenu li a {
+  color: #392410 !important;
+}
+/* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu li ul.submenu li a:hover {
+  color: green !important;
+}
+/* line 53, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li {
+  padding-right: 20px;
+  min-height: inherit;
+  display: flex;
+  align-items: center;
+}
+/* line 58, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li:last-child {
+  padding-right: 0;
+}
+/* line 61, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 62, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li > a .dropdown-button {
+  margin-left: 3px;
+}
+/* line 66, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li > ul.submenu {
+  left: 0;
+  top: 100%;
+}
+/* line 69, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 70, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li > ul.submenu li a {
+  display: block;
+  padding: 8px 22px 8px 12px;
+}
+/* line 73, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li > ul.submenu li a .dropdown-button {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* line 85, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu > li > ul.submenu li ul.submenu {
+  left: 100%;
+  top: 0%;
+}
+/* line 92, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu .li-category {
+  padding: 0px;
+  padding-right: 30px;
+  padding-left: 30px;
+  cursor: pointer;
+  margin-left: 0px;
+}
+/* line 100, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 101, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 102, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu ul.main-menu .li-menu:hover a {
+  color: rgba(24, 197, 76, 0.769);
+}
+/* line 108, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.header-nav-inner-container .desktop-menu .sub-hover {
+  display: none;
+}
+/* line 115, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container {
+  width: 320px;
+  height: 100vh;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  z-index: 4;
+  padding: 25px;
+  transition: all 0.3s;
+  transform: translateX(-200%);
+}
+/* line 127, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container.active {
+  transform: translateX(0);
+}
+/* line 130, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .header {
+  position: relative;
+  margin-bottom: 40px;
+}
+/* line 133, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .header .title {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+/* line 136, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .header .title img {
+  width: 100%;
+}
+/* line 140, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .header .toggle-mobile-menu {
+  position: absolute;
+  top: -25px;
+  right: 0;
+  cursor: pointer;
+}
+/* line 147, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body {
+  padding-bottom: 50px;
+}
+/* line 149, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 150, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 151, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body .mobile-menu-list > li > a {
+  font-size: 20px;
+}
+/* line 154, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body .mobile-menu-list > li a {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+  padding: 4px 0;
+  position: relative;
+  padding-right: 25px;
+  color: #252a2b;
+}
+/* line 162, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body .mobile-menu-list > li a .dropdown-button {
+  width: 20px;
+  height: 100%;
+  position: absolute;
+  top: 50%;
+  right: 5px;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s;
+}
+/* line 179, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body .mobile-menu-list ul.submenu {
+  padding-left: 10px;
+  display: none;
+}
+/* line 182, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 183, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .body .mobile-menu-list ul.submenu li a {
+  color: #414042;
+}
+/* line 190, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 320px;
+  background-color: #fff;
+}
+/* line 196, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .footer .auth-actions {
+  display: flex;
+  justify-content: space-between;
+}
+/* line 199, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .footer .auth-actions .auth-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  flex: 1;
+  text-align: center;
+}
+/* line 203, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.mobile-menu-container .footer .auth-actions .auth-action i {
+  margin-right: 5px;
+}
+/* line 216, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category {
+  background-color: #fff;
+  border-radius: 18px;
+  padding: 10px 0px;
+}
+/* line 220, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .title-category {
+  padding-left: 30px;
+  padding-top: 20px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 32px;
+}
+/* line 227, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category a {
+  display: block;
+  width: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 32px;
+  border-radius: 10px;
+}
+/* line 236, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category a i {
+  float: right;
+  margin-top: 2px;
+  font-size: 26px;
+}
+/* line 242, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .active {
+  background-color: var(--lightGreen);
+  color: #fff;
+}
+/* line 246, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+/* line 249, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 250, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav a:hover {
+  background-color: var(--pinkColor);
+  color: #fff;
+  -webkit-transition: color 0s;
+  transition: color 0s;
+}
+/* line 257, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav .submenu-category {
+  background: #f4f5f6;
+  display: none;
+}
+/* line 260, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav .submenu-category li {
+  padding-left: 20px;
+  color: #23262f;
+  list-style: inside;
+}
+/* line 264, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav .submenu-category li a {
+  display: inline;
+  padding: 0px;
+  line-height: 40px;
+}
+/* line 268, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav .submenu-category li a:hover {
+  background-color: transparent;
+  color: var(--pinkColor);
+  -webkit-transition: color 0s;
+  transition: color 0s;
+}
+/* line 277, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.menu-category .item-nav .show {
+  display: block;
+}
+/* line 283, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+/* line 284, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
+.tabs-menu-mobile .active {
+  color: #fff !important;
+  border: 1px solid;
+  background: #f4c522 !important;
+  font-weight: 500;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .card-contact .header-contact {
+  background-color: var(--pinkColor);
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 40px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 10px;
+}
+/* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .body-contact {
+  font-size: 20px;
+}
+/* line 14, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .body-contact .label {
+  font-weight: 500;
+  font-size: 20px;
+  color: #3855b3;
+}
+/* line 19, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .body-contact p {
+  font-size: 14px;
+}
+/* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .form-contact {
+  background: #fcfcfd;
+  padding: 20px;
+  border-radius: 12px;
+}
+/* line 27, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_contact.scss */
+.contact-section .form-contact .form-group {
+  margin-top: 32px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.section-cua-hang {
+  margin-top: 48px;
+}
+/* line 5, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.card-shop {
+  margin-bottom: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+/* line 11, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.card-shop .name {
+  margin-left: 10px;
+}
+/* line 13, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.card-shop .name .title-shop {
+  font-weight: 500;
+  font-size: 20px;
+  color: #f4c522;
+}
+/* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.card-shop .name .address-shop {
+  font-size: 14px;
+}
+
+
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 25, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-shops .owl-nav .owl-prev {
+  position: absolute;
+  left: -10px;
+  top: 20px;
+}
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-shops .owl-nav .owl-next {
+  position: absolute;
+  right: 0px;
+  top: 20px;
+}
+/* line 39, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 40, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-news .owl-nav {
+  position: absolute;
+  top: -30px;
+  display: flex;
+  flex-direction: row;
+  right: 0px;
+}
+/* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-news .owl-nav .owl-prev {
+  margin-right: 10px;
+}
+/* line 52, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 53, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-products .owl-nav {
+  position: absolute;
+  top: -30px;
+  display: flex;
+  flex-direction: row;
+  right: 0px;
+}
+/* line 59, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-products .owl-nav .owl-prev {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #333;
+  border-radius: 50px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* line 69, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.owl-carousel-products .owl-nav .owl-next {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #333;
+  border-radius: 50px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* line 82, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form {
+  background-color: var(--pinkColor);
+  border-radius: 18px;
+}
+/* line 85, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form .col-left {
+  padding: 20px;
+}
+/* line 87, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form .col-left .title {
+  font-size: 16px;
+  font-weight: 600;
+}
+/* line 91, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form .col-left p {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+/* line 95, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 99, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form .col-right {
+  padding: 20px;
+  background-color: #fff;
+  border-top-right-radius: 17px;
+  border-end-end-radius: 17px;
+}
+/* line 104, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.dangky-form .col-right .button-save {
+  text-align: center;
+}
+/* line 110, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.name-ladding {
+  padding: 10px;
+  text-align: center;
+}
+/* line 115, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.card-ladding {
+  padding: 20px;
+}
+/* line 119, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 120, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+/* line 121, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.hover-yellow:hover p, .hover-yellow:hover span {
+  color: #f4c522 !important;
+}
+/* line 128, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.text-price {
+  font-weight: 700;
+  font-size: 18px;
+  color: red;
+}
+/* line 134, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.see-more {
+  margin-top: 20px;
+}
+/* line 136, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.see-more a {
+  padding: 10px;
+  border: 1px solid;
+  border-radius: 7px;
+  color: var(--pinkColor);
+  position: relative;
+  z-index: 1;
+}
+/* line 143, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.see-more a:hover {
+  color: #fff;
+}
+/* line 145, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.see-more a:hover:before {
+  left: 0;
+  right: unset;
+  width: 100%;
+}
+/* line 151, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.see-more a:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0px;
+  height: 100%;
+  background-color: var(--lightGreen);
+  border-radius: 7px;
+  display: block;
+  mix-blend-mode: screen;
+  transition: all 0.3s;
+}
+/* line 168, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.zalome {
+  position: fixed;
+  bottom: 15px;
+  right: 85px;
+  margin: 10px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background-color: #004a7f;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 20px;
+  padding: -10px -10px;
+  text-align: center;
+  text-decoration: none;
+  z-index: 100;
+}
+@-webkit-keyframes glowing {
+  /* line 191, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  0% {
+    background-color: #004a7f;
+    -webkit-box-shadow: 0 0 3px #004a7f;
+  }
+  /* line 195, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  50% {
+    background-color: #0094ff;
+    -webkit-box-shadow: 0 0 10px #0094ff;
+  }
+  /* line 199, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  100% {
+    background-color: #004a7f;
+    -webkit-box-shadow: 0 0 3px #004a7f;
+  }
+}
+@-moz-keyframes glowing {
+  /* line 206, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  0% {
+    background-color: #004a7f;
+    -moz-box-shadow: 0 0 3px #004a7f;
+  }
+  /* line 210, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  50% {
+    background-color: #0094ff;
+    -moz-box-shadow: 0 0 10px #0094ff;
+  }
+  /* line 214, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  100% {
+    background-color: #004a7f;
+    -moz-box-shadow: 0 0 3px #004a7f;
+  }
+}
+@-o-keyframes glowing {
+  /* line 221, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  0% {
+    background-color: #004a7f;
+    box-shadow: 0 0 3px #004a7f;
+  }
+  /* line 225, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  50% {
+    background-color: #0094ff;
+    box-shadow: 0 0 10px #0094ff;
+  }
+  /* line 229, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  100% {
+    background-color: #004a7f;
+    box-shadow: 0 0 3px #004a7f;
+  }
+}
+@keyframes glowing {
+  /* line 236, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  0% {
+    background-color: #004a7f;
+    box-shadow: 0 0 3px #004a7f;
+  }
+  /* line 240, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  50% {
+    background-color: #0094ff;
+    box-shadow: 0 0 10px #0094ff;
+  }
+  /* line 244, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+  100% {
+    background-color: #004a7f;
+    box-shadow: 0 0 3px #004a7f;
+  }
+}
+/* line 250, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.zalome {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+/* line 257, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_home.scss */
+.fixed {
+  position: fixed;
+  width: 100%;
+  height: 30px;
+  top: 0px;
+  z-index: 100;
+}
+.banner-pic{
+  display: flex;
+}
+.banner-pic > div > image {
+  width: 250px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+.main-carousel {
+  max-height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+/* line 5, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+/* line 6, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+.main-carousel:hover .owl-nav {
+  opacity: 1;
+}
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+.main-carousel .owl-nav {
+  opacity: 0.3;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transition: all 0.3s;
+}
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+
+/* line 30, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+.main-carousel .owl-nav .owl-prev {
+  border-radius: 30px;
+  margin-left: 20px;
+  padding-right: 6px;
+}
+/* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+.main-carousel .owl-nav .owl-next {
+  border-radius: 30px;
+  margin-right: 20px;
+}
+/* line 42, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+/* line 43, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+
+.owl-carousel div a img{
+  height: 35rem;
+  
+}
+/* line 54, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+/* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_slideshow.scss */
+
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination {
+  text-align: center;
+}
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+/* line 4, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination ul li {
+  display: inline-block;
+  margin-right: 5px;
+}
+/* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination ul li:last-child {
+  margin-right: 0;
+}
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination ul li a {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  color: #939393;
+  border-radius: 50px;
+}
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination ul li a.active {
+  background-color: #f4c522;
+  color: #fff;
+}
+/* line 29, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+/* line 30, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination.ajax-pagination > * {
+  display: inline-block;
+}
+/* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination.ajax-pagination .product-filter-pagination-controller {
+  cursor: pointer;
+}
+/* line 36, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination.ajax-pagination .product-filter-pagination-controller.product-filter-prev {
+  margin-right: 10px;
+}
+/* line 39, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_pagination.scss */
+.website-pagination.ajax-pagination .product-filter-pagination-controller.product-filter-next {
+  margin-left: 10px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page img {
+  width: 100%;
+  display: block;
+}
+/* line 6, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-display {
+  overflow: hidden;
+}
+/* line 9, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-showcase {
+  display: flex;
+  width: 100%;
+  height: 400px;
+  transition: all 0.5s ease;
+}
+/* line 15, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-showcase img {
+  min-width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-select {
+  margin-top: 10px;
+  display: flex;
+  width: 220px;
+  height: 80px;
+}
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-item {
+  margin: 3px;
+}
+/* line 28, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-item:first-of-type {
+  margin-left: 0px;
+}
+/* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-item:last-child {
+  margin-right: 0px;
+}
+/* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+/* line 41, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .img-item:hover {
+  opacity: 0.8;
+}
+/* line 44, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header {
+  border-bottom: 1px solid #ebebee;
+}
+/* line 47, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-name {
+  color: #23262f;
+  font-size: 27px;
+  line-height: 40px;
+  font-weight: 500;
+}
+/* line 53, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 54, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-price span {
+  margin-right: 10px;
+}
+/* line 56, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-price span:last-child {
+  margin-right: 0;
+}
+/* line 59, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-price span.discount-percent {
+  color: #f94c43;
+  margin-right: 20px;
+  font-weight: bold;
+}
+/* line 64, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-price span.price {
+  font-weight: bold;
+  font-size: 18px;
+}
+/* line 68, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-header .product-price span.price-del {
+  color: #939393;
+  text-decoration: line-through;
+}
+/* line 75, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 76, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .option-zone {
+  border-bottom: 1px solid #ebebee;
+  padding: 8px 0;
+}
+/* line 79, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .option-zone ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+/* line 84, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .quantity-zone {
+  border-bottom: 1px solid #ebebee;
+  padding: 8px 0;
+}
+/* line 87, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .quantity-zone .quantity-selection {
+  display: flex;
+  margin-bottom: 10px;
+}
+/* line 91, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .quantity-zone span {
+  width: 35px;
+  height: 35px;
+  border: 1px solid #939393;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 20px;
+  user-select: none;
+}
+/* line 102, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .quantity-zone input[type=number] {
+  max-width: 60px;
+  height: 35px;
+  text-align: center;
+  border-top: 1px solid #939393;
+  border-bottom: 1px solid #939393;
+  border-left: 0;
+  border-right: 0;
+  font-weight: bold;
+}
+/* line 111, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .quantity-zone input[type=number]::-webkit-inner-spin-button, .product-page .product-detail-container .detail-body .quantity-zone input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  -moz-appearance: textfield;
+  margin: 0;
+}
+/* line 120, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .button-zone {
+  padding: 8px 0;
+  line-height: 2;
+}
+/* line 123, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .button-zone .add-to-cart {
+  display: flex;
+  width: 100%;
+  padding: 8px 10px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: var(--lightGreen);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  outline: none;
+  justify-content: center;
+  align-items: center;
+}
+/* line 137, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body .button-zone .add-to-cart img {
+  width: 30px;
+}
+/* line 142, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 143, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.product-page .product-detail-container .detail-body p b {
+  margin-left: 20px;
+}
+/* line 151, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 152, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.size-zone .option-container {
+  border: 0.5px solid #333;
+  padding: 2px 5px;
+  color: #414042;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+}
+/* line 163, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.size-zone .option-container.active {
+  border: 0.5px solid #333;
+  background-color: transparent;
+  color: black;
+  font-weight: bold;
+}
+.size-zone .option-container.active:hover{
+  transition: 0.1s;
+  background-color: var(--pinkColor);
+  color: white;
+}
+/* line 170, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.size-zone .input-option {
+  opacity: 0;
+}
+/* line 177, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 178, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+section.product-information table {
+  min-width: 310px;
+  max-width: 100%;
+  margin: 20px 0;
+}
+/* line 182, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 183, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+section.product-information table tr:hover {
+  background-color: #ebebee;
+}
+/* line 187, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+section.product-information table td, section.product-information table th {
+  padding: 8px;
+}
+/* line 190, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+section.product-information table td p, section.product-information table th p {
+  margin-bottom: 0;
+}
+/* line 195, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+section.product-information img {
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+/* line 202, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.contact-card {
+  border: none !important;
+  background-color: #392410 !important;
+}
+/* line 207, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.card-content-pro {
+  background-color: #fff;
+  display: block;
+  padding: 30px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+/* line 213, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.card-content-pro .tabs-categories .nav-item .active {
+  color: #fff;
+}
+/* line 218, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.tags {
+  padding: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid #b8b7b7;
+  background-color: #fff;
+  border-end-end-radius: 20px;
+  border-end-start-radius: 20px;
+}
+/* line 226, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.tags i {
+  color: #f4c522;
+  float: left;
+  margin-right: 10px;
+}
+/* line 233, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+/* line 234, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.share ul {
+  display: flex;
+}
+/* line 237, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
+.share img {
+  margin-left: 10px;
+  width: 32px;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-sidebar {
+  width: 310px;
+  height: 90vh;
+  position: fixed;
+  top: 10vh;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  z-index: 2;
+  transition: all 0.3s;
+  transform: translateX(-100%);
+  overflow: auto;
+  scrollbar-width: thin;
+}
+/* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-sidebar::-webkit-scrollbar {
+  width: 5px;
+}
+/* line 15, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-sidebar::-webkit-scrollbar-track {
+  background-color: #ebebee;
+}
+/* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-sidebar::-webkit-scrollbar-thumb {
+  background-color: #392410;
+}
+/* line 25, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-sidebar.active {
+  transform: translateX(0%);
+}
+/* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+/* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block {
+  padding: 0 8px;
+  margin-bottom: 20px;
+}
+/* line 38, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block:first-child {
+  margin-top: 30px;
+}
+/* line 41, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block .title {
+  padding: 10px 0;
+  font-weight: bold;
+}
+/* line 44, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block .title h4 {
+  margin-bottom: 0;
+}
+/* line 47, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block .title .dropdown-filter-block {
+  vertical-align: top;
+  cursor: pointer;
+}
+/* line 53, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+/* line 54, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+/* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-block .list-has-checkbox li label {
+  margin-bottom: 0;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  user-select: none;
+  -moz-user-select: none;
+}
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+/* line 68, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.product-filter-container .product-filter-color .color-sample {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-left: 8px;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+/* line 84, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_filter.scss */
+.toggle-product-filter {
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 10vh;
+  left: 0%;
+  cursor: pointer;
+  transition: all 0.3s;
+  transition-delay: 0.4s;
+  z-index: 3;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container {
+  height: 340px;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 12px;
+  position: relative;
+  border: 2px solid rgba(51, 51, 51, 0.2);
+}
+/* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container:before {
+  position: absolute;
+  content: "";
+  left: -2px;
+  top: 10px;
+  width: 2px;
+  height: 70px;
+  z-index: 1;
+}
+/* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container:hover {
+  transition-duration: 0.5s;
+  cursor: pointer;
+}
+/* line 22, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 25, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container:hover .product-images .product-image.hover-animation img {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+/* line 32, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container:hover .box-actions-hover {
+  transform: translateY(0);
+}
+/* line 36, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  transform: translateY(100%);
+  transition: all 0.3s;
+}
+/* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover button {
+  background-color: #2e2e2e;
+  color: #f0f0f0;
+  border: 0;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 13px;
+  border-right: 1px solid #f0f0f0;
+}
+/* line 56, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover button:first-child {
+  border-radius: 4px 0 0 0;
+}
+/* line 59, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover button:last-child {
+  border-right: 1px solid transparent;
+  border-radius: 0 4px 0 0;
+}
+/* line 63, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover button i {
+  vertical-align: middle;
+}
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 68, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .box-actions-hover .add-to-wishlist.active {
+  color: #f94c43;
+}
+/* line 73, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-discount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  font-weight: bold;
+  color: #f94c43;
+  display: inline-block;
+  font-size: 14px;
+  padding: 3px 8px;
+}
+/* line 84, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .best-seller-ribbon {
+  display: inline-block;
+  border-right: 80px solid #a92121;
+  border-left: 80px solid transparent;
+  border-bottom: 80px solid transparent;
+  position: absolute;
+  top: 0;
+  right: 0;
+  text-align: center;
+}
+/* line 93, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .best-seller-ribbon .text {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(45deg) translate(0, -25%);
+  font-size: 13px;
+  color: #fff;
+  font-family: serif;
+  font-weight: bold;
+  position: absolute;
+}
+/* line 107, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-images {
+  width: 100%;
+  height: 230px;
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  border-start-start-radius: 12px;
+  border-start-end-radius: 12px;
+}
+/* line 115, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-images .product-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* line 119, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-images .product-image img {
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s;
+  object-fit: cover;
+}
+/* line 124, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-images .product-image img:first-child {
+  opacity: 1;
+  visibility: visible;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* line 131, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-images .product-image img:last-child {
+  opacity: 0;
+  visibility: visible;
+}
+/* line 138, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info {
+  background: #fff;
+  padding: 8px;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+  text-align: center;
+}
+/* line 145, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info .price {
+  color: var(--pinkColor);
+  float: left;
+}
+/* line 149, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 150, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info .product-price .price-highlight {
+  color: #f4c522;
+  margin-right: 5px;
+}
+/* line 154, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info .product-price .price-del {
+  color: #939393;
+  text-decoration: line-through;
+  font-size: 13px;
+  margin-left: 5px;
+}
+/* line 161, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info .product-name {
+  text-align: left;
+  font-size: 18px;
+  line-height: 32px;
+  font-weight: 500;
+}
+/* line 166, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.one-product-container .product-info .product-name a {
+  color: #252a2b;
+}
+/* line 173, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.product-noibat {
+  position: relative;
+}
+/* line 175, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.product-noibat .img {
+  background: linear-gradient(180deg, rgba(35, 38, 47, 0) 50%, #23262f 100%);
+  border-radius: 12px;
+  width: 100%;
+  height: 220px;
+}
+/* line 180, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.product-noibat .img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+/* line 187, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.product-noibat .info {
+  position: absolute;
+  bottom: 0px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(35, 38, 47, 0) 0%, #23262f 100%);
+  border-radius: 8px;
+  width: 100%;
+}
+/* line 194, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.product-noibat .info .name {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 500;
+}
+/* line 202, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+#lightSlider {
+  list-style: none outside none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+/* line 208, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.lSSlideWrapper {
+  border-radius: 12px;
+  border: 2px solid rgba(51, 51, 51, 0.2);
+}
+/* line 211, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.lSSlideWrapper:hover {
+  border: 2px solid #f4c522;
+}
+/* line 216, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+#lightSlider li {
+  display: block;
+  float: left;
+  cursor: pointer;
+}
+/* line 220, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+#lightSlider li a {
+  border-radius: 12px;
+}
+/* line 223, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+/* line 224, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+#lightSlider li:hover img {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+/* line 231, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+#lightSlider img {
+  display: block;
+  height: auto;
+  width: 100%;
+  border-radius: 12px;
+  height: 465px;
+}
+/* line 239, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.lSSlideOuter .lSPager.lSGallery li {
+  opacity: 0.5;
+}
+/* line 243, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.lSSlideOuter .lSPager.lSGallery li.active {
+  opacity: 1;
+}
+/* line 247, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+lSSlideOuter .lSPager.lSGallery li.active, .lSSlideOuter .lSPager.lSGallery li {
+  border-radius: 0;
+}
+/* line 252, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+lSSlideOuter .lSPager.lSGallery li.active:hover, .lSSlideOuter .lSPager.lSGallery li:hover {
+  border-radius: 0;
+}
+/* line 257, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
+.lSSlideOuter .lSPager.lSGallery img {
+  display: block;
+  height: 64px;
+  max-width: 100%;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container {
+  background-color: #fff;
+  border-radius: 12px;
+  height: 420px;
+  overflow: hidden;
+  padding-bottom: 5px;
+}
+/* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-image {
+  max-width: 400px;
+  margin: 0 auto;
+  height: 264px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+/* line 15, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-image img {
+  transition: all 0.3s;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* line 21, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-image .name-category {
+  position: absolute;
+  border-radius: 25px;
+  background-color: var(--pinkColor);
+  right: 10px;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  top: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+/* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-info {
+  padding: 8px;
+  max-height: 170px;
+  overflow: hidden;
+  position: relative;
+}
+/* line 39, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-info .article-title {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+/* line 42, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-info .article-title a {
+  color: #252a2b;
+}
+/* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container .article-info .article-description {
+  font-size: 14px;
+  color: #414042;
+}
+/* line 51, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+/* line 52, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.article-column-container:hover img {
+  transform: scale(1.1);
+  transition-duration: 0.5s;
+}
+/* line 59, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.avatar-news {
+  width: 100%;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+/* line 63, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_article_column.scss */
+.avatar-news .img-avatar {
+  height: 300px;
+  width: 100%;
+  object-fit: cover;
+}
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container {
+  width: 320px;
+  height: 100vh;
+  overflow: auto;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 4;
+  padding: 25px;
+  transition: all 0.3s;
+  transform: translateX(200%);
+}
+/* line 15, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container.active {
+  transform: translateX(0%);
+}
+/* line 19, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .header {
+  margin-bottom: 40px;
+  position: relative;
+}
+/* line 22, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .header .title {
+  font-size: 18px;
+  text-transform: uppercase;
+}
+/* line 26, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .header .toggle-cart-sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+/* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body {
+  border-bottom: 2px solid #252a2b;
+}
+/* line 36, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+/* line 37, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li {
+  margin-bottom: 30px;
+}
+/* line 39, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li p {
+  margin-bottom: 0;
+}
+/* line 41, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li p.product-name {
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+}
+/* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li p.options {
+  font-size: 14px;
+  color: #939393;
+  margin-bottom: 5px;
+}
+/* line 51, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+/* line 52, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li p.subtotal span {
+  display: inline-block;
+}
+/* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .body ul.cart-list li p.subtotal .multi, .cart-sidebar-container .body ul.cart-list li p.subtotal .equal {
+  margin: 0 5px;
+}
+/* line 65, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer {
+  padding-bottom: 30px;
+}
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+}
+/* line 73, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+/* line 74, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .action-btns .action-btn {
+  display: block;
+  margin-bottom: 20px;
+  padding: 8px 15px;
+  text-align: center;
+  opacity: 0.8;
+}
+/* line 80, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .action-btns .action-btn:hover {
+  opacity: 1;
+}
+/* line 83, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .action-btns .action-btn:last-child {
+  margin-bottom: 0;
+}
+/* line 86, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .action-btns .action-btn.goto-cart {
+  background-color: #392410;
+  color: #fff;
+  border: 1px solid #392410;
+}
+/* line 91, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-sidebar-container .footer .action-btns .action-btn.remove-cart {
+  background-color: #f94c43;
+  color: #fff;
+  border: 1px solid #f94c43;
+}
+/* line 107, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+/* line 108, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+/* line 109, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item {
+  margin-bottom: 20px;
+  position: relative;
+}
+/* line 112, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item:last-child {
+  margin-bottom: 0;
+}
+/* line 116, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .remove-cart-item {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+/* line 122, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container {
+  display: flex;
+}
+/* line 126, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-image {
+  margin-right: 20px;
+  max-width: 90px;
+}
+/* line 129, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-image img {
+  max-width: 100%;
+}
+/* line 134, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-info {
+  padding: 4px 0;
+}
+/* line 136, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-info .name, .cart-page .cart-container .cart-item-container .item-info .price, .cart-page .cart-container .cart-item-container .item-info .options, .cart-page .cart-container .cart-item-container .item-info .quantity {
+  display: block;
+}
+/* line 142, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-info .name {
+  font-size: 18px;
+  font-weight: bold;
+}
+/* line 146, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-info .options {
+  margin-bottom: 8px;
+}
+/* line 149, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-info .quantity {
+  width: 45px;
+  padding: 4px;
+  text-align: center;
+  background-color: #ebebee;
+}
+/* line 157, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .item-subtotal {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+/* line 164, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .cart-container .cart-item-container .cart-total {
+  margin-left: auto;
+  font-size: 20px;
+  font-weight: bold;
+}
+/* line 172, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .action-buttons {
+  margin-top: 30px;
+  text-align: right;
+}
+/* line 175, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .action-buttons a {
+  display: inline-block;
+  padding: 8px;
+  margin-right: 8px;
+}
+/* line 179, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
+.cart-page .action-buttons a:last-child {
+  margin-right: 0;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_checkout.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_checkout.scss */
+.checkout-page .send-order-button {
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+/* line 9, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_checkout.scss */
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_checkout.scss */
+/* line 11, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_checkout.scss */
+.checkout-page .checkout-summary-container ul.checkout-summary li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #939393;
+  margin: 20px 0 4px 0;
+}
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.singin-form-container .signin-button {
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+/* line 9, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.singup-form-container .signup-button {
+  display: inline-block;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+/* line 17, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container {
+  max-width: 400px;
+  margin: 30px auto 0 auto;
+}
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container label {
+  margin-bottom: 0;
+}
+/* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .header {
+  margin-bottom: 50px;
+}
+/* line 25, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .header .title {
+  font-size: 25px;
+  position: relative;
+  padding-bottom: 20px;
+}
+/* line 29, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .header .title:after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: #392410;
+}
+/* line 40, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .auth-control {
+  margin: 20px 0;
+}
+/* line 42, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .auth-control input:not([type='radio']) {
+  width: 100%;
+  padding: 8px 12px;
+  background-color: #ebebee;
+  border: 1px solid #ebebee;
+}
+/* line 47, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .auth-control input:not([type='radio']):focus {
+  background-color: #fff;
+}
+/* line 51, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+/* line 52, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_signin_signup.scss */
+.auth-form-container .auth-control.radio-group-control label.one-radio {
+  margin-right: 10px;
+  cursor: pointer;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_message-from-server.scss */
+.msg-top {
+  position: fixed;
+  color: red;
+  top: 35%;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+  transform: translateY(-10000%);
+  transition: all 0.3s;
+}
+/* line 10, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_message-from-server.scss */
+.msg-top.show {
+  transform: translateY(0);
+}
+/* line 13, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_message-from-server.scss */
+.msg-top .msg-from-server {
+  width: 70%;
+  min-height: 48px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 10px 64px 8px 8px;
+  border-radius: 0px 0px 3px 3px;
+  box-shadow: 1px 1px 3px rgba(57, 36, 16, 0.5);
+  position: relative;
+}
+/* line 22, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_message-from-server.scss */
+.msg-top .msg-from-server .close-msg {
+  width: 25px;
+  height: 25px;
+  line-height: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #392410;
+  position: absolute;
+  top: 8px;
+  right: 18px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 2, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-page .sidebar-container {
+  margin-bottom: 10px;
+}
+/* line 4, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 5, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-page .sidebar-container ul li {
+  position: relative;
+}
+/* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-page .sidebar-container ul li:before {
+  content: '';
+  position: absolute;
+  top: 100%;
+  width: 0px;
+  height: 1px;
+  transition: all 0.3s;
+  display: block;
+  background-color: #252a2b;
+}
+/* line 17, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-page .sidebar-container ul li:hover:before, .user-page .sidebar-container ul li.active:before {
+  width: 50px;
+}
+/* line 27, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-page .sidebar-container ul li a {
+  display: block;
+  padding: 8px 8px 8px 0;
+}
+/* line 37, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 38, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.statistic-page .statistic-item-container {
+  margin-bottom: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  color: #252a2b;
+  border: 1px solid #ebebee;
+  cursor: pointer;
+}
+/* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.statistic-page .statistic-item-container:hover {
+  color: #fff;
+  background-color: #414042;
+  box-shadow: 0px 0px 5px 1px rgba(37, 42, 43, 0.5);
+}
+/* line 56, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 57, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container {
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+  padding: 25px 25px 15px 15px;
+  position: relative;
+  border-radius: 3px;
+}
+/* line 64, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container.paid {
+  background-color: #4caf50;
+  color: #fff;
+}
+/* line 67, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container.paid .paid {
+  color: #4caf50;
+  background-color: #fff;
+}
+/* line 73, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container .paid {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #252a2b;
+  cursor: pointer;
+}
+/* line 88, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 89, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container ul li:nth-child(n+2) {
+  display: flex;
+  justify-content: space-between;
+}
+/* line 93, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-history-page .order-item-container ul li:last-child {
+  justify-content: flex-end;
+}
+/* line 104, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 105, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 106, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 107, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li {
+  display: flex;
+  margin-bottom: 10px;
+}
+/* line 110, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .img {
+  max-width: 60px;
+}
+/* line 112, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .img img {
+  width: 100%;
+}
+/* line 116, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .subtotal {
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  margin: auto;
+}
+/* line 122, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .info {
+  margin-left: 10px;
+  max-width: 500px;
+}
+/* line 125, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .info p {
+  margin-bottom: 0px;
+}
+/* line 127, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .order-detail-container ul li .info p.name {
+  font-weight: bold;
+}
+/* line 136, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 137, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+/* line 138, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_user.scss */
+.user-order-details-page .summary ul li {
+  display: flex;
+  justify-content: space-between;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_gototop.scss */
+.gototop {
+  display: inline-block;
+  position: fixed;
+  bottom: 30px;
+  left: 150px;
+  padding: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid #f4c522;
+  transform: translateX(-50%);
+  background-color: transparent;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 1;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+/* line 21, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_gototop.scss */
+.gototop.active {
+  visibility: visible;
+  opacity: 1;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox {
+  width: 310px;
+  min-height: 100px;
+  max-height: 500px;
+  overflow: auto;
+  background-color: #fff;
+  border-radius: 12px;
+  position: fixed;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+  display: none;
+}
+/* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox.active {
+  display: block;
+  animation: scaleDown 0.2s linear;
+}
+/* line 24, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox > div {
+  padding: 8px;
+}
+/* line 28, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox .messagebox-header, .messagebox .messagebox-footer {
+  border-bottom: 1px solid transparent;
+}
+/* line 32, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox .messagebox-content {
+  padding-top: 16px;
+  border-bottom: 1px solid #efefef;
+}
+/* line 37, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+/* line 38, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_messagebox.scss */
+.messagebox .messagebox-footer .close-messagebox-button {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  width: 100%;
+  display: block;
+  outline: none;
+}
+/* line 1, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_popup_newsletters.scss */
+.popup-newsletter {
+  background-color: transparent;
+}
+/* line 3, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_popup_newsletters.scss */
+.popup-newsletter .modal-content {
+  background-color: transparent;
+  border: none;
+  height: 180px;
+  margin-top: 30%;
+}
+/* line 8, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_popup_newsletters.scss */
+.popup-newsletter .modal-content .close {
+  font-size: 40px;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+  z-index: 100;
+}
+/* line 15, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_popup_newsletters.scss */
+.popup-newsletter .modal-content img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+@media screen and (max-width: 991px) {
+  /* line 12, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 13, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .msg-top .msg-from-server {
+    width: 100%;
+  }
+  /* line 17, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 18, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 19, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 20, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 21, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .header .header-topbar-inner-container .left .logo .big-logo {
+    display: block;
+  }
+  /* line 23, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .header .header-topbar-inner-container .left .logo .big-logo img {
+    max-width: 90px;
+  }
+  /* line 32, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 34, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 35, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 36, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  footer .top .row > div:nth-of-type(n+3) .top-column {
+    border-bottom: 0;
+  }
+  /* line 41, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  footer .top .top-column {
+    border-bottom: 1px solid #666;
+  }
+  /* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 46, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  footer .body .body-column {
+    margin-bottom: 40px;
+  }
+  /* line 48, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  footer .body .body-column.last {
+    margin-bottom: 0;
+  }
+  /* line 54, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .contact-section .map {
+    margin-bottom: 80px;
+  }
+  /* line 59, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 60, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 61, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 62, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .header-bottom .header-bottom-inner-container ul li {
+    flex-basis: 100%;
+  }
+  /* line 69, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 70, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .user-page .sidebar-container {
+    margin-bottom: 40px;
+  }
+}
+@media screen and (max-width: 767px) {
+  /* line 78, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .header-top {
+    display: none;
+  }
+  /* line 81, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .banner-product {
+    height: 200px;
+  }
+  /* line 83, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .banner-product img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  /* line 89, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 90, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .product-page .menu-category {
+    display: none;
+  }
+  /* line 94, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .show-mobile {
+    display: block;
+  }
+  /* line 97, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .show-desktop {
+    display: none;
+  }
+  /* line 100, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  #lightSlider img {
+    height: 370px;
+  }
+  /* line 103, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 104, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .popup-newsletter .modal-content {
+    margin-top: 30vh;
+  }
+}
+@media screen and (max-width: 575px) {
+  /* line 111, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .cart-sidebar-container {
+    width: 100%;
+  }
+  /* line 114, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .mobile-menu-container {
+    width: 100%;
+  }
+  /* line 116, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .mobile-menu-container .footer {
+    width: 100%;
+  }
+  /* line 120, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 121, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 122, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 123, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .cart-page .cart-container .cart-item-container .item-image {
+    max-width: 70px;
+  }
+  /* line 126, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 127, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .cart-page .cart-container .cart-item-container .item-info .name {
+    font-size: 15px;
+  }
+  /* line 130, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .cart-page .cart-container .cart-item-container .item-info .price, .cart-page .cart-container .cart-item-container .item-info .options, .cart-page .cart-container .cart-item-container .item-info .quantity {
+    font-size: 13px;
+  }
+  /* line 139, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container {
+    height: 248px;
+  }
+  /* line 141, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .product-images {
+    height: 115px;
+  }
+  /* line 143, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 144, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .product-images .product-image img:first-child {
+    position: relative;
+  }
+  /* line 147, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .product-images .product-image img:last-child {
+    display: none;
+  }
+  /* line 152, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  /* line 153, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .product-info .product-name {
+    font-size: 15px;
+    line-height: 18px;
+  }
+  /* line 158, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .box-actions-hover {
+    transform: translateY(0);
+  }
+  /* line 161, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .best-seller-ribbon {
+    border-width: 60px;
+  }
+  /* line 163, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_responsive.scss */
+  .one-product-container .best-seller-ribbon .text {
+    width: 60px;
+    height: 60px;
+    font-size: 10px;
+  }
+}
