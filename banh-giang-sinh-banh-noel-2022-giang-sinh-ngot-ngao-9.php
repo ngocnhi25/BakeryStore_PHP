@@ -324,7 +324,7 @@
 
   <div id="fb-root"></div>
   <div class='zalome'>
-    <a href='https://zalo.me/0907546668' target='_blank'>
+    <a href='#' target='_blank'>
       <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
     </a>
   </div>
@@ -371,7 +371,7 @@
   </script>
   <script>
     // When the user scrolls the page, execute myFunction
-    window.onscroll = function () { myFunction() };
+    // window.onscroll = function () { myFunction() };
 
     // Get the header
     var header = document.getElementById("HeaderTop");

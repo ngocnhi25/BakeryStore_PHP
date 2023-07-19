@@ -237,6 +237,9 @@
             </li>
           </ul>
         </div>
+
+
+
         <div class="col-md-9">
           <div class="row">
             <div class="col-12 col-lg-7">
@@ -387,6 +390,94 @@
                 <p>&nbsp;</p>
               </div>
             </div>
+
+            <div class="col-12 mt-3">
+              <section class="testimonial">
+                <div class="container">
+                  <div class="row">
+                    <div class="section-header">
+                      <p class="section-title">Feeback</p>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="clients-carousel owl-carousel">
+                      <div class="single-box">
+                        <div class="content">
+                          <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, doloribus minima
+                            praesentium
+                            laborum ea earum."</p>
+                          <h4>Jason Doe</h4>
+                        </div>
+                      </div>
+                      <div class="single-box">
+                        <div class="content">
+                          <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, doloribus minima
+                            praesentium
+                            laborum ea earum."</p>
+                          <h4>Dave Wood</h4>
+                        </div>
+                      </div>
+                      <div class="single-box">
+                        <div class="content">
+                          <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, doloribus minima
+                            praesentium
+                            laborum ea earum."</p>
+                          <h4>Matt Demon</h4>
+                        </div>
+                      </div>
+                      <div class="single-box">
+                        <div class="content">
+                          <span class="rating-star"><i class="icofont-star"></i><i class="icofont-star"></i><i
+                              class="icofont-star"></i><i class="icofont-star"></i><i class="icofont-star"></i></span>
+                          <p>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam, doloribus minima
+                            praesentium
+                            laborum ea earum."</p>
+                          <h4>jimmy kimmel</h4>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div>
+
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
+            </script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js">
+            </script>
+            <script>
+              $('.clients-carousel').owlCarousel({
+                loop: true,
+                nav: false,
+                autoplay: true,
+                autoplayTimeout: 5000,
+                animateOut: 'fadeOut',
+                animateIn: 'fadeIn',
+                smartSpeed: 450,
+                margin: 30,
+                responsive: {
+                  0: {
+                    items: 1
+                  },
+                  768: {
+                    items: 2
+                  },
+                  991: {
+                    items: 2
+                  },
+                  1200: {
+                    items: 2
+                  },
+                  1920: {
+                    items: 2
+                  }
+                }
+              });
+            </script>
+
             <div class="col-12 mt-3">
               <div class="section-header">
                 <p class="section-title">Sản phẩm gợi ý</p>
@@ -462,11 +553,11 @@
     </div>
   </section>
 
-  <?php include("layout/footer"); ?>
+  <?php include("layout/footer.php"); ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>
-    <a href='https://zalo.me/0907546668' target='_blank'>
+    <a href='#' target='_blank'>
       <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
     </a>
   </div>
@@ -513,7 +604,7 @@
   </script>
   <script>
     // When the user scrolls the page, execute myFunction
-    window.onscroll = function () { myFunction() };
+    // window.onscroll = function () { myFunction() };
 
     // Get the header
     var header = document.getElementById("HeaderTop");

@@ -103,37 +103,12 @@
             <div class="col-12 col-xl-4">
                 <div class="body-column last">
                     <iframe
-                        src="plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fthuhuongbakery.com.vn%2F&tabs=timeline&width=340&height=331&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=1934293103541408"
-                        style="border:none;overflow:hidden; width: 100%; height: 130px;" scrolling="no" frameborder="0"
+                        src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto%2F%3Ffbid%3D1483543865381263%26set%3Da.120434811692182&show_text=true&width=500"
+                        width="486" height="293" style="border:none;overflow:hidden" scrolling="no" frameborder="0"
                         allowfullscreen="true"
                         allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
                 </div><br>
-                <span>Tổng lượng truy cập: 8,002</span>
             </div>
-        </div>
-        <div class="tags-footer">
-            <i class="fa fa-tags" aria-hidden="true"></i>
-            <p><span style="color: #ff9900;"><strong><span style="font-size: 14pt;">&nbsp;<a style="color: #ff9900;"
-                                href="danh-muc/banh-sinh-nhat">B&aacute;nh Sinh Nhật</a> <span
-                                style="color: #333333;">(1)
-                            </span></span><span style="font-size: 10pt;"><span style="color: #333399;"><a
-                                    style="color: #333399;" href="danh-muc/banh-trung-thu">B&aacute;nh Trung Thu</a>
-                                (2)</span></span></strong>&nbsp;</span><span style="color: #333333;"><span
-                        style="font-size: 12pt;"><a style="color: #333333;" href="danh-muc/banh-mousse">B&aacute;nh
-                            Mousse</a>
-                        (3)</span> <span style="color: #ff0000;"><a style="color: #ff0000;"
-                            href="danh-muc/banh-valentine">B&aacute;nh Valentine</a> (4) </span></span><strong><span
-                        style="font-size: 14pt;"><a href="danh-muc/macaron"><span style="color: #ff9900;">B&aacute;nh
-                                Macaron</span></a> <span style="font-size: 8pt;"><span
-                                style="font-size: 14pt;">(5)</span> <span style="color: #333333;"><a
-                                    style="color: #333333;" href="danh-muc/banh-sinh-nhat">Địa chỉ mua
-                                    b&aacute;nh sinh nhật đẹp</a> (6) <span style="color: #ff00ff; font-size: 14pt;"><a
-                                        style="color: #ff00ff;" href="danh-muc/banh-sinh-nhat-cho-be">B&aacute;nh sinh
-                                        nhật cho
-                                        b&eacute;</a> (7)</span></span></span></span></strong></p>
-        </div>
-        <div class="footer-copyright text-center mb-2">
-            copyright@2022 Thu Hương Bakery - Thiết kế bởi: <a href="https://Vinastar.net">Vinastar.net</a>
         </div>
     </div>
 </footer>

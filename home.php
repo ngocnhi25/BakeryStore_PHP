@@ -88,6 +88,19 @@
 
 <body>
     <?php include("layout/header.php"); ?>
+    <div class="owl-carousel main-carousel">
+    <div>
+      <a href="">
+        <img src="public/frontend/assets/img/banner/banner1.jpg" alt="">
+      </a>
+    </div>
+    <div>
+      <a href="">
+        <img src="public/frontend/assets/img/banner/banner1.jpg" alt="">
+      </a>
+    </div>
+  </div>
+
 
     <section class="section-paddingY middle-section home-latest-products mt-5">
       <div class="container">
@@ -2547,8 +2560,9 @@
 
 
     <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="T1W405h4"></script>
     <div class='zalome'>
-      <a href='https://zalo.me/0907546668' target='_blank'>
+      <a href='#' target='_blank'>
         <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
       </a>
     </div>
@@ -2595,7 +2609,7 @@
     </script>
     <script>
       // When the user scrolls the page, execute myFunction
-      window.onscroll = function () { myFunction() };
+      // window.onscroll = function () { myFunction() };
 
       // Get the header
       var header = document.getElementById("HeaderTop");
