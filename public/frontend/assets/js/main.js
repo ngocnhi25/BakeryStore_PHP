@@ -27,9 +27,9 @@ $(document).ready(function() {
     }
 
     // Toggle message from server
-    // $('.msg-container .close-msg').click(function(event) {
-    //     $('.msg-top').toggleClass('show');
-    // });
+    $('.msg-container .close-msg').click(function(event) {
+        $('.msg-top').toggleClass('show');
+    });
 
     // Toggle User Nav
     $('.js-toggle-user-nav').click(function() {
@@ -59,12 +59,12 @@ $(document).ready(function() {
     // END TOGGLE SUBMENU
 
     // SCROLL TO TOP
-    // $('.gototop').click(function(event) {
-    //     event.preventDefault();
-    //     $('body, html').animate({
-    //         scrollTop: 0
-    //     }, 1000);
-    // });
+    $('.gototop').click(function(event) {
+        event.preventDefault();
+        $('body, html').animate({
+            scrollTop: 0
+        }, 1000);
+    });
     // END SCROLL TO TOP
 
     // RESIZE WINDOW DETECT MOBILE <==> DESKTOP
@@ -123,7 +123,7 @@ $(document).ready(function() {
         var targetOffsetTop = $(target).offset().top;
         $('html, body').animate({
             scrollTop: targetOffsetTop
-        }, 1000);
+        }, 500);
     });
 
     // Active header animation
@@ -136,9 +136,9 @@ $(document).ready(function() {
     //
 
     // Toggle searchbox (header)
-    // $('.js-toggle-search-box').click(function() {
-    //     $('.search-box').fadeToggle();
-    // });
+    $('.js-toggle-search-box').click(function() {
+        $('.search-box').fadeToggle();
+    });
     // END Toggle searchbox
 });
 
@@ -187,13 +187,13 @@ $(document).ready(function() {
         // navText: ["<i class='fas fa-long-arrow-alt-left'></i>", "<i class='fas fa-long-arrow-alt-right'></i>"]
         navText: ['<i class="fa fa-chevron-left" aria-hidden="true"></i>', '<i class="fa fa-chevron-right" aria-hidden="true"></i>'],
 
-        animateOut: 'slideOutDown',
-        animateIn: 'slideInDown',
-        autoplayTimeout: 1000,
-        items:1,
-         loop:true,
-         autoplay:true,
-         autoplayTimeout:1000,
+        // animateOut: 'slideOutDown',
+        // animateIn: 'slideInDown',
+        // autoplayTimeout: 1000,
+        // items:1,
+        //  loop:true,
+        //  autoplay:true,
+        //  autoplayTimeout:1000,
     });
 
     $(".owl-carousel-news").owlCarousel({
@@ -301,6 +301,7 @@ $(document).ready(function() {
 
 
 
+
 $(document).ready(function() {
     // // Giúp menu dropdown hiển thị tốt hơn: Qua trái hoặc qua phải tùy vào chiều rộng màn hình
     $('.header-nav li').on('mouseenter mouseleave', function(event) {
@@ -329,14 +330,13 @@ $(document).ready(function() {
 
 
 
-
 // Mobile Menu
 $(document).ready(function() {
     // Toggle Mobile Menu
-    $('.menu-mobile-toggle-button').click(function(e) {
-    	$('.mobile-menu-overlay').toggleClass('active');
-    	$('.mobile-menu-list').toggleClass('active');
-    });
+    // $('.menu-mobile-toggle-button').click(function(e) {
+    // 	$('.mobile-menu-overlay').toggleClass('active');
+    // 	$('.mobile-menu-list').toggleClass('active');
+    // });
 });
 // Mobile Menu
 
@@ -469,7 +469,403 @@ function updateCartContainerView() {
             console.log("error");
         })
 }
+// ====================================================== //
+// ====================== END CART ====================== //
 
+
+// ====================================================== //
+// ====================== CHECKOUT ====================== //
+$(document).ready(function() {
+    // Chọn tỉnh thành => lấy quận huyện
+    $('.checkout-page').on('change', '.js-province-selection', function(event) {
+        event.preventDefault();
+        let provinceID = $(this).val();
+        renderDistrictsByProvince(provinceID);
+    });
+
+    // Chọn quận / huyện => lấy giá ship
+    $('.checkout-page').on('change', '.js-district-selection', function(event) {
+        event.preventDefault();
+        let provinceID = $('.checkout-page .js-province-selection').val();
+        let districtID = $(this).val();
+        renderShippingFee(provinceID, districtID);
+    });
+
+    // Nhấn submit -> kiểm tra đã chọn quận huyện chưa
+    // $('.checkout-form .js-send-order-button').click(function(event) {
+    //   event.preventDefault();
+    //   let provinceID = $('.checkout-page .js-province-selection').val();
+    //   let districtID = $('.checkout-page .js-district-selection').val();
+    //
+    //   let test = 0;
+    //   if (isNaN(test)) {
+    //     alert(' 0 isNaN');
+    //   } else {
+    //     alert('0 is a n');
+    //   }
+    //   $('.checkout-form').submit();
+    //   return;
+    // });
+
+});
+
+function renderDistrictsByProvince(provinceID) {
+    params = {
+        province_id: provinceID
+    };
+    $.ajax({
+            url: baseUrl + 'ajax/render-districts-by-province',
+            type: 'GET',
+            data: params
+        })
+        .done(function(response) {
+            console.log("success");
+            response = JSON.parse(response);
+            if (response.status == 1) {
+                $('.checkout-page .district-selection').html(response.districtListView);
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        });
+}
+
+function renderShippingFee(provinceID, districtID) {
+    params = {
+        province_id: provinceID,
+        district_id: districtID
+    };
+    $.ajax({
+            url: baseUrl + 'ajax/render-shipping-fee',
+            type: 'GET',
+            data: params
+        })
+        .done(function(response) {
+            console.log("success");
+            response = JSON.parse(response);
+            if (response.status == 1) {
+                $('.checkout-page .checkout-summary').html(response.checkoutSummaryView);
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        });
+}
+
+// ========================================================== //
+// ====================== END CHECKOUT ====================== //
+
+
+
+// ========================================================== //
+// ====================== PRODUCT FILTER ==================== //
+
+$(document).ready(function() {
+    $('.js-toggle-product-filter').click(function(event) {
+        $('.js-product-filter').toggleClass('active');
+    });
+
+    $('.js-dropdown-filter-block').click(function(event) {
+        $(this).parents('.product-filter-block').find('.body').slideToggle('fast');
+    });
+
+    $('.js-filter-on-change').change(function(event) {
+        let params = getFilterParams();
+        params.page = 1;
+
+        ajaxFilterProducts(params);
+    });
+
+    $('.product-collection').on('click', '.ajax-pagination .js-product-filter-prev, .ajax-pagination .js-product-filter-next', function(event) {
+        event.preventDefault();
+        let page = $(this).data('page');
+        let params = getFilterParams();
+        params.page = page;
+
+        ajaxFilterProducts(params);
+    });
+
+    $('.product-collection').on('change', '.ajax-pagination select[name=product_filter_pagination]', function(event) {
+        event.preventDefault();
+        let page = $(this).val();
+        let params = getFilterParams();
+        params.page = page;
+
+        ajaxFilterProducts(params);
+    });
+
+});
+
+function getFilterParams() {
+    let colors = $('input[type=checkbox][name="color_filter[]"]:checked').map(function(index, checkbox) {
+        return $(checkbox).val();
+    }).get();
+
+    let sizes = $('input[type=checkbox][name="size_filter[]"]:checked').map(function(index, checkbox) {
+        return $(checkbox).val();
+    }).get();
+
+    let minMaxPrice = $('input[type =radio][name =price_filter]:checked').val();
+
+    let currentCateID = $('input[name =cate_id]').val();
+
+    let params = {
+        cate_id: currentCateID,
+        colors: colors,
+        sizes: sizes,
+        min_max_price: minMaxPrice,
+    };
+
+    return params;
+}
+
+function ajaxFilterProducts(params) {
+    // $(".section-loader").toggleClass('active');
+    $('.product-collection.has-loader .section-body').fadeToggle(0);
+    $.ajax({
+            url: baseUrl + 'ajax/filter-product',
+            type: 'GET',
+            data: params
+        })
+        .done(function(response) {
+            console.log("success");
+            response = JSON.parse(response);
+            let filterProductsView = response.filterProductsView;
+            let pagination = response.pagination;
+            $('.product-collection .section-body .row').html(filterProductsView);
+            $('.product-collection .website-pagination').addClass('ajax-pagination');
+            $('.product-collection .website-pagination').html(pagination);
+
+            checkProductsOnWishlist();
+
+            // setTimeout(function(){ $(".section-loader").toggleClass('active'); }, 1000);
+            $('.product-collection.has-loader .section-body').delay(300).fadeToggle('slow');
+        })
+        .fail(function() {
+            console.log("error");
+        });
+
+}
+
+// ========================================================== //
+// ====================== END PRODUCT FILTER ================ //
+
+
+
+
+// ========================================================== //
+// ====================== PRODUCT BOX HOVER ================= //
+
+$(document).ready(function() {
+
+    // Add to wishlist Thêm vào danh sách yêu thích
+    $('body').on('click', '.box-actions-hover .js-add-to-wishlist', function(event) {
+        // toggleOverlayHidden();
+        let productID = $(this).parents('.box-actions-hover').data('id');
+        let wishlist = localStorage.getItem('wishlist');
+        if (wishlist == null) {
+            addToWishList(productID);
+            $(this).addClass('active');
+            let msg = 'Đã thêm vào danh sách yêu thích';
+            toggleMessageBox(msg);
+            return;
+        }
+
+        let msg = "";
+        let check = checkExistOnWishList(productID);
+        // alert(check);
+        // return;
+        if (check > -1) {
+            removeFromWishList(position = check);
+            $(this).removeClass('active');
+            msg = 'Đã xóa khỏi danh sách yêu thích';
+        } else {
+            addToWishList(productID);
+            $(this).addClass('active');
+            msg = 'Đã thêm vào danh sách yêu thích';
+        }
+
+        // console.log(wishlist);
+        toggleMessageBox(msg);
+        return;
+    });
+
+    $('body').on('click', '.box-actions-hover .js-view-detail', function(event) {
+        let href = $(this).data('href');
+        window.location.href = href;
+    });
+
+});
+
+checkProductsOnWishlist();
+
+function checkProductsOnWishlist() {
+    let wishlist = localStorage.getItem('wishlist');
+    if (!wishlist) {
+        return;
+    }
+    wishlist = wishlist.split(',');
+    if (wishlist.length == 0) {
+        return;
+    }
+
+    let productHearts = $('.js-add-to-wishlist');
+    if (productHearts.length > 0) {
+        $(productHearts).each(function(index, el) {
+            let productID = $(el).parents('.box-actions-hover').data('id')
+            productID = productID.toString();
+            if (wishlist.indexOf(productID) > -1) {
+                $(el).addClass('active');
+            }
+        });
+    }
+}
+
+function checkExistOnWishList(productID) {
+    let wishlist = localStorage.getItem('wishlist');
+    let wishlistArray = wishlist.split(',');
+    return wishlistArray.indexOf(productID.toString());
+}
+
+function removeFromWishList(position) {
+    let wishlist = localStorage.getItem('wishlist');
+    let wishlistArray = wishlist.split(',');
+    wishlistArray.splice(position, 1);
+    let newWishlist = wishlistArray.join(',');
+    localStorage.setItem('wishlist', newWishlist);
+}
+
+function addToWishList(productID) {
+    let wishlist = localStorage.getItem('wishlist');
+    if (wishlist == null) {
+        // first time
+        wishlist = productID.toString();
+    } else {
+        wishlist += ',' + productID.toString();
+    }
+    localStorage.setItem('wishlist', wishlist);
+}
+
+// ========================================================== //
+// ====================== END PRODUCT BOX HOVER ============= //
+
+
+
+
+
+// ============================================================ //
+// ======================= NEWSLETTER POPUP ================== //
+
+var newsletterValidation = {
+    validName: function(name) {
+        if (name != '' && name.length >= 2) {
+            return true;
+        }
+        return false;
+    },
+    validPhoneNumber: function(phoneNumber) {
+        let patt = new RegExp('[0][1-9][0-9]{8,9}');
+        return patt.test(phoneNumber);
+    },
+};
+
+$(document).ready(function() {
+    // if (!checkNewsletterCookie()) {
+    //     setTimeout(showNewsletterPopup, 3000);
+    // }
+
+    setTimeout(showNewsletterPopup, 2000);
+
+    $('.js-newsletter-close').click(function(event) {
+        if (!checkNewsletterCookie()) {
+            setCookie('newsletter', 'yes', 0.04); // 0.04 ngày ~ 1h
+        }
+        $('.js-popup-newsletter').removeClass('show');
+    });
+    // $("#form_id").valid();
+
+    $('.js-newsletter-registration').click(function(event) {
+        let fullname = $('[name=newsletter_fullname]').val();
+        let phoneNumber = $('[name=newsletter_phone]').val();
+        if (newsletterValidation.validName(fullname) && newsletterValidation.validPhoneNumber(phoneNumber)) {
+            let params = {
+                fullname: fullname,
+                phone: phoneNumber
+            };
+            ajaxRegisterNewsletter(params);
+        }
+    });
+
+});
+
+
+function checkNewsletterCookie() {
+    let newsletterCookie = getCookie('newsletter');
+    if (newsletterCookie == '') {
+        return false;
+    }
+    return true;
+}
+
+function showNewsletterPopup() {
+    // $('.js-popup-newsletter').addClass('show');
+    $(".img-popup").css('display', 'block')
+    $('#exampleModal').modal('show')
+}
+
+function ajaxRegisterNewsletter(params) {
+    $.ajax({
+            url: baseUrl + 'ajax/register-newsletter',
+            data: params
+        })
+        .done(function(response) {
+            response = JSON.parse(response);
+            console.log("success");
+            console.log(response);
+            if (response.success == 1) {
+                $('.js-newsletter-message').html(response.msg);
+                setCookie('newsletter', 'yes', 10);
+            }
+        })
+        .fail(function() {
+            console.log("error");
+        });
+
+    // setCookie('newsletter', 'yes', 30);
+}
+
+$('.open-submenu').click(function(e) {
+    e.preventDefault();
+    $('.menu-category a').each((index, el) => {
+        console.log($(el));
+        $(el).removeClass('active')
+    })
+    $(this).addClass('active')
+    $(this).removeClass('item-nav')
+    $(this).parent().find('.submenu-category').toggleClass('show')
+})
+
+const imgs = document.querySelectorAll('.img-select a');
+const imgBtns = [...imgs];
+let imgId = 1;
+
+imgBtns.forEach((imgItem) => {
+    imgItem.addEventListener('click', (event) => {
+        event.preventDefault();
+        imgId = imgItem.dataset.id;
+        slideImage();
+    });
+});
+
+function slideImage() {
+    const displayWidth = document.querySelector('.img-showcase img:first-child').clientWidth;
+
+    document.querySelector('.img-showcase').style.transform = `translateX(${- (imgId - 1) * displayWidth}px)`;
+}
+
+window.addEventListener('resize', slideImage);
+// ========================================================== //
+// =================== END NEWSLETTER POPUP ================ //
 $(document).ready(function() {
     // Users can skip the loading process if they want.
     $('.skip').click(function() {
