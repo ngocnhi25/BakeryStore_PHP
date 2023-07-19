@@ -1,7 +1,7 @@
 <?php
-require_once('connect/connect.php');
+require_once('connect/connectDB.php');
 
-$category = executeResult("SELECT * FROM category");
+// $category = executeResult("SELECT * FROM category");
 
 $errors = array();
 $errors["images"] = [];
