@@ -40,3 +40,14 @@ function executeSingleResult($sql){
     mysqli_close($con);
     return $row;
 }
+
+function checkRowTable($sql){
+    global $hostname, $usernamedb, $passworddb,$database;
+    $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
+    $result = mysqli_query($con, $sql);
+    if($result != null){
+        $row = mysqli_fetch_row($result);
+    }
+    mysqli_close($con);
+    return $row;
+}
