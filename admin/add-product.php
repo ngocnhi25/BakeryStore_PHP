@@ -1,11 +1,21 @@
 <?php
-require_once('connect/connect.php');
+require_once('connect/connectDB.php');
 
-$category = executeResult("SELECT * FROM category");
+$category = executeResult("SELECT * FROM tb_category");
+
+date_default_timezone_set('Asia/Bangkok');
+$date = date('l jS \of F Y h:i:s A');
 
 $errors = array();
 $errors["images"] = [];
-$errors["image"] = '';
+$errors["name"] =
+    $errors["price"] =
+    $errors["cateID"] =
+    $errors["description"] =
+    $errors["image"] = '';
+
+// var_dump($_POST);
+// die();
 
 if (isset($_POST) && !empty($_POST)) {
     $name = $_POST["name"] ?? "";
@@ -14,10 +24,21 @@ if (isset($_POST) && !empty($_POST)) {
     $description = $_POST["description"] ?? "";
     $target_dir = "image/products/";
 
+
+    // echo '<pre>';
+    // print_r($_FILES);
+    // die();
+
+
+    // kiểm tra xem có folder chưa, chưa có thì tạo
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir);
+    }
+
     if (isset($_FILES["image"]) && !empty($_FILES["image"]["name"])) {
         $file = $_FILES["image"];
         $image = $target_dir . basename($file["name"]);
-        $imageLink = "../$target_dir" . basename($file["name"]);
+        $imageLink = "$target_dir" . basename($file["name"]);
 
 
         if (!file_exists($imageLink)) {
@@ -35,15 +56,17 @@ if (isset($_POST) && !empty($_POST)) {
         }
     }
 
+
     if (isset($_FILES["images"]) && !empty($_FILES["images"]["name"])) {
         $files = $_FILES['images'];
+
         $file_names = $files['name'];
         $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
         $size_allow = 5;
 
         foreach ($file_names as $key => $value) {
             $thumbnail = $target_dir . basename($value);
-            $thumbnailLink = "../$target_dir" . basename($value);
+            $thumbnailLink = "$target_dir" . basename($value);
             $type = $files['type'][$key];
             $size = $files['size'][$key] / 1024 / 1024;
 
@@ -76,6 +99,21 @@ if (isset($_POST) && !empty($_POST)) {
             }
         }
     }
+
+    // $sql = "insert into tb-products 
+    // (cate_id, product_name, image, price, description, cate_date) values
+    // ($cateID, '$image', $price, '$description', '$date')";
+    // execute($sql);
+
+
+    // foreach ($files as $key => $f) {
+    //     // $sql = "insert into tb_thumbnail (product_id, thumbnail) values
+    //     // ($f)";
+    //     // execute($sql);
+    //     echo '<pre>';
+    //     print_r($f);
+    //     die();
+    // }
 }
 ?>
 <!DOCTYPE html>
@@ -92,24 +130,28 @@ if (isset($_POST) && !empty($_POST)) {
 <body>
     <h1>Add Product</h1>
     <div>
-        <form action="">
+        <form action="" method="post" enctype="multipart/form-data">
             <div>
                 <div>
                     <label for="">Product name</label> <br>
-                    <input type="text" name="productName">
+                    <input type="text" name="name">
+                </div>
+                <div>
+                    <label for="">Price</label> <br>
+                    <input type="number" name="price">
                 </div>
                 <div>
                     <select name="cateID" id="">
                         <option value="">___Category___</option>
                         <?php foreach ($category as $cate) { ?>
-                            <option value="<?php echo $cate["id"] ?>"><?php echo $cate["nameCate"] ?></option>
+                            <option value="<?php echo $cate["cate_id"] ?>"><?php echo $cate["cate_name"] ?></option>
                         <?php } ?>
                     </select>
                 </div>
             </div>
             <div>
                 <label for="">Product image</label> <br>
-                <input type="file" name="image">
+                <input id="input-image" type="file" name="image" accept="image/*"> <br>
                 <div id="preview-image" style="display: flex; gap: 2rem;"></div>
                 <div>
                     <?php if (!empty($errors["image"])) { ?>
@@ -119,7 +161,7 @@ if (isset($_POST) && !empty($_POST)) {
             </div>
             <div>
                 <label for="">Thumbnail</label> <br>
-                <input type="file" multiple="multiple">
+                <input id="input-images" type="file" name="images[]" multiple="multiple" accept="image/*"> <br>
                 <!-- show thumbnail -->
                 <div id="preview-images" style="display: flex; gap: 2rem;"></div>
                 <div>
