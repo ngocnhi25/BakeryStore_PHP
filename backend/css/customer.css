@@ -105,3 +105,10 @@ td.textLong {
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
   white-space: nowrap;
 }
+
+button{
+  padding: 1.5rem;
+  font-weight: 600;
+  background-color: #bf861efe;
+  font-size: 1.2rem;
+}

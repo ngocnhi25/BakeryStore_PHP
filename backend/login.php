@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-=======
+
 <?php
 require_once("../admin/connect/connectDB.php");
 
@@ -29,7 +28,7 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
     }
 
 ?>
->>>>>>> d1e72fc0e49480272bebd7c3d9b92ad0cd8a1c18
+
 <!DOCTYPE html>
 <html lang="en">
     
