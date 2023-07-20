@@ -1,4 +1,3 @@
-
 <?php
 require_once("../admin/connect/connectDB.php");
 
@@ -28,7 +27,6 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
     }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
     

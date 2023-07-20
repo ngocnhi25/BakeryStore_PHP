@@ -1,5 +1,5 @@
 <?php
-require_once('../connect/connectDB.php');
+require_once('../../connect/connectDB.php');
 
 $errors = array();
 $errors["images"] = $thumbnails = [];
@@ -10,73 +10,50 @@ $errors["name"] =
     $errors["image"] =
     $errors["thumbnail"] =
     $errors["description"] =
-    $name = $image = $cateID = $price = $description = '';
+    $name = $image = $cateID = $price = $description = $id = $title = '';
 
 $category = executeResult("SELECT * FROM tb_category");
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d H:i:s');
 
-// if (isset($_GET["id"])) {
-//     $id = $_GET["id"];
+if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+    $title = $_GET["title"];
 
-//     $product = executeSingleResult("select * from tb_products where id = $id");
+    $product = executeSingleResult("select * from tb_products where product_id = $id");
 
-//     $thumbnails = executeSingleResult("select * from tb_thumbnail where product_id = $id");
+    $thumbnails = executeResult("select * from tb_thumbnail where product_id = $id");
 
-//     $name = $product["product_name"];
-//     $cateID = $product["cate_id"];
-//     $price = $product["price"];
-//     $image = $product["image"];
-//     $description = $product["description"];
-// }
+    $name = $product["product_name"];
+    $cateID = $product["cate_id"];
+    $price = $product["price"];
+    $image = $product["image"];
+    $description = $product['description'];
+}
 
 if (isset($_POST) && !empty($_POST)) {
-    if($_POST["name"]){
+    if ($_POST["name"]) {
         $name = $_POST["name"];
     }
-    if($_POST["cateID"]){
+    if ($_POST["cateID"]) {
         $cateID = $_POST["cateID"];
     }
-    if($_POST["price"]){
+    if ($_POST["price"]) {
         $price = $_POST["price"];
     }
-    if($_POST["description"]){
+    if ($_POST["description"]) {
         $description = $_POST["description"];
     }
 
     $target_dir = "public/images/products/";
     $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
-    $size_allow = 10;
+    $size_allow = 5;
 
     $uploadPath = '../../' . $target_dir;
     // kiểm tra rồi tạo folder product
     if (!is_dir($uploadPath)) {
         mkdir($uploadPath);
-    }
-
-    function checkAndUploadFile($file, $target_dir, $size_allow, $type_allow)
-    {
-        $result = [];
-        $thumbnailLink = "../../$target_dir" . basename($file["name"]);
-        $type = $file['type'];
-        $size = $file['size'] / 1024 / 1024;
-
-        if (!file_exists($thumbnailLink)) {
-            if (in_array($type, $type_allow)) {
-                if ($size <= $size_allow) {
-                    move_uploaded_file($file["tmp_name"], $thumbnailLink);
-                } else {
-                    $result['error'] = 'size_err';
-                }
-            } else {
-                $result['error'] = 'type_err';
-            }
-        } else {
-            $result['error'] = 'oldFile_err';
-        }
-
-        return $result;
     }
 
     if (isset($_FILES["image"]) && !empty($_FILES["image"]["name"])) {
@@ -115,7 +92,7 @@ if (isset($_POST) && !empty($_POST)) {
     } else {
         $errors["thumbnail"] = "Thumbnail cannot be left blank";
     }
-    
+
     if (!empty($errors["image"])) {
         $messImg = '';
         if ($errors["image"] == "oldFile_err") {
@@ -126,7 +103,7 @@ if (isset($_POST) && !empty($_POST)) {
             $messImg = 'file ' . $file["name"] . ' capacity must be less than ' . $size_allow . 'MB ' . '<br>';
         }
     }
-    
+
     if (!empty($errors["images"])) {
         $messThumb = '';
         foreach ($errors["images"] as $key => $error) {
@@ -139,7 +116,7 @@ if (isset($_POST) && !empty($_POST)) {
             }
         }
     }
-    
+
     if (empty($name)) {
         $errors["name"] = "Product name cannot be left blank";
     }
@@ -154,38 +131,52 @@ if (isset($_POST) && !empty($_POST)) {
     }
 
     // if ($id == '') {
-        if (
-            empty($error["name"]) 
-            && empty($error["cateID"]) 
-            && empty($error["price"]) 
-            && empty($error["image"]) 
-            && empty($error["thumbnail"])
-            && empty($error["description"])
-            && empty($messImg) 
-            && empty($messThumb) 
-        ) {
-            execute("insert into tb_products 
+    if (
+        empty($error["name"])
+        && empty($error["cateID"])
+        && empty($error["price"])
+        && empty($error["image"])
+        && empty($error["thumbnail"])
+        && empty($error["description"])
+        && empty($messImg)
+        && empty($messThumb)
+    ) {
+        execute("insert into tb_products 
             (cate_id, product_name, image, price, description, create_date, deleted) values
             ($cateID, '$name', '$image', $price, '$description', '$date', 0)");
-            $new_id = executeSingleResult("select max(product_id) as new_product_id from tb_products");
-            $new_product_id = $new_id["new_product_id"];
-            foreach ($thumbnails as $key => $thumb){
-                execute("insert into tb_thumbnail (product_id, thumbnail) values ($new_product_id, '$thumb')");
-            }
+        $new_id = executeSingleResult("select max(product_id) as new_product_id from tb_products");
+        $new_product_id = $new_id["new_product_id"];
+        foreach ($thumbnails as $key => $thumb) {
+            execute("insert into tb_thumbnail (product_id, thumbnail) values ($new_product_id, '$thumb')");
         }
+    }
     // } else {
-        
-    // }
 
-
-    // foreach ($files as $key => $f) {
-    //     // $sql = "insert into tb_thumbnail (product_id, thumbnail) values
-    //     // ($f)";
-    //     // execute($sql);
-    //     echo '<pre>';
-    //     print_r($f);
-    //     die();
     // }
+}
+
+function checkAndUploadFile($file, $target_dir, $size_allow, $type_allow)
+{
+    $result = [];
+    $thumbnailLink = "../../$target_dir" . basename($file["name"]);
+    $type = $file['type'];
+    $size = $file['size'] / 1024 / 1024;
+
+    if (!file_exists($thumbnailLink)) {
+        if (in_array($type, $type_allow)) {
+            if ($size <= $size_allow) {
+                move_uploaded_file($file["tmp_name"], $thumbnailLink);
+            } else {
+                $result['error'] = 'size_err';
+            }
+        } else {
+            $result['error'] = 'type_err';
+        }
+    } else {
+        $result['error'] = 'oldFile_err';
+    }
+
+    return $result;
 }
 
 function checkCate($value)
@@ -201,13 +192,15 @@ function checkCate($value)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://cdn.tiny.cloud/1/408p82mzgtitwtkc01bmbjchrnbzm4tc67jdfy6ouuzd59uu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
-    <h1>Add Product</h1>
+
     <div>
+        <h1>
+            <?php echo (($title != null ? $title : 'Add Product')) ?>
+        </h1>
         <form action="" method="post" enctype="multipart/form-data">
             <div>
                 <div>
@@ -247,7 +240,7 @@ function checkCate($value)
                 <input id="input-image" type="file" name="image" accept="image/*" onchange="delete_oldImage()"> <br>
                 <?php
                 if ($image != '') {
-                    echo "<img src='../../$image' width='200px' id='oldImage'>";
+                    echo "<img src='../$image' width='200px' id='oldImage'>";
                 }
                 ?>
                 <div id="preview-image" style="display: flex; gap: 2rem;"></div>
@@ -261,8 +254,16 @@ function checkCate($value)
             </div>
             <div>
                 <label for="">Thumbnail</label> <br>
-                <input id="input-images" type="file" name="images[]" multiple="multiple" accept="image/*"> <br>
-
+                <input id="input-images" type="file" name="images[]" multiple="multiple" accept="image/*" onchange="delete_oldThumbnail()"> <br>
+                <?php if ($thumbnails != null) { ?>
+                    <div id="oldThumbnail">
+                        <?php
+                        foreach ($thumbnails as $th) {
+                            echo '<img src="../' . $th["thumbnail"] . '" width="200px" >';
+                        }
+                        ?>
+                    </div>
+                <?php  } ?>
                 <!-- show thumbnail -->
                 <div id="preview-images" style="display: flex; gap: 2rem;"></div>
                 <div>
@@ -277,22 +278,26 @@ function checkCate($value)
                 </div>
             </div>
             <div>
-                <textarea name="description" class="description" cols="30" rows="10"></textarea>
+                <textarea id="tiny" name="description" class="description" cols="30" rows="10"><?= $description ?></textarea>
             </div>
+            <script>
+                $('textarea#tiny').tinymce({
+                    height: 500,
+                    menubar: false,
+                    plugins: [
+                        'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                        'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                        'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+                    ],
+                    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code table help'
+                });
+            </script>
+
             <div>
                 <input type="submit" value="Save">
             </div>
         </form>
     </div>
-    <script>
-        tinymce.init({
-            selector: '.description',
-            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name'
-        });
-    </script>
     <script>
         function delete_oldImage() {
             var oldImage = document.getElementById('oldImage');
@@ -313,7 +318,6 @@ function checkCate($value)
                 $(reader).on("load", function() {
                     $preview.append($("<img/>", {
                         src: this.result,
-                        height: 100,
                         width: 200
                     }));
                 });
@@ -330,7 +334,6 @@ function checkCate($value)
                 $(reader).on("load", function() {
                     $preview.append($("<img/>", {
                         src: this.result,
-                        height: 100,
                         width: 200
                     }));
                 });

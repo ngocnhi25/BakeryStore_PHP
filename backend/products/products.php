@@ -1,5 +1,5 @@
 <?php
-require_once('../connect/connectDB.php');
+require_once('../../connect/connectDB.php');
 
 $products = executeResult("select * from tb_products p
                             inner join tb_category c 
@@ -14,10 +14,37 @@ $products = executeResult("select * from tb_products p
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../css/customer.css">
+    <style>
+        table,
+        td {
+            text-align: center;
+        }
+
+        button {
+            padding: 0.4rem 0.9rem 0.4rem 0.9rem;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .button {
+            gap: 0.9rem;
+            justify-content: space-between;
+        }
+
+        .edit {
+            background-color: #2c86d1fe;
+        }
+
+        .delete {
+            background-color: #e10a29fe;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="products">
+    <div class="products" id="products">
         <h1>Product Page</h1>
         <div>
             <div class="total-items">
@@ -46,15 +73,16 @@ $products = executeResult("select * from tb_products p
                             <td>
                                 <input type="checkbox" name="" value="">
                             </td>
-                            <td><?= $key ?></td>
+                            <td><?= $key + 1 ?></td>
                             <td><?= $product["product_name"] ?></td>
                             <td class="image-product">
                                 <img src="../../<?= $product["image"] ?>" alt="" width="200px">
                             </td>
                             <td><?= $product["price"] ?> vnđ</td>
                             <td><?= $product["cate_name"] ?></td>
-                            <td>
-                                <button type="">Edit</button>
+                            <td class="button">
+                                <button id="editProduct" onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="edit">Edit</button>
+                                <button type="button" class="delete">Delete</button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -62,6 +90,28 @@ $products = executeResult("select * from tb_products p
             </table>
         </div>
     </div>
+
+    <script>
+            function editProduct(id) {
+                var postData = {
+                    id: id,
+                    title: 'Update Product'
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "products/add-product.php", // Điền URL của trang mới ở đây
+                    data: postData,
+                    success: function(response) {
+                        // Xử lý kết quả trả về sau khi chuyển trang thành công
+                        $("#main-page").html(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Xử lý lỗi nếu có
+                        console.error("Lỗi: " + error);
+                    }
+                });
+            }
+    </script>
 </body>
 
 </html>

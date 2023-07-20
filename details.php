@@ -1,3 +1,14 @@
+<?php 
+require_once('connect/connectDB.php');
+
+$id = 4;
+$product = executeSingleResult("select * from tb_products where product_id = $id");
+
+$name = $product["product_name"];
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -85,7 +96,7 @@
 
 <body>
 
-  <?php include("layout/header.php"); ?>
+<?php include("layout/header.php"); ?>
 
   <div class="breadcrumb">
     <div class="container">
@@ -244,8 +255,8 @@
           <div class="row">
             <div class="col-12 col-lg-7">
               <div class="detail-header show-mobile">
-                <h5 class="product-name">Mousse Chanh Leo</h5>
-                <span>(Cake Mousse Passion Fruit)</span>
+                <h5 class="product-name">helllo</h5>
+                <span>(Cake Mousse Passion Fruit)</span>  
               </div>
               <div class="product-imgs">
                 <ul id="lightSlider">
@@ -276,7 +287,7 @@
             <div class="col-12 col-lg-5">
               <div class="product-detail-container">
                 <div class="detail-header show-desktop">
-                  <h5 class="product-name">Mousse Chanh Leo</h5>
+                  <h5 class="product-name"><?= $product["product_name"] ?></h5>
                   <span>(Cake Mousse Passion Fruit)</span>
                 </div>
                 <div class="detail-body">

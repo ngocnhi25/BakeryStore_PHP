@@ -5,10 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive </title>
-    <link rel="stylesheet" href="./css/admin.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/408p82mzgtitwtkc01bmbjchrnbzm4tc67jdfy6ouuzd59uu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
+
 </head>
 
 <body>
@@ -17,7 +22,7 @@
             <div class="top">
                 <div class="logo">
                     <div class="img-logo">
-                        <img src="images/logo/Screenshot 2023-06-23 205633.png" alt="logo">
+                        <img src="../public/images/logo/Screenshot 2023-06-23 205633.png" alt="logo">
                     </div>
                     <h2 class="text-muted">NGOCNHI
                         <span class="danger">BAKERY</span>
@@ -53,24 +58,17 @@
                         </div>
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="./category.php">
+                                <a href="products/category.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>Category</h4>
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="./products.html">
+                                <a href="products/products.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>All Products</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="./add-product.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Add Products</h4>
                                 </a>
                             </li>
                         </ul>
@@ -89,7 +87,7 @@
                                 <a href="./logIn.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>order cart</h4>
+                                    <h4>dsfsdfs</h4>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -127,7 +125,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
+                        <a href="products/add-product.php" class="nav-link">
                             <span class="material-symbols-sharp">add</span>
                             <h3>Add Product</h3>
                         </a>
@@ -181,6 +179,18 @@
             </div>
         </div>
     </div>
+    <script>
+      $('textarea#tiny').tinymce({
+        height: 500,
+        menubar: false,
+        plugins: [
+           'a11ychecker','advlist','advcode','advtable','autolink','checklist','export',
+           'lists','link','image','charmap','preview','anchor','searchreplace','visualblocks',
+           'powerpaste','fullscreen','formatpainter','insertdatetime','media','table','help','wordcount'
+        ],
+        toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code table help'
+      });
+    </script>
 
     <script>
         $(document).ready(function () {
@@ -234,7 +244,7 @@
 
         });
     </script>
-    <script src="./admin.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 
 </html>
