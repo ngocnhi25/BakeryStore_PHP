@@ -1,0 +1,92 @@
+label {
+  font-size: 16px;
+  font-weight: 700;
+}
+.input-group {
+  width: 350px;
+  height: 25px;
+  border-radius: 5px;
+  background-color: rgba(134, 131, 133, 0.103);
+}
+.custom-select {
+  position: relative;
+  font-family: Arial;
+}
+
+.custom-select select {
+  display: none; /*hide original SELECT element:*/
+}
+
+.select-selected {
+  background-color: rgba(134, 131, 133, 0.103);
+}
+
+/*style the arrow inside the select element:*/
+.select-selected:after {
+  position: absolute;
+  content: "";
+  top: 14px;
+  right: 10px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-color: #fff transparent transparent transparent;
+}
+
+/*point the arrow upwards when the select box is open (active):*/
+.select-selected.select-arrow-active:after {
+  border-color: transparent transparent #fff transparent;
+  top: 7px;
+}
+
+/*style the items (options), including the selected item:*/
+.select-items div,
+.select-selected {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: Poppins, sans-serif;
+  color: #000000;
+  padding: 8px 16px;
+  border: 1px solid transparent;
+  border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+/*style items (options):*/
+.select-items {
+  position: absolute;
+  background-color: wheat !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99;
+}
+
+/*hide the items when the select box is closed:*/
+.select-hide {
+  display: none;
+}
+
+.select-items div:hover,
+.same-as-selected {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.btn-save {
+  width: 250px;
+  color: rgba(0, 0, 0, 0.249);
+  font-weight: 700;
+  font-family: Poppins, sans-serif;
+  font-size: 20px;
+  border-radius: 7px;
+  height: 50px;
+  background-color: rgba(0, 128, 0, 0.249) !important;
+  transition: 0.2s;
+}
+.btn-save.btn-save:hover{
+    color: rgba(0, 0, 0, 0.838);
+    background-color: rgba(0, 128, 0, 0.838) !important;
+}
+.mt {
+  margin-top: 10px;
+}
