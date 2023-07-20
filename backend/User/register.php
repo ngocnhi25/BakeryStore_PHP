@@ -21,7 +21,7 @@ if (isset($_POST['submit'])) { // Check if the form is submitted
     $email = $_POST["email"];
     $password = $_POST["password"];
     $repeatPassword = $_POST["repeatPassword"];
-    $token = md5(rand());
+    $token = md5(uniqid(rand(), true)); // Generate a unique token
 
     if (isset($_POST['phone'])) {
         $phone = $_POST['phone'];
@@ -37,56 +37,59 @@ if (isset($_POST['submit'])) { // Check if the form is submitted
     // Check if the email exists in the database
     $sql = "SELECT * FROM tb_user WHERE email = '$email'";
     $result = executeResult($sql);
-        if ($result != null) {
-            $errors = 'Email already exists.';
-        } 
-        
-        if( empty($errors)) {
-            // Insert the new user into the database with hashed password
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO tb_user (username, email, phone, token, password) VALUES ($username, $email, $phone, $token, $hashedPassword)";
-            $insertResult = execute($sql);
+    if ($result != null) {
+        $errors = 'Email already exists.';
+    } 
+    
+    if (empty($errors)) {
+        // Insert the new user into the database with hashed password
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO tb_user (username, email, phone, token, password) VALUES ('$username', '$email', '$phone', '$token', '$hashedPassword')";
+        $insertResult = execute($sql);
 
-            if ($insertResult) {
-                //#1
-                $receiver = $_POST["email"]  ; // Corrected variable name
-                $subject = "Welcome to our website"; // Set a default subject
-                $message = "Thank you for registering on our website! Your token is: $token"; // Include the token in the message
+        if ($insertResult) {
+            // Save the token in the session for email confirmation
+            $_SESSION[$token] = $email;
 
-                //#2
-                $mail = new PHPMailer;
-                $mail->isSMTP();
-                $mail->SMTPDebug = SMTP::DEBUG_OFF;
-                $mail->Host = 'smtp.gmail.com';
-                $mail->Port = 587;
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-                $mail->SMTPAuth = true;
-                $mail->Username = 'nhilnts2210037@fpt.edu.vn';
-                $mail->Password = 'rzushtjlbjnppcft'; // sử dụng mật khẩu ứng dụng
-                $mail->FromName = "test Mail";
+            //#1
+            $receiver = $_POST["email"]; // Corrected variable name
+            $subject = "Welcome to our website"; // Set a default subject
+            $message = "Thank you for registering on our website! Your token is: $token"; // Include the token in the message
 
-                //#3
-                $mail->setFrom('nhilnts2210037@fpt.edu.vn');
-                $mail->addAddress($receiver);
-                $mail->Subject = $subject;
-                $mail->msgHTML($message);
+            //#2
+            $mail = new PHPMailer;
+            $mail->isSMTP();
+            $mail->SMTPDebug = SMTP::DEBUG_OFF;
+            $mail->Host = 'smtp.gmail.com';
+            $mail->Port = 587;
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPAuth = true;
+            $mail->Username = 'nhilnts2210037@fpt.edu.vn';
+            $mail->Password = 'rzushtjlbjnppcft'; // sử dụng mật khẩu ứng dụng
+            $mail->FromName = "test Mail";
 
-                //#4
-                if (!$mail->send()) {
-                    $errors = "Lỗi: " . $mail->ErrorInfo;
-                    header("Location: ../../register.php");
-                    echo "<script>alert('Fail !')</script>";
-                    exit(); // Added exit() after header redirect to stop further execution
-                } else {
-                    header("Location: ../../confirm-code-Mail.php");
-                    echo "<script>alert('Successfully sent!')</script>";
-                    exit(); // Added exit() after header redirect to stop further execution
-                }
+            //#3
+            $mail->setFrom('nhilnts2210037@fpt.edu.vn');
+            $mail->addAddress($receiver);
+            $mail->Subject = $subject;
+            $mail->msgHTML($message);
+
+            //#4
+            if (!$mail->send()) {
+                $errors = "Lỗi: " . $mail->ErrorInfo;
+                header("Location: ../../register.php");
+                echo "<script>alert('Fail !')</script>";
+                exit(); // Added exit() after header redirect to stop further execution
+            } else {
+                header("Location: ../../confirm-code-Mail.php");
+                echo "<script>alert('Successfully sent!')</script>";
+                exit(); // Added exit() after header redirect to stop further execution
             }
         }
     }
-
+}
 ?>
+
 
 
 <!DOCTYPE html>
