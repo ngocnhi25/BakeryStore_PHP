@@ -1,6 +1,6 @@
 
 <?php
-require_once("../admin/connect/connectDB.php");
+require_once("../connect/connectDB.php");
 
 
 $email = $password = '';
@@ -35,8 +35,7 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet"
-        href="../admin/CSS/login-register.css"/>
+    <link rel="stylesheet" href="../css/login-register.css"/>
     <title>Login Page</title>
 </head>
 <body>
@@ -61,7 +60,7 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
                     </div>
                     <button type="submit" name="submit">Log In</button>
                     <div class="register">
-                        <p>Don't have an account? <a href="signIn.html">Sign In</a></p>
+                        <p>Don't have an account? <a href="register.php">Sign In</a></p>
                     </div>
                 </form>
             </div>
