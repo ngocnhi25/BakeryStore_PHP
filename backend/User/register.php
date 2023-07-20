@@ -1,3 +1,93 @@
+<?php
+session_start();
+require_once("../connect/connectDB.php");
+$username = $email = $password = $repeatPassword = "";
+$errors = $phone = $token = '';
+
+define("APPPATH", "./");
+
+include APPPATH . "PHPMailer.php";
+include APPPATH . "Exception.php";
+include APPPATH . "OAuth.php";
+include APPPATH . "POP3.php";
+include APPPATH . "SMTP.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
+if (isset($_POST['submit'])) { // Check if the form is submitted
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $repeatPassword = $_POST["repeatPassword"];
+    $token = md5(rand());
+
+    if (isset($_POST['phone'])) {
+        $phone = $_POST['phone'];
+        if (!preg_match("/^[0-9]{10,12}$/", $phone) && $phone != '') {
+            $errors = 'Invalid Phone';
+        }
+    }
+
+    if ($password != $repeatPassword) {
+        $errors = 'Passwords don\'t match!';
+    } 
+    
+    // Check if the email exists in the database
+    $sql = "SELECT * FROM tb_user WHERE email = '$email'";
+    $result = executeResult($sql);
+        if ($result != null) {
+            $errors = 'Email already exists.';
+        } 
+        
+        if( empty($errors)) {
+            // Insert the new user into the database with hashed password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $sql = "INSERT INTO tb_user (username, email, phone, token, password) VALUES ($username, $email, $phone, $token, $hashedPassword)";
+            $insertResult = execute($sql);
+
+            if ($insertResult) {
+                //#1
+                $receiver = $_POST["email"]  ; // Corrected variable name
+                $subject = "Welcome to our website"; // Set a default subject
+                $message = "Thank you for registering on our website! Your token is: $token"; // Include the token in the message
+
+                //#2
+                $mail = new PHPMailer;
+                $mail->isSMTP();
+                $mail->SMTPDebug = SMTP::DEBUG_OFF;
+                $mail->Host = 'smtp.gmail.com';
+                $mail->Port = 587;
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->SMTPAuth = true;
+                $mail->Username = 'nhilnts2210037@fpt.edu.vn';
+                $mail->Password = 'rzushtjlbjnppcft'; // sử dụng mật khẩu ứng dụng
+                $mail->FromName = "test Mail";
+
+                //#3
+                $mail->setFrom('nhilnts2210037@fpt.edu.vn');
+                $mail->addAddress($receiver);
+                $mail->Subject = $subject;
+                $mail->msgHTML($message);
+
+                //#4
+                if (!$mail->send()) {
+                    $errors = "Lỗi: " . $mail->ErrorInfo;
+                    header("Location: ../../register.php");
+                    echo "<script>alert('Fail !')</script>";
+                    exit(); // Added exit() after header redirect to stop further execution
+                } else {
+                    header("Location: ../../confirm-code-Mail.php");
+                    echo "<script>alert('Successfully sent!')</script>";
+                    exit(); // Added exit() after header redirect to stop further execution
+                }
+            }
+        }
+    }
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -13,49 +103,35 @@
             <div class="form-value">
                 <form action="" method="post">
                     <h2 class="login-h2">Register Form</h2>
-
-                    <div style="text-align: center;    margin-top: 10px;">
-                        <p style="color: red;">
-                            <?php echo $errors?>
-                        </p>
-                    </div>
+                    <?php if (!empty($errors)) { ?>
+                        <p style="color: red;"><?php echo $errors; ?></p>
+                    <?php } ?>
                     <div class="inputbox">
-                        <ion-icon name="mail"></ion-icon>
-                        <input type="text" name="username" required><br>
-                        <label>Username:</label>
+                        <ion-icon name="person"></ion-icon>
+                        <input type="text" name="username">
+                        <label for="">Username:</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
                         <input type="email" name="email" required >
-                        <label for=""> Email : </label>
+                        <label for="">Email :</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="mail"></ion-icon>
+                        <input type="text" name="phone" required >
+                        <label for="">Phone :</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-open"></ion-icon>
                         <input type="password" name="password" required>
-                        <label for=""> Your Password : </label>
+                        <label for="">Your Password :</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-closed"></ion-icon>
                         <input type="password" name="repeatPassword" required>
-                        <label for="">Repeat Your Password : </label>
+                        <label for="">Repeat Your Password :</label>
                     </div>
                     <button type="submit" name="submit">Submit</button>
-                    <div class="">
-                        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
-                        </fb:login-button>
-
-                        <div id="status">
-                        </div>
-
-                        <div id="fb-root"></div>
-                        <script async defer crossorigin="anonymous"
-                            src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0"
-                            nonce="NycYYZOm"></script>
-
-                        <!-- Load the JS SDK asynchronously -->
-                        <!-- <div class="fb-login-button" data-width="500" data-size="" data-button-type="" data-layout=""
-                            data-auto-logout-link="false" data-use-continue-as="false"></div> -->
-                    </div>
                     <div class="register">
                         <p> Tôi đã có tài khoản <a href="login.php"> Đăng Nhập </a></p>
                     </div>
@@ -66,49 +142,4 @@
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script>
-    function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-        console.log('statusChangeCallback');
-        console.log(response);                   // The current login status of the person.
-        if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-            testAPI();
-        } else {                                 // Not logged into your webpage or we are unable to tell.
-            document.getElementById('status').innerHTML = 'Please log ' +
-                'into this webpage.';
-        }
-    }
-
-
-    function checkLoginState() {               // Called when a person is finished with the Login Button.
-        FB.getLoginStatus(function (response) {   // See the onlogin handler
-            statusChangeCallback(response);
-        });
-    }
-
-
-    window.fbAsyncInit = function () {
-        FB.init({
-            appId: '{app-id}',
-            cookie: true,                     // Enable cookies to allow the server to access the session.
-            xfbml: true,                     // Parse social plugins on this webpage.
-            version: '{api-version}'           // Use this Graph API version for this call.
-        });
-
-
-        FB.getLoginStatus(function (response) {   // Called after the JS SDK has been initialized.
-            statusChangeCallback(response);        // Returns the login status.
-        });
-    };
-
-    function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function (response) {
-            console.log('Successful login for: ' + response.name);
-            document.getElementById('status').innerHTML =
-                'Thanks for logging in, ' + response.name + '!';
-        });
-    }
-
-</script>
-
 </html>
