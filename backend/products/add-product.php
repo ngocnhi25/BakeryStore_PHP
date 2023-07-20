@@ -196,7 +196,6 @@ function checkCate($value)
 </head>
 
 <body>
-
     <div>
         <h1>
             <?php echo (($title != null ? $title : 'Add Product')) ?>

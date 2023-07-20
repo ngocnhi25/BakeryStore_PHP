@@ -3,6 +3,10 @@ $hostname='localhost';
 $usernamedb='root';
 $passworddb='';
 $database='projecthk2';
+$conn =mysqli_connect($hostname, $usernamedb, $passworddb, $database);
+      if(!$conn){
+          die();
+        }
 
 //su dung cho cau lenh select
 function executeResult($sql){
