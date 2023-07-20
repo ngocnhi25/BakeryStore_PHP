@@ -1,3 +1,10 @@
+<?php
+
+require_once('backend/connect/connectDB.php');
+$product = executeResult("SELECT * FROM tb_products");
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -456,138 +463,37 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="row">
+                    
+                  <?php foreach ($product as $p) { ?>
                     <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
                       <div class="one-product-container">
 
                         <div class="product-images">
                           <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-                            <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-                            <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
+                            <img src=<?php echo $p["image"] ?> alt="Opera Cake " />
+                            <img src=<?php echo $p["image"] ?> alt="Opera Cake " />
                           </a>
                         </div>
                         <div class="product-info">
                           <p class="product-name">
                             <a href="#/">
-                              Opera Cake
+                              <?php echo $p["product_name"] ?>
                             </a>
                           </p>
                           <div class="product-price">
 
-                            <span class="price">400,000&#8363;</span>
+                            <span class="price"><?php echo $p["price"]?></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                      <div class="one-product-container">
-
-                        <div class="product-images">
-                          <a class="product-image hover-animation" href="san-pham/mousse-chanh-leo-5">
-                            <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" alt="Mousse Chanh Leo" />
-                            <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" alt="Mousse Chanh Leo" />
-                          </a>
-                        </div>
-                        <div class="product-info">
-                          <p class="product-name">
-                            <a href="#/">
-                              Mousse Chanh Leo
-                            </a>
-                          </p>
-                          <div class="product-price">
-
-                            <span class="price">380,000&#8363;</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                      <div class="one-product-container">
-
-                        <div class="product-images">
-                          <a class="product-image hover-animation" href="san-pham/cream-cheese-layer-cake-36">
-                            <img src="source/B&aacute;nh Sinh Nhật/kembo 005a.jpg" alt="Cream Cheese Layer Cake" />
-                            <img src="source/B&aacute;nh Sinh Nhật/kembo 005a.jpg" alt="Cream Cheese Layer Cake" />
-                          </a>
-                        </div>
-                        <div class="product-info">
-                          <p class="product-name">
-                            <a href="#/">
-                              Cream Cheese Layer Cake
-                            </a>
-                          </p>
-                          <div class="product-price">
-
-                            <span class="price">350,000&#8363;</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                      <div class="one-product-container">
-
-                        <div class="product-images">
-                          <a class="product-image hover-animation" href="san-pham/red-velvet-cake-heart-71">
-                            <img src="source/B&aacute;nh Sinh Nhật/Red Velvet Cake 1.jpg" alt="Red Velvet Cake Heart" />
-                            <img src="source/B&aacute;nh Sinh Nhật/Red Velvet Cake 1.jpg" alt="Red Velvet Cake Heart" />
-                          </a>
-                        </div>
-                        <div class="product-info">
-                          <p class="product-name">
-                            <a href="#/">
-                              Red Velvet Cake Heart
-                            </a>
-                          </p>
-                          <div class="product-price">
-
-                            <span class="price">Liên hệ</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                      <div class="one-product-container">
-
-                        <div class="product-images">
-                          <a class="product-image hover-animation" href="san-pham/valentine-cake-002-72">
-                            <img src="source/Banh sự kiện/banhvalentine002.jpg" alt="Valentine cake 002" />
-                            <img src="source/Banh sự kiện/banhvalentine002.jpg" alt="Valentine cake 002" />
-                          </a>
-                        </div>
-                        <div class="product-info">
-                          <p class="product-name">
-                            <a href="#/">
-                              Valentine cake 002
-                            </a>
-                          </p>
-                          <div class="product-price">
-
-                            <span class="price">Liên hệ</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                      <div class="one-product-container">
-
-                        <div class="product-images">
-                          <a class="product-image hover-animation" href="san-pham/valentine-cake-003-73">
-                            <img src="source/Banh sự kiện/valentine 003.jpg" alt="Valentine cake 003" />
-                            <img src="source/Banh sự kiện/valentine 003.jpg" alt="Valentine cake 003" />
-                          </a>
-                        </div>
-                        <div class="product-info">
-                          <p class="product-name">
-                            <a href="#/">
-                              Valentine cake 003
-                            </a>
-                          </p>
-                          <div class="product-price">
-
-                            <span class="price">Liên hệ</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <?php } ?>
+                    
+                    
+                    
+                    
+                    
+                    
                   </div>
                   <div class="see-more">
                     <a href="danh-muc/banh-sinh-nhat">Xem

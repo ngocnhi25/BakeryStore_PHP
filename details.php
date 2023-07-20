@@ -1,3 +1,13 @@
+<?php
+require_once('backend/connect/connectDB.php');
+
+// if(isset($_POST["id"])){
+//   $id = $_POST["id"];
+// }
+$id = 2;
+
+$product = executeResult("SELECT * FROM tb_products where product_id = $id");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -244,14 +254,23 @@
           <div class="row">
             <div class="col-12 col-lg-7">
               <div class="detail-header show-mobile">
-                <h5 class="product-name">Mousse Chanh Leo</h5>
+
+                  <h5 class="product-name">
+                    <?php echo $product["product_name"] ?>
+                  </h5>
+
                 <span>(Cake Mousse Passion Fruit)</span>
               </div>
               <div class="product-imgs">
                 <ul id="lightSlider">
                   <li data-thumb="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
                     <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
-                      <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" class="img-fluid" />
+
+                    <?php foreach ($product as $p) { ?>
+                      <img src=<?php echo $p["image"] ?> class="img-fluid">
+                    <?php } ?>
+                    
+
                     </a>
                   </li>
                 </ul>
@@ -276,7 +295,11 @@
             <div class="col-12 col-lg-5">
               <div class="product-detail-container">
                 <div class="detail-header show-desktop">
-                  <h5 class="product-name">Mousse Chanh Leo</h5>
+                  <?php foreach ($product as $p) { ?>
+                    <h5 class="product-name">
+                      <?php echo $p["product_name"] ?>
+                    </h5>
+                  <?php } ?>
                   <span>(Cake Mousse Passion Fruit)</span>
                 </div>
                 <div class="detail-body">
@@ -331,7 +354,11 @@
                       </b>
                       <div class="col-md-7">
                         <span class="product-price">
-                          <span class="price text-price"></span>
+                          
+                        <?php foreach ($product as $p) { ?>
+                          <span class="price text-price"><?php echo $p["price"] ?></span>
+                        <?php } ?>
+                        
                         </span>
                       </div>
                     </div>
@@ -367,13 +394,13 @@
                 <div class="tab-content mt-3" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                     aria-labelledby="pills-home-tab">
-                    <p><span style="font-size: 12pt;">Mousse Chanh Leo l&agrave; một trong những c&aacute;ch tốt nhất
-                        để thưởng thức hương vị nhiệt đới đặc biệt của tr&aacute;i c&acirc;y.</span></p>
-                    <p><span style="font-size: 12pt;">Những miếng <a href="san-pham/banh-mousse-chanh-leo-5">mousse
-                          chanh leo</a> chua chua m&aacute;t m&aacute;t l&agrave; m&oacute;n b&aacute;nh hấp dẫn cho
-                        m&ugrave;a h&egrave;.</span></p>
-                    <p><span style="font-size: 12pt;">C&ocirc;ng thức của Thu Hương Bakery đứng đầu về d&ograve;ng
-                        mousse</span></p>
+                    
+                      <p><span style="font-size: 12pt;">
+                        <?php foreach ($product as $p) { ?>
+                          <?php echo $p["description"] ?>
+                          <?php } ?>
+                      </span></p>
+                       
                   </div>
                   <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                   </div>
@@ -656,9 +683,13 @@
   </script>
 
   <script>
-    var colors = [{ "id": null, "name": "Mousse 20cm" }, { "id": null, "name": "Mousse 22cm" }, { "id": null, "name": "Mousse 30cm" }];
-    var sizes = [{ "id": "9", "name": "Mousse 20cm" }, { "id": "10", "name": "Mousse 22cm" }, { "id": "11", "name": "Mousse 30cm" }];
-    var product = { "id": "5", "created_by": null, "code": "", "name": "Mousse Chanh Leo", "name_sub": "Cake Mousse Passion Fruit", "compositions": null, "alias": "mousse-chanh-leo", "image1": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "image2": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "video": null, "original_price": "320000", "price": "380000", "caption": "chanh leo, \u0111\u01b0\u1eddng tr\u1eafng, gelatin, whipping cream tatua, Cream cheese...", "preserve": "B\u1ea3o qu\u1ea3n m\u00e1t t\u1eeb 2\u00b0C - 6\u00b0C", "content": "<p><span style=\"font-size: 12pt;\">Mousse Chanh Leo l&agrave; m\u1ed9t trong nh\u1eefng c&aacute;ch t\u1ed1t nh\u1ea5t \u0111\u1ec3 th\u01b0\u1edfng th\u1ee9c h\u01b0\u01a1ng v\u1ecb nhi\u1ec7t \u0111\u1edbi \u0111\u1eb7c bi\u1ec7t c\u1ee7a tr&aacute;i c&acirc;y.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">Nh\u1eefng mi\u1ebfng <a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">mousse chanh leo<\/a> chua chua m&aacute;t m&aacute;t l&agrave; m&oacute;n b&aacute;nh h\u1ea5p d\u1eabn cho m&ugrave;a h&egrave;.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">C&ocirc;ng th\u1ee9c c\u1ee7a Thu H\u01b0\u01a1ng Bakery \u0111\u1ee9ng \u0111\u1ea7u v\u1ec1 d&ograve;ng mousse<\/span><\/p>", "tags": "<p><a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt T\u1ea1i H&agrave; N\u1ed9i<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt H&igrave;nh Logo C&ocirc;ng Ty<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; Trai<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; G&aacute;i<\/a><\/p>\r\n<p><a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">B&aacute;nh Mousse Chanh Leo<\/a><\/p>\r\n<p>&nbsp;<\/p>", "hot": "1", "best_seller": "1", "qty_status": "0", "view": 3710, "order_number": "1", "created_at": "2022-05-18 23:26:06", "updated_at": "2023-04-10 13:21:29", "status": "1", "title": "B\u00e1nh Mousse Chanh Leo | B\u00e1nh Sinh Nh\u1eadt | Mousse Passion Fruit", "keyword": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit", "description": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit" };
+    var colors = [{ "id": null, "name": "Mousse 20cm" }, 
+    { "id": null, "name": "Mousse 22cm" }, 
+    { "id": null, "name": "Mousse 30cm" }];
+    var sizes = [{ "id": "9", "name": "Mousse 20cm" },
+     { "id": "10", "name": "Mousse 22cm" }, 
+     { "id": "11", "name": "Mousse 30cm" }];
+    
     var productDetails = [{ "id": "363", "product_id": "5", "size": "9", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "380000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 20cm", "size_id": "9" }, { "id": "364", "product_id": "5", "size": "10", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "420000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 22cm", "size_id": "10" }, { "id": "365", "product_id": "5", "size": "11", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "500000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 30cm", "size_id": "11" }];
  // console.log(productDetails);
   </script>
