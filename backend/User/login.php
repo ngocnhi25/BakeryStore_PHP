@@ -1,5 +1,5 @@
 <?php
-require_once("../connect/connectDB.php");
+require_once("../../connect/connectDB.php");
 
 
 $email = $password = '';
@@ -33,7 +33,7 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/login-register.css"/>
+    <link rel="stylesheet" href="../../backend/css/login-register.css"/>
     <title>Login Page</title>
 </head>
 <body>
