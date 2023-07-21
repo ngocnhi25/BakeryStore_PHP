@@ -1,34 +1,3 @@
-<?php
-session_start();
-require_once("../connect/connectDB.php");
-
-// Check if the token is submitted via GET
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
-    $email = $_SESSION[$token];
-    
-    // Check if the token exists in the session and the corresponding email is present in the database
-    if (isset($_SESSION[$token]) && !empty($email)) {
-        // Update the user's status_login to 'active' to confirm the email
-        $sql = "UPDATE tb_user SET status_login = 'active' WHERE email = '$email'";
-        $updateResult = execute($sql);
-
-        if ($updateResult) {
-            // Email confirmed successfully, you can redirect the user to a success page or login page
-
-            // For demonstration purposes, let's redirect to a success page
-            header('Location: login.php');
-            exit;
-        } else {
-            echo "Failed to update status. Please try again.";
-        }
-    } else {
-        echo "Invalid or expired token.";
-    }
-} else {
-    echo "Token not provided.";
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +5,7 @@ if (isset($_GET['token'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
-    <link rel="stylesheet" href="../css/login-register.css"/>
+    <link rel="stylesheet" href="../../backend/css/login-register.css">
     <title>Code Comfirmation</title>
 </head>
 <body>

@@ -1,20 +1,26 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Page</title>
-    <link rel="stylesheet" href="../../backend/css/login-register.css"/>
+    <link rel="stylesheet" href="../../backend/css/login-register.css">
 </head>
 <body>
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="../User/code.php" method="post">
+                <form action="../../backend/User/code.php" method="post">
                     <h2 class="login-h2">Register Form</h2>
-                    <?php if (!empty($errors)) { ?>
-                        <p style="color: red;"><?php echo $errors; ?></p>
+                    <div>
+                    <?php if (isset($_SESSION['status'])) { ?>
+                        <p style="color: red;"><?php echo $_SESSION['status']; ?></p>
+                        <?php unset($_SESSION['status']); // Clear the session status after displaying ?>
                     <?php } ?>
+                    </div>
                     <div class="inputbox">
                         <ion-icon name="person"></ion-icon>
                         <input type="text" name="username" required >
@@ -26,7 +32,7 @@
                         <label for="">Email :</label>
                     </div>
                     <div class="inputbox">
-                        <ion-icon name="mail"></ion-icon>
+                    <ion-icon name="call"></ion-icon>
                         <input type="text" name="phone" required >
                         <label for="">Phone :</label>
                     </div>
