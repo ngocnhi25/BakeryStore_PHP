@@ -15,12 +15,6 @@ session_start();
             <div class="form-value">
                 <form action="../../backend/User/code.php" method="post">
                     <h2 class="login-h2">Register Form</h2>
-                    <div>
-                    <?php if (isset($_SESSION['status'])) { ?>
-                        <p style="color: red;"><?php echo $_SESSION['status']; ?></p>
-                        <?php unset($_SESSION['status']); // Clear the session status after displaying ?>
-                    <?php } ?>
-                    </div>
                     <div class="inputbox">
                         <ion-icon name="person"></ion-icon>
                         <input type="text" name="username" required >
@@ -54,6 +48,14 @@ session_start();
             </div>
         </div>
     </section>
+    <?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

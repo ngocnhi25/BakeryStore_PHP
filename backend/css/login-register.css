@@ -19,7 +19,19 @@ section {
 .form-box {
     position: relative;
     width: 600px;
-    height: 650px;
+    height: 500px;
+    background: rgba(240, 248, 255, 0.174);
+    border-radius: 20px;
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-box-confirmCodeEmail {
+    position: relative;
+    width: 500px;
+    height: 600px;
     background: rgba(240, 248, 255, 0.174);
     border-radius: 20px;
     backdrop-filter: blur(15px);

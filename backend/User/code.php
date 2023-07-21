@@ -23,7 +23,7 @@ function sendEmail_verify($username, $email, $token){
         $mail->Port = 587;
 
         //Recipients
-        $mail->setFrom('nhilnts2210037@fpt.edu.vn', $username);
+        $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
         $mail->addAddress($email,$username);
 
         //Content
@@ -82,15 +82,10 @@ if (isset($_POST["submit-btn"])){
     $sql_newUser_run = mysqli_query($conn, $sql_newUser);
 
     if ($sql_newUser_run) {
-        if (sendEmail_verify($username, $email, $token)) {
+            sendEmail_verify($username, $email, $token) ;
             $_SESSION['status'] = "Register Successfully! Please verify your Email Address!";
             header("Location: register.php");
             exit();
-        } else {
-            $_SESSION['status'] = "Failed to send verification email!";
-            header("Location: register.php");
-            exit();
-        }
     } else {
         $_SESSION['status'] = "Registration Fail!";
         header("Location: register.php");

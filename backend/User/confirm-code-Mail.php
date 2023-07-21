@@ -1,30 +1,37 @@
+<?php
+session_start();
+require_once("../../connect/connectDB.php");
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
-    <link rel="stylesheet" href="../../backend/css/login-register.css">
-    <title>Code Comfirmation</title>
-</head>
-<body>
-    <section>
-        <div class="form-box">
-            <div class="form-value">
-                <form action="" method="post">
-                    <h2 class="login-h2"> Code Comfirmation </h2>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed"></ion-icon>
-                        <input type="password" name="repeatPassword" required>
-                        <label for="">Repeat Your Password : </label>
-                    </div>
-                    <button type="submit" name="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-    </section>
-</body>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</html>
+if(isset($_GET["token"])){
+    $token = $_GET["token"] ;
+    $sql_verify = " SELECT token , status FROM tb_user WHERE token = '$token' LIMIT 1";
+    $sql_verify_run = mysqli_query($conn,  $sql_verify);
+
+    if(mysqli_num_rows($sql_verify_run) > 0 ){
+        $row = mysqli_fetch_array($sql_verify_run);
+        if($row['status'] == "0"){
+            $clicked_token = $row['token'] ;
+            $sql_update = "UPDATE tb_user SET status = '1' WHERE token = '$clicked_token' LIMIT 1";
+            $sql_update_run = mysqli_query($conn, $sql_update );
+
+            if( $sql_update_run){
+                $_SESSION['status'] = "Your Account has been verified successfully !";
+                header("Location: login.php ") ;
+                exit();
+            }else{
+                $_SESSION['status'] = "Verification Failed !";
+                header("Location: login.php ") ;
+                exit();
+            }
+        }else {
+            $_SESSION['status'] = "Email already verified . Please login !";
+            header("Location: login.php ") ;
+            exit();
+        }
+    }
+}else {
+    $_SESSION['status'] = " Not Allowed !";
+    header("Location: login.php ") ;
+    exit();
+}
+?>
