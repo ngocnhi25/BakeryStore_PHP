@@ -1,6 +1,6 @@
 <?php
 
-require_once('backend/connect/connectDB.php');
+require_once('connect/connectDB.php');
 $product = executeResult("SELECT * FROM tb_products");
 
 ?>

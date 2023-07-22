@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../connect/connectDB.php");
+require_once("../../connect/connectDB.php");
 
 // Check if the token is submitted via GET
 if (isset($_GET['token'])) {

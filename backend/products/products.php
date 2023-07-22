@@ -4,6 +4,11 @@ require_once('../../connect/connectDB.php');
 $products = executeResult("select * from tb_products p
                             inner join tb_category c 
                             on p.cate_id = c.cate_id");
+$allProduct = executeSingleResult("select count(*) as total from tb_products");
+
+// echo '<pre>';
+// print_r($allProduct);
+// die();
 
 ?>
 <!DOCTYPE html>
@@ -48,7 +53,7 @@ $products = executeResult("select * from tb_products p
         <h1>Product Page</h1>
         <div>
             <div class="total-items">
-                <p>Products All: <span>125</span></p>
+                <p>Products All: <span><?= $allProduct["total"] ?></span></p>
                 <p>Products Delete: <span>25</span></p>
             </div>
         </div>
@@ -82,7 +87,7 @@ $products = executeResult("select * from tb_products p
                             <td><?= $product["cate_name"] ?></td>
                             <td class="button">
                                 <button id="editProduct" onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="edit">Edit</button>
-                                <button type="button" class="delete">Delete</button>
+                                <button type="button" class="delete" onclick='deleteProduct(<?= $product["product_id"] ?>)'>Delete</button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -99,7 +104,7 @@ $products = executeResult("select * from tb_products p
                 }
                 $.ajax({
                     type: "GET",
-                    url: "products/add-product.php", // Điền URL của trang mới ở đây
+                    url: "products/product-add.php", // Điền URL của trang mới ở đây
                     data: postData,
                     success: function(response) {
                         // Xử lý kết quả trả về sau khi chuyển trang thành công
@@ -110,6 +115,15 @@ $products = executeResult("select * from tb_products p
                         console.error("Lỗi: " + error);
                     }
                 });
+            }
+            function deleteProduct(id) {
+                $.post(
+                    "delete/product_delete.php",
+                    { id: id },
+                    function(data){
+                        alert(data);
+                    }
+                )
             }
     </script>
 </body>

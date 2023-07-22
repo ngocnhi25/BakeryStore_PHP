@@ -50,7 +50,7 @@ function checkRowTable($sql){
     $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
     $result = mysqli_query($con, $sql);
     if($result != null){
-        $row = mysqli_fetch_row($result);
+        $row = mysqli_num_rows($result);
     }
     mysqli_close($con);
     return $row;

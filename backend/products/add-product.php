@@ -14,6 +14,10 @@ $errors["name"] =
 
 $category = executeResult("SELECT * FROM tb_category");
 
+// echo '<pre>';
+// print_r($category);
+// die();
+
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d H:i:s');
 
@@ -167,7 +171,7 @@ function checkAndUploadFile($file, $target_dir, $size_allow, $type_allow)
             if ($size <= $size_allow) {
                 move_uploaded_file($file["tmp_name"], $thumbnailLink);
             } else {
-                $result['error'] = 'size_err';
+                $result['error'] = $file["tmp_name"].','. $thumbnailLink;
             }
         } else {
             $result['error'] = 'type_err';
@@ -192,7 +196,10 @@ function checkCate($value)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/408p82mzgtitwtkc01bmbjchrnbzm4tc67jdfy6ouuzd59uu/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tinymce/tinymce-jquery@1/dist/tinymce-jquery.min.js"></script>
 </head>
 
 <body>
