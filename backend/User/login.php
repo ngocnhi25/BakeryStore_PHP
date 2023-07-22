@@ -1,30 +1,7 @@
 <?php
-require_once("../connect/connectDB.php");
+session_start();
+require_once("../../connect/connectDB.php");
 
-
-$email = $password = '';
-$errors["email"] = $errors["password"] = $errors["invalid"]='';
-
-if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-
-        $sql = "SELECT * FROM tbUsers WHERE email = '$email' AND password = '$password'";
-        $result = executeSingleResult($sql);
-        
-        if($result != null){
-            if($result['role'] == 1){
-                header("Location: index.php");
-                exit;
-            }
-            if($result['role'] == 2){
-                header("Location: admin.html");
-                exit;
-            }
-        } else {
-            $errors["invalid"] = 'Invalid username or password';
-        }
-    }
 
 ?>
 <!DOCTYPE html>
@@ -33,7 +10,7 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/login-register.css"/>
+    <link rel="stylesheet" href="../../backend/css/login-register.css">
     <title>Login Page</title>
 </head>
 <body>
@@ -64,6 +41,14 @@ if (isset($_POST["submit"]) && !empty($_POST["submit"])) {
             </div>
         </div>
     </section>
+    <?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

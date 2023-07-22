@@ -1,8 +1,20 @@
 <?php 
-require_once('connect/connectDB.php');
+session_start();
+require_once('./connect/connectDB.php');
 
+<<<<<<< HEAD
 $id = 4;
 $product = executeSingleResult("select * from tb_products where product_id = $id");
+=======
+$id = 2;
+$product = executeResult("select * from tb_products where product_id = $id");
+$flaror = executeResult("select * from tb_flaror");
+$size = executeResult("select * from tb_product_size");
+if(isset($_POST["add_to_cart"])){
+  
+}
+
+>>>>>>> d406f3448d47e9392ea068de0a0d6e8fbb39ad2a
 
 ?>
 
@@ -46,7 +58,7 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
   <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 
@@ -89,6 +101,9 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
 
     gtag('config', 'G-QERL8JJ8K1');
   </script>
+  <style>
+    
+  </style>
 </head>
 
 <body>
@@ -252,8 +267,18 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
           <div class="row">
             <div class="col-12 col-lg-7">
               <div class="detail-header show-mobile">
+<<<<<<< HEAD
                 <h5 class="product-name">helllo</h5>
                 <span>(Cake Mousse Passion Fruit)</span>  
+=======
+
+                  <h5 class="product-name">
+                    <?php echo $product["product_name"] ?>
+                  </h5>
+
+                <span>(Cake Mousse Passion Fruit)</span>
+
+>>>>>>> d406f3448d47e9392ea068de0a0d6e8fbb39ad2a
               </div>
               <div class="product-imgs">
                 <ul id="lightSlider">
@@ -284,7 +309,13 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
             <div class="col-12 col-lg-5">
               <div class="product-detail-container">
                 <div class="detail-header show-desktop">
+<<<<<<< HEAD
                   <h5 class="product-name"><?= $product["product_name"] ?></h5>
+=======
+                  <h5 class="product-name"><?php foreach ($product as $p) { ?>
+                      <?php echo $p["product_name"] ?>
+                    <?php } ?></h5>
+>>>>>>> d406f3448d47e9392ea068de0a0d6e8fbb39ad2a
                   <span>(Cake Mousse Passion Fruit)</span>
                 </div>
                 <div class="detail-body">
@@ -296,44 +327,28 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
                     </div>
                     <div class="row">
                       <b class="col-5">Mã sản phẩm:</b>
-                      <span class="col-7"></span>
-                    </div>
-                    <div class="row">
-                      <b class="col-5">Thành phần:</b>
-                      <span class="col-7">chanh leo, đường trắng, gelatin, whipping cream tatua, Cream
-                        cheese...</span>
-                    </div>
-                    <div class="row">
-                      <b class="col-5">Bảo quản:</b>
-                      <span class="col-7">Bảo quản m&aacute;t từ 2&deg;C - 6&deg;C</span>
+                      <span class="col-7"><?php foreach ($product as $p) { ?>
+                      <?php echo $p["product_id"] ?>
+                    <?php } ?></span>
                     </div>
                     <div class="size-zone option-zone row">
-                      <b class="col-md-12">Kích thước:</b>
-                      <ul class="product-sizes">
-                        <li>
-                          <label class="option-container btn active" for="size9">
-                            Mousse 20cm
-                            <input type="radio" name="size" id="size9" class="input-option size-option" value="9"
-                              checked data-value="Mousse 20cm">
-                          </label>
-                        </li>
-                        <li>
-                          <label class="option-container btn " for="size10">
-                            Mousse 22cm
-                            <input type="radio" name="size" id="size10" class="input-option size-option" value="10"
-                              data-value="Mousse 22cm">
-                          </label>
-                        </li>
-                        <li>
-                          <label class="option-container btn " for="size11">
-                            Mousse 30cm
-                            <input type="radio" name="size" id="size11" class="input-option size-option" value="11"
-                              data-value="Mousse 30cm">
-                          </label>
-                        </li>
-                      </ul>
+                    <b class="col-5">nhan banh:</b>
+                    
+                        <select>
+                            <option value="0">Select Cake:</option>
+                            <?php foreach ($flaror as $f) { ?>
+                                <option value="0"><?php echo $f["flaror_name"] ?></option>
+                            <?php } ?>
+                        </select>
+                    
+                    <?php
+                    if (!empty($errors["cateID"])) {
+                        echo '<p style="color: red;">' . $errors["cateID"] . '</p>';
+                    }
+                    ?>
                     </div>
                     <div class="row">
+<<<<<<< HEAD
                       <b class="col-md-4">
                         Giá bán:
                       </b>
@@ -341,14 +356,67 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
                         <span class="product-price">
                           <span class="price text-price"></span>
                         </span>
+=======
+                      <b class="col-5">Số Lượng:</b>
+                      <span class="col-7">
+                      <div class="col-lg-2" style="display: flex;">
+                      <button class="minus">-</button>
+                      <input type="text" name="quantity" id="quantity" value="0" style="width: 50px;">
+                      <button class="plus">+</button>
+>>>>>>> d406f3448d47e9392ea068de0a0d6e8fbb39ad2a
                       </div>
                     </div>
-                    <b> Giá có thể thay đổi theo kích cỡ:</b> <span class="text-yellow">Liên hệ</span>
-                    <input class="quantity-input" type="hidden" min="1" value="1" autocomplete="off" />
-                    <button class="add-to-cart js-add-to-cart">
+                    <script>
+                        document.querySelector('.minus').addEventListener('click', function() {
+                          updateQuantity(-1); // Call the updateQuantity function with -1 to decrease the quantity
+                        });
+
+                        document.querySelector('.plus').addEventListener('click', function() {
+                          updateQuantity(1); // Call the updateQuantity function with 1 to increase the quantity
+                        });
+
+                        // Function to update the quantity based on the change parameter (1 or -1)
+                        function updateQuantity(change) {
+                          var quantityInput = document.getElementById('quantity');
+                          var currentQuantity = parseInt(quantityInput.value);
+                          
+                          if (!isNaN(currentQuantity)) { // Check if the current value is a valid number
+                            var newQuantity = currentQuantity + change; // Calculate the new quantity
+                            if (newQuantity >= 0) {
+                              quantityInput.value = newQuantity; // Update the input field with the new quantity
+                            }
+                          }
+                        }
+                    </script>
+                    <div class="size-zone option-zone row">
+                      <b class="col-5">size banh:</b>
+                      <select>
+                          <option value="0">Select size:</option>
+                          <?php foreach ($size as $s) { ?>
+                              <option value="0"><?php echo $s["size"] ?></option>
+                          <?php } ?>
+                      </select>
+                    </div>
+                    <?php
+                    if (!empty($errors["cateID"])) {
+                        echo '<p style="color: red;">' . $errors["cateID"] . '</p>';
+                    }
+                    ?>
+                    <div class="row">
+                      <b class="col-5">Price:</b>
+                      <span class="col-7"><?php foreach ($product as $p) { ?>
+                      <?php echo $p["product_id"] ?>
+                    <?php } ?></span>
+                    </div>
+                    <!-- <form action=""> -->
+                    <!-- <a href="gio-hang.php"> -->
+                    <button class="add-to-cart js-add-to-cart" name="add_to_cart">
                       <img src="public/frontend/assets/img/icons/shopping-bag.svg" alt="" />
                       Thêm vào giỏ
                     </button>
+                    <!-- </a> -->
+                    <!-- </form> -->
+                    
                     <button class="add-to-cart mt-3 contact-card">
                       Đặt hàng nhanh nhất <br> 090 754 6668 | 096 938 6611
                     </button>
@@ -647,7 +715,8 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
 
 
 
-  <script src="public/frontend/assets/js/main.js?v=1.0.8"></script>
+  <script src="public/frontend/assets/js/main.js"></script>
+  <script src="public/frontend/assets/js/product_page.js"></script>
   <script src="public/myplugins/js/messagebox.js"></script>
 
   <!-- Load Facebook SDK for JavaScript -->
@@ -664,11 +733,21 @@ $product = executeSingleResult("select * from tb_products where product_id = $id
   </script>
 
   <script>
+<<<<<<< HEAD
     var colors = [{ "id": null, "name": "Mousse 20cm" }, { "id": null, "name": "Mousse 22cm" }, { "id": null, "name": "Mousse 30cm" }];
     var sizes = [{ "id": "9", "name": "Mousse 20cm" }, { "id": "10", "name": "Mousse 22cm" }, { "id": "11", "name": "Mousse 30cm" }];
     var product = { "id": "5", "created_by": null, "code": "", "name": "Mousse Chanh Leo", "name_sub": "Cake Mousse Passion Fruit", "compositions": null, "alias": "mousse-chanh-leo", "image1": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "image2": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "video": null, "original_price": "320000", "price": "380000", "caption": "chanh leo, \u0111\u01b0\u1eddng tr\u1eafng, gelatin, whipping cream tatua, Cream cheese...", "preserve": "B\u1ea3o qu\u1ea3n m\u00e1t t\u1eeb 2\u00b0C - 6\u00b0C", "content": "<p><span style=\"font-size: 12pt;\">Mousse Chanh Leo l&agrave; m\u1ed9t trong nh\u1eefng c&aacute;ch t\u1ed1t nh\u1ea5t \u0111\u1ec3 th\u01b0\u1edfng th\u1ee9c h\u01b0\u01a1ng v\u1ecb nhi\u1ec7t \u0111\u1edbi \u0111\u1eb7c bi\u1ec7t c\u1ee7a tr&aacute;i c&acirc;y.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">Nh\u1eefng mi\u1ebfng <a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">mousse chanh leo<\/a> chua chua m&aacute;t m&aacute;t l&agrave; m&oacute;n b&aacute;nh h\u1ea5p d\u1eabn cho m&ugrave;a h&egrave;.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">C&ocirc;ng th\u1ee9c c\u1ee7a Thu H\u01b0\u01a1ng Bakery \u0111\u1ee9ng \u0111\u1ea7u v\u1ec1 d&ograve;ng mousse<\/span><\/p>", "tags": "<p><a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt T\u1ea1i H&agrave; N\u1ed9i<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt H&igrave;nh Logo C&ocirc;ng Ty<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; Trai<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; G&aacute;i<\/a><\/p>\r\n<p><a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">B&aacute;nh Mousse Chanh Leo<\/a><\/p>\r\n<p>&nbsp;<\/p>", "hot": "1", "best_seller": "1", "qty_status": "0", "view": 3710, "order_number": "1", "created_at": "2022-05-18 23:26:06", "updated_at": "2023-04-10 13:21:29", "status": "1", "title": "B\u00e1nh Mousse Chanh Leo | B\u00e1nh Sinh Nh\u1eadt | Mousse Passion Fruit", "keyword": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit", "description": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit" };
+=======
+    var colors = [{ "id": null, "name": "Mousse 20cm" }, 
+    { "id": null, "name": "Mousse 22cm" }, 
+    { "id": null, "name": "Mousse 30cm" }];
+    var sizes = [{ "id": "9", "name": "Mousse 20cm" },
+     { "id": "10", "name": "Mousse 22cm" }, 
+     { "id": "11", "name": "Mousse 30cm" }];
+    var product = [{ "id": "5", "created_by": null, "code": "", "name": "Mousse Chanh Leo", "name_sub": "Cake Mousse Passion Fruit", "compositions": null, "alias": "mousse-chanh-leo", "image1": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "image2": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "video": null, "original_price": "320000", "price": "380000", "caption": "chanh leo, \u0111\u01b0\u1eddng tr\u1eafng, gelatin, whipping cream tatua, Cream cheese...", "preserve": "B\u1ea3o qu\u1ea3n m\u00e1t t\u1eeb 2\u00b0C - 6\u00b0C", "content": "<p><span style=\"font-size: 12pt;\">Mousse Chanh Leo l&agrave; m\u1ed9t trong nh\u1eefng c&aacute;ch t\u1ed1t nh\u1ea5t \u0111\u1ec3 th\u01b0\u1edfng th\u1ee9c h\u01b0\u01a1ng v\u1ecb nhi\u1ec7t \u0111\u1edbi \u0111\u1eb7c bi\u1ec7t c\u1ee7a tr&aacute;i c&acirc;y.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">Nh\u1eefng mi\u1ebfng <a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">mousse chanh leo<\/a> chua chua m&aacute;t m&aacute;t l&agrave; m&oacute;n b&aacute;nh h\u1ea5p d\u1eabn cho m&ugrave;a h&egrave;.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">C&ocirc;ng th\u1ee9c c\u1ee7a Thu H\u01b0\u01a1ng Bakery \u0111\u1ee9ng \u0111\u1ea7u v\u1ec1 d&ograve;ng mousse<\/span><\/p>", "tags": "<p><a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt T\u1ea1i H&agrave; N\u1ed9i<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt H&igrave;nh Logo C&ocirc;ng Ty<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; Trai<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; G&aacute;i<\/a><\/p>\r\n<p><a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">B&aacute;nh Mousse Chanh Leo<\/a><\/p>\r\n<p>&nbsp;<\/p>", "hot": "1", "best_seller": "1", "qty_status": "0", "view": 3710, "order_number": "1", "created_at": "2022-05-18 23:26:06", "updated_at": "2023-04-10 13:21:29", "status": "1", "title": "B\u00e1nh Mousse Chanh Leo | B\u00e1nh Sinh Nh\u1eadt | Mousse Passion Fruit", "keyword": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit", "description": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit" }];
+>>>>>>> d406f3448d47e9392ea068de0a0d6e8fbb39ad2a
     var productDetails = [{ "id": "363", "product_id": "5", "size": "9", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "380000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 20cm", "size_id": "9" }, { "id": "364", "product_id": "5", "size": "10", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "420000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 22cm", "size_id": "10" }, { "id": "365", "product_id": "5", "size": "11", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "500000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 30cm", "size_id": "11" }];
- // console.log(productDetails);
+//  console.log(productDetails);
   </script>
   <script src="public/frontend/assets/js/product_page.js"></script>
   </div>

@@ -2,60 +2,36 @@
 session_start();
 require_once("../../connect/connectDB.php");
 
-// Check if the token is submitted via GET
-if (isset($_GET['token'])) {
-    $token = $_GET['token'];
-    $email = $_SESSION[$token];
-    
-    // Check if the token exists in the session and the corresponding email is present in the database
-    if (isset($_SESSION[$token]) && !empty($email)) {
-        // Update the user's status_login to 'active' to confirm the email
-        $sql = "UPDATE tb_user SET status_login = 'active' WHERE email = '$email'";
-        $updateResult = execute($sql);
+if(isset($_GET["token"])){
+    $token = $_GET["token"] ;
+    $sql_verify = " SELECT token , status FROM tb_user WHERE token = '$token' LIMIT 1";
+    $sql_verify_run = mysqli_query($conn,  $sql_verify);
 
-        if ($updateResult) {
-            // Email confirmed successfully, you can redirect the user to a success page or login page
+    if(mysqli_num_rows($sql_verify_run) > 0 ){
+        $row = mysqli_fetch_array($sql_verify_run);
+        if($row['status'] == "0"){
+            $clicked_token = $row['token'] ;
+            $sql_update = "UPDATE tb_user SET status = '1' WHERE token = '$clicked_token' LIMIT 1";
+            $sql_update_run = mysqli_query($conn, $sql_update );
 
-            // For demonstration purposes, let's redirect to a success page
-            header('Location: login.php');
-            exit;
-        } else {
-            echo "Failed to update status. Please try again.";
+            if( $sql_update_run){
+                $_SESSION['status'] = "Your Account has been verified successfully !";
+                header("Location: login.php ") ;
+                exit();
+            }else{
+                $_SESSION['status'] = "Verification Failed !";
+                header("Location: login.php ") ;
+                exit();
+            }
+        }else {
+            $_SESSION['status'] = "Email already verified . Please login !";
+            header("Location: login.php ") ;
+            exit();
         }
-    } else {
-        echo "Invalid or expired token.";
     }
-} else {
-    echo "Token not provided.";
+}else {
+    $_SESSION['status'] = " Not Allowed !";
+    header("Location: login.php ") ;
+    exit();
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Page</title>
-    <link rel="stylesheet" href="../css/login-register.css"/>
-    <title>Code Comfirmation</title>
-</head>
-<body>
-    <section>
-        <div class="form-box">
-            <div class="form-value">
-                <form action="" method="post">
-                    <h2 class="login-h2"> Code Comfirmation </h2>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed"></ion-icon>
-                        <input type="password" name="repeatPassword" required>
-                        <label for="">Repeat Your Password : </label>
-                    </div>
-                    <button type="submit" name="submit">Submit</button>
-                </form>
-            </div>
-        </div>
-    </section>
-</body>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-</html>

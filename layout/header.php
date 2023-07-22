@@ -77,7 +77,7 @@
               </a>
             </li>
             <li>
-              <a href="banh-sinh-nhat.php">
+              <a href="product.php">
                 B&aacute;nh Sinh Nhật
               </a>
             </li>
@@ -106,7 +106,7 @@
         <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
           <ul class="mobile-menu-list">
             <li>
-              <a href="danh-muc/banh-sinh-nhat">
+              <a href="danh-muc/product">
                 B&aacute;nh sinh nhật
                 <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
               </a>
@@ -118,7 +118,7 @@
               </ul>
             </li>
             <li>
-              <a href="danh-muc/banh-sinh-nhat-cho-be">
+              <a href="danh-muc/product-cho-be">
                 B&aacute;nh Sinh Nhật Cho B&eacute;
                 <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
               </a>
@@ -233,7 +233,7 @@
                 </a>
                 <ul class="submenu">
                   <li>
-                    <a href="danh-muc/banh-sinh-nhat">
+                    <a href="danh-muc/product">
                       B&aacute;nh sinh nhật
                       <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -245,7 +245,7 @@
                     </ul>
                   </li>
                   <li>
-                    <a href="danh-muc/banh-sinh-nhat-cho-be">
+                    <a href="danh-muc/product-cho-be">
                       B&aacute;nh Sinh Nhật Cho B&eacute;
                       <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -290,7 +290,7 @@
                 </a>
               </li>
               <li class="li-menu">
-                <a href="danh-muc/banh-sinh-nhat.php">
+                <a href="danh-muc/product.php">
                   Sản Phẩm
                 </a>
               </li>
