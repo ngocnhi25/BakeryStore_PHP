@@ -361,24 +361,8 @@ $(document).ready(function() {
 
     // Click add to cart button
     $('.js-add-to-cart').click(function(e){
-        let productID = product.id;
-        let productDetailID = 0;
-        let quantity = $('.quantity-input').val();
+        
 
-        if (productDetails.length > 0) {
-            let colorID = $('.color-option:checked').val();
-            let sizeID = $('.size-option:checked').val();
-            if (check_valid_color_and_size(colorID, sizeID)) {
-                $(productDetails).each(function(index, detail) {
-                    if (detail.color == colorID && detail.size == sizeID) {
-                        productDetailID = detail.id;
-                        return true;
-                    }
-                });
-            }
-        }
-
-        ajaxAddToCart(productID, productDetailID, quantity);
         alert("oke");
     });
 
@@ -403,30 +387,6 @@ $(document).ready(function() {
     });
 
 });
-
-function ajaxAddToCart(productID, productDetailID, quantity) {
-    let params = {
-        product_id: productID,
-        product_detail_id: productDetailID,
-        quantity: quantity
-    };
-    console.log(params);
-
-    $.ajax({
-            url: baseUrl + 'ajax/add-to-cart',
-            type: 'GET',
-            data: params
-        })
-        .done(function(response) {
-            console.log("success");
-            updateCartSidebarView();
-
-            $('.js-toggle-cart-sidebar')[0].click();
-        })
-        .fail(function() {
-            console.log("error");
-        });
-}
 
 function updateCartItemQuantity(rowid, quantity) {
     let params = {

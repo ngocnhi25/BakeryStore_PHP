@@ -81,59 +81,32 @@ $category = executeResult("SELECT * FROM tb_category");
 </div>
 
 <script type="text/javascript">
-    // function previewFiles(inputElement, previewElement, errorCheck) {
-    //     const maxSizeMB = 3;
-    //     const maxSizeBytes = maxSizeMB * 1024 * 1024;
-    //     $(previewElement).empty();
-    //     if (inputElement.files) {
-    //         $.each(inputElement.files, function(i, file) {
-    //             $.ajax({
-    //                 type: "POST",
-    //                 url: "checks/file-existence.php", // Replace with the PHP file that handles the server-side check
-    //                 data: {
-    //                     fileName: file.name
-    //                 },
-    //                 success: function(response) {
-    //                     if (response === "exists") {
-    //                         $(errorCheck).html(`<p style="color: red;">${file.name} exists on the server.</p>`);
-    //                     } else {
-    //                         if (file.type.startsWith("image/")) {
-    //                             if (file.size <= maxSizeBytes) {
-    //                                 var reader = new FileReader();
-    //                                 $(reader).on("load", function() {
-    //                                     $(previewElement).append($("<img/>", {
-    //                                         src: this.result,
-    //                                         width: 200
-    //                                     }));
-    //                                 });
-    //                                 reader.readAsDataURL(file);
-    //                             } else {
-    //                                 $(errorCheck).empty().append("File " + file.name + " exceeds the maximum size of " + maxSizeMB + "MB.");
-    //                             }
-    //                         } else {
-    //                             $(errorCheck).empty().append("File " + file.name + " is not an image.");
-    //                         }
-    //                     }
-    //                 },
-    //                 error: function(xhr, status, error) {
-    //                     console.error("AJAX request failed:", error);
-    //                 }
-    //             });
-    //         });
-    //     }
-    // }
-
-
+    function previewFiles(inputElement, previewElement) {
+        $(previewElement).empty();
+        if (inputElement.files) {
+            $.each(inputElement.files, function(i, file) {
+                var reader = new FileReader();
+                $(reader).on("load", function() {
+                    $(previewElement).append($("<img/>", {
+                        src: this.result,
+                        width: 200
+                    }));
+                });
+                reader.readAsDataURL(file);
+            });
+        }
+    }
 
     $("#submitData").click(function(e) {
         e.preventDefault();
         $(document).ready(function() {
             var formData = new FormData();
+            var editor = ClassicEditor.instances.editor;
 
             formData.append("name", $('#input-name').val());
             formData.append("price", $('#input-price').val());
             formData.append("cateID", $('#input-cateID').val());
-            formData.append("description", $('#editor').val().trim());
+            formData.append("description", editor.getData());
             formData.append("image", $('#input-image').get(0).files[0]);
 
             var totalFiles = $('#input-images').get(0).files.length;
@@ -148,20 +121,23 @@ $category = executeResult("SELECT * FROM tb_category");
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res)
+                    alert(res);
                     if (res == 'success') {
                         alert('thêm thành công');
                     } else {
-                        var errors = $.parseJSON(res);
+                        var errors = JSON.parse(res);
                         for (var key in errors) {
-                            if (typeof errors[$key] === 'object') {
-                                for (let errorThumnail in errors[$key]) {
-                                    const subElement = $('<p></p>').text(`${errorThumnail}: ${jsonData[key][errorThumnail]}`);
-                                    $('.' + key).append(subElement);
+                            if (errors.hasOwnProperty(key)) {
+                                if (typeof errors[key] === 'object') {
+                                    $('.' + key).empty();
+                                    for (let subkey in errors[key]) {
+                                        const subElement = $('<p style="color: red;"></p>').text(`${subkey}: ${errors[key][subkey]}`);
+                                        $('.' + key).append(subElement);
+                                    }
+                                } else {
+                                    var value = errors[key];
+                                    $('.' + key).empty().append(value);
                                 }
-                            } else {
-                                var value = errors[key];
-                                $('.' + key).empty().append(value);
                             }
                         }
                     }
@@ -172,10 +148,12 @@ $category = executeResult("SELECT * FROM tb_category");
 
     $(document).ready(function() {
         $('#input-images').on("change", function() {
+            previewFiles(this, "#preview-images");
             $(".errorThubnail").empty().append('');
         });
 
         $('#input-image').on("change", function() {
+            previewFiles(this, "#preview-image");
             $(".errorImage").empty().append('');
         });
 

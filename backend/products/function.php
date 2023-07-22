@@ -49,7 +49,7 @@ if (isset($_POST["cateID"]) && !empty($_POST["cateID"])) {
 }
 // description
 if (isset($_POST["description"]) && !empty($_POST["description"])) {
-    $description = $_POST["description"];
+    echo $_POST["description"];
 } else {
     $errors["errorDescription"] = 'Description cannot be blank';
 }
@@ -109,16 +109,15 @@ if (isset($_FILES["images"]["name"])) {
 }
 
 
-
-if (
-!empty($errors["errorImage"])
-|| $errors["errorThubnail"] != null
-|| !empty($errors["errorCateID"])
-|| !empty($errors["errorDescription"])
-|| !empty($errors["errorPrice"])
-  ||  !empty($errors["errorName"])
-) {
-    echo json_encode($errors);
-} else {
-    echo 'success';
-}
+// if (
+// empty($errors["errorImage"])
+// && !empty($errors["errorThubnail"])
+// && !empty($errors["errorCateID"])
+// && !empty($errors["errorDescription"])
+// && !empty($errors["errorPrice"])
+//   &&  !empty($errors["errorName"])
+// ) {
+    
+// } else {
+//     echo json_encode($errors);
+// }
