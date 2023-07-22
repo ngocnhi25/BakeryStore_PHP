@@ -37,20 +37,21 @@ $cates = executeResult("select * from tb_category");
                     </thead>
                     <tbody>
                         <?php foreach ($cates as $key => $cate) { 
-                            $row = executeSingleResult("select count(*) as total from tb_products where cate_id = $key");
+                            $cate_id = $cate["cate_id"];
+                            $row = executeSingleResult("select count(*) as total from tb_products where cate_id = $cate_id");
                         ?>
                             <tr>
                                 <td>
                                     <input type="checkbox" name="" id="">
                                 </td>
-                                <td><?= $key ?></td>
+                                <td><?= $key + 1 ?></td>
                                 <td><?= $cate["cate_name"] ?></td>
                                 <td><?php echo $row["total"] ?></td>
                                 <td>
                                     <?php if($row["total"] > 0){ ?>
                                         <button class="notDelete">Delete</button>
                                     <?php  } else { ?>
-                                        <button id="deleteCate" class="delete" data-id="<?= $cate["cate_name"] ?>" type="button">Delete</button>
+                                        <button class="delete" onclick='deleteCate(<?= $cate["cate_id"] ?>)' type="button">Delete</button>
                                     <?php } ?>
                                 </td>
                             </tr>
@@ -62,23 +63,15 @@ $cates = executeResult("select * from tb_category");
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#deleteCate').click(function(e) {
-                e.preventDefault();
-                var id = $(this).data('id');
-
-                alert(id);
-                // $.post(
-                //     "../delete/cate_delete.php",
-                //     {
-                //         id: id
-                //     },
-                //     function(){
-
-                //     }
-                // )
-            })
-        })
+            function deleteCate(id) {
+                $.post(
+                    "delete/cate_delete.php",
+                    { id: id },
+                    function(data){
+                        ajaxSidebar(data);
+                    }
+                )
+            }
     </script>
 </body>
 

@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once('./connect/connectDB.php');
+require_once('connect/connectDB.php');
 
-$id = 2;
+$id = 4;
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flaror");
 $size = executeResult("select * from tb_product_size");
