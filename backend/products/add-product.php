@@ -230,95 +230,10 @@ function checkCate($value)
                         <select>
                             <option value="0">Select Cake:</option>
                             <?php foreach ($category as $c) { ?>
-                                <option value="0"><?php echo $c["cate_id"] ?> . <?php echo $c["cate_name"] ?></option>
+                                <option value="<?php echo $c["cate_id"] ?>"><?php echo $c["cate_name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>
-                    <script>
-                        var x, i, j, l, ll, selElmnt, a, b, c;
-                        /*look for any elements with the class "custom-select":*/
-                        x = document.getElementsByClassName("custom-select");
-                        l = x.length;
-                        for (i = 0; i < l; i++) {
-                            selElmnt = x[i].getElementsByTagName("select")[0];
-                            ll = selElmnt.length;
-                            /*for each element, create a new DIV that will act as the selected item:*/
-                            a = document.createElement("DIV");
-                            a.setAttribute("class", "select-selected");
-                            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-                            x[i].appendChild(a);
-                            /*for each element, create a new DIV that will contain the option list:*/
-                            b = document.createElement("DIV");
-                            b.setAttribute("class", "select-items select-hide");
-                            for (j = 1; j < ll; j++) {
-                                /*for each option in the original select element,
-                                create a new DIV that will act as an option item:*/
-                                c = document.createElement("DIV");
-                                c.innerHTML = selElmnt.options[j].innerHTML;
-                                c.addEventListener("click", function (e) {
-                                    /*when an item is clicked, update the original select box,
-                                    and the selected item:*/
-                                    var y, i, k, s, h, sl, yl;
-                                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                                    sl = s.length;
-                                    h = this.parentNode.previousSibling;
-                                    for (i = 0; i < sl; i++) {
-                                        if (s.options[i].innerHTML == this.innerHTML) {
-                                            s.selectedIndex = i;
-                                            h.innerHTML = this.innerHTML;
-                                            y = this.parentNode.getElementsByClassName("same-as-selected");
-                                            yl = y.length;
-                                            for (k = 0; k < yl; k++) {
-                                                y[k].removeAttribute("class");
-                                            }
-                                            this.setAttribute("class", "same-as-selected");
-                                            break;
-                                        }
-                                    }
-                                    h.click();
-                                });
-                                b.appendChild(c);
-                            }
-                            x[i].appendChild(b);
-                            a.addEventListener("click", function (e) {
-                                /*when the select box is clicked, close any other select boxes,
-                                and open/close the current select box:*/
-                                e.stopPropagation();
-                                closeAllSelect(this);
-                                this.nextSibling.classList.toggle("select-hide");
-                                this.classList.toggle("select-arrow-active");
-                            });
-                        }
-                        function closeAllSelect(elmnt) {
-                            /*a function that will close all select boxes in the document,
-                            except the current select box:*/
-                            var x, y, i, xl, yl, arrNo = [];
-                            x = document.getElementsByClassName("select-items");
-                            y = document.getElementsByClassName("select-selected");
-                            xl = x.length;
-                            yl = y.length;
-                            for (i = 0; i < yl; i++) {
-                                if (elmnt == y[i]) {
-                                    arrNo.push(i)
-                                } else {
-                                    y[i].classList.remove("select-arrow-active");
-                                }
-                            }
-                            for (i = 0; i < xl; i++) {
-                                if (arrNo.indexOf(i)) {
-                                    x[i].classList.add("select-hide");
-                                }
-                            }
-                        }
-                        /*if the user clicks anywhere outside the select box,
-                        then close all select boxes:*/
-                        document.addEventListener("click", closeAllSelect);
-                    </script>
-                    <?php
-                    if (!empty($errors["cateID"])) {
-                        echo '<p style="color: red;">' . $errors["cateID"] . '</p>';
-                    }
-                    ?>
                 </div>
             </div>
             <div class="mt">
@@ -364,27 +279,6 @@ function checkCate($value)
                     ?>
                 </div>
             </div>
-            <div class="mt">
-                <label for="">Description</label> <br>
-                <textarea id="tiny" name="description" class="description" cols="20"
-                    rows="5"><?= $description ?></textarea>
-            </div>
-            <script>
-                $('textarea#tiny').tinymce({
-                    height: 250,
-                    menubar: false,
-                    plugins: [
-                        'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
-                        'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-                        'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-                    ],
-                    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist checklist outdent indent | removeformat | code table help'
-                });
-            </script>
-
-            <div class="mt" style="text-align: center;">
-                <input type="submit" value="Save" class="btn-save">
-            </div>
         </form>
     </div>
     <script>
@@ -414,21 +308,7 @@ function checkCate($value)
             }
         }
 
-        function previewImages() {
-            var $preview = $("#preview-images").empty();
-            if (this.files) $.each(this.files, readAndPreview);
-
-            function readAndPreview(i, file) {
-                var reader = new FileReader();
-                $(reader).on("load", function () {
-                    $preview.append($("<img/>", {
-                        src: this.result,
-                        width: 200
-                    }));
-                });
-                reader.readAsDataURL(file);
-            }
-        }
+        
         $('#input-images').on("change", previewImages);
         $('#input-image').on("change", previewImage);
     </script>

@@ -363,7 +363,6 @@ $(document).ready(function() {
     $('.js-add-to-cart').click(function(e){
         
 
-        alert("oke");
     });
 
     // Xóa 1 cart item => update quantity = 0
