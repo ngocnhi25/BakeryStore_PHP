@@ -1943,6 +1943,18 @@ footer ul li a:hover {
   justify-content: center;
   align-items: center;
 }
+.add-to-cart{
+  width: 245px;
+  padding: 5px;
+  color: #fff;
+  background-color: #f4c522;
+  border: 1px solid #f4c522;
+  border-radius: 8px;
+  cursor: pointer;
+  
+  outline: none;
+  
+}
 /* line 137, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product.scss */
 .product-page .product-detail-container .detail-body .button-zone .add-to-cart img {
   width: 30px;
@@ -2302,7 +2314,7 @@ section.product-information img {
 /* line 145, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
 .one-product-container .product-info .price {
   color: #f4c522;
-  float: left;
+  /* float: left; */
 }
 /* line 149, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
 /* line 150, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
