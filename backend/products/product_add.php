@@ -36,77 +36,7 @@ function checkCate($value)
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
-    <style>
-        .ck-editor__editable[role="textbox"] {
-            /* editing area */
-            min-height: 200px;
-        }
-
-        .ck-content .image {
-            /* block images */
-            max-width: 80%;
-            margin: 20px auto;
-        }
-
-        #successMessage {
-            height: 100vh;
-            width: 100%;
-            position: fixed;
-            top: 0;
-            left: 0;
-            display: none;
-            justify-content: center;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .message {
-            width: 400px;
-            height: 200px;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .message p {
-            font-size: 16px;
-            margin: 0;
-            padding-bottom: 10px;
-        }
-
-        .button-success {
-            margin-top: 2rem;
-            text-align: end;
-        }
-
-        .message button {
-            margin: 5px;
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: #007bff;
-            color: #ffffff;
-            cursor: pointer;
-        }
-
-        .message button:hover {
-            background-color: #0056b3;
-        }
-
-        #oldThumbnail,
-        #preview-images {
-            display: flex;
-            gap: 1.2rem;
-        }
-
-        #oldThumbnail img,
-        #preview-images img {
-            width: 200px;
-            border-radius: 5px;
-            vertical-align: middle;
-        }
-    </style>
+    <link rel="stylesheet" href="css/table.css">
 </head>
 <div style=" width: 100%;">
     <h1><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
@@ -172,6 +102,7 @@ function checkCate($value)
     CKEDITOR.replace('description');
 </script>
 <script type="text/javascript">
+    $("#successMessage").hide();
     function previewFiles(inputElement, previewElement) {
         $(previewElement).empty();
         if (inputElement.files) {
@@ -209,12 +140,12 @@ function checkCate($value)
 
             $.ajax({
                 type: "POST",
-                url: 'products/handleInsert.php',
+                url: 'handles/creates/create_product.php',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res);
+                    // alert(res);
                     if (res == 'success') {
                         showSuccessMessage();
                     } else {
@@ -245,7 +176,7 @@ function checkCate($value)
         $("#okButton").on("click", function() {
             $("#successMessage").hide();
             $.ajax({
-                url: "products/<?php echo (($id == null ? 'product-add.php' : 'products.php')) ?>",
+                url: "products/<?php echo (($id == null ? 'product_add.php' : 'products.php')) ?>",
                 method: "GET",
                 dataType: "html",
                 success: function(response) {

@@ -1,5 +1,5 @@
 <?php
-require_once('../../connect/connectDB.php');
+require_once('../../../connect/connectDB.php');
 
 $errors = [];
 $uploads_imagesLink = $uploads_tmp_name = [];

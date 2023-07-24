@@ -40,7 +40,6 @@
   margin: 0;
   padding: 0;
   outline: 0;
-  appearance: none;
   border: 0;
   text-decoration: none;
   list-style: none;
@@ -515,111 +514,5 @@ aside .sidebar .sub-btn .less{
     cursor: pointer;
   }
 }
-.table_customer {
-  margin-top: 1rem;
-  width: 100%;
-  min-width: 900px;
-  height: 500px;
-  /* border: 0.15rem solid #657b7f; */
-  border-radius: 0.6rem;
-  /* background-color: var(--color-background-table); */
-  overflow: auto;
-}
 
-.table_customer::-webkit-scrollbar {
-  width: 0.5rem;
-  height: 0.5rem;
-}
-
-.table_customer::-webkit-scrollbar-thumb {
-  border-radius: 0.5rem;
-  background-color: #0004;
-  visibility: hidden;
-}
-
-.table_customer:hover::-webkit-scrollbar-thumb {
-  visibility: visible;
-}
-
-table {
-  width: 100%;
-}
-
-table,
-td {
-  border-collapse: collapse;
-  padding: 0.8rem;
-  text-align: center;
-  color: #000;
-}
-
-thead th {
-  padding: 0.5rem;
-  text-align: center;
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #1572cefe;
-  cursor: pointer;
-  text-transform: capitalize;
-  border-right: 1px solid var(--color-light);
-  font-weight: 600;
-}
-
-thead th:first-child,
-tbody td:first-child {
-  text-align: center;
-  width: 3.7rem;
-}
-
-thead th:lats-child {
-  border: none;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
-tbody tr:hover {
-  background-color: #fff6 !important;
-}
-tbody td {
-  border-right: 1px solid var(--color-light);
-}
-
-tbody tr {
-  --delay: 0.1s;
-  transition: 0.5s ease-in-out var(--delay), background-color 0s;
-  border-bottom: 1px solid var(--color-light);
-}
-
-.customers td img {
-  width: 36px;
-  height: 36px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-  left: 0;
-  vertical-align: middle;
-}
-
-.products .image-product {
-  width: 180px;
-}
-
-.products td img {
-  border-radius: 5px;
-  width: 100%;
-  vertical-align: middle;
-}
-
-.disposition {
-  text-align: end;
-}
-
-td.textLong {
-  max-width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis; /* Hiển thị dấu ba chấm */
-  white-space: nowrap;
-}
 

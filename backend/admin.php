@@ -1,18 +1,13 @@
-<?php
-$title = 'dashboard';
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
+    <title>Admin NgocNhiBakery</title>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> -->
-    <!-- <script src="//cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
     <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
 
 </head>
@@ -73,7 +68,7 @@ $title = 'dashboard';
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/product-add.php">
+                                <a href="products/product_add.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>Products add</h4>
@@ -108,7 +103,7 @@ $title = 'dashboard';
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
+                        <a href="products/category_add.php" class="nav-link">
                             <span class="material-symbols-sharp">insights</span>
                             <h3>Analytics</h3>
                         </a>
@@ -116,7 +111,7 @@ $title = 'dashboard';
                     <li class="nav-item">
                         <a href="./signIn.php" class="nav-link">
                             <span class="material-symbols-sharp">mail</span>
-                            <h3>Messages</h3>
+                            <h3>Feedbacks</h3>
                             <span class="message-count">27</span>
                         </a>
                     </li>

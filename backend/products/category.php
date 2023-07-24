@@ -6,15 +6,17 @@ $cates = executeResult("select * from tb_category");
 ?>
 
 <head>
+    <link rel="stylesheet" href="css/table.css">
     <style>
-        .notDelete {
-            opacity: 0.5;
+        .create {
+            background-color: #58e4c8fe;
         }
     </style>
 </head>
 
-<div class="category">
+<div class="table_category">
     <h1>Category</h1>
+    <button class="create" onclick="createProduct()">Create new Category</button>
     <div>
         <table>
             <table>
@@ -41,9 +43,10 @@ $cates = executeResult("select * from tb_category");
                             <td><?= $key + 1 ?></td>
                             <td><?= $cate["cate_name"] ?></td>
                             <td><?php echo $row["total"] ?></td>
-                            <td>
+                            <td class="button">
+                                <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button">Update</button>
                                 <?php if ($row["total"] > 0) { ?>
-                                    <button class="notDelete">Delete</button>
+                                    <button class="notDelete delete">Delete</button>
                                 <?php  } else { ?>
                                     <button class="delete" onclick='deleteCate(<?= $cate["cate_id"] ?>)' type="button">Delete</button>
                                 <?php } ?>
@@ -59,12 +62,26 @@ $cates = executeResult("select * from tb_category");
 <script>
     function deleteCate(id) {
         $.post(
-            "delete/cate_delete.php", {
+            "handles/deletes/cate_delete.php", {
                 id: id
             },
             function(data) {
                 ajaxSidebar(data);
             }
         )
+    }
+
+    function createProduct() {
+        $.ajax({
+            url: 'products/category_add.php',
+            method: "POST",
+            dataType: "html",
+            success: function(response) {
+                $("#main-page").html(response);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
     }
 </script>
