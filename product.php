@@ -1,7 +1,80 @@
 <?php
 require_once("connect/connectDB.php");
+require_once("pagination.class.php");
+// include("getresult.php");
+require_once("connect/dbcontroller.php");
+require_once("pagination.class.php");
 $sanpham = executeResult("SELECT * from tb_products");
 $cate = executeResult("SELECT * FROM tb_category");
+$db_handle = new DBController();
+$perPage = new PerPage();
+
+$sql = "SELECT * FROM tb_products";
+$paginationlink = "getresult.php?page=";
+$pagination_setting = isset($_GET["pagination_setting"]) ? $_GET["pagination_setting"] : "";
+
+$page = 1;
+if (!empty($_GET["page"])) {
+    $page = $_GET["page"];
+}
+
+// Adjust the number of items per page here (e.g., 3 items per page)
+$itemsPerPage = 3;
+$start = ($page - 1) * $itemsPerPage;
+if ($start < 0) $start = 0;
+
+$query =  $sql . " LIMIT " . $start . "," . $itemsPerPage;
+$faq = $db_handle->runQuery($query);
+
+if (empty($_GET["rowcount"])) {
+    $_GET["rowcount"] = $db_handle->numRows($sql);
+}
+
+if ($pagination_setting == "prev-next") {
+    $perpageresult = $perPage->getPrevNext($_GET["rowcount"], $paginationlink, $pagination_setting);
+} else {
+    $perpageresult = $perPage->getAllPageLinks($_GET["rowcount"], $paginationlink, $pagination_setting);
+}
+
+$output = '';
+if (!empty($faq)) {
+    foreach ($faq as $sp) {
+        $output .= '
+        <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
+            <div class="one-product-container">
+                <div class="product-images">
+                    <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
+                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
+                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
+                    </a>
+                </div>
+                <div style="margin-left: 15px;">
+                    <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
+                        <a href="#/">' . $sp["product_name"] . '</a>
+                        <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
+                        <input type="hidden" name="name" id="name' . $sp["product_id"] . '" value="' . $sp["product_name"] . '">
+                    </p>
+                    <div class="">
+                        <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
+                    </div>
+                    <div>
+                        <input type="number" width="100px" id="quantity' . $sp["product_id"] . '">
+                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 5px;">
+                    <input type="submit" value="Thêm vào giỏ hàng" width="100px" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                </div>
+            </div>
+        </div>';
+    }
+} else {
+    $output .= '<div class="no-results">No products found.</div>';
+}
+
+if (!empty($perpageresult)) {
+    $output .= '<div id="pagination">' . $perpageresult . '</div>';
+}
+// print($output)
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +117,80 @@ $cate = executeResult("SELECT * FROM tb_category");
   <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
   <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
 
+  <style>
+    .link {
+      padding: 10px 15px;
+      background: transparent;
+      border: #bccfd8 1px solid;
+      border-left: 0px;
+      cursor: pointer;
+      color: #607d8b
+    }
+
+    .disabled {
+      cursor: not-allowed;
+      color: #bccfd8;
+    }
+
+    .current {
+      background: #bccfd8;
+    }
+
+    .first {
+      border-left: #bccfd8 1px solid;
+    }
+
+    .question {
+      font-weight: bold;
+    }
+
+    .answer {
+      padding-top: 10px;
+    }
+
+    #pagination {
+      margin-top: 20px;
+      padding-top: 30px;
+      border-top: #F0F0F0 1px solid;
+    }
+
+    .dot {
+      padding: 10px 15px;
+      background: transparent;
+      border-right: #bccfd8 1px solid;
+    }
+
+    #overlay {
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    #overlay div {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      margin-top: -32px;
+      margin-left: -32px;
+    }
+
+    .page-content {
+      padding: 20px;
+      margin: 0 auto;
+    }
+
+    .pagination-setting {
+      padding: 10px;
+      margin: 5px 0px 10px;
+      border: #bccfd8 1px solid;
+      color: #607d8b;
+    }
+  </style>
 
   <!-- PLUGIN CSS -->
 
@@ -90,9 +237,6 @@ $cate = executeResult("SELECT * FROM tb_category");
 
 <body>
   <?php include("layout/header.php"); ?>
-
-
-
 
   <div class="breadcrumb">
     <div class="container">
@@ -237,45 +381,14 @@ $cate = executeResult("SELECT * FROM tb_category");
             <p class="section-title">B&aacute;nh Sinh Nhật</p>
             <input type="hidden" name="cate_id" value="1">
           </div>
-          <div class="section-body">
-            <div class="row">
-              <?php foreach ($sanpham as $sp) { ?>
-                <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-                  <div class="one-product-container">
-                    <div class="product-images">
-                      <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
-                        <img src=<?php echo $sp["image"] ?> alt="Valentine cake 006" />
-                        <img src=<?php echo $sp["image"] ?> alt="Valentine cake 006" />
-                      </a>
-                    </div>
-                    <div style="margin-left: 15px;">
-                      <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
-                        <a href="#/">
-                          <?php echo $sp["product_name"] ?>
-                          <input type='hidden' name='price' id="price<?php echo $sp["product_id"]; ?>"
-                            value='<?php echo $sp["price"]; ?>'>
-                          <input type='hidden' name='name' id="name<?php echo $sp["product_id"]; ?>"
-                            value='<?php echo $sp["product_name"]; ?>'>
-                        </a>
-                      </p>
-                      <div class="">
-                        <span class="price" style="font-weight: 700; color: red;">
-                          <?php echo $sp["price"] ?>$
-                        </span>
-                      </div>
-                    </div>
-                    <div style="text-align: center; margin-top: 5px;">
-                      <input type="submit" value="Thêm vào giỏ hàng" width="100px" class="add-to-cart add"
-                        id="<?php echo $sp["product_id"]; ?>" name='add_to_cart'>
-                    </div>
-                  </div>
-                </div>
-              <?php } ?>
+          <div class="section-body" >
+            <div class="row" id="pagination-result">
+              <?php print($output) ?>
             </div>
           </div>
-          <div class="section-bottom has-pagination">
-            <div class="website-pagination">
-
+          <div class="page-content">
+            <div>
+              <input type="hidden" name="rowcount" id="rowcount" />
             </div>
           </div>
         </div>
@@ -357,42 +470,51 @@ $cate = executeResult("SELECT * FROM tb_category");
   <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
     crossorigin="anonymous"></script>
 
-  <script type="text/javascript">
-
+  <script>
     $(document).ready(function () {
-
-      // show_cart();
-
-      // function show_cart() {
-      //   $.ajax({
-      //     method: "POST",
-      //     url: "show_cart.php",
-      //     success: function (data) {
-      //       $(".show_cart").html(data);
-      //     }
-      //   });
-      // }
-
-
       $(document).on("click", ".add", function () {
         var id = $(this).attr("id");
-        var name = $("#name" + id + "").val();
-        var price = $("#price" + id + "").val();
-        // var quantity = $("#quantity" + id + "").val();
+        var name = $("#name" + id).val();
+        var price = $("#price" + id).val();
+        var quantity = $("#quantity" + id).val();
+
+        // Validate the quantity to be a positive integer
+        if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
+          alert("Please enter a valid quantity.");
+          return;
+        }
 
         $.ajax({
           method: "POST",
           url: "add_to_cart.php",
-          data: { id: id, name: name, price: price },
+          data: { id: id, name: name, price: price, quantity: quantity }, // Include the quantity in the data sent to the server
           success: function (data) {
-            alert("you have add new item");
-            // window.location.href = "gio-hang.php"
+            alert("You have added a new item to the cart.");
+            // Optional: You may update the cart count or display a message to the user.
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            alert("An error occurred while adding the item to the cart. Please try again.");
           }
         });
       });
-
     });
 
+    function getresult(url) {
+      $.ajax({
+        url: url,
+        type: "GET",
+        data: { rowcount: $("#rowcount").val(), "pagination_setting": $("#pagination-setting").val() },
+        success: function (data) {
+          $("#pagination-result").html(data);
+        },
+        error: function () { }
+      });
+    }
+    // function changePagination(option) {
+    //   if (option != "") {
+    //     getresult("getresult.php");
+    //   }
+    // }
   </script>
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
   <script>

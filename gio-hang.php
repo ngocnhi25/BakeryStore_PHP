@@ -113,22 +113,22 @@
         </div>
       </div>
       <div class="section-footer">
-        <table class="table table-bordered my-5">
-          <tr>
-            <th>product_id</th>
-            <th>cate_id</th>
-            <th>price</th>
-            <th>quantity</th>
-            <th>action</th>
-          </tr>
+        <?php if (!empty($_SESSION['cart'])) { ?>
+          <table class="table table-bordered my-5">
+            <tr>
+              <th>product_id</th>
+              <th>cate_id</th>
+              <th>price</th>
+              <th>quantity</th>
+              <th>action</th>
+            </tr>
 
-          <?php
+            <?php
 
-          $total_price = 0;
+            $total_price = 0;
 
-          if (!empty($_SESSION['cart'])) {
-
-            foreach ($_SESSION['cart'] as $key => $value) { ?>
+            foreach ($_SESSION['cart'] as $key => $value) {
+              ?>
               <tr>
                 <td>
                   <?php echo $value['id']; ?>
@@ -147,33 +147,25 @@
                 </td>
               </tr>
 
-              <?php $total_price = $total_price + $value['quantity'] * $value['price']; ?>
+              <?php
+              $total_price = $total_price + $value['quantity'] * $value['price'];
+            }
+            ?>
 
-
-
-            <?php }
-          } else { ?>
-          <tr>
-            <td class="text-center" colspan="5">NO ITEM SELECTED</td>
-          </tr>
-          <?php }
-
-
-
-
-          ?>
-
-          <tr>
-            <td colspan="2"></td>
-            <td>Total Price</td>
-            <td>
-              <?php echo number_format($total_price, 2); ?>
-            </td>
-            <td>
-              <button class="btn btn-warning clearall">Clear All</button>
-            </td>
-          </tr>
-        </table>
+            <tr>
+              <td colspan="2"></td>
+              <td>Total Price</td>
+              <td>
+                <?php echo number_format($total_price, 2); ?>
+              </td>
+              <td>
+                <button class="btn btn-warning clearall">Clear All</button>
+              </td>
+            </tr>
+          </table>
+        <?php } else { ?>
+          <p class="text-center">NO ITEM SELECTED</p>
+        <?php } ?>
       </div>
     </div>
   </section>
