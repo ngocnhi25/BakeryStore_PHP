@@ -1,5 +1,5 @@
 <head>
-    <link rel="stylesheet" href="./css/customer.css">
+    <link rel="stylesheet" href="css/customer.css">
 </head>
 <div class="customers">
     <h1>Customer Management</h1>

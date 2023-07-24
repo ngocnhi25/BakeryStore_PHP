@@ -81,7 +81,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                             <td><?= $key + 1 ?></td>
                             <td><?= $product["product_name"] ?></td>
                             <td class="image-product">
-                                <img src="../../<?= $product["image"] ?>" alt="" width="200px">
+                                <img src="../<?= $product["image"] ?>" alt="" width="200px">
                             </td>
                             <td><?= $product["price"] ?> vnđ</td>
                             <td><?= $product["cate_name"] ?></td>
