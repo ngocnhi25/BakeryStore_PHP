@@ -145,8 +145,8 @@ function checkCate($value)
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    // alert(res);
-                    if (res == 'success') {
+                    alert(res);
+                    if (typeof res === 'string') {
                         showSuccessMessage();
                     } else {
                         var errors = JSON.parse(res);

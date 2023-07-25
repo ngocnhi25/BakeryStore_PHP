@@ -2,75 +2,98 @@
 require_once("../../../connect/connectDB.php");
 
 $errorNum = 0;
-$errors = $flavorName = $flavorIncrease = $sizeName = $sizeIncrease = [];
-$errors["cateName"] =
-$errors["flavors"] =
-$errors["sizes"] =
+$errors = $flavorsInsert = $sizesInsert = [];
+$errors["errorCateName"] =
+$errors["errorFlavors"] =
+$errors["errorSizes"] =
  '';
 
 if(isset($_POST["name"]) && !empty($_POST["name"])){
     $name = trim($_POST["name"]);
     $cates = checkRowTable("SELECT * FROM tb_category WHERE cate_name = '$name'");
     if ($cates != 0) {
-        $errors["cateName"] = 'Category name already exists';
+        $errors["errorCateName"] = 'Category name already exists';
         $errorNum = 1;
     } else {
         if (strlen($name) <= 3) {
-            $errors["cateName"] = 'Product name must be more than 3 characters';
+            $errors["errorCateName"] = 'Product name must be more than 3 characters';
             $errorNum = 1;
         }
     }
 } else {
-    $errors["cateName"] = 'Product category cannot be empty';
+    $errors["errorCateName"] = 'Product category cannot be empty';
     $errorNum = 1;
 }
 
-if(isset($_POST["flavors"]) && isset($_POST["flavor_increase"])){
-    $flavors = $_POST["flavors"];
+if(isset($_POST["flavors"])){
+    $checked_array_flavor = $_POST["flavors"];
+    $flavorsData = $_POST["flavorName"];
     $flavor_increase = $_POST["flavor_increase"];
-    foreach($flavors as $key => $flavor){
-        if($flavor_increase[$key] == null){
-            $errors["flavors"] = "Do not leave the box you selected blank";
-            $errorNum = 1;
-        } elseif ($flavor_increase[$key] < 0){
-            $errors["flavors"] = "Price increase must be greater than or equal to 0";
-            $errorNum = 1;
-        } else {
-            $flavorName[$key] = $flavor;
-            $flavorIncrease[$key] = $flavor_increase[$key];
-            $errorNum = 0;
+    foreach($flavorsData as $key => $flavor){
+        if(in_array($flavorsData[$key], $checked_array_flavor)){
+            if($flavorsData[$key] == null){
+                $errors["errorFlavors"] = "Do not leave the box you selected blank";
+                $errorNum = 1;
+            } elseif ($flavor_increase[$key] < 0){
+                $errors["errorFlavors"] = "Price increase must be greater than or equal to 0";
+                $errorNum = 1;
+            } else {
+                $flavorsInsert[$key]["flavor"] = $flavorsData[$key];
+                $flavorsInsert[$key]["increase"] = $flavor_increase[$key];
+                $errorNum = 0;
+            }
         }
     }
 } else {
-    $errors["flavors"] = "Add at least one cake flavor";
+    $errors["errorFlavors"] = "Add at least one cake flavor";
     $errorNum = 1;
 }
 
-if(isset($_POST["sizes"]) && isset($_POST["size_increase"])){
-    $sizes = $_POST["sizes"];
+if(isset($_POST["sizes"])){
+    $checked_array_flavor = $_POST["sizes"];
+    $sizesData = $_POST["sizeName"];
     $size_increase = $_POST["size_increase"];
-    foreach($sizes as $key => $size){
-        if($size_increase[$key] == null){
-            $errors["sizes"] = "Do not leave the box you selected blank";
-            $errorNum = 1;
-        } elseif ($size_increase[$key] < 0){
-            $errors["sizes"] = "Price increase must be greater than or equal to 0";
-            $errorNum = 1;
-        } else {
-            $sizeName[$key] = $size;
-            $sizeIncrease[$key] = $size_increase[$key];
-            $errorNum = 0;
+    foreach($sizesData as $key => $size){
+        if(in_array($sizesData[$key], $checked_array_flavor)){
+            if($size_increase[$key] == null){
+                $errors["errorSizes"] = "Do not leave the box you selected blank";
+                $errorNum = 1;
+            } elseif ($size_increase[$key] < 0){
+                $errors["errorSizes"] = "Price increase must be greater than or equal to 0";
+                $errorNum = 1;
+            } else {
+                $sizesInsert[$key]["size"] = $sizesData[$key];
+                $sizesInsert[$key]["increase"] = $size_increase[$key];
+                $errorNum = 0;
+            }
         }
+        
     }
 } else {
-    $errors["sizes"] = "Add at least one cake size";
+    $errors["errorSizes"] = "Add at least one cake size";
     $errorNum = 1;
 }
 
 if($errorNum == 0){
-    echo "success";
+    execute("INSERT INTO tb_category (cate_name) VALUES ('$name')");
+    $new_cateID = executeSingleResult("SELECT MAX(cate_id) as new_cateID FROM tb_category");
+    $id = $new_cateID["new_cateID"];
+
+    foreach($flavorsInsert as $key => $valFlavor){
+        $flavor = $valFlavor["flavor"];
+        $flavor_increase = $valFlavor["increase"];
+        execute("INSERT INTO tb_product_flavor (cate_id, flavor, increase_flavor) VALUES
+                ($id, '$flavor', $flavor_increase)");
+    }
+    foreach($sizesInsert as $key => $valSize){
+        $size = $valSize["size"];
+        $size_increase = $valSize["increase"];
+        execute("INSERT INTO tb_product_size (cate_id, size, increase_size) VALUES
+                ($id, '$size', $size_increase)");
+    }
+    echo 'success';
 } else {
     echo json_encode($errors);
 }
 
-?>
+?> 
