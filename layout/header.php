@@ -182,7 +182,7 @@
           <div class="left">
             <div class="logo">
               <a class="big-logo" href="">
-                <!-- <img src="source/hinh-anh/logo/logo.png" alt=""> -->
+                <img src="../public/images/logo/logo.jpg" alt="">
               </a>
             </div>
           </div>
