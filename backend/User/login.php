@@ -2,7 +2,6 @@
 session_start();
 require_once("../../connect/connectDB.php");
 
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,7 +16,7 @@ require_once("../../connect/connectDB.php");
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="" method="post">
+                <form action="logincode.php" method="post">
                     <h2 class="login-h2">Đăng Nhập</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
@@ -33,7 +32,7 @@ require_once("../../connect/connectDB.php");
                         <label for="remember"><input type="checkbox" id="remember">Remember me</label>
                         <a href="">Forget Password</a>
                     </div>
-                    <button type="submit" name="submit">Log In</button>
+                    <button type="submit" name="login-btn">Log In</button>
                     <div class="register">
                         <p>Don't have an account? <a href="register.php">Sign In</a></p>
                     </div>
