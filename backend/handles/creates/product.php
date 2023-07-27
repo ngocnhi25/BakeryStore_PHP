@@ -1,5 +1,5 @@
 <?php
-require_once('../../connect/connectDB.php');
+require_once('../../../connect/connectDB.php');
 
 $errors = [];
 $uploads_imagesLink = $uploads_tmp_name = [];
@@ -86,14 +86,14 @@ if (isset($_FILES["images"]["name"])) {
             $imagesDelete[$key + 1] = $thumb["thumbnail"];
         }
         foreach ($imagesDelete as $key => $imgDelete) {
-            unlink('../../' . $imgDelete);
+            unlink('../../../' . $imgDelete);
         }
         execute("DELETE FROM tb_thumbnail WHERE product_id = $id");
     }
 
     foreach ($file_names as $key => $value) {
         $images[$key] = $target_dir . basename($value);
-        $imagesLink = "../../$target_dir" . basename($value);
+        $imagesLink = "../../../$target_dir" . basename($value);
         $imagesType = $files['type'][$key];
         $imagesSize = $files['size'][$key] / 1024 / 1024;
 
