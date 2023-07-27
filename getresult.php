@@ -43,7 +43,7 @@ if (!empty($faq)) {
                         <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
                     </a>
                 </div>
-                <div style="margin-left: 15px;">
+                <div style="margin-left: 15px; margin-right: 15px;">
                     <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
                         <a href="#/">' . $sp["product_name"] . '</a>
                         <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
@@ -52,12 +52,13 @@ if (!empty($faq)) {
                     <div class="">
                         <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
                     </div>
-                    <div>
-                        <input type="number" width="100px" id="quantity' . $sp["product_id"] . '">
+                    <div class="input_quantity_product">
+                        
                     </div>
-                </div>
-                <div style="text-align: center; margin-top: 5px;">
-                    <input type="submit" value="Thêm vào giỏ hàng" width="100px" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                    <div style="margin-top: 5px;" class="input_quantity_product">
+                        <input type="submit" value="Thêm vào giỏ hàng" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                        <input type="number" width="50px" id="quantity' . $sp["product_id"] . '">
+                    </div>
                 </div>
             </div>
         </div>';

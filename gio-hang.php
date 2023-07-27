@@ -1,8 +1,87 @@
-<?php session_start();
+<?php
+session_start();
 
+require_once("connect/connectDB.php");
+//sender_name, sender_phome
+$sender_name = "Loi Ngoc Nhi";
+$sender_phone = 0123123123;
 
+//caculate total
+$total_price = 0;
+$deposit = 0;
+foreach ($_SESSION['cart'] as $key => $value) {
+  $total_price = $total_price + $value['quantity'] * $value['price'];
+  $quantity = $value['quantity'];
+}
 
+//caculate deposit
+$deposit = $total_price * 30 / 100;
+// echo $quantity;
+// die();
+
+// Set user_id securely from your authentication system or database query
+$_SESSION['user_id'] = "123";
+$user_id = $_SESSION['user_id'];
+$current_time = date('Y-m-d H:i:s'); // Get the current time in the format YYYY-MM-DD HH:MM:SS
+$order_date = date('Y-m-d'); // Get the order date in the format YYYY-MM-DD
+
+$username = $phone = $email = $address = '';
+$errors = [
+  "username" => "",
+  "phone" => "",
+  "email" => "",
+  "address" => ""
+];
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  $username = trim($_POST["username"]);
+  $phone = trim($_POST["phone"]);
+  $address = trim($_POST["address"]);
+  $email = trim($_POST["email"]);
+
+  if (empty($username)) {
+    $errors["username"] = "Please enter a username";
+  }
+  if (empty($phone)) {
+    $errors["phone"] = "Please enter a phone number";
+  }
+  if (empty($email)) {
+    $errors["email"] = "Please enter an email address";
+  } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $errors["email"] = "Invalid email format";
+  }
+  if (empty($address)) {
+    $errors["address"] = "Please enter an address";
+  }
+
+  // If there are no errors, process the form data
+  if (empty(array_filter($errors))) {
+    // Process the form data here (e.g., save to database or send email)
+    $query = "INSERT INTO tb_order (user_id, receiver_name, receiver_phone, receiver_address, receiver_datetime, order_date, total_pay, deposit, sender_name, sender_phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,'Pending')";
+    $stmt = $conn->prepare($query);
+
+    if (!$stmt) {
+      echo "Error: " . $conn->error; // Output any specific error messages from the database
+      exit();
+    }
+
+    $stmt->bind_param("ssssssssss", $user_id, $username, $phone, $address, $current_time, $order_date,$total_price, $deposit, $sender_name, $sender_phone);
+
+    if ($stmt->execute()) {
+      // After processing, you may redirect the user to a success page
+      header("Location: home.php");
+      exit();
+    } else {
+      echo "Error: Failed to insert order details. " . $stmt->error;
+    }
+  }
+}
 ?>
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,6 +169,17 @@
 
     gtag('config', 'G-QERL8JJ8K1');
   </script>
+  <style>
+    .error-msg {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .error {
+      border-color: red;
+    }
+  </style>
 </head>
 
 <body>
@@ -100,7 +190,6 @@
     <div class="container">
       <div class="section-header">
         <p class="section-title">Giỏ hàng của bạn</p>
-        <p class="section-subtitle">Có 0 sản phẩm trong giỏ hàng</p>
       </div>
       <div class="section-body">
         <div class="row">
@@ -120,12 +209,12 @@
               <th>cate_id</th>
               <th>price</th>
               <th>quantity</th>
+              <th>size</th> <!-- Add the 'size' column header -->
               <th>action</th>
             </tr>
 
             <?php
 
-            $total_price = 0;
 
             foreach ($_SESSION['cart'] as $key => $value) {
               ?>
@@ -143,17 +232,20 @@
                   <?php echo $value['quantity']; ?>
                 </td>
                 <td>
+                  <?php echo $value['size']; ?>
+                </td> <!-- Print the size value -->
+                <td>
                   <button class="btn btn-danger remove" id="<?php echo $value['id']; ?>">Remove</button>
                 </td>
               </tr>
 
               <?php
-              $total_price = $total_price + $value['quantity'] * $value['price'];
+
             }
             ?>
 
             <tr>
-              <td colspan="2"></td>
+              <td colspan="3"></td>
               <td>Total Price</td>
               <td>
                 <?php echo number_format($total_price, 2); ?>
@@ -163,10 +255,124 @@
               </td>
             </tr>
           </table>
+
         <?php } else { ?>
           <p class="text-center">NO ITEM SELECTED</p>
         <?php } ?>
       </div>
+
+    </div>
+  </section>
+  <section class="section-paddingY cart-page">
+    <div class="container">
+      <div class="section-header">
+        <p class="section-title">Xac Minh Don Hang</p>
+      </div>
+      <div class="section-body">
+        <div class="row">
+          <div class="col-12">
+            <div class="cart-container">
+              <ul class="cart-list">
+                <!-- Your cart items go here -->
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section-footer">
+        <form method="post">
+          <!-- Your form fields go here -->
+          <div class="form-row">
+            <div class="col-md-6 form-group">
+              <label for="Username">Username</label>
+              <input type="text" class="form-control <?php echo (!empty($error['username'])) ? 'error' : ''; ?>"
+                id="Username" placeholder="Username" name="username" value="<?php echo $username; ?>">
+              <p class="error-msg">
+                <?php echo $errors["username"]; ?>
+              </p>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="Phone">Phone</label>
+              <input type="text" class="form-control <?php echo (!empty($errors['phone'])) ? 'error' : ''; ?>"
+                id="Phone" placeholder="Phone" name="phone" value="<?php echo $phone; ?>">
+              <p class="error-msg">
+                <?php echo $errors["phone"]; ?>
+              </p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control <?php echo (!empty($errors['email'])) ? 'error' : ''; ?>" id="email"
+              placeholder="you@example.com" name="email" value="<?php echo $email; ?>">
+            <p class="error-msg">
+              <?php echo $errors["email"]; ?>
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control <?php echo (!empty($errors['address'])) ? 'error' : ''; ?>"
+              id="address" placeholder="1234 Main Street" name="address" value="<?php echo $address; ?>">
+            <p class="error-msg">
+              <?php echo $errors["address"]; ?>
+            </p>
+          </div>
+
+
+          <hr>
+
+          <h4 class="mb-4"> Payment </h4>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="credit" name="payment-method" checked>
+            <label for="credit" class="form-check-label"> COD </label>
+          </div>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="debit" name="payment-method">
+            <label for="debit" class="form-check-label"> Card </label>
+          </div>
+          <div class="form-check">
+            <input type="radio" class="form-check-input" id="paypal" name="payment-method">
+            <label for="paypal" class="form-check-label"> MoMo </label>
+          </div>
+
+          <!-- <div class="row mt-4">
+                        <div class="col-md-6 form-group">
+                            <label for="card-name"> Name on card </label>
+                            <input type="text" class="form-control" id="card-name" placeholder >
+                            <div class="invalid-feedback">
+                                Name on card is 
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label for="card-no"> Card Number </label>
+                            <input type="text" class="form-control" id="card-no" placeholder >
+                            <div class="invalid-feedback">
+                                Credit card number is 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-5 form-group">
+                            <label for="expiration"> Expire Date </label>
+                            <input type="text" class="form-control" id="card-name" placeholder >
+                            <div class="invalid-feedback">
+                                Expiration date 
+                            </div>
+                        </div>
+                        <div class="col-md-5 form-group">
+                            <label for="ccv-no"> Security Number </label>
+                            <input type="text" class="form-control" id="sec-no" placeholder >
+                            <div class="invalid-feedback">
+                                Security code 
+                            </div>
+                        </div>
+                    </div> -->
+          <hr class="mb-4">
+          <input type="submit" name="submit" value="Continue to Checkout"
+            class="btn btn-primary btn-lg btn-block submit">
+        </form>
+      </div>
+
     </div>
   </section>
 
@@ -273,6 +479,7 @@
           data: { action: action, id: id },
           success: function (data) {
             alert("you have Remove item with ID " + id + "");
+            setInterval('location.reload()', 1000);
           }
         });
       });
@@ -292,6 +499,21 @@
           }
         });
       });
+
+      $(".submit").click(function () {
+
+        var action = "clear";
+
+        $.ajax({
+          method: "POST",
+          data: { action: action },
+          success: function (data) {
+            alert("success!");
+          }
+        });
+      });
+
+
     });
   </script>
 </body>

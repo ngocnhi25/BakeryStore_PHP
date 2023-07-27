@@ -465,7 +465,7 @@ $product = executeResult("SELECT * FROM tb_products");
                   <div class="row">
                     
                   <?php foreach ($product as $p) { ?>
-                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
+                    <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-3">
                       <div class="one-product-container">
 
                         <div class="product-images">
@@ -487,12 +487,7 @@ $product = executeResult("SELECT * FROM tb_products");
                         </div>
                       </div>
                     </div>
-                  <?php } ?>
-                    
-                    
-                    
-                    
-                    
+                  <?php } ?>              
                     
                   </div>
                   <div class="see-more">
