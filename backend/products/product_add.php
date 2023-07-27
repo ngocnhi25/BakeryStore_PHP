@@ -6,9 +6,9 @@ $category = executeResult("SELECT * FROM tb_category");
 $name = $thumbnails = $cateID = $price = $description = $id = $title = '';
 $images = [];
 
-if (isset($_GET["id"])) {
-    $id = $_GET["id"];
-    $title = $_GET["title"];
+if (isset($_POST["id"])) {
+    $id = $_POST["id"];
+    $title = $_POST["title"];
 
     $product = executeSingleResult("select * from tb_products where product_id = $id");
 
@@ -41,7 +41,7 @@ function checkCate($value)
 <div style=" width: 100%;">
     <h1><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
     <div>
-        <form id="userForm" method="post" enctype="multipart/form-data" action="">
+        <form method="post" enctype="multipart/form-data" action="">
             <?php if ($id != null) { ?>
                 <div>
                     <p>ID: <span><?php echo $id ?></span></p>
@@ -85,7 +85,7 @@ function checkCate($value)
                 </textarea>
                 <div class="errorDescription" style="color: red;"></div>
             </div>
-            <button id="submitData" type="button">Submit</button>
+            <button id="submitData" class="submit" type="button">Submit</button>
         </form>
     </div>
     <div id="successMessage">
@@ -102,7 +102,6 @@ function checkCate($value)
     CKEDITOR.replace('description');
 </script>
 <script type="text/javascript">
-    $("#successMessage").hide();
     function previewFiles(inputElement, previewElement) {
         $(previewElement).empty();
         if (inputElement.files) {
@@ -140,13 +139,13 @@ function checkCate($value)
 
             $.ajax({
                 type: "POST",
-                url: 'handles/creates/create_product.php',
+                url: 'handles/creates/product.php',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(res) {
                     alert(res);
-                    if (typeof res === 'string') {
+                    if (res === 'success') {
                         showSuccessMessage();
                     } else {
                         var errors = JSON.parse(res);
@@ -170,22 +169,14 @@ function checkCate($value)
         })
     })
 
+    $("#successMessage").hide();
     function showSuccessMessage() {
         $("#successMessage").show();
 
         $("#okButton").on("click", function() {
             $("#successMessage").hide();
-            $.ajax({
-                url: "products/<?php echo (($id == null ? 'product_add.php' : 'products.php')) ?>",
-                method: "GET",
-                dataType: "html",
-                success: function(response) {
-                    $("#main-page").html(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
-                }
-            });
+            var urlProduct =  "products/<?php echo (($id == null ? 'product_add.php' : 'products.php')) ?>";
+            ajaxPages(urlProduct);
         });
     }
 

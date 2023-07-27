@@ -207,7 +207,14 @@ button:hover {
 }
 
 .delete {
-  background-color: #e10a29fe;
+  background-color: #e92844fe;
 }
 
+.submit {
+  background-color: #4fb971fe;
+}
+
+.create {
+  background-color: #58e4c8fe;
+}
 

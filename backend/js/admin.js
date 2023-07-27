@@ -36,19 +36,3 @@ themeToggler.addEventListener('click', () => {
     document.body.classList.toggle('dark-theme-variables');
     themeToggler.querySelectorAll('span').forEach(span => span.classList.toggle('active'));
 });
-
-// function activeLink() {
-//     list.forEach(item => {
-//         item.classList.remove("active");
-//     });
-//     this.classList.add("active");
-// }
-// function activeItemMenu() {
-//     itemMenus.forEach(item => {
-//         item.classList.remove("active");
-//     });
-//     this.classList.add("active");
-// }
-
-// list.forEach(item => item.addEventListener("click", activeLink));
-// itemMenus.forEach(itemMenu => itemMenu.addEventListener("click", activeItemMenu));
