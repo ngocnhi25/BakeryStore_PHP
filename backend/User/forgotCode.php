@@ -40,13 +40,15 @@ function sendEmail_verify($username, $email, $token){
     }
 }
 
-if(isset($_POST["submit-buton"])){
+if(isset($_POST["submit-resetPass"])){
     $email = $_POST["email"];
+    $token = md5(rand()); // Generate a unique token
+
     $sql_checkmail = "SELECT email FROM tb_user WHERE email = '$email' LIMIT 1";
     $sql_checkmail_run = mysqli_query($conn,  $sql_checkmail);
 
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
-        $token = md5(rand()); // Generate a unique token
+        $row = mysqli_fetch_array(($sql_checkmail_run));
 
         $sql_update = "UPDATE tb_user SET token = '$token' WHERE email = '$email' LIMIT 1";
         $sql_update_run = mysqli_query($conn, $sql_update );

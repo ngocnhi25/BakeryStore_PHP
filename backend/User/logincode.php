@@ -22,7 +22,7 @@ if(isset($_POST["login-btn"])){
                     'email' => $row['email']
                 ];
                 $_SESSION['status'] = " You logged in successfully !";
-            header("Location: home.php");
+            header("Location: ../../home.php");
             exit();
             }else{
                 $_SESSION['status'] = "Please verify email address to login !";

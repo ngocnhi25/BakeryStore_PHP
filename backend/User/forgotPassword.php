@@ -23,7 +23,7 @@ session_start();
                         <input type="email" name="email" required >
                         <label for="">Your Email : </label>
                     </div>
-                    <button type="submit" name="submit-buton">Submit</button>
+                    <button type="submit" name="submit-resetPass">Submit</button>
                     <div class="register">
                         <p> Remember your password? <a href="login.php"> Log in </a></p>
                     </div>
