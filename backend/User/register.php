@@ -13,7 +13,7 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="../../backend/User/code.php" method="post">
+                <form action="../../backend/User/register-code.php" method="post">
                     <h2 class="login-h2">Register Form</h2>
                     <div class="inputbox">
                         <ion-icon name="person"></ion-icon>

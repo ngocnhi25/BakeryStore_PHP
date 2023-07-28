@@ -16,14 +16,25 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="" method="post">
-                    <h2 class="login-h2"> Input new password </h2>
+                <form action="../User/forgot-inputEmail-code.php" method="post">
+                    <h2 class="login-h2"> Reset Password Form </h2>
+                    <input type="hidden" name="token" value="<?php if(isset($_GET["token"])){echo $_GET["token"];} ?>">
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
-                        <input type="text" name="newPassword" required >
+                        <input type="email" name="email" value="<?php if(isset($_GET["email"])){echo $_GET["email"];} ?>" readonly >
+                        <label for="">Your Email : </label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="mail"></ion-icon>
+                        <input type="password" name="newPassword" required >
                         <label for="">New Password  : </label>
                     </div>
-                    <button type="submit" name="submit-buton">Submit</button>
+                    <div class="inputbox">
+                        <ion-icon name="mail"></ion-icon>
+                        <input type="password" name="confirm_newPassword" required >
+                        <label for=""> Confirm New Password  : </label>
+                    </div>
+                    <button type="submit" name="update-password-btn">Update Password </button>
                     <div class="register">
                         <a href="login.php"> Log in </a></p>
                     </div>

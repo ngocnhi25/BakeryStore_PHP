@@ -8,7 +8,7 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>Reset Password Page</title>
     <link rel="stylesheet" href="../../backend/css/login-register.css">
 </head>
 
@@ -16,14 +16,14 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="../User/forgotCode.php" method="post">
-                    <h2 class="login-h2">Forgot Password</h2>
+                <form action="../User/forgot-inputEmail-code.php" method="post">
+                    <h2 class="login-h2">Reset Password</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
                         <input type="email" name="email" required >
                         <label for="">Your Email : </label>
                     </div>
-                    <button type="submit" name="submit-resetPass">Submit</button>
+                    <button type="submit" name="submit-resetPass">Send Password Reset Link </button>
                     <div class="register">
                         <p> Remember your password? <a href="login.php"> Log in </a></p>
                     </div>

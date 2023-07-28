@@ -33,7 +33,7 @@ function sendEmail_verify($username, $email, $token){
         <h2>You have registered with NgocNhiBakery</h2>
         <h5>Verify your email address to log in with the below given link</h5>
         <br><br>
-        <a href='http://localhost/project_hk2_fpt/backend/User/confirm-code-Mail.php?token=$token'>Click me</a>
+        <a href='http://localhost/project_hk2_fpt/backend/User/register-CFcode-Mail.php?token=$token'>Click me</a>
         ";
         $mail->Body = $mail_template;
         $mail->send();
