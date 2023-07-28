@@ -54,13 +54,6 @@
                         </div>
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="products/category.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Category</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
                                 <a href="products/products.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
@@ -68,10 +61,17 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/product_add.php">
+                                <a href="products/category.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Products add</h4>
+                                    <h4>Category</h4>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="products/flavor_and_size.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Flavor and Size</h4>
                                 </a>
                             </li>
                         </ul>
@@ -103,12 +103,6 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="products/category_add.php" class="nav-link">
-                            <span class="material-symbols-sharp">insights</span>
-                            <h3>Analytics</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="./signIn.php" class="nav-link">
                             <span class="material-symbols-sharp">mail</span>
                             <h3>Feedbacks</h3>
@@ -116,19 +110,13 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
-                            <span class="material-symbols-sharp">report</span>
-                            <h3>Reports</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
-                            <span class="material-symbols-sharp">settings</span>
-                            <h3>Settings</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="products/add-product.php" class="nav-link">
+                            <span class="material-symbols-sharp">shopping_cart_checkout</span>
+                            <h3>Sale</h3>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="products/product_add.php" class="nav-link">
                             <span class="material-symbols-sharp">add</span>
                             <h3>Add Product</h3>
                         </a>
@@ -183,58 +171,8 @@
         </div>
     </div>
 
-    <script>
-        function ajaxSidebar(url) {
-            if (url != null) {
-                $.ajax({
-                    url: url,
-                    method: "POST",
-                    dataType: "html",
-                    success: function(response) {
-                        $("#main-page").html(response);
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                    }
-                });
-            }
-        }
-        $(document).ready(function() {
-
-            $('.sidebar .nav-item .sub-btn').on('click', function() {
-                $(this).next('.sub-menu').slideToggle();
-                $(this).children('.more').toggle();
-                $(this).children('.less').toggle();
-            });
-
-            $(".sidebar ul .nav-item").click(function(e) {
-                e.preventDefault();
-                const link = $(this).children('.nav-link').attr("href");
-
-                $(this).siblings().removeClass("active");
-                $(this).addClass("active");
-                const hasSubBtn = $(this).children("div").hasClass("sub-btn");
-                const hasMenuItem = $('.sidebar .menu-item').hasClass("active");
-                if (!hasSubBtn && hasMenuItem) {
-                    $('.sidebar .menu-item').removeClass("active");
-                }
-                ajaxSidebar(link);
-                // click menu-item
-                $(".menu-item").on('click', function(e) {
-                    e.stopImmediatePropagation();
-                    const linkItem = $(this).children('a').attr("href");
-                    $(".menu-item").siblings().removeClass("active");
-                    $(this).addClass("active");
-                    ajaxSidebar(linkItem);
-                    return false;
-                });
-
-                return false;
-            });
-
-        });
-    </script>
     <script src="js/admin.js"></script>
+    <script src="js/adminJquery.js"></script>
 </body>
 
 </html>

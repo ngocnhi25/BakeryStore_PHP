@@ -1,13 +1,90 @@
 <?php
 session_start();
-require_once('connect/connectDB.php');
+require_once('./connect/connectDB.php');
 
-$id = 4;
+$id = 2;
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flaror");
 $size = executeResult("select * from tb_product_size");
 
+$output = ''; // Initialize the $output variable before using it
 
+if (!empty($product)) {
+  foreach ($product as $sp) {
+    $output .= '
+    <div class="product-detail-container">
+      <div class="detail-header show-desktop">
+        <h5 class="product-name">
+          ' . $sp["product_name"] . '
+        </h5>
+        <span>(Cake Mousse Passion Fruit)</span>
+      </div>
+      <div class="detail-body">
+        <span class="option-result">Mousse 20cm</span>
+        <div class="button-zone">
+          <div class="row">
+            <b class="col-5">Tình trạng:</b>
+            <span class="col-7">Hết h&agrave;ng</span>
+          </div>
+          <div class="row">
+            <b class="col-5">Mã sản phẩm:</b>
+            <span class="col-7">' . $sp["product_id"] . '</span>
+          </div>
+          <div class="size-zone option-zone row">
+            <b class="col-5">nhan banh:</b>
+            <div class="col-7">
+                    <select >
+                      <option value="0">Select Cake:</option>';
+    foreach ($flaror as $f) {
+      $output .= '<option value="0">' . $f["flaror_name"] . '</option>';
+    }
+    $output .= '</select>
+            </div>
+    </div>
+    <div class="row">
+      <b class="col-5">Số Lượng:</b>
+      <span class="col-7">
+        
+          <input type="number" style="width:68px; margin-bottom: 7px;
+          height: 23px;" id="quantity" value="1">
+        
+      </span>
+    </div>
+    <div class="row">
+      <b class="col-5">Mã sản phẩm:</b>
+      <div class="col-7">
+      <select id="sizeSelect">';
+    foreach ($size as $s) {
+      $output .= '<option value="' . $s["size"] . '" id="size">' . $s["size"] . '</option>';
+    }
+    $output .= '</select>
+      </div>
+    </div>
+    <div class="row">
+      <b class="col-5">Price:</b>
+      <span class="col-7" id="displayedPrice">';
+    // Initially display the price of the first size (you may adjust it according to your needs)
+    foreach ($size as $s) {
+      $output .= $s["increase_size"];
+      break;
+    }
+    $output .= '</span>
+    </div>';
+
+    foreach ($product as $sp) {
+      $output .= '<input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
+      <input type="hidden" name="name" id="name' . $sp["product_id"] . '" value="' . $sp["product_name"] . '">';
+    }
+
+    $output .= '<button class="add-to-cart js-add-to-cart add" id="' . $sp["product_id"] . '">Add to Cart</button>
+    <button class="add-to-cart mt-3 contact-card">
+      Đặt hàng nhanh nhất <br> 090 754 6668 | 096 938 6611
+    </button>
+    </div>
+    </div>
+    </div>';
+  }
+}
 ?>
 
 <!DOCTYPE html>
@@ -258,76 +335,61 @@ $size = executeResult("select * from tb_product_size");
         <div class="col-md-9">
           <div class="row">
             <div class="col-12 col-lg-7">
-              
-                <div class="detail-header show-mobile">
+              <div class="detail-header show-mobile">
 
-                  <h5 class="product-name">
-                    <?php echo $product["product_name"] ?>
-                  </h5>
+                <h5 class="product-name">
+                  <?php echo $product["product_name"] ?>
+                </h5>
 
-                  <span>(Cake Mousse Passion Fruit)</span>
+                <span>(Cake Mousse Passion Fruit)</span>
 
-                </div>
-            
-                <div class="product-imgs">
-                  <ul id="lightSlider">
-                    <li data-thumb="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
-                      <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
+              </div>
+              <div class="product-imgs">
+                <ul id="lightSlider">
+                  <li data-thumb="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
+                    <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
 
-                        <?php foreach ($product as $p) { ?>
-                          <img src=<?php echo $p["image"] ?> class="img-fluid">
-                        <?php } ?>
+                      <?php foreach ($product as $p) { ?>
+                        <img src=<?php echo $p["image"] ?> class="img-fluid">
+                      <?php } ?>
 
 
+                    </a>
+                  </li>
+                </ul>
+                <div class="share mt-3">
+                  <ul>
+                    <li>Chia sẻ: </li>
+                    <li>
+                      <a target="_blank" href="sharer/sharer.php?u=san-pham/mousse-chanh-leo-5"
+                        class="fb-xfbml-parse-ignore">
+                        <img src="public/frontend/assets/img/icons/Facebook.png" alt="">
                       </a>
                     </li>
+                    <li>
+                      <a class="twitter-share-button" target="_blank"
+                        href="https://twitter.com/share?text=&amp;url=san-pham/mousse-chanh-leo-5" data-size="large">
+                        <img src="public/frontend/assets/img/icons/Twitter.png" alt=""></a>
+                    </li>
                   </ul>
-                  <div class="share mt-3">
-                    <ul>
-                      <li>Chia sẻ: </li>
-                      <li>
-                        <a target="_blank" href="sharer/sharer.php?u=san-pham/mousse-chanh-leo-5"
-                          class="fb-xfbml-parse-ignore">
-                          <img src="public/frontend/assets/img/icons/Facebook.png" alt="">
-                        </a>
-                      </li>
-                      <li>
-                        <a class="twitter-share-button" target="_blank"
-                          href="https://twitter.com/share?text=&amp;url=san-pham/mousse-chanh-leo-5" data-size="large">
-                          <img src="public/frontend/assets/img/icons/Twitter.png" alt=""></a>
-                      </li>
-                    </ul>
-                  </div>
                 </div>
-                </div>
-
-                <form action="gio-hang.php" method="post">
-                  <input type="number" value="1" min="1" max="10" name="soluong">
-                  <input type="submit" name="addcart" value="them vao gio hang">
-                  <input type="hidden" name="tensp" value="banh mi">
-                  <input type="hidden" name="gia" value="10000">
-                </form>
-
-
-                    <button class="add-to-cart mt-3 contact-card">
-                      Đặt hàng nhanh nhất <br> 090 754 6668 | 096 938 6611
-                    </button>
-                  </div>
-                </div>
-                    </div>
-                  </div>
-                  <div class="col-12 mt-3">
-                    <div class="card-content-pro">
-                      <ul class="nav nav-pills tabs-categories" role="tablist">
-                        <li class="nav-item">
-                          <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
-                            aria-controls="pills-home" aria-selected="true">Mô
-                            tả sản phẩm</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                            aria-controls="pills-profile" aria-selected="false">
-                            Giao hàng
+              </div>
+            </div>
+            <div class="col-12 col-lg-5">
+              <?php print($output) ?>
+            </div>
+            <div class="col-12 mt-3">
+              <div class="card-content-pro">
+                <ul class="nav nav-pills tabs-categories" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
+                      aria-controls="pills-home" aria-selected="true">Mô
+                      tả sản phẩm</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
+                      aria-controls="pills-profile" aria-selected="false">
+                      Giao hàng
                     </a>
                   </li>
                 </ul>
@@ -592,21 +654,15 @@ $size = executeResult("select * from tb_product_size");
   <button class="gototop text-yellow">
     <img src="public/frontend/assets/img/icons/goto.png" alt="ve dau trang" style="margin-right: 10px"> Về đầu trang
   </button>
-
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
   <script>
     var baseUrl = "";
   </script>
   <script src="public/frontend/assets/js/config.js"></script>
-
-
   <script src="public/plugins/js/bootstrap4.min.js"></script>
   <script src="public/plugins/js/owl.carousel.min.js"></script>
   <script src="ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
   <script src="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-
-
-
   <script src="public/frontend/assets/js/main.js"></script>
   <script src="public/frontend/assets/js/product_page.js"></script>
   <script src="public/myplugins/js/messagebox.js"></script>
@@ -625,15 +681,85 @@ $size = executeResult("select * from tb_product_size");
   </script>
 
   <script>
-    var colors = [{ "id": null, "name": "Mousse 20cm" },
-    { "id": null, "name": "Mousse 22cm" },
-    { "id": null, "name": "Mousse 30cm" }];
-    var sizes = [{ "id": "9", "name": "Mousse 20cm" },
-    { "id": "10", "name": "Mousse 22cm" },
-    { "id": "11", "name": "Mousse 30cm" }];
-    var product = [{ "id": "5", "created_by": null, "code": "", "name": "Mousse Chanh Leo", "name_sub": "Cake Mousse Passion Fruit", "compositions": null, "alias": "mousse-chanh-leo", "image1": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "image2": "\/source\/B\u00e1nh Sinh Nh\u1eadt THB\/Banh Sinh Nhat 003.jpg", "video": null, "original_price": "320000", "price": "380000", "caption": "chanh leo, \u0111\u01b0\u1eddng tr\u1eafng, gelatin, whipping cream tatua, Cream cheese...", "preserve": "B\u1ea3o qu\u1ea3n m\u00e1t t\u1eeb 2\u00b0C - 6\u00b0C", "content": "<p><span style=\"font-size: 12pt;\">Mousse Chanh Leo l&agrave; m\u1ed9t trong nh\u1eefng c&aacute;ch t\u1ed1t nh\u1ea5t \u0111\u1ec3 th\u01b0\u1edfng th\u1ee9c h\u01b0\u01a1ng v\u1ecb nhi\u1ec7t \u0111\u1edbi \u0111\u1eb7c bi\u1ec7t c\u1ee7a tr&aacute;i c&acirc;y.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">Nh\u1eefng mi\u1ebfng <a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">mousse chanh leo<\/a> chua chua m&aacute;t m&aacute;t l&agrave; m&oacute;n b&aacute;nh h\u1ea5p d\u1eabn cho m&ugrave;a h&egrave;.<\/span><\/p>\r\n<p><span style=\"font-size: 12pt;\">C&ocirc;ng th\u1ee9c c\u1ee7a Thu H\u01b0\u01a1ng Bakery \u0111\u1ee9ng \u0111\u1ea7u v\u1ec1 d&ograve;ng mousse<\/span><\/p>", "tags": "<p><a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt T\u1ea1i H&agrave; N\u1ed9i<\/a>, <a href=\"\/danh-muc\/banh-sinh-nhat\">B&aacute;nh Sinh Nh\u1eadt H&igrave;nh Logo C&ocirc;ng Ty<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; Trai<\/a>, <a href=\"\/danh-muc\/banh-cho-be\">B&aacute;nh Sinh Nh\u1eadt Cho B&eacute; G&aacute;i<\/a><\/p>\r\n<p><a href=\"\/san-pham\/banh-mousse-chanh-leo-5\">B&aacute;nh Mousse Chanh Leo<\/a><\/p>\r\n<p>&nbsp;<\/p>", "hot": "1", "best_seller": "1", "qty_status": "0", "view": 3710, "order_number": "1", "created_at": "2022-05-18 23:26:06", "updated_at": "2023-04-10 13:21:29", "status": "1", "title": "B\u00e1nh Mousse Chanh Leo | B\u00e1nh Sinh Nh\u1eadt | Mousse Passion Fruit", "keyword": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit", "description": "B\u00e1nh Mousse Chanh Leo, Mousse Passion Fruit" }];
-    var productDetails = [{ "id": "363", "product_id": "5", "size": "9", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "380000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 20cm", "size_id": "9" }, { "id": "364", "product_id": "5", "size": "10", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "420000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 22cm", "size_id": "10" }, { "id": "365", "product_id": "5", "size": "11", "color": null, "options": null, "quantity": "0", "original_price": "320000", "price": "500000", "status": "1", "image": null, "created_at": "2023-04-10 13:21:29", "option_name": "Mousse 30cm", "size_id": "11" }];
-//  console.log(productDetails);
+
+    $(document).ready(function () {
+      $(document).on("click", ".add", function () {
+        var id = $(this).attr("id");
+        var name = $("#name" + id).val();
+        var price = $("#price" + id).val();
+        var quantity = $("#quantity").val();
+        var size = $("#sizeSelect").val();
+
+        // Validate the quantity to be a positive integer
+        if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
+          alert("Please enter a valid quantity.");
+          return;
+        }
+
+        // Check if the size has any increase in price
+        var increaseSize = 0;
+        if (size == 18) {
+          increaseSize = 500000; // You may adjust this value based on your logic
+        } else if (size == 20) {
+          increaseSize = 1000000; // You may adjust this value based on your logic
+        } // Add more conditions for other sizes if needed
+
+        // Calculate the updated price based on the quantity and size increase
+        var totalPrice = (parseFloat(price) + parseInt(increaseSize)) * parseInt(quantity);
+
+        $.ajax({
+          method: "POST",
+          url: "add_to_cart.php",
+          data: { id: id, name: name, price: totalPrice, quantity: quantity, size: size, increase_size: increaseSize },
+          success: function (data) {
+            alert("You have added a new item to the cart.");
+            // Optional: You may update the cart count or display a message to the user.
+          },
+          error: function (xhr, textStatus, errorThrown) {
+            alert("An error occurred while adding the item to the cart. Please try again.");
+          }
+        });
+      });
+    });
+
+    function getresult(url) {
+      $.ajax({
+        url: url,
+        type: "GET",
+        data: { rowcount: $("#rowcount").val(), pagination_setting: $("#pagination-setting").val() }, // Fix: Remove the quotes around pagination_setting
+        success: function (data) {
+          $("#pagination-result").html(data);
+        },
+        error: function () { }
+      });
+    }
+
+  </script>
+  <script>
+    $(document).ready(function () {
+      // Add event listener to the size select element
+      $("#sizeSelect").on("change", function () {
+        // Get the selected size value
+        var selectedSize = parseInt($(this).val());
+
+        // You can define an object containing the size and their corresponding price
+        // This can be obtained from the PHP code or any other source of data
+        var sizePriceMap = {
+          <?php foreach ($size as $s) { ?>
+                    <?php echo $s["size"]; ?>: <?php echo $s["increase_size"]; ?>,
+          <?php } ?>
+        };
+
+        // Update the displayed price based on the selected size
+        if (!isNaN(selectedSize) && selectedSize in sizePriceMap) {
+          var newPrice = sizePriceMap[selectedSize];
+          $("#displayedPrice").text(newPrice);
+        } else {
+          // If the selected size is not found in the sizePriceMap, you can handle it accordingly
+          $("#displayedPrice").text("N/A");
+        }
+      });
+    });
   </script>
   <script src="public/frontend/assets/js/product_page.js"></script>
   </div>

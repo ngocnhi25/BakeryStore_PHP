@@ -28,28 +28,7 @@ require_once("../backend/User/logincode.php");
 
   <div class="fullscreen-overlay"></div>
 
-  <div class="cart-sidebar-container">
-    <div class="header">
-      <p class="title">Giỏ hàng</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
-          class="fas fa-times fa-2x"></i></span>
-    </div>
-    <div class="body">
-      <ul class="cart-list">
-      </ul>
-    </div>
-    <div class="footer">
-      <div class="total">
-        <span class="text">Tổng tiền</span>
-        <span class="cart-total">Liên hệ</span>
-        <span class="money">
-        </span>
-      </div>
-      <div class="action-btns">
-        <a class="action-btn goto-cart" href="gio-hang">Xem giỏ hàng</a>
-        <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Xóa giỏ hàng</a>
-      </div>
-    </div>
-  </div>
+  
 
   <div class="mobile-menu-container">
     <div class="header">
@@ -110,7 +89,7 @@ require_once("../backend/User/logincode.php");
         <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
           <ul class="mobile-menu-list">
             <li>
-              <a href="danh-muc/product">
+              <a href="product.php">
                 B&aacute;nh sinh nhật
                 <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
               </a>
@@ -122,7 +101,7 @@ require_once("../backend/User/logincode.php");
               </ul>
             </li>
             <li>
-              <a href="danh-muc/product-cho-be">
+              <a href="product.php-cho-be">
                 B&aacute;nh Sinh Nhật Cho B&eacute;
                 <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
               </a>
@@ -197,9 +176,9 @@ require_once("../backend/User/logincode.php");
               </span>
               <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
             </form>
-            <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
+            <a class="shopping-bag js-toggle-cart-sidebar" href="gio-hang.php">
               <img src="public/frontend/assets/img/icons/shopping-bag.svg" alt="">
-              <span class="counter">0</span>
+              <!-- <span class="counter">0</span> -->
             </a>
             <div class="user-header d-none d-lg-block">
               <a href="#/" class="user-header-button js-toggle-user-nav">
@@ -237,7 +216,7 @@ require_once("../backend/User/logincode.php");
                 </a>
                 <ul class="submenu">
                   <li>
-                    <a href="danh-muc/product">
+                    <a href="product.php">
                       B&aacute;nh sinh nhật
                       <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -249,7 +228,7 @@ require_once("../backend/User/logincode.php");
                     </ul>
                   </li>
                   <li>
-                    <a href="danh-muc/product-cho-be">
+                    <a href="product.php-cho-be">
                       B&aacute;nh Sinh Nhật Cho B&eacute;
                       <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </a>
@@ -294,7 +273,7 @@ require_once("../backend/User/logincode.php");
                 </a>
               </li>
               <li class="li-menu">
-                <a href="danh-muc/product.php">
+                <a href="product.php">
                   Sản Phẩm
                 </a>
               </li>

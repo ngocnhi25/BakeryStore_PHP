@@ -7,10 +7,6 @@ $products = executeResult("select * from tb_products p
                             ORDER BY product_id DESC");
 $allProduct = executeSingleResult("select count(*) as total from tb_products");
 
-// echo '<pre>';
-// var_dump($products);
-// die();
-
 ?>
 
 <head>
@@ -72,42 +68,4 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
     </div>
 </div>
 
-<script>
-    function editProduct(id) {
-        var postData = {
-            id: id,
-            title: 'Update Product'
-        }
-        $.ajax({
-            type: "GET",
-            url: "products/product_add.php",
-            data: postData,
-            success: function(response) {
-                $("#main-page").html(response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Lỗi: " + error);
-            }
-        });
-    }
-
-    function deleteProduct(id) {
-        $.ajax({
-            type: "POST",
-            url: "handles/deletes/product_delete.php",
-            data: {
-                id: id
-            },
-            success: function(response) {
-                $("#main-page").load(response);
-            },
-            error: function(xhr, status, error) {
-                console.error("Lỗi: " + error);
-            }
-        });
-    }
-
-    function formatVND(amount) {
-      return amount.toLocaleString("vi-VN") + " VNĐ";
-    }
-</script>
+<script src="js/product.js"></script>
