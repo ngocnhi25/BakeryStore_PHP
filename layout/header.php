@@ -1,3 +1,7 @@
+<?php
+require_once("../backend/User/logincode.php");
+?>
+
 <div class="overlay">
   <div class="overlayDoor"></div>
   <div class="overlayContent">

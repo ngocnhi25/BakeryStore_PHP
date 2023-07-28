@@ -1,11 +1,13 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require_once("../../connect/connectDB.php");
 
 if(isset($_POST["login-btn"])){
     if(!empty(trim($_POST["email"])) && !empty(trim($_POST["email"])) ){
         $email = $_POST["email"];
-        $password = $_POST["password"];
+        $password = md5($_POST["password"]);
         
         $sql_login = "SELECT * FROM tb_user WHERE email = '$email'  and password = '$password' LIMIT 1" ;
         $sql_login_run = mysqli_query($conn,$sql_login);
@@ -20,7 +22,7 @@ if(isset($_POST["login-btn"])){
                     'email' => $row['email']
                 ];
                 $_SESSION['status'] = " You logged in successfully !";
-            header("Location: index.php");
+            header("Location: home.php");
             exit();
             }else{
                 $_SESSION['status'] = "Please verify email address to login !";

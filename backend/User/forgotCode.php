@@ -3,13 +3,11 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
 require_once("../../connect/connectDB.php");
-//Load Composer's autoloader
 require_once("../../backend/User/vendor/autoload.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
 
 function sendEmail_verify($username, $email, $token){
     try {
@@ -42,59 +40,31 @@ function sendEmail_verify($username, $email, $token){
     }
 }
 
-
-
-if (isset($_POST["submit-btn"])){
-    $username = $_POST["username"];
+if(isset($_POST["submit-buton"])){
     $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $password = $_POST["password"];
-    $repeatPassword = $_POST["repeatPassword"];
-    $token = md5(rand()); // Generate a unique token
-
-     // Hash the password for security
-     $hashed_password = md5($password);
-
-    // Perform validation checks
-    if ($password != $repeatPassword) {
-        $_SESSION['status'] = "Passwords don't match!";
-        header("Location: register.php");
-        exit();
-    }
-
-    if (!preg_match("/^[0-9]{10,12}$/", $phone)) {
-        $_SESSION['status'] = "Invalid Phone Number!";
-        header("Location: register.php");
-        exit();
-    }
-
-
-    // Check if the email exists in the database
     $sql_checkmail = "SELECT email FROM tb_user WHERE email = '$email' LIMIT 1";
     $sql_checkmail_run = mysqli_query($conn,  $sql_checkmail);
 
-   if (mysqli_num_rows($sql_checkmail_run) > 0) {
-        $_SESSION['status'] = "Email already exists!";
-        header("Location: register.php");
-        exit();
-    }
+    if (mysqli_num_rows($sql_checkmail_run) > 0) {
+        $token = md5(rand()); // Generate a unique token
 
-    // Insert new User into the database
-    $sql_newUser = "INSERT INTO tb_user (username, email, phone, token, password, create_date)
-            VALUES ('$username', '$email', '$phone', '$token', '$hashed_password', NOW())";
-    $sql_newUser_run = mysqli_query($conn, $sql_newUser);
+        $sql_update = "UPDATE tb_user SET token = '$token' WHERE email = '$email' LIMIT 1";
+        $sql_update_run = mysqli_query($conn, $sql_update );
 
-    if ($sql_newUser_run) {
-            sendEmail_verify($username, $email, $token) ;
-            $_SESSION['status'] = "Register Successfully! Please verify your Email Address!";
-            header("Location: login.php");
+        if( $sql_update_run){
+            sendEmail_verify('', $email, $token) ;
+            $_SESSION['status'] = "Please verify your Email Address to update password!";
+            header("Location: input-newPassword.php");
             exit();
-    } else {
-        $_SESSION['status'] = "Registration Fail!";
-        header("Location: register.php");
-        exit();
+        }else{
+            $_SESSION['status'] = "Send Mail update Fail !";
+            header("Location: forgotPassword.php ") ;
+            exit();
+        }
+    }else{
+        $_SESSION['status'] = "Email is not exsit . Please register your account !";
+            header("Location: forgotPassword.php ") ;
+            exit();
     }
 }
-
-
 ?>
