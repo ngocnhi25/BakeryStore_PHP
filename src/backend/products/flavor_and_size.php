@@ -1,7 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 require_once('../../connect/connectDB.php');
 
 $idFlavor = $idSize = '';
@@ -25,7 +22,7 @@ if (isset($_POST["idSize"])) {
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
 </head>
 
 <div class="table_category">
@@ -111,7 +108,7 @@ if (isset($_POST["idSize"])) {
         </div>
     </div>
 </div>
-<script src="js/flavor_and_size.js"></script>
+<script src="../../public/backend/js/flavor_and_size.js"></script>
 <script type="text/javascript">
     $("#success").hide();
     $("#submitFlavor").click(function(e) {
