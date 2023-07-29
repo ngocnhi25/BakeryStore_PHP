@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('./connect/connectDB.php');
+require_once('../connect/connectDB.php');
 
 $id = 2;
 $product = executeResult("select * from tb_products where product_id = $id");
@@ -122,16 +122,16 @@ if (!empty($product)) {
   <!-- FONT -->
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="public/plugins/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="public/plugins/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/owl.carousel.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
-  <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../../public/frontend/css/lightslider.css">
+  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 
-  <link href="public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
+  <link href="../../public/frontend/css/style.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -177,7 +177,7 @@ if (!empty($product)) {
 
 <body>
 
-  <?php include("layout/header.php"); ?>
+  <?php include("../layout/header.php"); ?>
 
   <div class="breadcrumb">
     <div class="container">
@@ -583,7 +583,7 @@ if (!empty($product)) {
     </div>
   </section>
 
-  <?php include("layout/footer.php"); ?>
+  <?php include("../layout/footer.php"); ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>
@@ -658,14 +658,14 @@ if (!empty($product)) {
   <script>
     var baseUrl = "";
   </script>
-  <script src="public/frontend/assets/js/config.js"></script>
-  <script src="public/plugins/js/bootstrap4.min.js"></script>
-  <script src="public/plugins/js/owl.carousel.min.js"></script>
+  <script src="../../public/frontend/assets/js/config.js"></script>
+  <script src="../../public/plugins/js/bootstrap4.min.js"></script>
+  <script src="../../public/plugins/js/owl.carousel.min.js"></script>
   <script src="ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
   <script src="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <script src="public/frontend/assets/js/main.js"></script>
-  <script src="public/frontend/assets/js/product_page.js"></script>
-  <script src="public/myplugins/js/messagebox.js"></script>
+  <script src="../../public/frontend/assets/js/main.js"></script>
+  <script src="../../public/frontend/assets/js/product_page.js"></script>
+  <script src="../../public/myplugins/js/messagebox.js"></script>
 
   <!-- Load Facebook SDK for JavaScript -->
   <div id="fb-root"></div>
@@ -681,7 +681,6 @@ if (!empty($product)) {
   </script>
 
   <script>
-
     $(document).ready(function () {
       $(document).on("click", ".add", function () {
         var id = $(this).attr("id");

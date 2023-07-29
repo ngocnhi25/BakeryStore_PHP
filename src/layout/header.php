@@ -1,12 +1,4 @@
-<div class="overlay">
-  <div class="overlayDoor"></div>
-  <div class="overlayContent">
-    <div class="loader">
-      <div class="inner"></div>
-    </div>
-    <div class="skip">Đang tải ...</div>
-  </div>
-</div>
+
 
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
@@ -319,66 +311,4 @@
     </div>
   </header>
 
-  <section class="section-cua-hang">
-    <div class="container">
-      <div class="owl-carousel-shops owl-carousel owl-theme">
-        <div class="card-shop">
-          <div class="img">
-            <img src="public/frontend/assets/img/icons/shop.png" alt="cua hang">
-          </div>
-          <div class="name">
-            <span class="title-shop">ThuHuong Bakery Phố Huế</span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 149 Phố Huế - Hai B&agrave; Trưng - H&agrave; Nội
-            </span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 024 3633 0435
-            </span> <br>
-          </div>
-        </div>
-        <div class="card-shop">
-          <div class="img">
-            <img src="public/frontend/assets/img/icons/shop.png" alt="cua hang">
-          </div>
-          <div class="name">
-            <span class="title-shop">ThuHuong Bakery L&aacute;ng Hạ</span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 05 L&aacute;ng Hạ - Đống Đa - H&agrave; Nội
-            </span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 024 3512 4123
-            </span> <br>
-          </div>
-        </div>
-        <div class="card-shop">
-          <div class="img">
-            <img src="public/frontend/assets/img/icons/shop.png" alt="cua hang">
-          </div>
-          <div class="name">
-            <span class="title-shop">ThuHuong Bakery L&yacute; Nam Đế</span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 14 L&yacute; Nam Đế - Ho&agrave;n Kiếm - H&agrave;
-              Nội
-            </span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 024 3358 1555
-            </span> <br>
-          </div>
-        </div>
-        <div class="card-shop">
-          <div class="img">
-            <img src="public/frontend/assets/img/icons/shop.png" alt="cua hang">
-          </div>
-          <div class="name">
-            <span class="title-shop">ThuHuong Bakery</span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> Hotline Hỗ Trợ
-            </span> <br>
-            <span class="address-shop">
-              <i class="fa fa-map-marker" aria-hidden="true"></i> 090 754 6668
-            </span> <br>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  

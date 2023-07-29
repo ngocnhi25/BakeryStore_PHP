@@ -1,5 +1,5 @@
 <?php
-require_once("connect/dbcontroller.php");
+require_once("../connect/dbcontroller.php");
 require_once("pagination.class.php");
 $db_handle = new DBController();
 $perPage = new PerPage();
@@ -39,8 +39,8 @@ if (!empty($faq)) {
             <div class="one-product-container">
                 <div class="product-images">
                     <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
-                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
-                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
+                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
+                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
                     </a>
                 </div>
                 <div style="margin-left: 15px; margin-right: 15px;">
