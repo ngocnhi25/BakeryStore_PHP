@@ -72,7 +72,7 @@ function checkCate($value)
                 <?php if ($images != null) { ?>
                     <div id="oldThumbnail">
                         <?php foreach ($images as $key => $image) { ?>
-                            <img src="../<?= $image ?>">
+                            <img src="../../<?= $image ?>">
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -151,4 +151,26 @@ function checkCate($value)
             })
         })
     })
+
+    $(document).ready(function() {
+        $('#input-images').on("change", function() {
+            previewFiles(this, "#preview-images");
+            $(".errorImages").empty().append('');
+        });
+
+        $('#input-name').on("keyup", function() {
+            $(".errorName").empty().append('');
+        });
+
+        $('#input-price').on("keyup", function() {
+            $(".errorPrice").empty().append('');
+        });
+
+        $('#input-cateID').on("change", function() {
+            $(".errorCateID").empty().append('');
+        });
+        $('#description').on("change", function() {
+            $(".errorDescription").empty().append('');
+        });
+    });
 </script>
