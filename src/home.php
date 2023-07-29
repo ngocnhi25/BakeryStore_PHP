@@ -44,17 +44,6 @@ foreach ($sale as $key => $s) {
   <link rel="icon" type="image/png" href="source/icon/logo website2.png">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
 
-  <meta property="og:title" content="Bánh Sinh Nhật | Bánh Trung Thu | Thu Hương Bakery Since 1996" />
-  <meta property="og:site_name" content="BÁNH SINH NHẬT | BÁNH TRUNG THU | BÁNH SỰ KIỆN | HỘP QUÀ TRUNG THU" />
-  <meta property="og:description" content="Thu Hương Bakery ra đời từ năm 1996, trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô." />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="source/hinh-anh/logo/logo.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="Bánh Sinh Nhật | Bánh Trung Thu | Thu Hương Bakery Since 1996" />
-  <meta name="twitter:title" content="Bánh Sinh Nhật | Bánh Trung Thu | Thu Hương Bakery Since 1996" />
-  <meta name="twitter:description" content="Thu Hương Bakery ra đời từ năm 1996, trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô." />
-  <meta name="twitter:image" content="source/hinh-anh/logo/logo.png" />
-
   <!-- Favicon -->
 
   <!-- FONT -->
@@ -62,16 +51,16 @@ foreach ($sale as $key => $s) {
   <!-- FONT -->
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="public/plugins/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="public/plugins/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/owl.carousel.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
-  <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
+  <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
 
 
   <!-- PLUGIN CSS -->
 
-  <link href="public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
+  <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     ! function(f, b, e, v, n, t, s) {
@@ -173,22 +162,22 @@ foreach ($sale as $key => $s) {
     <div class="owl-carousel-banner owl-carousel main-carousel">
       <div class="image_banner">
         <a href="product.php?get=1">
-          <img src="public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
+          <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
         </a>
       </div>
       <div class="image_banner">
         <a href="">
-          <img src="public/images/banners/z4458312754662_72b2be1941aad2d112c26116336a6582.jpg" alt="" style="object-fit: cover;">
+          <img src="../public/images/banners/z4458312754662_72b2be1941aad2d112c26116336a6582.jpg" alt="" style="object-fit: cover;">
         </a>
       </div>
     </div>
     <div class="banner-right">
       <div class="banner-wapper">
         <div class="banner-item">
-          <img src="public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
+          <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
         </div>
         <div class="banner-item">
-          <img src="public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
+          <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="" style="object-fit: cover;">
         </div>
       </div>
     </div>
@@ -217,266 +206,6 @@ foreach ($sale as $key => $s) {
               <div class="product-price">
 
                 <span class="price">400,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/mousse-chanh-leo-5.html">
-                <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" alt="Mousse Chanh Leo" />
-                <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" alt="Mousse Chanh Leo" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Mousse Chanh Leo
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">380,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/valentine-cake-002-72">
-                <img src="source/Banh sự kiện/banhvalentine002.jpg" alt="Valentine cake 002" />
-                <img src="source/Banh sự kiện/banhvalentine002.jpg" alt="Valentine cake 002" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Valentine cake 002
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">Liên hệ</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/cream-cheese-layer-cake-36">
-                <img src="source/B&aacute;nh Sinh Nhật/kembo 005a.jpg" alt="Cream Cheese Layer Cake" />
-                <img src="source/B&aacute;nh Sinh Nhật/kembo 005a.jpg" alt="Cream Cheese Layer Cake" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Cream Cheese Layer Cake
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">350,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/red-velvet-cake-heart-71">
-                <img src="source/B&aacute;nh Sinh Nhật/Red Velvet Cake 1.jpg" alt="Red Velvet Cake Heart" />
-                <img src="source/B&aacute;nh Sinh Nhật/Red Velvet Cake 1.jpg" alt="Red Velvet Cake Heart" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Red Velvet Cake Heart
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">Liên hệ</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/valentine-cake-003-73">
-                <img src="source/Banh sự kiện/valentine 003.jpg" alt="Valentine cake 003" />
-                <img src="source/Banh sự kiện/valentine 003.jpg" alt="Valentine cake 003" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Valentine cake 003
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">Liên hệ</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/banh-tiramisu-7">
-                <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 011.jpg" alt="B&aacute;nh Tiramisu " />
-                <img src="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 011.jpg" alt="B&aacute;nh Tiramisu " />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  B&aacute;nh Tiramisu
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">320,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/fresh-cream-cake-001-43">
-                <img src="source/B&aacute;nh Sinh Nhật THB/kembo 007.jpg" alt="Fresh Cream Cake 001" />
-                <img src="source/B&aacute;nh Sinh Nhật THB/kembo 007.jpg" alt="Fresh Cream Cake 001" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Fresh Cream Cake 001
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">320,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/tiger-cake-baby-01a-12">
-                <img src="source/b&aacute;nh cho b&eacute;/banh cham con ho.jpg" alt="Tiger Cake Baby 01A" />
-                <img src="source/b&aacute;nh cho b&eacute;/banh cham con ho.jpg" alt="Tiger Cake Baby 01A" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Tiger Cake Baby 01A
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">380,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/banh-sinh-nhat-so-2-18">
-                <img src="source/b&aacute;nh cho b&eacute;/banh sinh nhat hinh so2.jpg" alt="B&aacute;nh Sinh Nhật Số 2" />
-                <img src="source/b&aacute;nh cho b&eacute;/banh sinh nhat hinh so2.jpg" alt="B&aacute;nh Sinh Nhật Số 2" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  B&aacute;nh Sinh Nhật Số 2
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">520,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/banh-sinh-nhat-chu-khi-19">
-                <img src="source/b&aacute;nh cho b&eacute;/banh con khi.jpg" alt="B&aacute;nh sinh nhật ch&uacute; Khỉ" />
-                <img src="source/b&aacute;nh cho b&eacute;/banh con khi.jpg" alt="B&aacute;nh sinh nhật ch&uacute; Khỉ" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  B&aacute;nh sinh nhật ch&uacute; Khỉ
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">380,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/baby-cake-st01-25">
-                <img src="source/b&aacute;nh cho b&eacute;/banchobeA002.jpg" alt="Baby Cake ST01" />
-                <img src="source/b&aacute;nh cho b&eacute;/banchobeA002.jpg" alt="Baby Cake ST01" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Baby Cake ST01
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">520,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/fresh-spring-cake-44">
-                <img src="source/B&aacute;nh Sinh Nhật THB/kembo 008.jpg" alt="Fresh Spring Cake" />
-                <img src="source/B&aacute;nh Sinh Nhật THB/kembo 008.jpg" alt="Fresh Spring Cake" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Fresh Spring Cake
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">320,000&#8363;</span>
-              </div>
-            </div>
-          </div>
-          <div class="one-product-container">
-
-            <div class="product-images">
-              <a class="product-image hover-animation" href="san-pham/mousse-tra-xanh-63">
-                <img src="source/Banh entremet/Banh Sinh Nhat 016.jpg" alt="Mousse Tr&agrave; Xanh" />
-                <img src="source/Banh entremet/Banh Sinh Nhat 016.jpg" alt="Mousse Tr&agrave; Xanh" />
-              </a>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="#/">
-                  Mousse Tr&agrave; Xanh
-                </a>
-              </p>
-              <div class="product-price">
-
-                <span class="price">190,000&#8363;</span>
               </div>
             </div>
           </div>

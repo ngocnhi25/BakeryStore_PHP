@@ -35,8 +35,7 @@ function checkCate($value)
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> -->
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
 </head>
 <div style=" width: 100%;">
     <h1><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
@@ -73,7 +72,7 @@ function checkCate($value)
                 <?php if ($images != null) { ?>
                     <div id="oldThumbnail">
                         <?php foreach ($images as $key => $image) { ?>
-                            <img src="../<?= $image ?>">
+                            <img src="../../<?= $image ?>">
                         <?php } ?>
                     </div>
                 <?php } ?>
@@ -152,4 +151,26 @@ function checkCate($value)
             })
         })
     })
+
+    $(document).ready(function() {
+        $('#input-images').on("change", function() {
+            previewFiles(this, "#preview-images");
+            $(".errorImages").empty().append('');
+        });
+
+        $('#input-name').on("keyup", function() {
+            $(".errorName").empty().append('');
+        });
+
+        $('#input-price').on("keyup", function() {
+            $(".errorPrice").empty().append('');
+        });
+
+        $('#input-cateID').on("change", function() {
+            $(".errorCateID").empty().append('');
+        });
+        $('#description').on("change", function() {
+            $(".errorDescription").empty().append('');
+        });
+    });
 </script>
