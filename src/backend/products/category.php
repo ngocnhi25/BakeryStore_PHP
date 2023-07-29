@@ -5,7 +5,7 @@ $cates = executeResult("SELECT * FROM tb_category");
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
     <style>
         .create {
             background-color: #58e4c8fe;
@@ -81,4 +81,4 @@ $cates = executeResult("SELECT * FROM tb_category");
         </table>
     </div>
 </div>
-<script src="js/category.js"></script>
+<script src="../../public/backend/js/category.js"></script>

@@ -5,7 +5,7 @@ $users = executeResult("SELECT * FROM tb_user")
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
 </head>
 <div class="customers">
     <h1>Customer Management</h1>

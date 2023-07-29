@@ -35,8 +35,7 @@ function checkCate($value)
 
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script> -->
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
 </head>
 <div style=" width: 100%;">
     <h1><?php echo (($title != null ? $title : 'Add new product')) ?></h1>

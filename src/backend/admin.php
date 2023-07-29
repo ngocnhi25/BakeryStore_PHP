@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin NgocNhiBakery</title>
-    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="../../public/backend/css/admin.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
@@ -18,7 +18,7 @@
             <div class="top">
                 <div class="logo">
                     <div class="img-logo">
-                        <img src="../public/images/logo/Screenshot 2023-06-23 205633.png" alt="logo">
+                        <img src="../../public/images/logo/Screenshot 2023-06-23 205633.png" alt="logo">
                     </div>
                     <h2 class="text-muted">NGOCNHI
                         <span class="danger">BAKERY</span>
@@ -164,9 +164,6 @@
                             <p>Hey, <b>Ngoc Nhi</b></p>
                             <small class="text-muted">Admin</small>
                         </div>
-                        <div class="profile-photo">
-                            <img src="images/admin1.jpg" alt="admin 1">
-                        </div>
                     </div>
                 </div>
             </div>
@@ -177,8 +174,8 @@
         </div>
     </div>
 
-    <script src="js/admin.js"></script>
-    <script src="js/adminJquery.js"></script>
+    <script src="../../public/backend/js/admin.js"></script>
+    <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
 
 </html>

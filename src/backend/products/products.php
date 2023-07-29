@@ -11,7 +11,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
 </head>
 
 <div class="products" id="products">
@@ -46,7 +46,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                         <td><?= $key + 1 ?></td>
                         <td><?= $product["product_name"] ?></td>
                         <td class="image-product">
-                            <img src="../<?= $product["image"] ?>" alt="" width="200px">
+                            <img src="../../<?= $product["image"] ?>" alt="" width="200px">
                         </td>
                         <td><?php displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>
@@ -63,4 +63,4 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
     </div>
 </div>
 
-<script src="js/product.js"></script>
+<script src="../../public/backend/js/product.js"></script>

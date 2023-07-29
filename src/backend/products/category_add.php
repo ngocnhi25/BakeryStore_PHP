@@ -29,7 +29,7 @@ if (isset($_POST["id"])) {
 ?>
 
 <head>
-    <link rel="stylesheet" href="css/table.css">
+    <link rel="stylesheet" href="../../public/backend/css/table.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -171,4 +171,4 @@ if (isset($_POST["id"])) {
         </div>
     </div>
 </div>
-<script src="js/category.js"></script>
+<script src="../../public/backend/js/category.js"></script>
