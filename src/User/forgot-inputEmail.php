@@ -1,40 +1,31 @@
 <?php
 session_start();
-require_once("../../connect/connectDB.php");
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-    
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password Page</title>
     <link rel="stylesheet" href="../../backend/css/login-register.css">
-    <title>Login Page</title>
 </head>
+
 <body>
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="login-code.php" method="post">
-                    <h2 class="login-h2">Đăng Nhập</h2>
+                <form action="../User/forgot-inputEmail-code.php" method="post">
+                    <h2 class="login-h2">Reset Password</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
                         <input type="email" name="email" required >
-                        <label for="email" >Email:</label>
+                        <label for="">Your Email : </label>
                     </div>
-                    <div class="inputbox">
-                        <ion-icon name="lock-closed"></ion-icon>
-                        <input type="password" name="password" required >
-                        <label for="password">Password:</label>
-                    </div>
-                    <div class="forget">
-                        <label for="remember"><input type="checkbox" id="remember">Remember me</label>
-                        <a href="../User/forgot-inputEmail.php">Forgot Your Password</a>
-                    </div>
-                    <button type="submit" name="login-btn">Log In</button>
+                    <button type="submit" name="submit-resetPass">Send Password Reset Link </button>
                     <div class="register">
-                        <p>Don't have an account? <a href="register.php">Sign In</a></p>
+                        <p> Remember your password? <a href="login.php"> Log in </a></p>
                     </div>
                 </form>
             </div>
@@ -51,4 +42,5 @@ require_once("../../connect/connectDB.php");
 </body>
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
 </html>

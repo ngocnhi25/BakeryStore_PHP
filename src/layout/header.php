@@ -1,8 +1,3 @@
-<?php
-require_once("connect/connectDB.php");
-$cates = executeResult("SELECT * FROM tb_category");
-
-?>
 <div class="overlay">
   <div class="overlayDoor"></div>
   <div class="overlayContent">
@@ -14,8 +9,9 @@ $cates = executeResult("SELECT * FROM tb_category");
 </div>
 
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1">
-</script>
+<script async defer crossorigin="anonymous"
+  src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1">
+  </script>
 
 <div class="page-wrapper">
 
@@ -30,7 +26,8 @@ $cates = executeResult("SELECT * FROM tb_category");
 
   <div class="cart-sidebar-container">
     <div class="header">
-      <p class="title">Giỏ hàng</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i class="fas fa-times fa-2x"></i></span>
+      <p class="title">Giỏ hàng</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
+          class="fas fa-times fa-2x"></i></span>
     </div>
     <div class="body">
       <ul class="cart-list">
@@ -60,8 +57,10 @@ $cates = executeResult("SELECT * FROM tb_category");
 
       <nav>
         <div class="nav nav-tabs tabs-menu-mobile" id="nav-tab" role="tablist">
-          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">MENU</a>
-          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
+          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+            aria-controls="nav-home" aria-selected="true">MENU</a>
+          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab"
+            aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
         </div>
       </nav>
       <div class="tab-content" id="nav-tabContent">
@@ -106,11 +105,51 @@ $cates = executeResult("SELECT * FROM tb_category");
         </div>
         <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
           <ul class="mobile-menu-list">
-            <?php foreach ($cates as $c) { ?>
-              <li>
-                <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
-              </li>
-            <?php } ?>
+            <li>
+              <a href="danh-muc/product">
+                B&aacute;nh sinh nhật
+                <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
+              </a>
+              <ul class='submenu'>
+                <li><a href='danh-muc/ga-to-kem-tuoi'>Gato kem tươi</a></li>
+                <li><a href='danh-muc/ga-to-kem-bo'>Gato kem bơ</a></li>
+                <li><a href='danh-muc/banh-mousse'>Bánh mousse</a></li>
+                <li><a href='danh-muc/banh-valentine'>Bánh valentine</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="danh-muc/product-cho-be">
+                B&aacute;nh Sinh Nhật Cho B&eacute;
+                <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
+              </a>
+              <ul class='submenu'>
+                <li><a href='danh-muc/banh-hinh-so'>Bánh hình số</a></li>
+                <li><a href='danh-muc/banh-12-con-giap'>Bánh 12 con giáp</a></li>
+                <li><a href='danh-muc/banh-sang-tao'>Bánh sáng tạo</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="">
+                Chocolate
+              </a>
+            </li>
+            <li>
+              <a href="danh-muc/cookies-va-mini-cake">
+                Cookies v&agrave; Mini Cake
+                <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
+              </a>
+              <ul class='submenu'>
+                <li><a href='danh-muc/macaron'>Macaron</a></li>
+                <li><a href='danh-muc/cookies'>Cookies</a></li>
+                <li><a href='danh-muc/choux-pastries'>Choux Pastries</a></li>
+                <li><a href='danh-muc/banh-mi'>Bánh Mì</a></li>
+              </ul>
+            </li>
+            <li>
+              <a href="danh-muc/banh-trung-thu">
+                B&aacute;nh trung thu
+              </a>
+            </li>
           </ul>
         </div>
       </div>
@@ -193,11 +232,51 @@ $cates = executeResult("SELECT * FROM tb_category");
                   <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
                 <ul class="submenu">
-                  <?php foreach ($cates as $c) { ?>
-                    <li>
-                      <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
-                    </li>
-                  <?php } ?>
+                  <li>
+                    <a href="danh-muc/product">
+                      B&aacute;nh sinh nhật
+                      <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                    <ul class='submenu'>
+                      <li> <a href='danh-muc/ga-to-kem-tuoi'> Gato kem tươi&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/ga-to-kem-bo'> Gato kem bơ&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/banh-mousse'> Bánh mousse&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/banh-valentine'> Bánh valentine&nbsp;&nbsp;</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="danh-muc/product-cho-be">
+                      B&aacute;nh Sinh Nhật Cho B&eacute;
+                      <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                    <ul class='submenu'>
+                      <li> <a href='danh-muc/banh-hinh-so'> Bánh hình số&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/banh-12-con-giap'> Bánh 12 con giáp&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/banh-sang-tao'> Bánh sáng tạo&nbsp;&nbsp;</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="">
+                      Chocolate
+                    </a>
+                  </li>
+                  <li>
+                    <a href="danh-muc/cookies-va-mini-cake">
+                      Cookies v&agrave; Mini Cake
+                      <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+                    <ul class='submenu'>
+                      <li> <a href='danh-muc/macaron'> Macaron&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/cookies'> Cookies&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/choux-pastries'> Choux Pastries&nbsp;&nbsp;</a></li>
+                      <li> <a href='danh-muc/banh-mi'> Bánh Mì&nbsp;&nbsp;</a></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a href="danh-muc/banh-trung-thu">
+                      B&aacute;nh trung thu
+                    </a>
+                  </li>
                 </ul>
               </li>
               <li class="li-menu">
@@ -240,7 +319,7 @@ $cates = executeResult("SELECT * FROM tb_category");
     </div>
   </header>
 
-  <!-- <section class="section-cua-hang">
+  <section class="section-cua-hang">
     <div class="container">
       <div class="owl-carousel-shops owl-carousel owl-theme">
         <div class="card-shop">
@@ -302,4 +381,4 @@ $cates = executeResult("SELECT * FROM tb_category");
         </div>
       </div>
     </div>
-  </section> -->
+  </section>

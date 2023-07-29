@@ -6,8 +6,8 @@
     <h1>Advertising Management</h1>
     <form method="post" enctype="multipart/form-data" action="">
         <div>
-            <label for="">Type Banner</label> <br>
-            <select name="typeBanner" id="">
+            <label for="">Type advertisement</label> <br>
+            <select name="typeadvertisement" id="">
                 <option value="">____Option____</option>
                 <option value="sale">Sale</option>
                 <option value="category">Category</option>
@@ -16,8 +16,8 @@
             </select>
         </div>
         <div>
-            <label for="">Image Banner</label> <br>
-            <input type="file" name="imageBanner">
+            <label for="">Image advertisement</label> <br>
+            <input type="file" name="imageadvertisement">
             
         </div>
         <div>
@@ -29,4 +29,15 @@
             <input type="date" name="endDate">
         </div>
     </form>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type advertisement</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>

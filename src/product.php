@@ -4,7 +4,6 @@ require_once("pagination.class.php");
 // include("getresult.php");
 require_once("connect/dbcontroller.php");
 require_once("pagination.class.php");
-
 $sanpham = executeResult("SELECT * from tb_products");
 $cate = executeResult("SELECT * FROM tb_category");
 $db_handle = new DBController();
@@ -49,7 +48,7 @@ if (!empty($faq)) {
                         <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
                     </a>
                 </div>
-                <div style="margin-left: 15px; margin-right: 15px;">
+                <div style="margin-left: 15px;">
                     <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
                         <a href="#/">' . $sp["product_name"] . '</a>
                         <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
@@ -58,13 +57,12 @@ if (!empty($faq)) {
                     <div class="">
                         <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
                     </div>
-                    <div class="input_quantity_product">
-                        
+                    <div>
+                        <input type="number" width="100px" id="quantity' . $sp["product_id"] . '">
                     </div>
-                    <div style="margin-top: 5px;" class="input_quantity_product">
-                        <input type="submit" value="Thêm vào giỏ hàng" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
-                        <input type="number" width="50px" id="quantity' . $sp["product_id"] . '">
-                    </div>
+                </div>
+                <div style="text-align: center; margin-top: 5px;">
+                    <input type="submit" value="Thêm vào giỏ hàng" width="100px" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
                 </div>
             </div>
         </div>';
@@ -126,7 +124,7 @@ if (!empty($perpageresult)) {
       border: #bccfd8 1px solid;
       border-left: 0px;
       cursor: pointer;
-      color: #607d8b;
+      color: #607d8b
     }
 
     .disabled {
@@ -479,8 +477,8 @@ if (!empty($perpageresult)) {
         var name = $("#name" + id).val();
         var price = $("#price" + id).val();
         var quantity = $("#quantity" + id).val();
-        
-        
+
+        // Validate the quantity to be a positive integer
         if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
           alert("Please enter a valid quantity.");
           return;
@@ -532,5 +530,3 @@ if (!empty($perpageresult)) {
 
   </div>
 </body>
-
-</html>
