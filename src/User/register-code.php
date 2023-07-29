@@ -2,9 +2,9 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once("../../connect/connectDB.php");
+require_once("../connect/connectDB.php");
 //Load Composer's autoloader
-require_once("../../backend/User/vendor/autoload.php");
+require_once("../User/vendor/autoload.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -33,7 +33,7 @@ function sendEmail_verify($username, $email, $token){
         <h2>You have registered with NgocNhiBakery</h2>
         <h5>Verify your email address to log in with the below given link</h5>
         <br><br>
-        <a href='http://localhost/project_hk2_fpt/backend/User/register-CFcode-Mail.php?token=$token'>Click me</a>
+        <a href='http://localhost/Group3-BakeryStore/src/User/register-CFcode-Mail.php?token=$token'>Click me</a>
         ";
         $mail->Body = $mail_template;
         $mail->send();

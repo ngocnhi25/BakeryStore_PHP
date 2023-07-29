@@ -1,7 +1,5 @@
 <?php
 session_start();
-require_once("../../connect/connectDB.php");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,7 +7,7 @@ require_once("../../connect/connectDB.php");
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../backend/css/login-register.css">
+    <link rel="stylesheet" href="../../public/backend/css/login-register.css">
     <title>Login Page</title>
 </head>
 <body>
@@ -34,7 +32,7 @@ require_once("../../connect/connectDB.php");
                     </div>
                     <button type="submit" name="login-btn">Log In</button>
                     <div class="register">
-                        <p>Don't have an account? <a href="register.php">Sign In</a></p>
+                        <p>Don't have an account? <a href="../../src/User/register.php">Sign In</a></p>
                     </div>
                 </form>
             </div>

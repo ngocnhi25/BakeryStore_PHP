@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../../connect/connectDB.php");
+require_once("../connect/connectDB.php");
 
 if(isset($_GET["token"])){
     $token = $_GET["token"] ;

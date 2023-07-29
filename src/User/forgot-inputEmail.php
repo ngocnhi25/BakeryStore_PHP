@@ -9,7 +9,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reset Password Page</title>
-    <link rel="stylesheet" href="../../backend/css/login-register.css">
+    <link rel="stylesheet" href="../../public/backend/css/login-register.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@ session_start();
                     </div>
                     <button type="submit" name="submit-resetPass">Send Password Reset Link </button>
                     <div class="register">
-                        <p> Remember your password? <a href="login.php"> Log in </a></p>
+                        <p> Remember your password? <a href="../../src/User/login.php"> Log in </a></p>
                     </div>
                 </form>
             </div>
