@@ -1,8 +1,7 @@
 <?php
-require_once("connect/connectDB.php");
-require_once("pagination.class.php");
+require_once("../connect/connectDB.php");
 // include("getresult.php");
-require_once("connect/dbcontroller.php");
+require_once("../connect/dbcontroller.php");
 require_once("pagination.class.php");
 $sanpham = executeResult("SELECT * from tb_products");
 $cate = executeResult("SELECT * FROM tb_category");
@@ -15,40 +14,41 @@ $pagination_setting = isset($_GET["pagination_setting"]) ? $_GET["pagination_set
 
 $page = 1;
 if (!empty($_GET["page"])) {
-    $page = $_GET["page"];
+  $page = $_GET["page"];
 }
 
 // Adjust the number of items per page here (e.g., 3 items per page)
 $itemsPerPage = 3;
 $start = ($page - 1) * $itemsPerPage;
-if ($start < 0) $start = 0;
+if ($start < 0)
+  $start = 0;
 
-$query =  $sql . " LIMIT " . $start . "," . $itemsPerPage;
+$query = $sql . " LIMIT " . $start . "," . $itemsPerPage;
 $faq = $db_handle->runQuery($query);
 
 if (empty($_GET["rowcount"])) {
-    $_GET["rowcount"] = $db_handle->numRows($sql);
+  $_GET["rowcount"] = $db_handle->numRows($sql);
 }
 
 if ($pagination_setting == "prev-next") {
-    $perpageresult = $perPage->getPrevNext($_GET["rowcount"], $paginationlink, $pagination_setting);
+  $perpageresult = $perPage->getPrevNext($_GET["rowcount"], $paginationlink, $pagination_setting);
 } else {
-    $perpageresult = $perPage->getAllPageLinks($_GET["rowcount"], $paginationlink, $pagination_setting);
+  $perpageresult = $perPage->getAllPageLinks($_GET["rowcount"], $paginationlink, $pagination_setting);
 }
 
 $output = '';
 if (!empty($faq)) {
-    foreach ($faq as $sp) {
-        $output .= '
+  foreach ($faq as $sp) {
+    $output .= '
         <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
             <div class="one-product-container">
                 <div class="product-images">
                     <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
-                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
-                        <img src="' . $sp["image"] . '" alt="Valentine cake 006" />
+                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
+                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
                     </a>
                 </div>
-                <div style="margin-left: 15px;">
+                <div style="margin-left: 15px; margin-right: 15px;">
                     <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
                         <a href="#/">' . $sp["product_name"] . '</a>
                         <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
@@ -57,22 +57,23 @@ if (!empty($faq)) {
                     <div class="">
                         <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
                     </div>
-                    <div>
-                        <input type="number" width="100px" id="quantity' . $sp["product_id"] . '">
+                    <div class="input_quantity_product">
+                        
                     </div>
-                </div>
-                <div style="text-align: center; margin-top: 5px;">
-                    <input type="submit" value="Thêm vào giỏ hàng" width="100px" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                    <div style="margin-top: 5px;" class="input_quantity_product">
+                        <input type="submit" value="Thêm vào giỏ hàng" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                        <input type="number" width="50px" id="quantity' . $sp["product_id"] . '">
+                    </div>
                 </div>
             </div>
         </div>';
-    }
+  }
 } else {
-    $output .= '<div class="no-results">No products found.</div>';
+  $output .= '<div class="no-results">No products found.</div>';
 }
 
 if (!empty($perpageresult)) {
-    $output .= '<div id="pagination">' . $perpageresult . '</div>';
+  $output .= '<div id="pagination">' . $perpageresult . '</div>';
 }
 // print($output)
 ?>
@@ -92,7 +93,6 @@ if (!empty($perpageresult)) {
   <link rel="apple-touch-icon" href="source/icon/logo website2.png">
   <link rel="icon" type="image/png" href="source/icon/logo website2.png">
   <link rel="icon" type="image/png" href="source/icon/logo website2.png">
-
   <meta property="og:title" content="Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996" />
   <meta property="og:site_name" content="BÁNH SINH NHẬT | BÁNH TRUNG THU | BÁNH SỰ KIỆN | HỘP QUÀ TRUNG THU" />
   <meta property="og:description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996" />
@@ -103,19 +103,20 @@ if (!empty($perpageresult)) {
   <meta name="twitter:title" content="Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996" />
   <meta name="twitter:description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996" />
   <meta name="twitter:image" content="source/hinh-anh/logo/logo.png" />
-
   <!-- Favicon -->
 
   <!-- FONT -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cabin" />
   <!-- FONT -->
 
-  <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="public/plugins/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="public/plugins/css/owl.carousel.min.css">
+  <!-- PLUGIN JS -->
+  <link rel="stylesheet" href="../../public/frontend/js/librarys_js/jquery3.3.1.min.js">
+  <link rel="stylesheet" href="../../public/frontend/js/librarys_js/owl.carousel.min.js">
+  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js">
+  <link rel="stylesheet" href="../../public/frontend/js/config.js">
+  <link rel="stylesheet" href="../../public/frontend/js/product_page.js">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
-  <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <!-- PLUGIN JS -->
 
   <style>
     .link {
@@ -193,8 +194,12 @@ if (!empty($perpageresult)) {
   </style>
 
   <!-- PLUGIN CSS -->
+  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../../public/frontend/css/lightslider.css">
+  <link href="../../public/frontend/css/style.css" rel="stylesheet">
+  <!-- PLUGIN CSS -->
 
-  <link href="public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -236,7 +241,7 @@ if (!empty($perpageresult)) {
 </head>
 
 <body>
-  <?php include("layout/header.php"); ?>
+  <?php include("../layout/header.php"); ?>
 
   <div class="breadcrumb">
     <div class="container">
@@ -381,7 +386,7 @@ if (!empty($perpageresult)) {
             <p class="section-title">B&aacute;nh Sinh Nhật</p>
             <input type="hidden" name="cate_id" value="1">
           </div>
-          <div class="section-body" >
+          <div class="section-body">
             <div class="row" id="pagination-result">
               <?php print($output) ?>
             </div>
@@ -396,7 +401,7 @@ if (!empty($perpageresult)) {
     </div>
   </section>
 
-  <?php include("layout/footer.php") ?>
+  <?php include("../layout/footer.php") ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>
@@ -520,13 +525,7 @@ if (!empty($perpageresult)) {
   <script>
     var baseUrl = "";
   </script>
-  <script src="public/frontend/assets/js/config.js"></script>
-  <script src="public/plugins/js/bootstrap4.min.js"></script>
-  <script src="public/plugins/js/owl.carousel.min.js"></script>
-  <script src="ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
-  <script src="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <script src="public/frontend/assets/js/main.js?v=1.0.8"></script>
-  <script src="public/myplugins/js/messagebox.js"></script>
+ 
 
   </div>
 </body>
