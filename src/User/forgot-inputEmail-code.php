@@ -2,8 +2,8 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once("../../connect/connectDB.php");
-require_once("../../backend/User/vendor/autoload.php");
+require_once("../connect/connectDB.php");
+require_once("../User/vendor/autoload.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -31,7 +31,7 @@ function sendEmail_update_Password($get_name, $get_email, $token){
     <h2>You are receiving this email because we received a password reset request for your Account </h2>
     <h5>Verify your email address to update the new password with the below given link</h5>
     <br><br>
-    <a href='http://localhost/project_hk2_fpt/backend/User/forgot-inputNewPass.php?token=$token&email=$get_email'>Click me</a>
+    <a href='http://localhost/Group3-BakeryStore/src/User/forgot-inputNewPass.php?token=$token&email=$get_email'>Click me</a>
     ";
         $mail->Body = $mail_template;
         $mail->send();

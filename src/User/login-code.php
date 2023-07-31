@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once("../../connect/connectDB.php");
+require_once("../connect/connectDB.php");
 
 if(isset($_POST["login-btn"])){
     if(!empty(trim($_POST["email"])) && !empty(trim($_POST["email"])) ){
@@ -22,7 +22,7 @@ if(isset($_POST["login-btn"])){
                     'email' => $row['email']
                 ];
                 $_SESSION['status'] = " You logged in successfully !";
-            header("Location: ../../home.php");
+            header("Location: ../home.php");
             exit();
             }else{
                 $_SESSION['status'] = "Please verify email address to login !";
