@@ -34,10 +34,9 @@ foreach ($sale as $key => $s) {
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>
-    Bánh Sinh Nhật | Bánh Trung Thu | Thu Hương Bakery Since 1996</title>
-  <meta name="description" content="Thu Hương Bakery ra đời từ năm 1996, trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô.">
-  <meta name="keywords" content="Bánh Sinh Nhật, Bánh Trung Thu, Quà Trung Thu, Thu Hương Bakery Since 1996">
+  <title> NgocNhiBakery</title>
+  <meta name="description" content="NgocNhiBakery ra đời , trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô.">
+  <meta name="keywords" content="Bánh Sinh Nhật, Bánh Trung Thu, Quà Trung Thu, NgocNhiBakery Since 2021">
   <!-- Favicon -->
   <link rel="apple-touch-icon" href="source/icon/logo website2.png">
   <link rel="icon" type="image/png" href="source/icon/logo website2.png">

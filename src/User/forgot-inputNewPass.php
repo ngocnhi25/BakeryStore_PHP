@@ -16,7 +16,7 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="../User/forgot-inputEmail-code.php" method="post">
+                <form action="code-User.php" method="post">
                     <h2 class="login-h2"> Reset Password Form </h2>
                     <input type="hidden" name="token" value="<?php if(isset($_GET["token"])){echo $_GET["token"];} ?>">
                     <div class="inputbox">

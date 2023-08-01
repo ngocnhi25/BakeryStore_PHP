@@ -13,7 +13,7 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="register-code.php" method="post">
+                <form action="code-User.php" method="post">
                     <h2 class="login-h2">Register Form</h2>
                     <div class="inputbox">
                         <ion-icon name="person"></ion-icon>
@@ -40,7 +40,7 @@ session_start();
                         <input type="password" name="repeatPassword" required>
                         <label for="">Repeat Your Password :</label>
                     </div>
-                    <button type="submit" name="submit-btn">Submit</button>
+                    <button type="submit" name="submit-register-btn">Submit</button>
                     <div class="register">
                         <p> Tôi đã có tài khoản <a href="../../src/User/login.php"> Đăng Nhập </a></p>
                     </div>

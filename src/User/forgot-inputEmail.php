@@ -16,7 +16,7 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="../User/forgot-inputEmail-code.php" method="post">
+                <form action="code-User.php" method="post">
                     <h2 class="login-h2">Reset Password</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>

@@ -14,7 +14,7 @@ session_start();
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="login-code.php" method="post">
+                <form action="code-User.php" method="post">
                     <h2 class="login-h2">Đăng Nhập</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
@@ -30,7 +30,7 @@ session_start();
                         <label for="remember"><input type="checkbox" id="remember">Remember me</label>
                         <a href="../User/forgot-inputEmail.php">Forgot Your Password</a>
                     </div>
-                    <button type="submit" name="login-btn">Log In</button>
+                    <button type="submit" name="submit-login-btn">Log In</button>
                     <div class="register">
                         <p>Don't have an account? <a href="../../src/User/register.php">Sign In</a></p>
                     </div>
