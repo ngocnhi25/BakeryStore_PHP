@@ -1,9 +1,11 @@
 <?php
+session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 
 $arraySale = [];
+
 
 $product = executeResult("SELECT * FROM tb_products where deleted = 0 ORDER BY product_id DESC ");
 $sale = executeResult("SELECT * FROM tb_sale");
@@ -672,6 +674,14 @@ foreach ($sale as $key => $s) {
   <script src="public/myplugins/js/messagebox.js"></script>
 
   </div>
+  <?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 </body>
 
 </html>

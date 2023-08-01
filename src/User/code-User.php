@@ -138,16 +138,24 @@ if(isset($_POST["submit-login-btn"])){
 
         if(mysqli_num_rows($sql_login_run) > 0 ){
             $row = mysqli_fetch_array(($sql_login_run));
-            if($row['status'] == "1"){
+            if($row['status'] == "1" && $row['stt_delete'] == "0" ){
                 $_SESSION['authenticeted']= TRUE;
                 $_SESSION['auth_user'] = [
                     'username' => $row['username'],
                     'phone' => $row['phone'],
                     'email' => $row['email']
                 ];
-                $_SESSION['status'] = " You logged in successfully !";
-            header("Location: ../home.php");
-            exit();
+                $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";
+                $sql_update_login_recent_day_run = mysqli_query($conn, $sql_update_login_recent_day);
+                if ($sql_update_login_recent_day_run) {
+                    $_SESSION['status'] = " You logged in successfully !";
+                    header("Location: ../home.php");
+                    exit();
+                } else {
+                    $_SESSION['status'] = "Failed to update recent day login!";
+                    header("Location: ../home.php");
+                    exit();
+                }
             }else{
                 $_SESSION['status'] = "Please verify email address to login !";
                 header("Location: login.php");

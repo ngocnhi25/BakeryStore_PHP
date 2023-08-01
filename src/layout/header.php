@@ -1,5 +1,8 @@
-
-
+<!-- <?php
+// session_start();
+// require_once("../User/authencation.php");
+?> -->
+<header>
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
   src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1">
@@ -185,23 +188,27 @@
               </span>
               <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
             </form>
+            
             <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
               <img src="public/frontend/assets/img/icons/shopping-bag.svg" alt="">
               <span class="counter">0</span>
             </a>
+             
             <div class="user-header d-none d-lg-block">
-              <a href="#/" class="user-header-button js-toggle-user-nav">
+              <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                Đăng nhập
+                Log In 
               </a>
-              <ul class="user-nav-header">
-                <li>
-                  <a href="dang-nhap#login">Đăng nhập</a>
-                </li>
-                <li>
-                  <a href="dang-ky#register">Đăng ký</a>
-                </li>
-              </ul>
+              <a href="User/register.php" class="user-header-button js-toggle-user-nav">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                Sign In
+              </a>
+           
+              <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
+                <i class="fa fa-user" aria-hidden="true"></i>
+                Log Out
+              </a>
+
             </div>
           </div>
         </div>
