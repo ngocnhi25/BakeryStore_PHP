@@ -85,16 +85,16 @@ button:hover {
         <form action="#" method="post">
             <h2>User Information</h2>
             <div class="form-group">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" value="<?=$_SESSION['auth_user']['username'] ?>">
+                <label for="name">Username:</label>
+                <input type="text" id="name" name="name" value="<?=$_SESSION['auth_user']['username'] ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?=$_SESSION['auth_user']['email'] ?>" required>
+                <input type="email" id="email" name="email" value="<?=$_SESSION['auth_user']['email'] ?>" readonly >
             </div>
             <div class="form-group">
                 <label for="phone">Phone Number:</label>
-                <input type="text" id="phone" name="phone" value="<?=$_SESSION['auth_user']['phone'] ?>" required>
+                <input type="text" id="phone" name="phone" value="<?=$_SESSION['auth_user']['phone'] ?>" readonly>
             </div>
             <div class="form-group">
                 <label>Sex:</label>

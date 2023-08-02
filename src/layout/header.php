@@ -181,7 +181,9 @@
               </a>
             </div>
           </div>
+
           <div class="right">
+            
             <form action="tim-kiem" method="GET" class="form-search-header">
               <span class="icon">
                 <i class="fa fa-search"></i>
@@ -195,21 +197,27 @@
             </a>
              
             <div class="user-header d-none d-lg-block">
-              <a href="User/login.php" class="user-header-button js-toggle-user-nav">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                Log In 
+            <?php if (isset($_SESSION["auth_user"])) { ?>
+              <a href="User/information-User.php"> 
+                <ul class="user-header-button js-toggle-user-nav">
+                  <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
+                  <li><a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a></li>
+                </ul> 
               </a>
-              <a href="User/register.php" class="user-header-button js-toggle-user-nav">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                Sign In
-              </a>
-           
-              <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                Log Out
-              </a>
+                
+            <?php } else { ?>
+                <a href="User/login.php" class="user-header-button js-toggle-user-nav">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Log In
+                </a>
+                <a href="User/register.php" class="user-header-button js-toggle-user-nav">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Sign In
+                </a>
+            <?php } ?>
+        </div>
 
-            </div>
+        
           </div>
         </div>
       </div>
