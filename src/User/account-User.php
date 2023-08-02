@@ -43,40 +43,34 @@
                     </div>
                     </li>
                     <li class="nav-item">
-                        <a href="../backend/dashboad.html" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
-                            <h3>My Account</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <div class="sub-btn nav-link">
                             <div class="title">
-                                <span class="material-symbols-sharp">inventory</span>
-                                <h3>Products</h3>
+                            <span class="material-symbols-sharp">person</span>
+                            <h3>My Account</h3>
                             </div>
                             <span class="material-symbols-sharp more">expand_more</span>
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="products/products.php">
+                                <a href="information-User.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>All Products</h4>
+                                    <h4> Information </h4>
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="products/category.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Category</h4>
+                                    <h4>Create new password</h4>
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="products/flavor_and_size.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Flavor and Size</h4>
+                                    <h4></h4>
                                 </a>
                             </li>
                         </ul>
