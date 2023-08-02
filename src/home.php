@@ -1,9 +1,11 @@
 <?php
+session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 
 $arraySale = [];
+
 
 $product = executeResult("SELECT * FROM tb_products where deleted = 0 ORDER BY product_id DESC ");
 $sale = executeResult("SELECT * FROM tb_sale");

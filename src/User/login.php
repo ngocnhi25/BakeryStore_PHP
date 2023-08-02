@@ -1,7 +1,11 @@
 <?php
+<<<<<<< HEAD
 // session_start();
 // require_once("../../connect/connectDB.php");
 
+=======
+session_start();
+>>>>>>> 4aa0734d45391ba0ae1d680e8c9ee73245a436ca
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,14 +13,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../backend/css/login-register.css">
+    <link rel="stylesheet" href="../../public/backend/css/login-register.css">
     <title>Login Page</title>
 </head>
 <body>
     <section>
         <div class="form-box">
             <div class="form-value">
-                <form action="login-code.php" method="post">
+                <form action="code-User.php" method="post">
                     <h2 class="login-h2">Đăng Nhập</h2>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
@@ -32,9 +36,9 @@
                         <label for="remember"><input type="checkbox" id="remember">Remember me</label>
                         <a href="../User/forgot-inputEmail.php">Forgot Your Password</a>
                     </div>
-                    <button type="submit" name="login-btn">Log In</button>
+                    <button type="submit" name="submit-login-btn">Log In</button>
                     <div class="register">
-                        <p>Don't have an account? <a href="register.php">Sign In</a></p>
+                        <p>Don't have an account? <a href="../../src/User/register.php">Sign In</a></p>
                     </div>
                 </form>
             </div>
