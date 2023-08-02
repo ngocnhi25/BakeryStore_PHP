@@ -22,7 +22,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
             <p>Products Delete: <span>25</span></p>
         </div>
     </div>
-    <div class="table_customer">
+    <div >
         <table>
             <thead>
                 <tr>
@@ -45,8 +45,8 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                         </td>
                         <td><?= $key + 1 ?></td>
                         <td><?= $product["product_name"] ?></td>
-                        <td class="image-product">
-                            <img src="../../<?= $product["image"] ?>" alt="" width="200px">
+                        <td class="image-products">
+                            <img src="../../<?= $product["image"] ?>" alt="">
                         </td>
                         <td><?php displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>

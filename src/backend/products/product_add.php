@@ -154,7 +154,7 @@ function checkCate($value)
 
     $(document).ready(function() {
         $('#input-images').on("change", function() {
-            previewFiles(this, "#preview-images");
+            previewFiles(this, "#preview-images", 200);
             $(".errorImages").empty().append('');
         });
 

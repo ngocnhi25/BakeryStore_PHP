@@ -483,7 +483,7 @@ a:hover {
   min-height: 40px;
   padding-top: 8px;
   padding-bottom: 8px;
-  background: #392410;
+  background: #E487AF;
 }
 /* line 8, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-top .sologan {
@@ -594,7 +594,7 @@ a:hover {
 }
 /* line 106, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header-nav {
-  background-color: #392410;
+  background-color: #E487AF;
 }
 /* line 108, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header-nav.fixed {
@@ -893,7 +893,48 @@ section.has-loader .section-loader.active {
   color: #23262f !important;
   background-color: #f4c522;
 }
-/* line 85, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_section.scss */
+
+.secction-banner {
+  max-width: 1110px;
+  max-height: 380px;
+  margin: auto;
+  padding: 20px;
+  display: flex;
+  gap: 0.8rem;
+}
+
+.secction-banner .main-carousel {
+  width: 68%;
+}
+
+.product-images img,
+.banner-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: middle;
+  object-position: center;
+}
+
+.secction-banner .banner-right {
+  width: 32%;
+  max-height: 380px;
+}
+
+.secction-banner .banner-wapper {
+  width: 100%;
+  height: 100%;
+}
+
+.secction-banner .banner-item {
+  width: 100%;
+  height: 48.5%;
+  margin-top: 1%;
+  border-radius: 5px;
+  border: 1px solid #e5e5e5;
+  overflow: hidden;
+} 
+
 .banner-product {
   height: 590px;
   width: 100%;

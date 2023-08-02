@@ -26,10 +26,9 @@
 }
 
 .dark-theme-variables {
-  --color-background: #181a1e;
+  --color-background: #ffffff;
   --color-background-li: #a89dc0;
   --color-white: #202528;
-  --color-dark: #edeffd;
   --color-pink: #202528;
   --color-light-pink: #a3bdcc;
   --color-light: rgb(44 48 78 / 87%);

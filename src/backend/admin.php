@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
-
 </head>
 
 <body>
@@ -116,9 +115,9 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="banner.php" class="nav-link">
+                        <a href="ads.php" class="nav-link">
                         <span class="material-symbols-sharp">ad_units</span>
-                            <h3>Banner</h3>
+                            <h3>Advertising</h3>
                         </a>
                     </li>
                     <li class="nav-item">
