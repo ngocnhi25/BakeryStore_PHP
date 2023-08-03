@@ -1,21 +1,22 @@
 <?php
-$hostname='localhost';
-$usernamedb='root';
-$passworddb='';
-$database='projecthk2';
-$conn =mysqli_connect($hostname, $usernamedb, $passworddb, $database);
-      if(!$conn){
-          die();
-        }
+$hostname = 'localhost';
+$usernamedb = 'root';
+$passworddb = '';
+$database = 'projecthk2';
+$conn = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
+if (!$conn) {
+    die();
+}
 
 //su dung cho cau lenh select
-function executeResult($sql){
+function executeResult($sql)
+{
     global $hostname, $usernamedb, $passworddb, $database;
     $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
     $result = mysqli_query($con, $sql);
     $data = [];
-    if($result != null){
-        while($row = mysqli_fetch_assoc($result)){
+    if ($result != null) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $data[] = $row;
         }
     }
@@ -25,8 +26,9 @@ function executeResult($sql){
 
 
 //su dung cho cau lenh insert, update, delete
-function execute($sql){
-    global $hostname, $usernamedb, $passworddb,$database;
+function execute($sql)
+{
+    global $hostname, $usernamedb, $passworddb, $database;
     $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
     $result = mysqli_query($con, $sql);
     mysqli_close($con);
@@ -34,22 +36,24 @@ function execute($sql){
 }
 
 //su dung cho cau lenh select (1 record)
-function executeSingleResult($sql){
-    global $hostname, $usernamedb, $passworddb,$database;
+function executeSingleResult($sql)
+{
+    global $hostname, $usernamedb, $passworddb, $database;
     $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
     $result = mysqli_query($con, $sql);
-    if($result != null){
-        $row = mysqli_fetch_array($result,1);
+    if ($result != null) {
+        $row = mysqli_fetch_array($result, 1);
     }
     mysqli_close($con);
     return $row;
 }
 
-function checkRowTable($sql){
-    global $hostname, $usernamedb, $passworddb,$database;
+function checkRowTable($sql)
+{
+    global $hostname, $usernamedb, $passworddb, $database;
     $con = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
     $result = mysqli_query($con, $sql);
-    if($result != null){
+    if ($result != null) {
         $row = mysqli_num_rows($result);
     }
     mysqli_close($con);

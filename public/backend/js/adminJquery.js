@@ -6,7 +6,7 @@ function showSuccessMessage(page) {
         ajaxPages(page);
     });
 }
-function previewFiles(inputElement, previewElement) {
+function previewFiles(inputElement, previewElement, witdth) {
     $(previewElement).empty();
     if (inputElement.files) {
         $.each(inputElement.files, function(i, file) {
@@ -14,7 +14,7 @@ function previewFiles(inputElement, previewElement) {
             $(reader).on("load", function() {
                 $(previewElement).append($("<img/>", {
                     src: this.result,
-                    width: 200
+                    width: witdth
                 }));
             });
             reader.readAsDataURL(file);
