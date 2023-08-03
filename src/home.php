@@ -158,7 +158,10 @@ foreach ($sale as $key => $s) {
 </head>
 
 <body>
-  <?php include("layout/header.php"); ?>
+  <?php include("layout/header.php");
+  
+  ?>
+
   <section class="secction-banner">
     <div class="owl-carousel-banner owl-carousel main-carousel">
       <div class="image_banner">
