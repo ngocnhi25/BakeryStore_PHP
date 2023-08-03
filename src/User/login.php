@@ -1,11 +1,7 @@
 <?php
-<<<<<<< HEAD
 // session_start();
 // require_once("../../connect/connectDB.php");
 
-=======
-session_start();
->>>>>>> 4aa0734d45391ba0ae1d680e8c9ee73245a436ca
 ?>
 <!DOCTYPE html>
 <html lang="en">

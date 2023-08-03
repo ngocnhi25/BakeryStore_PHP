@@ -1332,7 +1332,7 @@ footer ul li a:hover {
 }
 /* line 236, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_menu.scss */
 .menu-category a i {
-  float: right;
+  float: left;
   margin-top: 2px;
   font-size: 26px;
 }

@@ -4,7 +4,6 @@ require_once("connect/connectDB.php");
 
 <?php require "layout/header.php"; ?>
 
-
 <div class="breadcrumb">
   <div class="container">
     <nav aria-label="breadcrumb">

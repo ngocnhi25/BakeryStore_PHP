@@ -745,7 +745,7 @@ if (!empty($product)) {
         // This can be obtained from the PHP code or any other source of data
         var sizePriceMap = {
           <?php foreach ($size as $s) { ?>
-                    <?php echo $s["size"]; ?>: <?php echo $s["increase_size"]; ?>,
+                    <?php echo $s["size"]; ?> <?php echo $s["increase_size"]; ?>,
           <?php } ?>
         };
 
