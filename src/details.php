@@ -1,12 +1,15 @@
 <?php
 session_start();
-require_once('../connect/connectDB.php');
+require_once('connect/connectDB.php');
 
-$id = 2;
+$id = $_GET['product_id'];
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flaror");
 $size = executeResult("select * from tb_product_size");
-
+//Breadcrumbs setup
+$productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
+                                      JOIN tb_category c ON p.cate_id = c.cate_id
+                                      WHERE p.product_id = $id");
 $output = ''; // Initialize the $output variable before using it
 
 if (!empty($product)) {
@@ -33,10 +36,10 @@ if (!empty($product)) {
           <div class="size-zone option-zone row">
             <b class="col-5">nhan banh:</b>
             <div class="col-7">
-                    <select class="select_custom">
+                    <select class="select_custom" id="nhanSelect">
                       <option value="0">Select Cake:</option>';
     foreach ($flaror as $f) {
-      $output .= '<option value="0">' . $f["flaror_name"] . '</option>';
+      $output .= '<option value="0" >' . $f["flaror_name"] . '</option>';
     }
     $output .= '</select>
             </div>
@@ -122,16 +125,16 @@ if (!empty($product)) {
   <!-- FONT -->
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/owl.carousel.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="../../public/frontend/css/lightslider.css">
-  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
+  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 
-  <link href="../../public/frontend/css/style.css" rel="stylesheet">
+  <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -177,29 +180,32 @@ if (!empty($product)) {
 
 <body>
 
-  <?php include("../layout/header.php"); ?>
+  <?php include("layout/header.php"); ?>
 
   <div class="breadcrumb">
     <div class="container">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
           <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-            <a href="" itemprop="item">
+            <a href="/" itemprop="item">
               <span itemprop="name">Trang chủ</span>
               <meta itemprop="position" content="1" />
             </a>
           </li>
-          <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope
-            itemtype="https://schema.org/ListItem">
-            <a href="danh-muc/banh-sinh-nhat" itemprop="item">
-              <span itemprop="name">B&aacute;nh Sinh Nhật</span>
+          <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+            <a href="#" itemprop="item">
+              <span itemprop="name">
+                <?php echo $productDetails['cate_name']; ?>
+              </span>
               <meta itemprop="position" content="2" />
             </a>
           </li>
           <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope
             itemtype="https://schema.org/ListItem">
             <a href="#" itemprop="item">
-              <span itemprop="name">Mousse Chanh Leo</span>
+              <span itemprop="name">
+                <?php echo $productDetails['product_name']; ?>
+              </span>
               <meta itemprop="position" content="3" />
             </a>
           </li>
@@ -350,7 +356,7 @@ if (!empty($product)) {
                     <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
 
                       <?php foreach ($product as $p) { ?>
-                        <img src="../../<?php echo $p["image"] ?>" class="img-fluid">
+                        <img src="../<?php echo $p["image"] ?>" class="img-fluid">
                       <?php } ?>
 
 
@@ -561,7 +567,7 @@ if (!empty($product)) {
     </div>
   </section>
 
-  <?php include("../layout/footer.php"); ?>
+  <?php include("layout/footer.php"); ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>
@@ -636,14 +642,14 @@ if (!empty($product)) {
   <script>
     var baseUrl = "";
   </script>
-  <script src="../../public/frontend/assets/js/config.js"></script>
-  <script src="../../public/plugins/js/bootstrap4.min.js"></script>
-  <script src="../../public/plugins/js/owl.carousel.min.js"></script>
+  <script src="public/frontend/assets/js/config.js"></script>
+  <script src="public/plugins/js/bootstrap4.min.js"></script>
+  <script src="public/plugins/js/owl.carousel.min.js"></script>
   <script src="ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
   <script src="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <script src="../../public/frontend/js/main.js"></script>
-  <script src="../../public/frontend/assets/js/product_page.js"></script>
-  <script src="../../public/myplugins/js/messagebox.js"></script>
+  <script src="public/frontend/js/main.js"></script>
+  <script src="public/frontend/assets/js/product_page.js"></script>
+  <script src="public/myplugins/js/messagebox.js"></script>
 
   <!-- Load Facebook SDK for JavaScript -->
   <div id="fb-root"></div>
@@ -666,6 +672,7 @@ if (!empty($product)) {
         var price = $("#price" + id).val();
         var quantity = $("#quantity").val();
         var size = $("#sizeSelect").val();
+        var nhan = $("#nhanSelect").val();
 
         // Validate the quantity to be a positive integer
         if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
@@ -687,7 +694,7 @@ if (!empty($product)) {
         $.ajax({
           method: "POST",
           url: "add_to_cart.php",
-          data: { id: id, name: name, price: totalPrice, quantity: quantity, size: size, increase_size: increaseSize },
+          data: { id: id, name: name, price: totalPrice, quantity: quantity, size: size, increase_size: increaseSize, nhan: nhan },
           success: function (data) {
             alert("You have added a new item to the cart.");
             // Optional: You may update the cart count or display a message to the user.
@@ -723,12 +730,12 @@ if (!empty($product)) {
         // This can be obtained from the PHP code or any other source of data
         var sizePriceMap = {
           <?php foreach ($size as $s) { ?>
-                    <?php echo $s["size"]; ?> <?php echo $s["increase_size"]; ?>,
+                            <?php echo $s["size"]; ?>: <?php echo $s["increase_size"]; ?>,
           <?php } ?>
         };
 
         // Update the displayed price based on the selected size
-        if (!isNaN(selectedSize) && selectedSize in sizePriceMap) {
+        if (!isNaN(selectedSize) && sizePriceMap.hasOwnProperty(selectedSize)) {
           var newPrice = sizePriceMap[selectedSize];
           $("#displayedPrice").text(newPrice);
         } else {
@@ -738,7 +745,7 @@ if (!empty($product)) {
       });
     });
   </script>
-  <script src="../../public/frontend/js/product_page.js"></script>
+  <script src="../public/frontend/js/product_page.js"></script>
   </div>
 </body>
 

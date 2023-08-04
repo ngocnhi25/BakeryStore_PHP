@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once("../connect/connectDB.php");
+require_once("connect/connectDB.php");
 
 // Fetch coupon details from the database
 $sale = executeResult("SELECT * FROM tb_sale");
@@ -148,16 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty(array_filter($errors))) {
   <!-- FONT -->
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/owl.carousel.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="../../public/frontend/css/lightslider.css">
-  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
+  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 
-  <link href="../../public/frontend/css/style.css" rel="stylesheet">
+  <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -211,7 +211,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty(array_filter($errors))) {
 
 <body>
 
-  <?php include("../layout/header.php"); ?>
+  <?php include("layout/header.php"); ?>
 
   <section class="section-paddingY cart-page">
     <div class="container">
@@ -249,7 +249,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty(array_filter($errors))) {
                   <?php echo $value['id']; ?>
                 </td>
                 <td>
-                  <img src="../../<?php echo $product['image'] ?>" alt="" width="100px">
+                  <img src="<?php echo $product['image'] ?>" alt="" width="100px">
                 </td>
                 <td>
                   <?php echo $value['name']; ?>
@@ -435,7 +435,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && empty(array_filter($errors))) {
     </div>
   </section>
 
-  <?php include("../layout/footer.php"); ?>
+  <?php include("layout/footer.php"); ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>

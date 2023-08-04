@@ -1,7 +1,7 @@
 <?php
-require_once("../connect/connectDB.php");
+require_once("connect/connectDB.php");
 // include("getresult.php");
-require_once("../connect/dbcontroller.php");
+require_once("connect/dbcontroller.php");
 require_once("pagination.class.php");
 $sanpham = executeResult("SELECT * from tb_products");
 $cate = executeResult("SELECT * FROM tb_category");
@@ -40,33 +40,34 @@ $output = '';
 if (!empty($faq)) {
   foreach ($faq as $sp) {
     $output .= '
-        <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
-            <div class="one-product-container">
-                <div class="product-images">
-                    <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
-                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
-                    <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
-                    </a>
-                </div>
-                <div style="margin-left: 15px; margin-right: 15px;">
-                    <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
-                        <a href="#/">' . $sp["product_name"] . '</a>
-                        <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
-                        <input type="hidden" name="name" id="name' . $sp["product_id"] . '" value="' . $sp["product_name"] . '">
-                    </p>
-                    <div class="">
-                        <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
-                    </div>
-                    <div class="input_quantity_product">
-                        
-                    </div>
-                    <div style="margin-top: 5px;" class="input_quantity_product">
-                        <input type="submit" value="Thêm vào giỏ hàng" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
-                        <input type="number" width="50px" id="quantity' . $sp["product_id"] . '">
-                    </div>
-                </div>
+<div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
+    <div class="one-product-container">
+        <div class="product-images">
+            <a class="product-image hover-animation" href="details.php?product_id=' . $sp["product_id"] . '">
+                <img src="../' . $sp["image"] . '" alt="Valentine cake 006" />
+                <img src="../' . $sp["image"] . '" alt="Valentine cake 006" />
+            </a>
+        </div>
+        <div style="margin-left: 15px; margin-right: 15px;">
+            <p style="font-size: 21px; font-weight:500; margin: 5px 0px ;">
+                <a href="product_details.php?product_id=' . $sp["product_id"] . '">' . $sp["product_name"] . '</a>
+                <input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
+                <input type="hidden" name="name" id="name' . $sp["product_id"] . '" value="' . $sp["product_name"] . '">
+            </p>
+            <div class="">
+                <span class="price" style="font-weight: 700; color: red;">' . $sp["price"] . '$</span>
             </div>
-        </div>';
+            <div class="input_quantity_product">
+                
+            </div>
+            <div style="margin-top: 5px;" class="input_quantity_product">
+                <input type="submit" value="Thêm vào giỏ hàng" class="add-to-cart add" id="' . $sp["product_id"] . '" name="add_to_cart">
+                <input type="number" width="50px" id="quantity' . $sp["product_id"] . '">
+            </div>
+        </div>
+    </div>
+</div>';
+
   }
 } else {
   $output .= '<div class="no-results">No products found.</div>';
@@ -90,19 +91,7 @@ if (!empty($perpageresult)) {
   <meta name="description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996">
   <meta name="keywords" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996">
   <!-- Favicon -->
-  <link rel="apple-touch-icon" href="source/icon/logo website2.png">
-  <link rel="icon" type="image/png" href="source/icon/logo website2.png">
-  <link rel="icon" type="image/png" href="source/icon/logo website2.png">
-  <meta property="og:title" content="Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996" />
-  <meta property="og:site_name" content="BÁNH SINH NHẬT | BÁNH TRUNG THU | BÁNH SỰ KIỆN | HỘP QUÀ TRUNG THU" />
-  <meta property="og:description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996" />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="source/hinh-anh/logo/logo.png" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content="Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996" />
-  <meta name="twitter:title" content="Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996" />
-  <meta name="twitter:description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996" />
-  <meta name="twitter:image" content="source/hinh-anh/logo/logo.png" />
+
   <!-- Favicon -->
 
   <!-- FONT -->
@@ -110,11 +99,11 @@ if (!empty($perpageresult)) {
   <!-- FONT -->
 
   <!-- PLUGIN JS -->
-  <link rel="stylesheet" href="../../public/frontend/js/librarys_js/jquery3.3.1.min.js">
-  <link rel="stylesheet" href="../../public/frontend/js/librarys_js/owl.carousel.min.js">
-  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js">
-  <link rel="stylesheet" href="../../public/frontend/js/config.js">
-  <link rel="stylesheet" href="../../public/frontend/js/product_page.js">
+  <link rel="stylesheet" href="../public/frontend/js/librarys_js/jquery3.3.1.min.js">
+  <link rel="stylesheet" href="../public/frontend/js/librarys_js/owl.carousel.min.js">
+  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js">
+  <link rel="stylesheet" href="../public/frontend/js/config.js">
+  <link rel="stylesheet" href="../public/frontend/js/product_page.js">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <!-- PLUGIN JS -->
 
@@ -194,28 +183,14 @@ if (!empty($perpageresult)) {
   </style>
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="../../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-  <link rel="stylesheet" href="../../public/frontend/css/librarys_css/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="../../public/frontend/css/lightslider.css">
-  <link href="../../public/frontend/css/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
+  <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- PLUGIN CSS -->
 
   <!-- Meta Pixel Code -->
-  <script>
-    !function (f, b, e, v, n, t, s) {
-      if (f.fbq) return; n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
-      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
-      n.queue = []; t = b.createElement(e); t.async = !0;
-      t.src = v; s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'en_US/fbevents.js');
-    fbq('init', '1913464958707044');
-    fbq('track', 'PageView');
-  </script>
+
   <noscript><img height="1" width="1" style="display:none"
       src="tr?id=1913464958707044&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
@@ -223,25 +198,11 @@ if (!empty($perpageresult)) {
   <!-- Google tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-232235704-1">
   </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
 
-    gtag('config', 'UA-232235704-1');
-  </script><!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QERL8JJ8K1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-
-    gtag('config', 'G-QERL8JJ8K1');
-  </script>
 </head>
 
 <body>
-  <?php include("../layout/header.php"); ?>
+  <?php include("layout/header.php"); ?>
 
   <div class="breadcrumb">
     <div class="container">
@@ -314,7 +275,7 @@ if (!empty($perpageresult)) {
     </div>
   </section>
 
-  <?php include("../layout/footer.php") ?>
+  <?php include("layout/footer.php") ?>
 
   <div id="fb-root"></div>
   <div class='zalome'>
@@ -322,17 +283,7 @@ if (!empty($perpageresult)) {
       <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
     </a>
   </div>
-  <script>
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s);
-      js.id = id;
-      js.src =
-        'vi_VN/sdk.js#xfbml=1&version=v3.2&appId=1378687992242263&autoLogAppEvents=1';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
+
   <!-- Messenger Plugin chat Code -->
   <div id="fb-root"></div>
 
@@ -340,48 +291,7 @@ if (!empty($perpageresult)) {
   <div id="fb-customer-chat" class="fb-customerchat">
   </div>
 
-  <script>
-    var chatbox = document.getElementById('fb-customer-chat');
-    chatbox.setAttribute("page_id", "111597538192489");
-    chatbox.setAttribute("attribution", "biz_inbox");
-  </script>
 
-  <!-- Your SDK code -->
-  <script>
-    window.fbAsyncInit = function () {
-      FB.init({
-        xfbml: true,
-        version: 'v16.0'
-      });
-    };
-
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = 'vi_VN/sdk/xfbml.customerchat.js';
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-  </script>
-  <script>
-    // When the user scrolls the page, execute myFunction
-    // window.onscroll = function () { myFunction() };
-
-    // Get the header
-    var header = document.getElementById("HeaderTop");
-
-    // Get the offset position of the navbar
-    var sticky = header.offsetTop;
-
-    // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
-    function myFunction() {
-      if (window.pageYOffset > sticky) {
-        header.classList.add("fixed");
-      } else {
-        header.classList.remove("fixed");
-      }
-    }
-  </script>
   <button class="gototop text-yellow">
     <img src="public/frontend/assets/img/icons/goto.png" alt="ve dau trang" style="margin-right: 10px"> Về đầu trang
   </button>
@@ -438,7 +348,7 @@ if (!empty($perpageresult)) {
   <script>
     var baseUrl = "";
   </script>
- 
+
 
   </div>
 </body>
