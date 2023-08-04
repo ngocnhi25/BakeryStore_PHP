@@ -275,29 +275,6 @@ if (!empty($perpageresult)) {
     </div>
   </section>
 
-  <?php include("layout/footer.php") ?>
-
-  <div id="fb-root"></div>
-  <div class='zalome'>
-    <a href='#' target='_blank'>
-      <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
-    </a>
-  </div>
-
-  <!-- Messenger Plugin chat Code -->
-  <div id="fb-root"></div>
-
-  <!-- Your Plugin chat code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
-
-  <button class="gototop text-yellow">
-    <img src="public/frontend/assets/img/icons/goto.png" alt="ve dau trang" style="margin-right: 10px"> Về đầu trang
-  </button>
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-
   <script>
     $(document).ready(function () {
       $(document).on("click", ".add", function () {
@@ -344,11 +321,5 @@ if (!empty($perpageresult)) {
     //   }
     // }
   </script>
-  <script src="public/plugins/js/jquery3.3.1.min.js"></script>
-  <script>
-    var baseUrl = "";
-  </script>
 
-
-  </div>
-</body>
+  <?php include("layout/footer.php") ?>
