@@ -33,7 +33,7 @@ if (!empty($product)) {
           <div class="size-zone option-zone row">
             <b class="col-5">nhan banh:</b>
             <div class="col-7">
-                    <select >
+                    <select class="select_custom">
                       <option value="0">Select Cake:</option>';
     foreach ($flaror as $f) {
       $output .= '<option value="0">' . $f["flaror_name"] . '</option>';
@@ -46,14 +46,14 @@ if (!empty($product)) {
       <span class="col-7">
         
           <input type="number" style="width:68px; margin-bottom: 7px;
-          height: 23px;" id="quantity" value="1">
+          height: 23px;" id="quantity" value="1" class="select_custom">
         
       </span>
     </div>
     <div class="row">
-      <b class="col-5">Mã sản phẩm:</b>
+      <b class="col-5">Size:</b>
       <div class="col-7">
-      <select id="sizeSelect">';
+      <select id="sizeSelect" class="select_custom">';
     foreach ($size as $s) {
       $output .= '<option value="' . $s["size"] . '" id="size">' . $s["size"] . '</option>';
     }
@@ -68,7 +68,7 @@ if (!empty($product)) {
       $output .= $s["increase_size"];
       break;
     }
-    $output .= '</span>
+    $output .= '$</span>
     </div>';
 
     foreach ($product as $sp) {
@@ -210,7 +210,7 @@ if (!empty($product)) {
   <section class="section-paddingY middle-section product-page">
     <div class="container">
       <div class="row">
-        <div class="col-md-3">
+        <!-- <div class="col-md-3">
 
           <ul class="menu-category">
             <li><span class="title-category">Danh mục sản phẩm</span></li>
@@ -328,7 +328,7 @@ if (!empty($product)) {
               </ul>
             </li>
           </ul>
-        </div>
+        </div> -->
 
 
 
@@ -350,35 +350,19 @@ if (!empty($product)) {
                     <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
 
                       <?php foreach ($product as $p) { ?>
-                        <img src=<?php echo $p["image"] ?> class="img-fluid">
+                        <img src="../../<?php echo $p["image"] ?>" class="img-fluid">
                       <?php } ?>
 
 
                     </a>
                   </li>
                 </ul>
-                <div class="share mt-3">
-                  <ul>
-                    <li>Chia sẻ: </li>
-                    <li>
-                      <a target="_blank" href="sharer/sharer.php?u=san-pham/mousse-chanh-leo-5"
-                        class="fb-xfbml-parse-ignore">
-                        <img src="public/frontend/assets/img/icons/Facebook.png" alt="">
-                      </a>
-                    </li>
-                    <li>
-                      <a class="twitter-share-button" target="_blank"
-                        href="https://twitter.com/share?text=&amp;url=san-pham/mousse-chanh-leo-5" data-size="large">
-                        <img src="public/frontend/assets/img/icons/Twitter.png" alt=""></a>
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
             <div class="col-12 col-lg-5">
               <?php print($output) ?>
             </div>
-            <div class="col-12 mt-3">
+            <div class="col-12 mt-5">
               <div class="card-content-pro">
                 <ul class="nav nav-pills tabs-categories" role="tablist">
                   <li class="nav-item">
@@ -386,15 +370,9 @@ if (!empty($product)) {
                       aria-controls="pills-home" aria-selected="true">Mô
                       tả sản phẩm</a>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"
-                      aria-controls="pills-profile" aria-selected="false">
-                      Giao hàng
-                    </a>
-                  </li>
                 </ul>
 
-                <div class="tab-content mt-3" id="pills-tabContent">
+                <div class="tab-content" id="pills-tabContent">
                   <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                     aria-labelledby="pills-home-tab">
 
@@ -663,7 +641,7 @@ if (!empty($product)) {
   <script src="../../public/plugins/js/owl.carousel.min.js"></script>
   <script src="ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
   <script src="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
-  <script src="../../public/frontend/assets/js/main.js"></script>
+  <script src="../../public/frontend/js/main.js"></script>
   <script src="../../public/frontend/assets/js/product_page.js"></script>
   <script src="../../public/myplugins/js/messagebox.js"></script>
 
@@ -760,7 +738,7 @@ if (!empty($product)) {
       });
     });
   </script>
-  <script src="public/frontend/assets/js/product_page.js"></script>
+  <script src="../../public/frontend/js/product_page.js"></script>
   </div>
 </body>
 

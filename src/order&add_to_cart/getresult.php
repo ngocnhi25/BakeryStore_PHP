@@ -38,7 +38,7 @@ if (!empty($faq)) {
         <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1">
             <div class="one-product-container">
                 <div class="product-images">
-                    <a class="product-image hover-animation" href="san-pham/valentine-cake-006-74">
+                    <a class="product-image hover-animation">
                     <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
                     <img src="../../' . $sp["image"] . '" alt="Valentine cake 006" />
                     </a>

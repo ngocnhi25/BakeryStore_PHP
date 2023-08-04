@@ -1,5 +1,3 @@
-
-
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous"
   src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1">
@@ -15,29 +13,6 @@
   </div>
 
   <div class="fullscreen-overlay"></div>
-
-  <div class="cart-sidebar-container">
-    <div class="header">
-      <p class="title">Giỏ hàng</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
-          class="fas fa-times fa-2x"></i></span>
-    </div>
-    <div class="body">
-      <ul class="cart-list">
-      </ul>
-    </div>
-    <div class="footer">
-      <div class="total">
-        <span class="text">Tổng tiền</span>
-        <span class="cart-total">Liên hệ</span>
-        <span class="money">
-        </span>
-      </div>
-      <div class="action-btns">
-        <a class="action-btn goto-cart" href="gio-hang">Xem giỏ hàng</a>
-        <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Xóa giỏ hàng</a>
-      </div>
-    </div>
-  </div>
 
   <div class="mobile-menu-container">
     <div class="header">
@@ -179,14 +154,16 @@
             </div>
           </div>
           <div class="right">
-            <form action="tim-kiem" method="GET" class="form-search-header">
+            <div class="form-search-header">
               <span class="icon">
                 <i class="fa fa-search"></i>
               </span>
-              <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
-            </form>
-            <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
-              <img src="public/frontend/assets/img/icons/shopping-bag.svg" alt="">
+              <input type="text" name="search" placeholder="Tìm kiếm" class="form-control" id="live_search">
+              <div id="searchresult"></div>
+            </div>
+
+            <a class="shopping-bag js-toggle-cart-sidebar" href="../order&add_to_cart/gio-hang.php">
+              <img src="../../public/images/icon/shopping-bag.svg" alt="">
               <span class="counter">0</span>
             </a>
             <div class="user-header d-none d-lg-block">
@@ -310,5 +287,30 @@
       </div>
     </div>
   </header>
+  <!-- Load jQuery library first -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
+    integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-  
+  <!-- Your live search script -->
+  <script>
+    $(document).ready(function () {
+      $("#live_search").keyup(function () {
+        var input = $(this).val();
+        if (input != "") {
+          $.ajax({
+            url: "./livesearch.php",
+            method: "POST",
+            data: { input: input },
+            success: function (data) {
+              $("#searchresult").html(data);
+              $("#searchresult").css("display", "block"); // Show the search result container
+            }
+          });
+        } else {
+          $("#searchresult").html(""); // Clear the search result if the input is empty
+          $("#searchresult").css("display", "none"); // Hide the search result container
+        }
+      });
+    });
+  </script>
