@@ -111,7 +111,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products/add-product.php" class="nav-link">
+                        <a href="sale.php" class="nav-link">
                             <span class="material-symbols-sharp">shopping_cart_checkout</span>
                             <h3>Sale</h3>
                         </a>

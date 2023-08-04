@@ -2,22 +2,22 @@
 session_start();
 
 require_once("connect/connectDB.php");
-//sender_name, sender_phome
-$sender_name = "Loi Ngoc Nhi";
-$sender_phone = 0123123123;
 
-//caculate total
-$total_price = 0;
-$deposit = 0;
-foreach ($_SESSION['cart'] as $key => $value) {
-  $total_price = $total_price + $value['quantity'] * $value['price'];
-  $quantity = $value['quantity'];
+// Fetch coupon details from the database
+$sale = executeResult("SELECT * FROM tb_sale");
+foreach ($sale as $s) {
+  $coupon_name = $s['coupon_name'];
+  $discount = $s['discount'];
 }
 
-//caculate deposit
-$deposit = $total_price * 30 / 100;
-// echo $quantity;
-// die();
+// Sender name and phone
+$sender_name = "Loi Ngoc Nhi";
+$sender_phone = "0123123123"; // Enclose phone number in quotes to treat it as a string
+
+// Calculate total
+$total_price = 0.0; // Initialize the total price as a float
+$deposit = 0.0; // Initialize the deposit as a float
+$couponDis = 0.0; // Initialize the variable to hold the coupon discount as a float
 
 // Set user_id securely from your authentication system or database query
 $_SESSION['user_id'] = "123";
@@ -25,12 +25,13 @@ $user_id = $_SESSION['user_id'];
 $current_time = date('Y-m-d H:i:s'); // Get the current time in the format YYYY-MM-DD HH:MM:SS
 $order_date = date('Y-m-d'); // Get the order date in the format YYYY-MM-DD
 
-$username = $phone = $email = $address = '';
+$username = $phone = $email = $address = $coupon = ''; // Initialize coupon variable
 $errors = [
   "username" => "",
   "phone" => "",
   "email" => "",
-  "address" => ""
+  "address" => "",
+  "coupon" => "" // Add coupon to the errors array
 ];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -38,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $phone = trim($_POST["phone"]);
   $address = trim($_POST["address"]);
   $email = trim($_POST["email"]);
+  $coupon = trim($_POST["coupon"]);
 
   if (empty($username)) {
     $errors["username"] = "Please enter a username";
@@ -53,34 +55,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($address)) {
     $errors["address"] = "Please enter an address";
   }
-
-  // If there are no errors, process the form data
-  if (empty(array_filter($errors))) {
-    // Process the form data here (e.g., save to database or send email)
-    $query = "INSERT INTO tb_order (user_id, receiver_name, receiver_phone, receiver_address, receiver_datetime, order_date, total_pay, deposit, sender_name, sender_phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?,?,?,'Pending')";
-    $stmt = $conn->prepare($query);
-
-    if (!$stmt) {
-      echo "Error: " . $conn->error; // Output any specific error messages from the database
-      exit();
-    }
-
-    $stmt->bind_param("ssssssssss", $user_id, $username, $phone, $address, $current_time, $order_date,$total_price, $deposit, $sender_name, $sender_phone);
-
-    if ($stmt->execute()) {
-      // After processing, you may redirect the user to a success page
-      header("Location: home.php");
-      exit();
+  if (empty($coupon)) {
+    $errors["coupon"] = "Please enter a coupon"; // Correct the error message for coupon
+  } else {
+    // Check if a coupon code is submitted
+    if ($coupon === $coupon_name) {
+      $couponDis = $discount / 100; // Store the coupon discount percentage for later use
     } else {
-      echo "Error: Failed to insert order details. " . $stmt->error;
+      $errors["coupon"] = "Invalid coupon"; // Display an error if the coupon code is invalid
     }
   }
 }
+
+if (isset($_SESSION['cart']) && is_array($_SESSION['cart'])) {
+  foreach ($_SESSION['cart'] as $key => $value) {
+    // Calculate total and deposit (moved outside the loop)
+    $product_price = floatval($value['price']); // Convert product price to a float
+    $quantity = floatval($value['quantity']); // Convert quantity to a float
+    $total_price += $product_price * $quantity;
+  }
+  // Calculate deposit after the loop
+  $deposit = $total_price * 30 / 100;
+  // Calculate final price after applying the coupon discount
+  $final_price = $total_price - ($total_price * $couponDis);
+  // var_dump($total_price);
+  // var_dump($couponDis);
+  // var_dump($final_price);
+  // die();
+
+}
+
+// If there are no errors and the form is submitted, process the form data
+if ($_SERVER["REQUEST_METHOD"] == "POST" && empty(array_filter($errors))) {
+  // Process the form data here (e.g., save to database or send email)
+  $query = "INSERT INTO tb_order (user_id, receiver_name, receiver_phone, receiver_address, receiver_datetime, order_date, rest, total_pay, deposit, sender_name, sender_phone, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')";
+  $stmt = $conn->prepare($query);
+
+  if (!$stmt) {
+    echo "Error: " . $conn->error; // Output any specific error messages from the database
+    exit();
+  }
+
+  $stmt->bind_param("sssssssssss", $user_id, $username, $phone, $address, $current_time, $order_date, $total_price, $final_price, $deposit, $sender_name, $sender_phone); // Bind the coupon parameter
+
+  if ($stmt->execute()) {
+    // After processing, you may redirect the user to a success page
+    header("Location: home.php");
+    exit();
+  } else {
+    echo "Error: Failed to insert order details. " . $stmt->error;
+  }
+}
+
 ?>
-
-
-
-
 
 
 <!DOCTYPE html>
@@ -121,16 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <!-- FONT -->
 
   <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="public/plugins/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="public/plugins/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
+  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/owl.carousel.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="lightslider/dist/css/lightslider.css">
-  <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-
+  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
+  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 
-  <link href="public/frontend/css/style.css" rel="stylesheet">
+  <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     !function (f, b, e, v, n, t, s) {
@@ -206,6 +233,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           <table class="table table-bordered my-5">
             <tr>
               <th>product_id</th>
+              <th>image</th>
               <th>cate_id</th>
               <th>price</th>
               <th>quantity</th>
@@ -214,13 +242,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
 
             <?php
-
-
             foreach ($_SESSION['cart'] as $key => $value) {
               ?>
               <tr>
                 <td>
                   <?php echo $value['id']; ?>
+                </td>
+                <td>
+                  <img src="<?php echo $product['image'] ?>" alt="" width="100px">
                 </td>
                 <td>
                   <?php echo $value['name']; ?>
@@ -240,26 +269,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
               </tr>
 
               <?php
-
             }
             ?>
 
             <tr>
-              <td colspan="3"></td>
-              <td>Total Price</td>
-              <td>
-                <?php echo number_format($total_price, 2); ?>
+              <td colspan="7">
+                <?php if ($couponDis > 0): ?>
+                  <p>Total Price: $
+                    <?php echo number_format($total_price, 2); ?>
+                  </p>
+                  <p>Coupon Discount:
+                    <?php echo $discount; ?>%
+                  </p>
+                  <p>Final Price: $
+                    <?php echo number_format($final_price, 2); ?>
+                  </p>
+                <?php else: ?>
+                  <p>Total Price: $
+                    <?php echo number_format($total_price, 2); ?>
+                  </p>
+                <?php endif; ?>
               </td>
-              <td>
+            </tr>
+
+            <tr>
+              <td colspan="7">
                 <button class="btn btn-warning clearall">Clear All</button>
               </td>
             </tr>
+
           </table>
 
         <?php } else { ?>
           <p class="text-center">NO ITEM SELECTED</p>
         <?php } ?>
       </div>
+
 
     </div>
   </section>
@@ -316,6 +361,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <p class="error-msg">
               <?php echo $errors["address"]; ?>
             </p>
+          </div>
+          <div class="form-group">
+            <label for="coupon">Coupon Code:</label>
+            <input type="text" name="coupon" id="coupon" value="<?php echo htmlspecialchars($coupon); ?>">
+            <span class="error">
+              <?php echo $errors["coupon"]; ?>
+            </span>
+            <button type="submit" name="checkCounpon">Apply Coupon</button>
+          </div>
+
+          <!-- Display order summary -->
+          <div>
+            <h2>Order Summary</h2>
+
           </div>
 
 

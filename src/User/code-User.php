@@ -140,6 +140,7 @@ if(isset($_POST["submit-login-btn"])){
             $row = mysqli_fetch_array(($sql_login_run));
             if($row['status'] == "1" && $row['stt_delete'] == "0" ){
                 $_SESSION['authenticeted']= TRUE;
+                
                 $_SESSION['auth_user'] = [
                     'username' => $row['username'],
                     'phone' => $row['phone'],
@@ -294,6 +295,59 @@ if(isset($_GET["token"])){
     $_SESSION['status'] = " Not Allowed !";
     header("Location: login.php ") ;
     exit();
+}
+
+
+// 6 . information-User page - update full infor
+if (isset($_POST["submit-update-inforUser"])){
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $sex = $_POST["sex"];
+    $address = $_POST["address"];
+
+    if (isset($_POST['dob'])) {
+        $date_birthday = date('Y-m-d', strtotime($_POST["dob"]));
+    } else {
+        $_SESSION['status'] = "Invalid Date of Birth!";
+    }
+
+    $sql_checkmail = "SELECT email, username, phone FROM tb_user WHERE email = '$email' LIMIT 1";
+    $sql_checkmail_run = mysqli_query($conn, $sql_checkmail);
+
+    if (mysqli_num_rows($sql_checkmail_run) > 0) {
+        $row = mysqli_fetch_array(($sql_checkmail_run));
+        if($row['status'] == "1" && $row['stt_delete'] == "0" ){
+            $_SESSION['auth_user_updated'] = [
+                    'username' => $row['username'],
+                    'phone' => $row['phone'],
+                    'email' => $row['email'],
+                    'address' => $row['address'],
+                    'date' => $row['birthday']
+                ];
+            $sql_update_infor_user = "INSERT INTO tb_user (sex, address, date) VALUES ('$sex', '$address', '$date_birthday')";
+            $sql_update_infor_user_run = mysqli_query($conn, $sql_update_infor_user);
+
+            if($sql_update_infor_user_run) {
+                $_SESSION['status'] = "Thank you for updating your information!";
+                header("Location: information-User.php ") ;
+                exit();
+            }else{
+                $_SESSION['status'] = "Failed to update your information!";
+                header("Location: information-User.php ") ;
+                 exit();
+            }
+        }else{
+            $_SESSION['status'] = "Please verify email address to update profile !";
+                 header("Location: information-User.php ") ;
+                exit();
+        }
+        
+    }else {
+        $_SESSION['status'] = " Information User does exist or not invalid !";
+        header("Location: information-User.php ") ;
+        exit();
+    }
 }
 
 ?>

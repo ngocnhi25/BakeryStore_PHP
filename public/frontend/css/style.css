@@ -3265,3 +3265,52 @@ lSSlideOuter .lSPager.lSGallery li.active:hover, .lSSlideOuter .lSPager.lSGaller
     font-size: 10px;
   }
 }
+.select_custom{
+  border-radius: 8px;
+  background-color: #ffc0dc90;
+  font-family: cursive;
+  width: 126px;
+}
+#displayedPrice{
+  font-size: 27px;
+    font-family: ui-monospace;
+    font-weight: 600;
+    color: #d30e0e;
+}
+/* Add this CSS to your existing stylesheet or create a new one */
+
+#searchresult {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+#searchresult ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#searchresult li {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+#searchresult li:last-child {
+  border-bottom: none;
+}
+
+#searchresult a {
+  color: #333;
+  text-decoration: none;
+}
+
+#searchresult a:hover {
+  color: #007bff;
+}

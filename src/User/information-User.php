@@ -1,6 +1,5 @@
 <?php
 session_start();
-// include("authencation.php");
 ?>
 
 <!DOCTYPE html>
@@ -67,6 +66,7 @@ input[type="checkbox"] {
 }
 
 button {
+    text-align: center;
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -82,11 +82,11 @@ button:hover {
 </style>
 <body>
     <div class="container">
-        <form action="#" method="post">
+        <form action="code-User.php" method="post">
             <h2>User Information</h2>
             <div class="form-group">
                 <label for="name">Username:</label>
-                <input type="text" id="name" name="name" value="<?=$_SESSION['auth_user']['username'] ?>" readonly>
+                <input type="text" id="name" name="username" value="<?=$_SESSION['auth_user']['username'] ?>" readonly>
             </div>
             <div class="form-group">
                 <label for="email">Email:</label>
@@ -111,9 +111,17 @@ button:hover {
                 <textarea id="address" name="address" rows="4" required></textarea>
             </div>
             <div class="form-group">
-                <button type="submit-update-inforUser">Submit</button>
+                <button type="submit" name="submit-update-inforUser">Submit</button>
             </div>
         </form>
     </div>
+    <?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 </body>
 </html>
