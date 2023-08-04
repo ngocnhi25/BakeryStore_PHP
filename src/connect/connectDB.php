@@ -1,8 +1,11 @@
 <?php
 $hostname = 'localhost';
 $usernamedb = 'root';
+// $usernamedb = 'id19063450_group3_aptech_fpt';
 $passworddb = '';
+// $passworddb = '@Anonymous88888';
 $database = 'projecthk2';
+// $database = 'id19063450_projecthk2_fpt';
 $conn = mysqli_connect($hostname, $usernamedb, $passworddb, $database);
 if (!$conn) {
     die();

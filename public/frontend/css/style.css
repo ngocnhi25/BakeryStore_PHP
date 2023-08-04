@@ -2622,7 +2622,8 @@ lSSlideOuter .lSPager.lSGallery li.active:hover, .lSSlideOuter .lSPager.lSGaller
   display: inline-block;
 }
 /* line 55, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */
-.cart-sidebar-container .body ul.cart-list li p.subtotal .multi, .cart-sidebar-container .body ul.cart-list li p.subtotal .equal {
+.cart-sidebar-container .body ul.cart-list li p.subtotal .multi, 
+.cart-sidebar-container .body ul.cart-list li p.subtotal .equal {
   margin: 0 5px;
 }
 /* line 65, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_cart.scss */

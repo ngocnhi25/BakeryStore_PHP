@@ -35,7 +35,15 @@ foreach ($sale as $key => $s) {
   <div class="owl-carousel-banner owl-carousel main-carousel">
     <?php foreach ($ads as $key => $a) { ?>
       <div class="image_banner">
-        <a href="">
+        <a href="<?php if($a["type_ads"] == 'category'){
+          echo 'product.php?cate_id='.$a["cate_id"];
+        } elseif($a["type_ads"] == 'product') {
+          echo 'product.php?product='.$a["product_id"];
+        } elseif($a["type_ads"] == 'sale') {
+          echo 'sale.php';
+        } else {
+          echo 'news.php';
+        } ?>">
           <img src="../<?= $a["image_ads"] ?>" alt="" style="object-fit: cover;">
         </a>
       </div>

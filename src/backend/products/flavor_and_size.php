@@ -21,9 +21,6 @@ if (isset($_POST["idSize"])) {
 
 ?>
 
-<head>
-    <link rel="stylesheet" href="../../public/backend/css/table.css">
-</head>
 
 <div class="table_category">
     <h1>Flavor and Size</h1>

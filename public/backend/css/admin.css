@@ -56,7 +56,7 @@ body {
   font-size: 0.88rem;
   background: var(--color-background);
   user-select: none;
-  overflow-x: hidden;
+  overflow: hidden;
   color: var(--color-dark);
 }
 
@@ -69,11 +69,6 @@ body {
 
 a {
   color: var(--color-dark);
-}
-
-img {
-  display: block;
-  width: 100%;
 }
 
 h1 {
@@ -314,6 +309,22 @@ aside .sidebar .sub-btn .less{
   gap: 1.2rem;
   display: flex;
   width: 100%;
+  overflow-x: auto;
+}
+
+#main-page::-webkit-scrollbar {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+#main-page::-webkit-scrollbar-thumb {
+  border-radius: 0.5rem;
+  background-color: #0004;
+  visibility: hidden;
+}
+
+#main-page:hover::-webkit-scrollbar-thumb {
+  visibility: visible;
 }
 
 #main .top {
@@ -475,7 +486,7 @@ aside .sidebar .sub-btn .less{
 
   aside {
     left: -100%;
-    background: var(--color-white);
+    background: var(--color-light-pink);
     width: 18rem;
     height: 100vh;
     z-index: 3;

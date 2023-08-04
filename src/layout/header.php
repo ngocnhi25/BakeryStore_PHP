@@ -103,22 +103,25 @@ $cates = executeResult("SELECT * FROM tb_category c
 
     <div class="cart-sidebar-container">
       <div class="header">
-        <p class="title">Giỏ hàng</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i class="fas fa-times fa-2x"></i></span>
+        <p class="title">Carts</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i class="fas fa-times fa-2x"></i></span>
       </div>
       <div class="body">
         <ul class="cart-list">
+          <li>
+            <p class="product-name">bánh trái dứa</p>
+            <p class="options">Bánh trẻ em</p>
+            <p class="subtotal"><span class="multi">230.000 vnđ</span> <span class="equal">280.000 vnđ</span></p>
+          </li>
         </ul>
       </div>
       <div class="footer">
         <div class="total">
           <span class="text">Tổng tiền</span>
-          <span class="cart-total">Liên hệ</span>
-          <span class="money">
-          </span>
+          <span class="money">6.587.436 vnđ</span>
         </div>
         <div class="action-btns">
-          <a class="action-btn goto-cart" href="gio-hang">Xem giỏ hàng</a>
-          <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Xóa giỏ hàng</a>
+          <a class="action-btn goto-cart" href="gio-hang">View cart</a>
+          <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Clear cart</a>
         </div>
       </div>
     </div>
@@ -140,39 +143,47 @@ $cates = executeResult("SELECT * FROM tb_category c
         <div class="tab-content" id="nav-tabContent">
           <div class="tab-pane fade pt-3 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
             <ul class="mobile-menu-list">
-              <li>
-                <a href="home.php">
-                  Trang chủ
-                </a>
-              </li>
-              <li>
-                <a href="ve-chung-toi.php">
-                  Giới thiệu
-                </a>
-              </li>
-              <li>
-                <a href="product.php">
-                  B&aacute;nh Sinh Nhật
-                </a>
-              </li>
-              <li>
-                <a href="banh-giang-sinh-banh-noel-2022-giang-sinh-ngot-ngao-9.php">
-                  B&aacute;nh Noel (HOT)
-                </a>
-              </li>
-              <li>
+              <li class="li-menu">
                 <a href="#">
-                  Tin v&agrave; Sự Kiện
-                  <i class="dropdown-button js-dropdown-button fas fa-caret-down"></i>
+                  Danh Muc San Pham
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
-                <ul class='submenu'>
-                  <li><a href='huong-dan-mua-hang.php'>Hướng dẫn mua hàng</a></li>
-                  <li><a href='tin-tuc.php'>Tin tức</a></li>
+                <ul class="submenu">
+                  <?php foreach ($cates as $key => $c) { ?>
+                    <li>
+                      <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                    </li>
+                  <?php } ?>
                 </ul>
               </li>
-              <li>
-                <a href="lien-he.php">
-                  Li&ecirc;n hệ
+              <li class="li-menu">
+                <a href="home.php">
+                  Home
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="about.php">
+                  About Us
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="product.php">
+                  Products
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="#">
+                  News and Events
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class='submenu'>
+                  <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
+                  <li> <a href='news.php'> News</a></li>
+                </ul>
+              </li>
+              <li class="li-menu">
+                <a href="contact.php">
+                  Contact
                 </a>
               </li>
             </ul>
@@ -287,32 +298,32 @@ $cates = executeResult("SELECT * FROM tb_category c
                 </li>
                 <li class="li-menu">
                   <a href="home.php">
-                    Trang chủ
+                    Home
                   </a>
                 </li>
                 <li class="li-menu">
-                  <a href="ve-chung-toi.php">
-                    Giới thiệu
+                  <a href="about.php">
+                    About Us
                   </a>
                 </li>
                 <li class="li-menu">
-                  <a href="danh-muc/product.php">
-                    Sản Phẩm
+                  <a href="product.php">
+                    Products
                   </a>
                 </li>
                 <li class="li-menu">
                   <a href="#">
-                    Tin v&agrave; Sự Kiện
+                    News and Events
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                   </a>
                   <ul class='submenu'>
-                    <li> <a href='huong-dan-mua-hang.php'> Hướng dẫn mua hàng&nbsp;&nbsp;</a></li>
-                    <li> <a href='tin-tuc.php'> Tin tức&nbsp;&nbsp;</a></li>
+                    <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
+                    <li> <a href='news.php'> News</a></li>
                   </ul>
                 </li>
                 <li class="li-menu">
-                  <a href="lien-he.php">
-                    Li&ecirc;n hệ
+                  <a href="contact.php">
+                    Contact
                   </a>
                 </li>
               </ul>

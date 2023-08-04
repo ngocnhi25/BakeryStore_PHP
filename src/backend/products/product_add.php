@@ -36,49 +36,185 @@ function checkCate($value)
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../../public/backend/css/table.css">
+    <style>
+        .title-page {
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+
+        .addPro-wapper {
+            position: relative;
+            width: 650px;
+            margin: auto;
+        }
+
+
+        .product-input-box {
+            display: flex;
+            position: relative;
+            justify-content: space-evenly;
+        }
+
+        .input-animation {
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 280px;
+        }
+
+        .input-box label {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #504e4e;
+            padding: 0 5px;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            background: #41cb782e;
+            border: 1.8px solid rgba(255, 255, 255, 0.3);
+            outline: none;
+            border-radius: 50px;
+            font-size: 16px;
+            color: #141212;
+            transition: .5s;
+            box-shadow: 1px 1px 3px black;
+        }
+
+        .input-box input:focus~label,
+        .input-box input:valid~label {
+            top: -5px;
+            left: 18px;
+            font-size: 13px;
+            background: #1d2b3e;
+            color: #0080ff;
+            padding: 0 12px;
+            border-radius: 5px;
+        }
+
+        .input-box input:focus,
+        .input-box input:valid {
+            border: 1.8px solid #0080ff;
+        }
+
+        .ckeditor-box {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid #504e4e;
+        }
+
+        .select-container {
+            width: 200px;
+            position: relative;
+            height: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 1px 1px 3px black;
+        }
+
+        .select-box {
+            border: none;
+            width: 100%;
+            padding: 6px 10px 6px 10px;
+            color: #000;
+            background-color: #96dcd57a;
+            font-size: 14px;
+        }
+
+        .image-box {
+            margin-bottom: 15px;
+        }
+
+        .image-box label {
+            font-size: 16px;
+        }
+
+        .image-box input[type="file"] {
+            font-size: 14px;
+            border-radius: 50px;
+            box-shadow: 1px 1px 3px black;
+            width: 200px;
+            outline: none;
+            margin-left: 10px;
+        }
+
+        ::-webkit-file-upload-button {
+            background-color: #96dcd57a;
+            padding: 8px;
+            border: none;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        .error {
+            margin-left: 20px;
+        }
+    </style>
 </head>
-<div style=" width: 100%;">
-    <h1><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
+<div class="page-box">
+    <h1 class="title-page"><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
     <div>
         <form method="post" enctype="multipart/form-data" action="">
-            <?php if ($id != null) { ?>
-                <div>
-                    <p>ID: <span><?php echo $id ?></span></p>
-                </div>
-            <?php } ?>
-            <div>
-                <label for="">Product name</label> <br>
-                <input id="input-name" type="text" name="name" value="<?php echo (($name != null ? $name : '')) ?>">
-                <div class="errorName" style="color: red;"></div>
-            </div>
-            <div>
-                <label for="">Price</label> <br>
-                <input id="input-price" type="number" name="price" value="<?php echo (($price != null ? $price : '')) ?>">
-                <div class="errorPrice" style="color: red;"></div>
-            </div>
-            <div>
-                <select id="input-cateID" name="cateID" id="">
-                    <option value="">___Category___</option>
-                    <?php foreach ($category as $cate) { ?>
-                        <option value="<?= $cate["cate_id"] ?>" <?php checkCate($cate["cate_id"]); ?>><?= $cate["cate_name"] ?></option>
-                    <?php } ?>
-                </select>
-                <div class="errorCateID" style="color: red;"></div>
-            </div>
-            <div>
-                <label for="">Images</label> <br>
-                <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file" multiple="multiple" accept="image/*">
-                <div id="preview-images"></div>
-                <?php if ($images != null) { ?>
-                    <div id="oldThumbnail">
-                        <?php foreach ($images as $key => $image) { ?>
-                            <img src="../../<?= $image ?>">
-                        <?php } ?>
+            <div class="addPro-wapper">
+                <?php if ($id != null) { ?>
+                    <div>
+                        <p>ID: <span><?php echo $id ?></span></p>
                     </div>
                 <?php } ?>
-                <div class="errorImages" style="color: red;"></div>
+                <div class="product-input-box">
+                    <div class="product-input">
+                        <div class="input-animation">
+                            <div class="input-box">
+                                <input id="input-name" type="text" name="name" value="<?php echo (($name != null ? $name : '')) ?>" required>
+                                <label for="">Product name</label> <br>
+                            </div>
+                            <div class="errorName error" style="color: red;"></div>
+                        </div>
+                        <div class="input-animation">
+                            <div class="input-box">
+                                <input id="input-price" type="number" name="price" value="<?php echo (($price != null ? $price : '')) ?>" required>
+                                <label for="">Price</label> <br>
+                            </div>
+                            <div class="errorPrice error" style="color: red;"></div>
+                        </div>
+                    </div>
+                    <div class="input-animation">
+                        <div class="select-container">
+                            <select id="input-cateID" name="cateID" class="select-box">
+                                <option value="">___Category___</option>
+                                <?php foreach ($category as $cate) { ?>
+                                    <option value="<?= $cate["cate_id"] ?>" <?php checkCate($cate["cate_id"]); ?>><?= $cate["cate_name"] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="errorCateID error" style="color: red;"></div>
+                    </div>
+                </div>
+                <div class="image-box">
+                    <label for="">Images: </label>
+                    <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file" multiple="multiple" accept="image/*">
+                    <div id="preview-images"></div>
+                    <?php if ($images != null) { ?>
+                        <div id="oldThumbnail">
+                            <?php foreach ($images as $key => $image) { ?>
+                                <img src="../../<?= $image ?>">
+                            <?php } ?>
+                        </div>
+                    <?php } ?>
+                    <div class="errorImages error" style="color: red;"></div>
+                </div>
             </div>
-            <div>
+            <div class="ckeditor-box">
                 <textarea id="description" name="description">
                     <?php echo (($description != null ? $description : '')) ?>
                 </textarea>
