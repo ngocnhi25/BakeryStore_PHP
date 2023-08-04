@@ -1,20 +1,25 @@
+<?php
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin NgocNhiBakery</title>
+    <title>Account User </title>
     <link rel="stylesheet" href="../../public/backend/css/admin.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="//cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+
 </head>
 
 <body>
     <div class="container">
         <aside>
-            <div class="top">
+            <!-- <div class="top">
                 <div class="logo">
                     <div class="img-logo">
                         <img src="../../public/images/logo/Screenshot 2023-06-23 205633.png" alt="logo">
@@ -26,51 +31,46 @@
                 <div class="close" id="close-btn">
                     <span class="material-symbols-sharp">close</span>
                 </div>
-            </div>
+            </div> -->
 
             <div class="sidebar">
                 <ul>
-                    <li class="nav-item active">
-                        <a href="./dashboad.html" class="nav-link">
-                            <span class="material-symbols-sharp">grid_view</span>
-                            <h3>Dashboard</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="./customer.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
-                            <h3>Customer</h3>
-                        </a>
+                    <li class="profile">
+                        <div class="info">
+                        <img src="../../public/images/logoUser.jpeg" alt="" width="10px" height="50px">
+                            <h3> Username </h3>
+                            <span class="material-symbols-sharp"></span>
+                    </div>
                     </li>
                     <li class="nav-item">
                         <div class="sub-btn nav-link">
                             <div class="title">
-                                <span class="material-symbols-sharp">inventory</span>
-                                <h3>Products</h3>
+                            <span class="material-symbols-sharp">person</span>
+                            <h3>My Account</h3>
                             </div>
                             <span class="material-symbols-sharp more">expand_more</span>
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="products/products.php">
+                                <a href="information-User.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>All Products</h4>
+                                    <h4> Information </h4>
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="products/category.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Category</h4>
+                                    <h4>Create new password</h4>
                                 </a>
                             </li>
                             <li class="menu-item">
                                 <a href="products/flavor_and_size.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Flavor and Size</h4>
+                                    <h4></h4>
                                 </a>
                             </li>
                         </ul>
@@ -109,15 +109,15 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="sale.php" class="nav-link">
+                        <a href="products/add-product.php" class="nav-link">
                             <span class="material-symbols-sharp">shopping_cart_checkout</span>
                             <h3>Sale</h3>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="ads.php" class="nav-link">
+                        <a href="banner.php" class="nav-link">
                         <span class="material-symbols-sharp">ad_units</span>
-                            <h3>Advertising</h3>
+                            <h3>Banner</h3>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -153,11 +153,11 @@
                     <input type="search" placeholder="Search Data...">
                     <img src="images/search.png" alt="">
                 </div> -->
-                <div class="profile-theme">
+                <!-- <div class="profile-theme">
                     <div class="theme-toggler">
                         <span class="material-symbols-sharp active">light_mode</span>
                         <span class="material-symbols-sharp">dark_mode</span>
-                    </div>
+                    </div> -->
                     <div class="profile">
                         <div class="info">
                             <p>Hey, <b>Ngoc Nhi</b></p>

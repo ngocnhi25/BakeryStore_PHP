@@ -1,5 +1,7 @@
 <?php
-session_start();
+// session_start();
+// require_once("../../connect/connectDB.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
