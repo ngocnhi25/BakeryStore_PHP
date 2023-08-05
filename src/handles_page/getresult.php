@@ -14,7 +14,7 @@ if (!empty($_GET["page"])) {
 }
 
 // Adjust the number of items per page here (e.g., 3 items per page)
-$itemsPerPage = 3;
+$itemsPerPage = 6;
 $start = ($page - 1) * $itemsPerPage;
 if ($start < 0) $start = 0;
 

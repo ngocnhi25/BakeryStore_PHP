@@ -120,7 +120,7 @@ $cates = executeResult("SELECT * FROM tb_category c
           <span class="money">6.587.436 vnđ</span>
         </div>
         <div class="action-btns">
-          <a class="action-btn goto-cart" href="gio-hang">View cart</a>
+          <a class="action-btn goto-cart" href="carts.php">View cart</a>
           <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Clear cart</a>
         </div>
       </div>
