@@ -1,15 +1,14 @@
 <?php
-require_once("connect/connectDB.php");
-// include("getresult.php");
-require_once("connect/dbcontroller.php");
-require_once("pagination.class.php");
+require_once("./connect/connectDB.php");
+require_once("./connect/dbcontroller.php");
+require_once("./handles_page/pagination.class.php");
 $sanpham = executeResult("SELECT * from tb_products");
 $cate = executeResult("SELECT * FROM tb_category");
 $db_handle = new DBController();
 $perPage = new PerPage();
 
 $sql = "SELECT * FROM tb_products";
-$paginationlink = "getresult.php?page=";
+$paginationlink = "./handles_page/getresult.php?page=";
 $pagination_setting = isset($_GET["pagination_setting"]) ? $_GET["pagination_setting"] : "";
 
 $page = 1;
@@ -86,13 +85,7 @@ if (!empty($perpageresult)) {
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>
-    Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996</title>
-  <meta name="description" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996">
-  <meta name="keywords" content="Bánh Sinh Nhật, Bánh Sinh Nhật Thu Hương Bakery since 1996">
-  <!-- Favicon -->
-
-  <!-- Favicon -->
+  <title>Bánh Sinh Nhật - Bánh Sinh Nhật Thu Hương Bakery since 1996</title>
 
   <!-- FONT -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cabin" />
@@ -189,16 +182,6 @@ if (!empty($perpageresult)) {
   <link href="../public/frontend/css/style.css" rel="stylesheet">
   <!-- PLUGIN CSS -->
 
-  <!-- Meta Pixel Code -->
-
-  <noscript><img height="1" width="1" style="display:none"
-      src="tr?id=1913464958707044&ev=PageView&noscript=1" /></noscript>
-  <!-- End Meta Pixel Code -->
-
-  <!-- Google tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-232235704-1">
-  </script>
-
 </head>
 
 <body>
@@ -231,10 +214,10 @@ if (!empty($perpageresult)) {
     <div class="section-loader">
       <i class="fas fa-spinner fa-5x fa-pulse"></i>
     </div>
+
     <div class="container">
       <div class="row">
         <div class="col-md-3">
-
           <ul class="menu-category">
             <li><span class="title-category">Danh mục sản phẩm</span></li>
             <hr>
@@ -277,27 +260,6 @@ if (!empty($perpageresult)) {
 
   <?php include("layout/footer.php") ?>
 
-  <div id="fb-root"></div>
-  <div class='zalome'>
-    <a href='#' target='_blank'>
-      <img alt='icon zalo' src='public/frontend/assets/img/icons/icon-zalo.png' />
-    </a>
-  </div>
-
-  <!-- Messenger Plugin chat Code -->
-  <div id="fb-root"></div>
-
-  <!-- Your Plugin chat code -->
-  <div id="fb-customer-chat" class="fb-customerchat">
-  </div>
-
-
-  <button class="gototop text-yellow">
-    <img src="public/frontend/assets/img/icons/goto.png" alt="ve dau trang" style="margin-right: 10px"> Về đầu trang
-  </button>
-  <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
-
   <script>
     $(document).ready(function () {
       $(document).on("click", ".add", function () {
@@ -314,7 +276,7 @@ if (!empty($perpageresult)) {
 
         $.ajax({
           method: "POST",
-          url: "add_to_cart.php",
+          url: "./handles_page/add_to_cart.php",
           data: { id: id, name: name, price: price, quantity: quantity }, // Include the quantity in the data sent to the server
           success: function (data) {
             alert("You have added a new item to the cart.");
@@ -345,10 +307,6 @@ if (!empty($perpageresult)) {
     // }
   </script>
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
-  <script>
-    var baseUrl = "";
-  </script>
-
-
+  
   </div>
 </body>
