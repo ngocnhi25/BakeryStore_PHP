@@ -338,7 +338,7 @@ foreach ($sale as $key => $s) {
                       </div>
                     <?php } ?>
                     <div class="box-actions-hover">
-                      <button><a href="product.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                      <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
                       <button><span class="material-symbols-sharp">add_shopping_cart</span></button>
                     </div>
                   </div>

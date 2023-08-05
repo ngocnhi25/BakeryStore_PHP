@@ -4,7 +4,7 @@ require_once('connect/connectDB.php');
 
 $id = $_GET['product_id'];
 $product = executeResult("select * from tb_products where product_id = $id");
-$flaror = executeResult("select * from tb_flaror");
+$flaror = executeResult("select * from tb_flavor");
 $size = executeResult("select * from tb_product_size");
 //Breadcrumbs setup
 $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
@@ -39,7 +39,7 @@ if (!empty($product)) {
                     <select class="select_custom" id="nhanSelect">
                       <option value="0">Select Cake:</option>';
     foreach ($flaror as $f) {
-      $output .= '<option value="0" >' . $f["flaror_name"] . '</option>';
+      $output .= '<option value="0" >' . $f["flavor_name"] . '</option>';
     }
     $output .= '</select>
             </div>
