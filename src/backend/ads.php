@@ -99,27 +99,6 @@ $ads = executeResult("SELECT * FROM tb_ads ORDER BY ads_id DESC");
             outline: none;
         }
 
-        .input-box input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            background-color: blue;
-            border-radius: 5px;
-            outline: none;
-            font-size: 14px;
-        }
-
-        .input-box input[type="text"]:valid~span,
-        .input-box input[type="text"]:focus~span {
-            color: #00dfc4;
-            transform: translateX(10px) translateY(-7px);
-            font-size: 12px;
-            padding: 0 10px;
-            background: #206a5d;
-            border-left: 1px solid black;
-            border-right: 1px solid black;
-        }
-
         .image-banner {
             width: 300px;
         }

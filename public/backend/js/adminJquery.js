@@ -79,7 +79,9 @@ $(document).ready(function() {
             e.stopImmediatePropagation();
             const linkItem = $(this).children('a').attr("href");
             $(".menu-item").siblings().removeClass("active");
+            $(".sidebar ul .nav-item").removeClass("active");
             $(this).addClass("active");
+            $(this).parents('.nav-item').addClass('active');
             ajaxPages(linkItem);
             return false;
         });

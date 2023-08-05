@@ -258,8 +258,11 @@ if (!empty($perpageresult)) {
     </div>
   </section>
 
+<<<<<<< HEAD
   <?php include("layout/footer.php") ?>
 
+=======
+>>>>>>> 6a2cdc041073bd8d61e95e11d931b82734029d9e
   <script>
     $(document).ready(function () {
       $(document).on("click", ".add", function () {
@@ -306,7 +309,12 @@ if (!empty($perpageresult)) {
     //   }
     // }
   </script>
+<<<<<<< HEAD
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
   
   </div>
 </body>
+=======
+
+  <?php include("layout/footer.php") ?>
+>>>>>>> 6a2cdc041073bd8d61e95e11d931b82734029d9e

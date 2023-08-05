@@ -10,11 +10,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
 
 ?>
 
-<head>
-    <link rel="stylesheet" href="../../public/backend/css/table.css">
-</head>
-
-<div class="products" id="products">
+<div class="products">
     <h1>Product Page</h1>
     <div>
         <div class="total-items">
@@ -22,13 +18,10 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
             <p>Products Delete: <span>25</span></p>
         </div>
     </div>
-    <div >
+    <div class="table_box">
         <table>
             <thead>
                 <tr>
-                    <th>
-                        <input type="checkbox" name=""> All
-                    </th>
                     <th>ID</th>
                     <th>Product Name</th>
                     <th>Image</th>
@@ -40,13 +33,10 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
             <tbody>
                 <?php foreach ($products as $key => $product) { ?>
                     <tr <?php echo (($product["deleted"] == 1) ? 'style="opacity: 0.5;"' : '') ?>>
-                        <td>
-                            <input type="checkbox" name="" value="">
-                        </td>
                         <td><?= $key + 1 ?></td>
                         <td><?= $product["product_name"] ?></td>
-                        <td class="image-products">
-                            <img src="../../<?= $product["image"] ?>" alt="">
+                        <td>
+                            <img src="../../<?= $product["image"] ?>" alt="" style="width: 130px; border-radius: 8px;">
                         </td>
                         <td><?php displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>

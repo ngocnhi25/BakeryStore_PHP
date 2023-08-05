@@ -4,15 +4,6 @@ require_once('../../connect/connectDB.php');
 $cates = executeResult("SELECT * FROM tb_category");
 ?>
 
-<head>
-    <link rel="stylesheet" href="../../public/backend/css/table.css">
-    <style>
-        .create {
-            background-color: #58e4c8fe;
-        }
-    </style>
-</head>
-
 <div class="table_category">
     <h1>Category</h1>
     <button class="create" onclick="createCategory()">Create new Category</button>
