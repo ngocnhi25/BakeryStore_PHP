@@ -252,7 +252,7 @@ $cates = executeResult("SELECT * FROM tb_category c
                   <a href="User/information-User.php">
                     <ul class="user-header-button js-toggle-user-nav">
                       <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
-                      <li><a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a></li>
+                      <li><a href="User/logout.php" >Log Out</a></li>
                     </ul>
                   </a>
 
