@@ -62,17 +62,10 @@
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/category.php">
+                                <a href="products/galery.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Category</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="products/flavor_and_size.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Flavor and Size</h4>
+                                    <h4>Galery</h4>
                                 </a>
                             </li>
                         </ul>

@@ -11,7 +11,7 @@ function Pagination($number, $page, $addition){
 		$isFirst = $isLast = false; // 2 biến này để kiếm tra có dấu ... trước và sau trang hiện tại chưa
 		for($i=0; $i<$number; $i++){
 			if(!in_array($i+1,$avaiablePage)){ //nếu không có trong mảng thì ra khỏi vòng for
-				if(!$isFirst && $page >= 3){//nếu chưa có dấu ... và số trang phải lớn hơn 3
+				if(!$isFirst && $page >3){//nếu chưa có dấu ... và số trang phải lớn hơn 3
 					echo'<li class="page-item"><a class="page-link" href="?page='.($page-2).$addition.'">...</a></li>';
 					$isFirst = true; //xác nhận đã có dấu ...
 				}
