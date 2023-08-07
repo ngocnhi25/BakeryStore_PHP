@@ -91,7 +91,7 @@ $ads = executeResult("SELECT * FROM tb_ads ORDER BY ads_id DESC");
             margin-left: 10px;
         }
 
-        ::-webkit-file-upload-button {
+        .image-box input[type="file"]::-webkit-file-upload-button {
             background-color: #96dcd57a;
             padding: 8px;
             border: none;

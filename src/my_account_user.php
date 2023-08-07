@@ -105,6 +105,115 @@ require_once("connect/connectDB.php");
             line-height: 1.0625rem;
             color: #555;
         }
+
+        .my-profile-page .update-profile-box {
+            padding-top: 1.875rem;
+            display: flex;
+            align-items: stretch;
+            justify-content: space-between;
+        }
+
+        .my-profile-page .update-profile-box .profile-form {
+            width: 100%;
+            padding-right: 3.125rem;
+        }
+
+        .my-profile-page .update-profile-box .profile-form table tr td {
+            padding-bottom: 30px;
+        }
+
+        .my-profile-page .update-profile-box .profile-form table tr td:first-child {
+            text-align: right;
+            width: 25%;
+        }
+
+        .my-profile-page .update-profile-box .profile-form table tr td:last-child {
+            box-sizing: border-box;
+            padding-left: 20px;
+            width: 75%;
+        }
+
+        .my-profile-page .update-profile-box .profile-form .css-input input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #efefef;
+            outline: none;
+            border-radius: 3px;
+            font-size: 16px;
+            color: #141212;
+            transition: .5s;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image {
+            width: 17.8rem;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image-box {
+            border-left: 0.0625rem solid #efefef;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image {
+            flex-direction: column;
+            width: 10.6931rem;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image .btn-photo input[type="file"] {
+            visibility: hidden;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image .btn-photo input[type="file"]::before {
+            content: 'Choosen a photo';
+            display: inline-block;
+            border: 1px solid #efefef;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            cursor: pointer;
+            font-size: 16px;
+            visibility: visible;
+            margin-left: 20px;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image .preview-photo {
+            height: 6.25rem;
+            width: 6.25rem;
+            margin: 1.25rem 0;
+            position: relative;
+            margin: 10px auto;
+            padding: 2px;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image img {
+            height: 100%;
+            width: 100%;
+            border-radius: 50%;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        .my-profile-page .update-profile-box .profile-update-image .profile-image .text {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            padding-top: 10px;
+        }
+
+        .submit {
+            background-color: red;
+            padding: 0.4rem 0.9rem 0.4rem 0.9rem;
+            font-weight: 500;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            transition: box-shadow 0.3s ease;
+            box-shadow: 1px 1px 3px black;
+        }
+        .submit:hover {
+            box-shadow: none;
+        }
     </style>
 </head>
 

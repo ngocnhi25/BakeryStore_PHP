@@ -5,7 +5,7 @@ require_once('connect/connectDB.php');
 $id = $_GET['product_id'];
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flavor");
-$size = executeResult("select * from tb_product_size");
+$size = executeResult("select * from tb_size");
 //Breadcrumbs setup
 $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
                                       JOIN tb_category c ON p.cate_id = c.cate_id

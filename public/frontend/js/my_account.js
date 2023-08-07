@@ -1,3 +1,17 @@
+function previewPhoto(inputElement, previewElement) {
+    $(previewElement).empty();
+    if (inputElement.files) {
+        $.each(inputElement.files, function(i, file) {
+            var reader = new FileReader();
+            $(reader).on("load", function() {
+                $(previewElement).append($("<img/>", {
+                    src: this.result
+                }));
+            });
+            reader.readAsDataURL(file);
+        });
+    }
+}
 function ajaxPages(url) {
     if (url != null) {
         $.ajax({
@@ -25,3 +39,10 @@ $(document).ready(function() {
         return false;
     });
 })
+
+$(document).ready(function() {
+    $('#photo-profile').on("change", function() {
+        previewPhoto(this, "#preview-photo");
+        $(".errorImages").empty().append('');
+    });
+});
