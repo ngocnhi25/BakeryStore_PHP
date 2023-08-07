@@ -30,6 +30,14 @@ foreach ($sale as $key => $s) {
 ?>
 
 <?php require "layout/header.php" ?>
+<?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 
 <section class="secction-banner">
   <div class="owl-carousel-banner owl-carousel main-carousel">

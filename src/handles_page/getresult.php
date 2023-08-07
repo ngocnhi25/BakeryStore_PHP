@@ -1,11 +1,11 @@
 <?php
-require_once("connect/dbcontroller.php");
-require_once("pagination.class.php");
+require_once("../connect/dbcontroller.php");
+require_once("./pagination.class.php");
 $db_handle = new DBController();
 $perPage = new PerPage();
 
 $sql = "SELECT * FROM tb_products";
-$paginationlink = "getresult.php?page=";
+$paginationlink = "./handles_page/getresult.php?page=";
 $pagination_setting = isset($_GET["pagination_setting"]) ? $_GET["pagination_setting"] : "";
 
 $page = 1;
