@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $cates = executeResult("SELECT * FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
@@ -32,7 +32,7 @@ $cates = executeResult("SELECT * FROM tb_category c
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
   <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- PLUGIN CSS -->
 

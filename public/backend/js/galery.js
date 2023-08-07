@@ -41,6 +41,7 @@ function deleteSize(id) {
         }
     )
 }
+
 function recoverFlavor(id) {
     $.post(
         "handles/updates/flavor.php", {

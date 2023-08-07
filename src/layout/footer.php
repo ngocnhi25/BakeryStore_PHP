@@ -195,6 +195,41 @@
 <script src="../public/frontend/js/main.js?v=1.0.8"></script>
 <script src="public/myplugins/js/messagebox.js"></script>
 
+<script type="text/javascript">
+    function ajaxPages(url) {
+        if (url != null) {
+            $.ajax({
+                url: url,
+                method: "POST",
+                dataType: "html",
+                success: function(response) {
+                    $("#action-page-user").html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        }
+    }
+    $(document).ready(function() {
+        $(".sidebar-user .sidebar ul .nav-item").click(function(e) {
+            e.preventDefault();
+            const link = $(this).children('.nav-link').attr("href");
+
+            $(this).siblings().removeClass("active");
+            $(this).addClass("active");
+            // const hasSubBtn = $(this).children("div").hasClass("sub-btn");
+            // const hasMenuItem = $('.sidebar .menu-item').hasClass("active");
+            // if (!hasSubBtn && hasMenuItem) {
+            //     $('.sidebar .menu-item').removeClass("active");
+            // }
+            ajaxPages(link);
+
+            return false;
+        });
+    })
+</script>
+
 </body>
 
 </html>
