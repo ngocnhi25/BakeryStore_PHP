@@ -64,7 +64,7 @@ foreach ($sale as $key => $s) {
           <a href="<?php if ($ads[$i]["type_ads"] == 'category') {
                       echo 'product.php?cate_id=' . $ads[$i]["cate_id"];
                     } elseif ($ads[$i]["type_ads"] == 'product') {
-                      echo 'product.php?product=' . $ads[$i]["product_id"];
+                      echo 'details.php?product_id=' . $ads[$i]["product_id"];
                     } elseif ($ads[$i]["type_ads"] == 'sale') {
                       echo 'sale.php';
                     } else {

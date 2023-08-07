@@ -28,9 +28,10 @@ require_once("connect/connectDB.php");
             display: flex;
             padding: 15px 0;
             align-items: center;
+            border-bottom: 1px solid #ccc;
         }
 
-        .my-account .sidebar-user .name-user img {
+        .my-account .my-account-box .sidebar-user .name-user img {
             width: 3.025rem;
             height: 3.025rem;
             vertical-align: middle;
@@ -48,6 +49,7 @@ require_once("connect/connectDB.php");
             width: 100%;
             height: auto;
             position: relative;
+            padding-top: 20px;
         }
 
         .my-account .my-account-box .sidebar-user .sidebar .nav-item {
@@ -73,13 +75,35 @@ require_once("connect/connectDB.php");
             padding-left: 30px;
         }
 
-        .my-account .my-account-box .action-page-box .action-page {
+        /* profile */
+        .my-profile-page {
             width: 100%;
             height: 100%;
             display: block;
             background-color: #fff;
             padding: 0 1.875rem 0.625rem;
-            border-radius: 5px;
+            border-radius: 3px;
+        }
+
+        .my-profile-page .profile-title {
+            border-bottom: 0.0625rem solid #efefef;
+            padding: 1.125rem 0;
+        }
+
+        .my-profile-page .profile-title h1 {
+            margin: 0;
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.5rem;
+            text-transform: capitalize;
+            color: #333;
+        }
+
+        .my-profile-page .profile-title p {
+            margin-top: 0.1875rem;
+            font-size: .875rem;
+            line-height: 1.0625rem;
+            color: #555;
         }
     </style>
 </head>
@@ -92,11 +116,10 @@ require_once("connect/connectDB.php");
                 <img src="../public/images/admin1.jpg" alt="">
                 <span>fsgsdgfgdfkkfgdfgdfd</span>
             </div>
-            <hr>
             <div class="sidebar">
                 <ul>
-                    <li class="nav-item">
-                        <a href="my_action_user/my_account.php" class="nav-link">
+                    <li class="nav-item active">
+                        <a href="my_action_user/my_profile.php" class="nav-link">
                             <span class="material-symbols-sharp">person</span>
                             <p>My Account</p>
                         </a>
@@ -139,7 +162,7 @@ require_once("connect/connectDB.php");
             </div>
         </div>
         <div class="action-page-box" id="action-page-user">
-
+            <?php include("my_action_user/my_profile.php"); ?>
         </div>
     </div>
 </section>
