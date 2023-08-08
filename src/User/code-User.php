@@ -300,7 +300,6 @@ if(isset($_GET["token"])){
 }
 
 
-// 6 . information-User page - update full infor
 
 
 ?>
