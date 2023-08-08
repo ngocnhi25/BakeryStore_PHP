@@ -250,7 +250,7 @@ $cates = executeResult("SELECT * FROM tb_category c
 
               <div class="user-header d-none d-lg-block">
                 <?php if (isset($_SESSION["auth_user"])) { ?>
-                  <a href="User/information-User.php">
+                  <a href="my_account_user.php">
                     <ul class="user-header-button js-toggle-user-nav">
                       <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
                       <li><a href="User/logout.php" >Log Out</a></li>

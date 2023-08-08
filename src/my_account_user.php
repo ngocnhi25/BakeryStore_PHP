@@ -1,5 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+session_start();
 require_once("connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    var_dump($_SESSION['auth_user']);
+}
 ?>
 
 <head>
@@ -38,7 +44,7 @@ require_once("connect/connectDB.php");
             border-radius: 50%;
         }
 
-        .my-account .my-account-box .sidebar-user .name-user span {
+        .my-account .my-account-box .sidebar-user .name-user h4 {
             width: 100%;
             height: 3.025rem;
             padding: 0px 0px 0px 15px;
@@ -223,7 +229,7 @@ require_once("connect/connectDB.php");
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/admin1.jpg" alt="">
-                <span>fsgsdgfgdfkkfgdfgdfd</span>
+                <h4> <?=$_SESSION['auth_user']['username'] ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
@@ -242,31 +248,9 @@ require_once("connect/connectDB.php");
                     <li class="nav-item">
                         <a href="my_action_user/warehouse_voucher.php" class="nav-link">
                             <span class="material-symbols-sharp">barcode_scanner</span>
-                            <p>Warehouse Voucher</p>
+                            <p> My Voucher</p>
                         </a>
                     </li>
-                    <!-- <li class="nav-item">
-                        <div class="sub-btn nav-link">
-                            <div class="title">
-                                <span class="material-symbols-sharp">notifications</span>
-                                <p>Notification</p>
-                            </div>
-                            <span class="material-symbols-sharp more">expand_more</span>
-                            <span class="mater  ial-symbols-sharp less">expand_less</span>
-                        </div>
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="./logIn.php">
-                                    <p>dsfsdfs</p>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="./dashboad.html">
-                                    <p>detail</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li> -->
                 </ul>
             </div>
         </div>
@@ -274,6 +258,14 @@ require_once("connect/connectDB.php");
             <?php include("my_action_user/my_profile.php"); ?>
         </div>
     </div>
+    <?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 </section>
 
 <?php include("layout/footer.php"); ?>
