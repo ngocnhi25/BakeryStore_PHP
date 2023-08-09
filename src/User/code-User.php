@@ -133,7 +133,7 @@ if (isset($_POST["submit-register-btn"])){
 
     // Perform validation checks
     if ($password != $repeatPassword) {
-        $_SESSION['status'] = "Passwords don not  match!";
+        $_SESSION['status'] = "Passwords don not match!";
         header("Location: register.php");
         exit();
     }
