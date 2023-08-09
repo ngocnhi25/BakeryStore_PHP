@@ -1,0 +1,23 @@
+.pagination-prod {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+.pagination-prod .prod-page-box {
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    gap: 0.5rem;
+}
+.pagination-prod .prod-page-box .prod-page-item a {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 16px;
+    color: #000;
+    border-radius: 4px;
+}
+.pagination-prod .prod-page-box .prod-page-item.active a {
+    background-color: #4b36ef;
+    color: #fff;
+}
+

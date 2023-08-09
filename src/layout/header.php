@@ -38,6 +38,7 @@ $cates = executeResult("SELECT * FROM tb_category c
   <!-- PLUGIN CSS -->
 
   <link href="../public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
+  <link href="../public/frontend/css/product.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     ! function(f, b, e, v, n, t, s) {
