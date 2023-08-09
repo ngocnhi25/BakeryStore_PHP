@@ -1,4 +1,6 @@
-<?php 
-
-$connect = mysqli_connect("localhost","root","","projecthk2");
-
+<?php
+	$conn = new mysqli("localhost","root","","projecthk2");
+	if($conn->connect_error){
+		die("Connection Failed!".$conn->connect_error);
+	}
+?>

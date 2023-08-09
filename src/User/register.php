@@ -1,6 +1,5 @@
 <?php
 session_start();
-$username = $email = $phone = $password = '' ;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,22 +17,22 @@ $username = $email = $phone = $password = '' ;
                     <h2 class="login-h2">Register Form</h2>
                     <div class="inputbox">
                         <ion-icon name="person"></ion-icon>
-                        <input type="text" name="username" required value="<?php echo $username ?>" >
+                        <input type="text" name="username" required  >
                         <label for="">Username:</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
-                        <input type="email" name="email"  value="<?php echo $email ?>"required >
+                        <input type="email" name="email" required >
                         <label for="">Email :</label>
                     </div>
                     <div class="inputbox">
                     <ion-icon name="call"></ion-icon>
-                        <input type="text" name="phone" value="<?php echo $phone ?>" required >
+                        <input type="text" name="phone" required >
                         <label for="">Phone :</label>
                     </div>
                     <div class="inputbox">
                         <ion-icon name="lock-open"></ion-icon>
-                        <input type="password" name="password" value="<?php echo $password ?>" required>
+                        <input type="password" name="password" required>
                         <label for="">Your Password :</label>
                     </div>
                     <div class="inputbox">
@@ -43,7 +42,7 @@ $username = $email = $phone = $password = '' ;
                     </div>
                     <button type="submit" name="submit-register-btn">Submit</button>
                     <div class="register">
-                        <p> Tôi đã có tài khoản <a href="../../src/User/login.php"> Đăng Nhập </a></p>
+                        <p> Tôi đã có tài khoản <a href="../../src/User/login.php"> Log In </a></p>
                     </div>
                 </form>
             </div>

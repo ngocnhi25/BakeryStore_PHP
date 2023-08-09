@@ -1,3 +1,12 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require_once("connect/connectDB.php");
+ if (isset($_SESSION["auth_user"])) {
+    $user = executeResult("SELECT * FROM tb_user limit 1 ");
+    // var_dump($user);
+ }
+?>
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>My Profile</h1>
@@ -5,13 +14,22 @@
     </div>
     <div class="update-profile-box">
         <div class="profile-form">
-            <form action="" method="post" style="width: 100%;">
+            <form action="User/code-User.php" method="post" style="width: 100%;">
+            <?php foreach($user as $U ){?>
                 <table style="width: 100%;">
+                <tr>
+                        <td></td>
+                        <td>
+                            <div class="css-input">
+                                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
+                            </div>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username">
+                                <input type="text" id="name" name="username" value="<?php echo $U["username"]?>" >
                             </div>
                         </td>
                     </tr>
@@ -19,7 +37,7 @@
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email">
+                                <input type="email" id="email" name="email" value="<?php echo $U["email"]?>" readonly >
                             </div>
                         </td>
                     </tr>
@@ -27,35 +45,38 @@
                         <td>Phone Number:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="phone" name="phone">
+                                <input type="text" id="phone" name="phone" value="<?php echo $U["phone"]?>" >
                             </div>
                         </td>
                     </tr>
+
                     <tr>
-                        <td>Sex:</td>
-                        <td>
-                            <input type="radio" id="male" name="sex" value="male" required> Male
-                            <input type="radio" id="female" name="sex" value="female" required>Female
-                            <input type="radio" id="other" name="sex" value="other" required> Other
+                         <td>Gender:</td>
+                         <td>
+                                <input type="radio" id="male" name="sex" value="Male" <?php if ($U["sex"] === 'Male') echo 'checked'; ?> > Male
+                                <input type="radio" id="female" name="sex" value="Female" <?php if ($U["sex"] === 'Female') echo 'checked'; ?> > Female
+                                <input type="radio" id="other" name="sex" value="Other" <?php if ($U["sex"] === 'Other') echo 'checked'; ?> > Other
                         </td>
                     </tr>
                     <tr>
                         <td>Date of Birth:</td>
-                        <td><input type="date" id="dob" name="dob" required></td>
+                        <td><input type="date" id="dob" name="dob" value="<?php echo $U["birthday"]?>" required></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" name="address" required>
+                                <input type="text" name="address" required value="<?php echo $U["address"]?>" >
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td><button class="submit" type="button" name="submit-update-inforUser">Submit</button></td>
+                        <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
                     </tr>
+                    <?php } ?>
                 </table>
+                
             </form>
         </div>
         <div class="profile-update-image">
