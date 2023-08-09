@@ -228,6 +228,7 @@ if(isset($_POST["submit-login-btn"])){
                 $_SESSION['authenticeted']= TRUE;
                 
                 $_SESSION['auth_user'] = [
+                    'user_id' => $row['user_id'],
                     'username' => $row['username'],
                 ];
                 $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";

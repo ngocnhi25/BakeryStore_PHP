@@ -1,27 +1,32 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
- if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
- }
+session_start();
+require_once("../connect/connectDB.php");
+
+$user = array(); // Initialize the $user array
+
+if (isset($_SESSION["auth_user"])) {
+    $userID = $_SESSION['auth_user']['user_id'];
+    $user = executeResult("SELECT * FROM tb_user WHERE user_id = $userID");
+}
 ?>
+
 <div class="my-profile-page">
     <div class="profile-title">
-        <h1>Change Password </h1>
-        <!-- <p>Manage profile information for account security</p> -->
+        <h1>Change Password</h1>
     </div>
     <div class="update-profile-box">
         <div class="profile-form">
             <form action="User/code-User.php" method="post" style="width: 100%;">
-            <input type="text" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
-            <!-- <input type="text" id="name" name="token" value="<?php echo $U["token"]?>" > -->
+                <?php foreach($user as $U) { ?>
+                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
                 <table style="width: 100%;">
-                <tr>
-                        <td>Your Email </td>
+                    <tr>
+                        <td>Your Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="name" name="email" value="<?php echo $U["email"]?>" readonly >
+                                <input type="email" id="email" name="email" value="<?php echo $U["email"]?>" readonly>
                             </div>
                         </td>
                     </tr>
@@ -29,15 +34,15 @@ error_reporting(E_ALL);
                         <td>Current Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="name" name="current-password" >
+                                <input type="password" id="current-password" name="current-password">
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td>New Password:</label></td>
+                        <td>New Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="email" name="new-password"  >
+                                <input type="password" id="new-password" name="new-password">
                             </div>
                         </td>
                     </tr>
@@ -45,7 +50,7 @@ error_reporting(E_ALL);
                         <td>Confirm New Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="phone" name="confirm-password" >
+                                <input type="password" id="confirm-password" name="confirm-password">
                             </div>
                         </td>
                     </tr>
@@ -54,7 +59,7 @@ error_reporting(E_ALL);
                         <td><button class="submit" type="submit" name="sb-changePassword-User">Submit</button></td>
                     </tr>
                 </table>
-                
+                <?php } ?>
             </form>
         </div>
     </div>

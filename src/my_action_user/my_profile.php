@@ -1,12 +1,18 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-require_once("connect/connectDB.php");
- if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
- }
+// require_once("../connect/connectDB.php");
+
+$user = array(); // Initialize the $user array to avoid undefined variable warnings
+
+if (isset($_SESSION["auth_user"])) {
+    $userID = $_SESSION['auth_user']['user_id'];
+    $user = executeResult("SELECT * FROM tb_user where user_id = $userID");
+}
+var_dump($user) ;
 ?>
+
+
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>My Profile</h1>
@@ -21,7 +27,7 @@ require_once("connect/connectDB.php");
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
+                                <input type="hidden" id="name" name="userId" value="<?=$_SESSION['auth_user']['user_id'] ?>" readonly >
                             </div>
                         </td>
                     </tr>
@@ -29,7 +35,7 @@ require_once("connect/connectDB.php");
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $U["username"]?>" >
+                                <input type="text" id="name" name="username" value="<?php echo $U["username"]?>">
                             </div>
                         </td>
                     </tr>

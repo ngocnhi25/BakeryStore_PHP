@@ -252,29 +252,27 @@ $cates = executeResult("SELECT * FROM tb_category c
               </a>
 
               <div class="user-header d-none d-lg-block">
-                <?php
-                if (isset($_SESSION["auth_user"])) {
-                  $user = executeResult("SELECT * FROM tb_user limit 1 ");
-                ?>
-              <?php foreach($user as $U ){?>
-                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
-                      <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"]?>
-                    </ul>
-                  </a>
-                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                    Log Out 
-                  </a>
-                <?php } ?>
-                <?php } else { ?>
-                  <a href="User/login.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Log In
-                  </a>
-                  <a href="User/register.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Sign In
-                  </a>
-                <?php } ?>
+              <?php if (isset($_SESSION["auth_user"])) {
+              $userID = $_SESSION['auth_user']['user_id'];
+              $user = executeResult("SELECT username FROM tb_user where user_id = $userID");
+              foreach ($user as $U) { ?>
+               <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
+             <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"] ?>
+               </a>
+               <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
+              Log Out
+               </a>
+                <?php }
+            } else { ?>
+              <a href="User/login.php" class="user-header-button js-toggle-user-nav">
+               <i class="fa fa-user" aria-hidden="true"></i>
+                 Log In
+              </a>
+             <a href="User/register.php" class="user-header-button js-toggle-user-nav">
+              <i class="fa fa-user" aria-hidden="true"></i>
+             Sign Up
+              </a>
+            <?php } ?>
               </div>
 
 

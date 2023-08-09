@@ -1,12 +1,14 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
+require_once("../src/connect/connectDB.php");
 session_start();
-require_once("connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    var_dump($user);
+    $userID = $_SESSION['auth_user']['user_id'];
+    $user = executeResult("SELECT * FROM tb_user where user_id = $userID");
+    // var_dump($user);
  }
+
 ?>
 
 <head>
@@ -231,8 +233,8 @@ if (isset($_SESSION["auth_user"])) {
             <div class="name-user">
             <?php foreach($user as $U ){?>
                 <img src="../public/images/admin1.jpg" alt="">
-                <h4> <?php echo $U["username"]?> </h4>
-                <?php } ?>
+                <h4>  <?php echo $U["username"] ; ?> </h4>  
+                <?php } ?> 
             </div>
             <div class="sidebar">
                 <ul>
@@ -242,7 +244,7 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item" >
                         <a href="my_action_user/change_password.php" class="nav-link">
                             <span class="material-symbols-sharp">person</span>
                             <p>Change Password</p>
