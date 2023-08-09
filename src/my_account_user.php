@@ -5,7 +5,7 @@ session_start();
 require_once("connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
     $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
+    var_dump($user);
  }
 ?>
 

@@ -94,8 +94,8 @@ function sendEmail_thankuser_forupdate_fullifor($username, $email){
         $mail->isHTML(true);
         $mail->Subject = 'Thank you for updating the complete information at NgocNhibakery';
         $mail_template = "
-    <h2> We look forward to having the opportunity to serve you in the future </h2>
-    <br><br>
+    <h4> Dear my customer , $username </h4>   
+    <h4> Thank you for updating the complete information at NgocNhibakery . We look forward to having the opportunity to serve you in the future </h4>
     <a href='http://localhost/Group3-BakeryStore/src/home.php'>Shopping Now!</a>
     ";
         $mail->Body = $mail_template;
@@ -453,8 +453,22 @@ if (isset($_POST["submit-update-inforUser"])){
     }
 }
 
+// 6. CHANGE PASSWORD ( change_password.php)
+if(isset($_POST["sb-changePassword-User"])){
+    $userId = (mysqli_real_escape_string($conn ,$_POST["userId"]));
+    $email =  (mysqli_real_escape_string($conn ,$_POST["email"]));
+    $current_password = md5(mysqli_real_escape_string($conn ,$_POST["current-password"])) ;
+    $newPassword = md5(mysqli_real_escape_string($conn ,$_POST["new-password"])) ;
+    $confirm_newPassword = md5(mysqli_real_escape_string($conn ,$_POST["confirm-password"]));
+    $new_token  = mysqli_real_escape_string($conn , $_POST["token"]) ;
 
-// 6. Web+token ( verify email registered)
+    // check email exist or not
+    
+
+}
+
+
+// . Web+token ( verify email registered)
 
 if(isset($_GET["token"])){
     $token = $_GET["token"] ;
