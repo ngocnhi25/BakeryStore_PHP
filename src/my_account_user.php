@@ -4,8 +4,9 @@ error_reporting(E_ALL);
 session_start();
 require_once("connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    var_dump($_SESSION['auth_user']);
-}
+    $user = executeResult("SELECT * FROM tb_user limit 1 ");
+    // var_dump($user);
+ }
 ?>
 
 <head>
@@ -228,8 +229,10 @@ if (isset($_SESSION["auth_user"])) {
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
+            <?php foreach($user as $U ){?>
                 <img src="../public/images/admin1.jpg" alt="">
-                <h4> <?=$_SESSION['auth_user']['username'] ?> </h4>
+                <h4> <?php echo $U["username"]?> </h4>
+                <?php } ?>
             </div>
             <div class="sidebar">
                 <ul>
@@ -239,6 +242,13 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
+                    <li class="nav-item active">
+                        <a href="my_action_user/change_password.php" class="nav-link">
+                            <span class="material-symbols-sharp">person</span>
+                            <p>Change Password</p>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
                         <a href="my_action_user/purchase_order.php" class="nav-link">
                             <span class="material-symbols-sharp">shopping_bag</span>

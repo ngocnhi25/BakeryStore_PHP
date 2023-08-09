@@ -75,6 +75,36 @@ function sendEmail_update_Password($get_name, $get_email, $token){
     }
 }
 
+function sendEmail_thankuser_forupdate_fullifor($username, $email){
+    try {
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+        $mail->Host = 'smtp.gmail.com'; 
+        $mail->Username = 'nhilnts2210037@fpt.edu.vn'; 
+        $mail->Password = 'rzushtjlbjnppcft'; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS ;
+        $mail->Port = 587;
+
+        //Recipients
+        $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
+        $mail->addAddress($email ,$username);
+
+        //Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Thank you for updating the complete information at NgocNhibakery';
+        $mail_template = "
+    <h2> We look forward to having the opportunity to serve you in the future </h2>
+    <br><br>
+    <a href='http://localhost/Group3-BakeryStore/src/home.php'>Shopping Now!</a>
+    ";
+        $mail->Body = $mail_template;
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
+
 
 // 1. Register page - code
 if (isset($_POST["submit-register-btn"])){
@@ -318,18 +348,43 @@ if(isset($_POST["update-password-btn"])){
 //5 . update full information User ( my_profile.php)
 
 if (isset($_POST["submit-update-inforUser"])){
-    $username = $_POST["username"];
+    $userID = $_POST["userId"];
     $email = $_POST["email"];
-    $phone = $_POST["phone"];
     $sex = $_POST["sex"];
     $address = $_POST["address"];
 
-    // if (isset($_POST['dob'])) {
-    //     $date_birthday = date('Y-m-d', strtotime($_POST["dob"]));
-    // } else {
-    //     $_SESSION['status'] = "Invalid Date of Birth!";
-    // }
+   if (isset($_POST["username"])) {
+        // Perform validation checks
+        $username = trim($_POST["username"]);
     
+        if (empty($username)) {
+            $_SESSION['status'] = "Username must not be blank.";
+            header("Location: ../my_account_user.php");
+            exit();
+        } 
+        
+        if (strpos($username, ' ') !== false) {
+            $_SESSION['status'] = "Username must not contain spaces.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+
+        if (!preg_match("/^[a-zA-Z0-9]{6,20}$/", $username)) {
+            $_SESSION['status'] = "Username must be between 6 and 20 characters long and consist of letters and numbers only.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+    }
+
+    if (isset($_POST["phone"])) {
+        $phone = $_POST["phone"];
+        if (!preg_match("/^[0-9]{10,12}$/", $phone)) {
+            $_SESSION['status'] = "Invalid Phone Number!";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+    }
+
     if (isset($_POST['dob'])) {
         $dob = $_POST['dob'];
         $currentDate = date('Y-m-d');
@@ -372,11 +427,11 @@ if (isset($_POST["submit-update-inforUser"])){
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
         $row = mysqli_fetch_array(($sql_checkmail_run));
         if($row['status'] == "1" && $row['stt_delete'] == "0" ){
-            $sql_update_infor_user = "UPDATE tb_user SET username = '$username', phone = '$phone'
-            sex = '$sex' , address = '$address', birthday = '$date_birthday' WHERE email = '$email'";
+            $sql_update_infor_user = "UPDATE tb_user SET username = '$username' , phone = '$phone' , sex = '$sex' , birthday = '$date_birthday' , address = '$address' WHERE user_id = $userID ";        
             $sql_update_infor_user_run = mysqli_query($conn, $sql_update_infor_user);
 
             if($sql_update_infor_user_run) {
+                sendEmail_thankuser_forupdate_fullifor($username, $email) ;
                 $_SESSION['status'] = "Thank you for updating your information!";
                 header("Location: ../my_account_user.php");
                 exit();
