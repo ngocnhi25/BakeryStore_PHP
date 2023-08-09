@@ -2,92 +2,36 @@
 session_start();
 require_once('connect/connectDB.php');
 
-$id = $_GET['product_id'];
+$id = 18;
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flavor");
-$size = executeResult("select * from tb_product_size");
+$size = executeResult("select * from tb_size");
+$thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+$priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
+$productResult = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $id");
+$idproductResult = executeSingleResult("SELECT product_id FROM tb_products WHERE product_id = $id");
+if ($priceResult) {
+  $price = $priceResult['price'];
+} else {
+  echo "Price not available.";
+}
+//get name value
+if ($productResult) {
+  $name = $productResult['product_name'];
+} else {
+  echo "Name not available.";
+}
+//get product_id
+if ($idproductResult) {
+  $id = $idproductResult['product_id'];
+} else {
+  echo "Name not available.";
+}
 //Breadcrumbs setup
 $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
                                       JOIN tb_category c ON p.cate_id = c.cate_id
                                       WHERE p.product_id = $id");
-$output = ''; // Initialize the $output variable before using it
 
-if (!empty($product)) {
-  foreach ($product as $sp) {
-    $output .= '
-    <div class="product-detail-container">
-      <div class="detail-header show-desktop">
-        <h5 class="product-name">
-          ' . $sp["product_name"] . '
-        </h5>
-        <span>(Cake Mousse Passion Fruit)</span>
-      </div>
-      <div class="detail-body">
-        <span class="option-result">Mousse 20cm</span>
-        <div class="button-zone">
-          <div class="row">
-            <b class="col-5">Tình trạng:</b>
-            <span class="col-7">Hết h&agrave;ng</span>
-          </div>
-          <div class="row">
-            <b class="col-5">Mã sản phẩm:</b>
-            <span class="col-7">' . $sp["product_id"] . '</span>
-          </div>
-          <div class="size-zone option-zone row">
-            <b class="col-5">nhan banh:</b>
-            <div class="col-7">
-                    <select class="select_custom" id="nhanSelect">
-                      <option value="0">Select Cake:</option>';
-    foreach ($flaror as $f) {
-      $output .= '<option value="0" >' . $f["flavor_name"] . '</option>';
-    }
-    $output .= '</select>
-            </div>
-    </div>
-    <div class="row">
-      <b class="col-5">Số Lượng:</b>
-      <span class="col-7">
-        
-          <input type="number" style="width:68px; margin-bottom: 7px;
-          height: 23px;" id="quantity" value="1" class="select_custom">
-        
-      </span>
-    </div>
-    <div class="row">
-      <b class="col-5">Size:</b>
-      <div class="col-7">
-      <select id="sizeSelect" class="select_custom">';
-    foreach ($size as $s) {
-      $output .= '<option value="' . $s["size"] . '" id="size">' . $s["size"] . '</option>';
-    }
-    $output .= '</select>
-      </div>
-    </div>
-    <div class="row">
-      <b class="col-5">Price:</b>
-      <span class="col-7" id="displayedPrice">';
-    // Initially display the price of the first size (you may adjust it according to your needs)
-    foreach ($size as $s) {
-      $output .= $s["increase_size"];
-      break;
-    }
-    $output .= '$</span>
-    </div>';
-
-    foreach ($product as $sp) {
-      $output .= '<input type="hidden" name="price" id="price' . $sp["product_id"] . '" value="' . $sp["price"] . '">
-      <input type="hidden" name="name" id="name' . $sp["product_id"] . '" value="' . $sp["product_name"] . '">';
-    }
-
-    $output .= '<button class="add-to-cart js-add-to-cart add" id="' . $sp["product_id"] . '">Add to Cart</button>
-    <button class="add-to-cart mt-3 contact-card">
-      Đặt hàng nhanh nhất <br> 090 754 6668 | 096 938 6611
-    </button>
-    </div>
-    </div>
-    </div>';
-  }
-}
 ?>
 
 <!DOCTYPE html>
@@ -99,7 +43,7 @@ if (!empty($product)) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Bánh Mousse Chanh Leo | Bánh Sinh Nhật | Mousse Passion Fruit</title>
- 
+
   <!-- FONT -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cabin" />
   <!-- FONT -->
@@ -115,7 +59,7 @@ if (!empty($product)) {
   <!-- PLUGIN CSS -->
 
   <link href="../public/frontend/css/style.css" rel="stylesheet">
-  
+
 </head>
 
 <body>
@@ -156,7 +100,7 @@ if (!empty($product)) {
   <section class="section-paddingY middle-section product-page">
     <div class="container">
       <div class="row">
-        
+
         <div class="col-md-9">
           <div class="row">
             <div class="col-12 col-lg-7">
@@ -171,20 +115,79 @@ if (!empty($product)) {
               </div>
               <div class="product-imgs">
                 <ul id="lightSlider">
-                  <li data-thumb="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
-                    <a href="source/B&aacute;nh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
-
-                      <?php foreach ($product as $p) { ?>
-                        <img src="../<?php echo $p["image"] ?>" class="img-fluid">
-                      <?php } ?>
-
+                  <li data-thumb="source/Bánh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
+                    <a href="source/Bánh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
+                      <div class="big-img">
+                        <img src="../public/images/products/z4341665527978_fc1db1d413a2d7d2146b13ffffc50d0a.jpg">
+                      </div>
                     </a>
                   </li>
                 </ul>
+                <div class="images">
+                  <?php foreach($thumb as $t) { ?>
+                  <div class="small-img">
+                    <img src="../<?php echo $t['thumbnail'] ?>" data-src="<?php echo $t['larger_image'] ?>" class="thumbnail-img">
+                  </div>
+                  <?php } ?>
+                </div>
               </div>
             </div>
             <div class="col-12 col-lg-5">
-              <?php print($output) ?>
+
+              <div class="left">
+
+              </div>
+              
+              <div class="right">
+                <div class="pname"><?php echo $name ?></div>
+              <div class="size">
+                  <p>increaseSize:</p>
+                  <div id="displayedIncreaseSize">N/A</div>
+              </div>
+              <div class="size">
+                  <p>Size:</p>
+                  <?php foreach ($size as $s) { ?>
+                    
+                      <button class="sizeBtn" data-size="<?= $s['size_name'] ?>" value="<?= $s['size_name'] ?>"><?php echo $s["size_name"] ?></button>
+                    
+                  <?php } ?>
+                </div>
+                <div class="size">
+                  <p>Flavor:</p>
+                  <?php foreach ($flaror as $f) { ?>
+                    
+                      <button class="flavorBtn" data-size="<?= $f['flavor_name'] ?>"><?php echo $f["flavor_name"] ?></button>
+                    
+                  <?php } ?>
+                </div>
+              <form action="" class="form-submit">
+                <div class="ratings">
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star"></i>
+                  <i class="fas fa-star-half-alt"></i>
+                </div>
+                <div class="price">
+                  <p id="price"><?php echo number_format($price) ?>$</p>
+                </div>
+                
+                
+                <div class="quantity">
+                  <p>Quantity:</p>
+                  <input type="number" min="1" max="5" value="1">
+                </div>
+
+                <input type="hidden" class="pid" value="<?php echo $id ?>">
+                <input type="hidden" class="name" value="<?php echo $name ?>">
+                <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
+
+                <div class="btn-box">
+                  <button class="cart-btn add" id="add">Add to Cart</button>
+                  <button class="buy-btn">Buy Now</button>
+                </div>
+              </form>
+              </div>
             </div>
             <div class="col-12 mt-5">
               <div class="card-content-pro">
@@ -200,7 +203,7 @@ if (!empty($product)) {
                   <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                     aria-labelledby="pills-home-tab">
 
-                    <p><span style="font-size: 12pt;">
+                    <p><span style="font-size: 12px;">
                         <?php foreach ($product as $p) { ?>
                           <?php echo $p["description"] ?>
                         <?php } ?>
@@ -401,86 +404,106 @@ if (!empty($product)) {
   <script src="public/myplugins/js/messagebox.js"></script>
 
   <script>
-    $(document).ready(function () {
-      $(document).on("click", ".add", function () {
-        var id = $(this).attr("id");
-        var name = $("#name" + id).val();
-        var price = $("#price" + id).val();
-        var quantity = $("#quantity").val();
-        var size = $("#sizeSelect").val();
-        var nhan = $("#nhanSelect").val();
+  document.addEventListener("DOMContentLoaded", function () {
+  let selectedSize = ""; // Khai báo biến để lưu giá trị size đã chọn
 
-        // Validate the quantity to be a positive integer
-        if (quantity === "" || isNaN(quantity) || parseInt(quantity) <= 0) {
-          alert("Please enter a valid quantity.");
-          return;
-        }
+  const sizeButtons = document.querySelectorAll(".sizeBtn");
 
-        // Check if the size has any increase in price
-        var increaseSize = 0;
-        if (size == 18) {
-          increaseSize = 500000; // You may adjust this value based on your logic
-        } else if (size == 20) {
-          increaseSize = 1000000; // You may adjust this value based on your logic
-        } // Add more conditions for other sizes if needed
-
-        // Calculate the updated price based on the quantity and size increase
-        var totalPrice = (parseFloat(price) + parseInt(increaseSize)) * parseInt(quantity);
-
-        $.ajax({
-          method: "POST",
-          url: "handles_page/add_to_cart.php",
-          data: { id: id, name: name, price: totalPrice, quantity: quantity, size: size, increase_size: increaseSize, nhan: nhan },
-          success: function (data) {
-            alert("You have added a new item to the cart.");
-            window.location.href = "./gio-hang.php";
-            // Optional: You may update the cart count or display a message to the user.
-          },
-          error: function (xhr, textStatus, errorThrown) {
-            alert("An error occurred while adding the item to the cart. Please try again.");
-          }
-        });
-      });
+  sizeButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      selectedSize = button.getAttribute("data-size"); // Lưu giá trị size đã chọn
+      // console.log("Selected Size:", selectedSize); // Debug
     });
+  });
 
-    function getresult(url) {
-      $.ajax({
-        url: url,
-        type: "GET",
-        data: { rowcount: $("#rowcount").val(), pagination_setting: $("#pagination-setting").val() }, // Fix: Remove the quotes around pagination_setting
-        success: function (data) {
-          $("#pagination-result").html(data);
-        },
-        error: function () { }
-      });
-    }
+  $(document).on("click", "#add", function (e) {
+    e.preventDefault();
+
+    var $form = $(this).closest(".form-submit");
+    var pid = $form.find(".pid").val();
+    var pname = $form.find(".name").val();
+    var increaseSizeText = $("#hiddenIncreaseSize").val();
+    var increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, ''); // Loại bỏ dấu phẩy
+    var increaseSize = parseFloat(increaseSizeWithoutCommas);
+    var quantity = $form.find(".quantity input").val();
+    var priceText = $form.find("#price").text(); // Lấy chuỗi văn bản
+    var priceWithoutCommas = priceText.replace(/,/g, ''); // Loại bỏ dấu phẩy
+    var price = parseFloat(priceWithoutCommas); // Chuyển đổi chuỗi thành số // Chuyển đổi chuỗi thành số
+
+    // console.log("Product ID:", pid);
+    // console.log("Product Name:", pname);
+    // console.log("Selected Size:", selectedSize); 
+    // console.log("Increase Size:", increaseSize);
+    // console.log("Quantity:", quantity);
+    // console.log("Price:", price);
+
+    // Thực hiện AJAX để thêm sản phẩm vào giỏ hàng
+    $.ajax({
+      url: "../src/handles_page/add_to_cart.php", // Thay thế bằng URL thực sự để thêm sản phẩm vào giỏ hàng
+      method: "POST",
+      data: {
+        pid: pid,
+        pname: pname,
+        size: selectedSize,
+        increaseSize: increaseSize,
+        quantity: quantity,
+        price: price
+      },
+      success: function (response) {
+        // Xử lý phản hồi từ máy chủ (ví dụ: hiển thị thông báo thành công)
+        alert("Product added to cart: " + response);
+      },
+      error: function () {
+        alert("Error adding product to cart");
+      }
+    });
+  });
+});
+
 
   </script>
   <script>
     $(document).ready(function () {
-      // Add event listener to the size select element
-      $("#sizeSelect").on("change", function () {
-        // Get the selected size value
-        var selectedSize = parseInt($(this).val());
+  // Add click event listener to the size buttons
+  $(".sizeBtn").on("click", function () {
+    var selectedSize = $(this).data("size");
 
-        // You can define an object containing the size and their corresponding price
-        // This can be obtained from the PHP code or any other source of data
-        var sizePriceMap = {
-          <?php foreach ($size as $s) { ?>
-                            <?php echo $s["size"]; ?>: <?php echo $s["increase_size"]; ?>,
-          <?php } ?>
-        };
-
-        // Update the displayed price based on the selected size
-        if (!isNaN(selectedSize) && sizePriceMap.hasOwnProperty(selectedSize)) {
-          var newPrice = sizePriceMap[selectedSize];
-          $("#displayedPrice").text(newPrice + "$");
+    // Make an Ajax request to get the increaseSize based on the selected size
+    $.ajax({
+      url: "../src/handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
+      method: "POST",
+      data: { size: selectedSize },
+      success: function (response) {
+        if (response !== "") {
+          var formattedIncreaseSize = parseFloat(response).toFixed(0);
+          formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+          formattedIncreaseSize = "+" + formattedIncreaseSize;
+          
+          // Update the displayed increaseSize
+          $("#displayedIncreaseSize").text(formattedIncreaseSize);
+          
+          // Update the hidden input field
+          $(".IncreaseSize").val(formattedIncreaseSize);
         } else {
-          // If the selected size is not found in the sizePriceMap, you can handle it accordingly
-          $("#displayedPrice").text("N/A");
+          $("#displayedIncreaseSize").text("N/A");
+          $(".IncreaseSize").val(""); // Reset the hidden input field if needed
         }
-      });
+      },
+      error: function () {
+        $("#displayedIncreaseSize").text("Error fetching increaseSize");
+        $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
+      }
     });
+  });
+});
+
+
+    $(document).ready(function () {
+    $(".thumbnail-img").click(function () {
+      var largerImageSrc = $(this).data("src");
+      $("#bigImage").attr("src", largerImageSrc);
+    });
+  });
   </script>
   <script src="../public/frontend/js/product_page.js"></script>
   </div>

@@ -244,7 +244,7 @@ $cates = executeResult("SELECT * FROM tb_category c
 
               <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter">0</span>
+                <span class="counter" id="cart-item">0</span>
               </a>
 
               <div class="user-header d-none d-lg-block">
