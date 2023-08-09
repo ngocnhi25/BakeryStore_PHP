@@ -1,3 +1,13 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  text-decoration: none;
+  list-style: none;
+  box-sizing: border-box;
+}
+
 /* compiled by scssphp v0.8.0 on Tue, 26 Jul 2022 09:45:49 +0000 (0.1113s) */
 
 /* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_config.scss */

@@ -195,6 +195,8 @@
 <script src="../public/frontend/js/main.js?v=1.0.8"></script>
 <script src="public/myplugins/js/messagebox.js"></script>
 
+<script src="../public/frontend/js/my_account.js"></script>
+
 </body>
 
 </html>

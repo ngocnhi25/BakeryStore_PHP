@@ -1,9 +1,12 @@
 <?php
-session_start();
+// session_start();
 $cates = executeResult("SELECT * FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
                         GROUP BY c.cate_id");
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -32,6 +35,7 @@ $cates = executeResult("SELECT * FROM tb_category c
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
   <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
+  
 
 
   <!-- PLUGIN CSS -->
@@ -248,14 +252,19 @@ $cates = executeResult("SELECT * FROM tb_category c
               </a>
 
               <div class="user-header d-none d-lg-block">
-                <?php if (isset($_SESSION["auth_user"])) { ?>
-                  <a href="User/information-User.php">
-                    <ul class="user-header-button js-toggle-user-nav">
-                      <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
-                      <li><a href="User/logout.php" >Log Out</a></li>
+                <?php
+                if (isset($_SESSION["auth_user"])) {
+                  $user = executeResult("SELECT * FROM tb_user limit 1 ");
+                ?>
+              <?php foreach($user as $U ){?>
+                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
+                      <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"]?>
                     </ul>
                   </a>
-
+                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
+                    Log Out 
+                  </a>
+                <?php } ?>
                 <?php } else { ?>
                   <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                     <i class="fa fa-user" aria-hidden="true"></i>
