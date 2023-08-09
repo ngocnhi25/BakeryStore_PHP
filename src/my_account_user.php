@@ -76,7 +76,7 @@ if (isset($_SESSION["auth_user"])) {
 
         .my-account .my-account-box .sidebar-user .sidebar .nav-item:hover .nav-link p,
         .my-account .my-account-box .sidebar-user .sidebar .nav-item.active .nav-link p {
-            color: red;
+            color: #ff5922;
         }
 
         .my-account .my-account-box .action-page-box {
@@ -220,8 +220,95 @@ if (isset($_SESSION["auth_user"])) {
             transition: box-shadow 0.3s ease;
             box-shadow: 1px 1px 3px black;
         }
+
         .submit:hover {
             box-shadow: none;
+        }
+
+        /* purchase order */
+        .purchase-order {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .purchase-order .po-tab-ui {
+            width: 100%;
+            display: block;
+        }
+
+        .purchase-order .po-tab-ui .tabs {
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            border-bottom: 2px solid #efefef;
+        }
+
+        .purchase-order .po-tab-ui .tabs .tab-item {
+            flex: 1;
+            padding: 16px 0;
+            font-size: 16px;
+            text-align: center;
+            color: #000000cc;
+            background-color: #fff;
+            border-bottom: 5px solid transparent;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .purchase-order .po-tab-ui .tab-item:hover {
+            color: #ee4d2d;
+            background-color: rgba(194, 53, 100, 0.05);
+        }
+
+        .purchase-order .po-tab-ui .tabs .tab-item.active {
+            border-bottom: 2px solid #ee4d2d;
+            color: #ee4d2d;
+        }
+
+        .purchase-order .po-search {
+            width: 100%;
+            position: relative;
+            padding: 12px 0;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+            color: #212121;
+            background: #eaeaea;
+            border-radius: 2px;
+        }
+
+        .purchase-order .po-search>input {
+            width: 100%;
+            flex: 1;
+            font-size: 14px;
+            line-height: 16px;
+            border: 0;
+            outline: none;
+            background-color: inherit;
+        }
+
+        .purchase-order .po-search>span {
+            width: 19px;
+            height: 19px;
+            margin: 0 15px;
+            color: #555;
+        }
+        .purchase-order .po-content-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .purchase-order .po-content-box .content {
+            display: none;
+        }
+        .purchase-order .po-content-box .content {
+            display: none;
+        }
+
+        .content.active {
+            display: block;
         }
     </style>
 </head>
@@ -240,7 +327,7 @@ if (isset($_SESSION["auth_user"])) {
                 <ul>
                     <li class="nav-item active">
                         <a href="my_action_user/my_profile.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
+                            <span class="material-symbols-sharp" style="color: #356af1;">person</span>
                             <p>My Account</p>
                         </a>
                     </li>
@@ -253,14 +340,14 @@ if (isset($_SESSION["auth_user"])) {
 
                     <li class="nav-item">
                         <a href="my_action_user/purchase_order.php" class="nav-link">
-                            <span class="material-symbols-sharp">shopping_bag</span>
+                            <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>
                             <p>Purchase Order</p>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="my_action_user/warehouse_voucher.php" class="nav-link">
-                            <span class="material-symbols-sharp">barcode_scanner</span>
-                            <p> My Voucher</p>
+                            <span class="material-symbols-sharp" style="color: #42995d;">barcode_scanner</span>
+                            <p>Warehouse Voucher</p>
                         </a>
                     </li>
                 </ul>

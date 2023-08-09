@@ -1,14 +1,11 @@
 <?php
 require_once("connect/connectDB.php");
-// include("getresult.php");
-// require_once("connect/dbcontroller.php");
-// require_once("pagination.class.php");
 require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 require_once('handles_page/pagination.php');
 
 //xử lý phân trang
-$limit = 1;
+$limit = 5;
 $page = 1;
 if (isset($_GET['page'])) {
   $page = $_GET['page'];
@@ -138,13 +135,8 @@ foreach ($sale as $key => $s) {
             <?php } ?>
 
           </div>
-          <div>
+          <div class="pagination-prod">
             <?php Pagination($number, $page, ''); ?>
-          </div>
-        </div>
-        <div class="page-content">
-          <div>
-            <input type="hidden" name="rowcount" id="rowcount" />
           </div>
         </div>
       </div>
