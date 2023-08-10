@@ -1,13 +1,10 @@
 <?php
-// ini_set('display_errors', 1);
-// error_reporting(E_ALL);
 require_once("connect/connectDB.php");
-// if(require_once("../connect/connectDB.php") == false){
-//     var_dump($user_id);
-// }
-
-$user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
-
+if (isset($_SESSION["auth_user"])) {
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+ }
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 
 ?>
 
@@ -25,7 +22,7 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?= $_SESSION['auth_user']['user_id'] ?>" readonly>
+                                <input type="hidden" id="name" name="userId" value="<?= $user_id ?>" readonly>
                             </div>
                         </td>
                     </tr>
