@@ -30,7 +30,8 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>">
+                                <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>" readonly >
+                                <a href=""> Change <ion-icon name="build-outline"></ion-icon> </a>
                             </div>
                         </td>
                     </tr>
@@ -38,7 +39,15 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" readonly>
+                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" >
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td>
+                            <div class="css-input">
+                                <input type="password" id="password" name="password" value="<?php echo $user["password"] ?>" >
                             </div>
                         </td>
                     </tr>
@@ -97,3 +106,5 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
         </div>
     </div>
 </div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

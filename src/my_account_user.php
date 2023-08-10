@@ -141,9 +141,9 @@ if (isset($_SESSION["auth_user"])) {
         }
 
         .my-profile-page .update-profile-box .profile-form .css-input input {
-            width: 100%;
+            width: 60%;
             padding: 10px;
-            border: 1px solid #efefef;
+            border: 1px solid ;
             outline: none;
             border-radius: 3px;
             font-size: 16px;
@@ -329,13 +329,6 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item" >
-                        <a href="change_password.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
-                            <p>Change Password</p>
-                        </a>
-                    </li>
-
                     <li class="nav-item">
                         <a href="purchase_order.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>
