@@ -3,13 +3,12 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL);
 // require_once("../connect/connectDB.php");
 
-$user = array(); // Initialize the $user array to avoid undefined variable warnings
+$user = array(); 
 
 if (isset($_SESSION["auth_user"])) {
     $userID = $_SESSION['auth_user']['user_id'];
     $user = executeResult("SELECT * FROM tb_user where user_id = $userID");
 }
-var_dump($user) ;
 ?>
 
 

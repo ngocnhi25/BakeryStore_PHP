@@ -20,7 +20,7 @@ if (isset($_SESSION["auth_user"])) {
         <div class="profile-form">
             <form action="User/code-User.php" method="post" style="width: 100%;">
                 <?php foreach($user as $U) { ?>
-                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
+                <input type="text" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
                 <table style="width: 100%;">
                     <tr>
                         <td>Your Email:</td>
@@ -34,7 +34,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>Current Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="current-password" name="current-password">
+                                <input type="password" id="current-password" name="current-password" required>
                             </div>
                         </td>
                     </tr>
@@ -42,7 +42,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>New Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="new-password" name="new-password">
+                                <input type="password" id="new-password" name="new-password" required >
                             </div>
                         </td>
                     </tr>
@@ -50,7 +50,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>Confirm New Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="confirm-password" name="confirm-password">
+                                <input type="password" id="confirm-password" name="confirm-password" required>
                             </div>
                         </td>
                     </tr>
