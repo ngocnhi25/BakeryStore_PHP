@@ -1,13 +1,12 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start();
 require_once("connect/connectDB.php");
+session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
-    $user_my_profile = executeSingleResult("SELECT * FROM tb_user WHERE username = '$user_name'");
-    var_dump($user_name);
-}
+    $user_id = $_SESSION["auth_user"]["user_id"];
+ }
 ?>
 
 <head>
@@ -320,31 +319,31 @@ if (isset($_SESSION["auth_user"])) {
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/admin1.jpg" alt="">
-                <h4> <?php echo $user_name ?> </h4>
+                <h4> <?php echo $user_name?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
                     <li class="nav-item active">
-                        <a href="my_action_user/my_profile.php" class="nav-link">
+                        <a href="my_profile.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #356af1;">person</span>
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a href="my_action_user/change_password.php" class="nav-link">
+                    <li class="nav-item" >
+                        <a href="change_password.php" class="nav-link">
                             <span class="material-symbols-sharp">person</span>
                             <p>Change Password</p>
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a href="my_action_user/purchase_order.php" class="nav-link">
+                        <a href="purchase_order.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>
                             <p>Purchase Order</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="my_action_user/warehouse_voucher.php" class="nav-link">
+                        <a href="warehouse_voucher.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #42995d;">barcode_scanner</span>
                             <p>Warehouse Voucher</p>
                         </a>
@@ -353,7 +352,7 @@ if (isset($_SESSION["auth_user"])) {
             </div>
         </div>
         <div class="action-page-box" id="action-page-user">
-            <?php include("my_action_user/my_profile.php"); ?>
+            <?php include("my_profile.php"); ?>
         </div>
     </div>
     <?php if (isset($_SESSION['status'])) { ?>

@@ -1,14 +1,17 @@
 <?php
 // ini_set('display_errors', 1);
 // error_reporting(E_ALL);
-if (isset($_SESSION["auth_user"])) {
-    require_once("connect/connectDB.php");
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_my_profiles = executeSingleResult("SELECT * FROM tb_user WHERE username = '$user_name'");
-    var_dump($user_name);
-}
+require_once("connect/connectDB.php");
+// if(require_once("../connect/connectDB.php") == false){
+//     var_dump($user_id);
+// }
+
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
+
 
 ?>
+
+
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>My Profile</h1>
@@ -22,7 +25,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?php echo $user_my_profiles["user_id"] ?>">
+                                <input type="hidden" id="name" name="userId" value="<?= $_SESSION['auth_user']['user_id'] ?>" readonly>
                             </div>
                         </td>
                     </tr>
@@ -30,7 +33,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $user_my_profiles["username"] ?>">
+                                <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -38,7 +41,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email" value="<?php echo $user_my_profiles["email"] ?>" readonly>
+                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" readonly>
                             </div>
                         </td>
                     </tr>
@@ -46,7 +49,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td>Phone Number:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="phone" name="phone" value="<?php echo $user_my_profiles["phone"] ?>">
+                                <input type="text" id="phone" name="phone" value="<?php echo $user["phone"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -54,20 +57,20 @@ if (isset($_SESSION["auth_user"])) {
                     <tr>
                         <td>Gender:</td>
                         <td>
-                            <input type="radio" id="male" name="sex" value="Male" <?php if ($user_my_profiles["sex"] === 'Male') echo 'checked'; ?>> Male
-                            <input type="radio" id="female" name="sex" value="Female" <?php if ($user_my_profiles["sex"] === 'Female') echo 'checked'; ?>> Female
-                            <input type="radio" id="other" name="sex" value="Other" <?php if ($user_my_profiles["sex"] === 'Other') echo 'checked'; ?>> Other
+                            <input type="radio" id="male" name="sex" value="Male" <?php if ($user["sex"] === 'Male') echo 'checked'; ?>> Male
+                            <input type="radio" id="female" name="sex" value="Female" <?php if ($user["sex"] === 'Female') echo 'checked'; ?>> Female
+                            <input type="radio" id="other" name="sex" value="Other" <?php if ($user["sex"] === 'Other') echo 'checked'; ?>> Other
                         </td>
                     </tr>
                     <tr>
                         <td>Date of Birth:</td>
-                        <td><input type="date" id="dob" name="dob" value="<?php echo $user_my_profiles["birthday"] ?>" required></td>
+                        <td><input type="date" id="dob" name="dob" value="<?php echo $user["birthday"] ?>"></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" name="address" required value="<?php echo $user_my_profiles["address"] ?>">
+                                <input type="text" name="address" value="<?php echo $user["address"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -76,6 +79,7 @@ if (isset($_SESSION["auth_user"])) {
                         <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
                     </tr>
                 </table>
+
             </form>
         </div>
         <div class="profile-update-image">
