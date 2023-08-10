@@ -2,7 +2,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once("../connect/connectDB.php");
+require_once("connect/connectDB.php");
 
 $user = array(); // Initialize the $user array
 
