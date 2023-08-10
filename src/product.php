@@ -4,27 +4,46 @@ require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 require_once('handles_page/pagination.php');
 
+$cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
+                        FROM tb_category c
+                        INNER JOIN tb_products p 
+                        ON c.cate_id = p.cate_id 
+                        GROUP BY c.cate_name
+                        ORDER BY total_views DESC");
+$sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
+
 //xử lý phân trang
-$limit = 5;
+$limit = 1;
 $page = 1;
+$number = 0;
+$cate_id = $countResult = '';
 if (isset($_GET['page'])) {
   $page = $_GET['page'];
+  // var_dump($page);
+  // die();
 }
-
 $firstIndex = ($page - 1) * $limit;
-$sql = 'SELECT * from tb_products where deleted = 0 ORDER BY product_id DESC limit ' . $firstIndex . ',' . $limit;
-$product = executeResult($sql);
+
+if (isset($_GET['cate_id']) && !empty($_GET['cate_id'])) {
+  $cate_id = $_GET['cate_id'];
+  $sql = 'SELECT * from tb_products where deleted = 0 and cate_id = ' . $cate_id . ' ORDER BY product_id DESC limit ' . $firstIndex . ',' . $limit;
+  $product = executeResult($sql);
+  $countResult = executeSingleResult("SELECT count(product_id) AS total from tb_products where deleted = 0 and cate_id = $cate_id");
+} else {
+  $countResult = executeSingleResult("SELECT count(product_id) AS total from tb_products where deleted = 0");
+  $sql = 'SELECT * from tb_products where deleted = 0 ORDER BY product_id DESC limit ' . $firstIndex . ',' . $limit;
+  $product = executeResult($sql);
+}
+// var_dump($cate_id);
+// die();
+
 
 // đếm số trang
-$countResult = executeSingleResult("SELECT count(product_id) AS total from tb_products where deleted = 0");
-$number = 0;
 if ($countResult != null) {
   $count = $countResult['total'];
   $number = ceil($count / $limit); // làm tròn chặn trên
 }
 
-$cate = executeResult("SELECT * FROM tb_category");
-$sale = executeResult("SELECT * FROM tb_sale");
 
 foreach ($sale as $key => $s) {
   $arraySale[$key] = $s["product_id"];
@@ -68,7 +87,7 @@ foreach ($sale as $key => $s) {
           <hr>
           <?php foreach ($cate as $c) { ?>
             <li class="item-nav">
-              <a href="danh-muc/gato-kem-tuoi">
+              <a href="?cate_id=<?= $c["cate_id"] ?>">
                 <?php echo $c["cate_name"] ?>
               </a>
             </li>
@@ -77,7 +96,7 @@ foreach ($sale as $key => $s) {
       </div>
       <div class="col-md-9">
         <div class="section-header">
-          <p class="section-title">B&aacute;nh Sinh Nhật</p>
+          <p class="section-title"></p>
           <input type="hidden" name="cate_id" value="1">
         </div>
         <div class="section-body">
@@ -105,7 +124,7 @@ foreach ($sale as $key => $s) {
                       </div>
                     <?php } ?>
                     <div class="box-actions-hover">
-                      <button><a href="product.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                      <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
                       <button><span class="material-symbols-sharp">add_shopping_cart</span></button>
                     </div>
                   </div>
@@ -136,7 +155,7 @@ foreach ($sale as $key => $s) {
 
           </div>
           <div class="pagination-prod">
-            <?php Pagination($number, $page, ''); ?>
+            <?php Pagination($number, $page, '', $cate_id); ?>
           </div>
         </div>
       </div>
@@ -144,4 +163,4 @@ foreach ($sale as $key => $s) {
   </div>
 </section>
 
-  <?php include("layout/footer.php") ?>
+<?php include("layout/footer.php") ?>

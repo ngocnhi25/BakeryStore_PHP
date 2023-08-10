@@ -10,7 +10,7 @@ $maxProductsToShow = 6;
 
 $product = executeResult("SELECT * FROM tb_products where deleted = 0 ORDER BY product_id DESC ");
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
-$ads = executeResult("SELECT * FROM tb_ads ORDER BY ads_id DESC");
+$ads = executeResult("SELECT * FROM tb_ads WHERE CURDATE() BETWEEN start_date AND end_date ORDER BY ads_id DESC");
 $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
                         INNER JOIN tb_products p 

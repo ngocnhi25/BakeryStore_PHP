@@ -35,7 +35,7 @@ $cates = executeResult("SELECT * FROM tb_category c
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
   <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
-  
+
 
 
   <!-- PLUGIN CSS -->
@@ -255,17 +255,14 @@ $cates = executeResult("SELECT * FROM tb_category c
               <div class="user-header d-none d-lg-block">
                 <?php
                 if (isset($_SESSION["auth_user"])) {
-                  $user = executeResult("SELECT * FROM tb_user limit 1 ");
                 ?>
-              <?php foreach($user as $U ){?>
                   <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
-                      <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"]?>
+                    <i class="fa fa-user" aria-hidden="true"></i> <?php echo $_SESSION["auth_user"]["username"] ?>
                     </ul>
                   </a>
                   <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                    Log Out 
+                    Log Out
                   </a>
-                <?php } ?>
                 <?php } else { ?>
                   <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                     <i class="fa fa-user" aria-hidden="true"></i>

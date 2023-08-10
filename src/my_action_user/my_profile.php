@@ -1,11 +1,13 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-require_once("connect/connectDB.php");
- if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
- }
+// ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+if (isset($_SESSION["auth_user"])) {
+    require_once("connect/connectDB.php");
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_my_profiles = executeSingleResult("SELECT * FROM tb_user WHERE username = '$user_name'");
+    var_dump($user_name);
+}
+
 ?>
 <div class="my-profile-page">
     <div class="profile-title">
@@ -15,13 +17,12 @@ require_once("connect/connectDB.php");
     <div class="update-profile-box">
         <div class="profile-form">
             <form action="User/code-User.php" method="post" style="width: 100%;">
-            <?php foreach($user as $U ){?>
                 <table style="width: 100%;">
-                <tr>
+                    <tr>
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
+                                <input type="hidden" id="name" name="userId" value="<?php echo $user_my_profiles["user_id"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -29,7 +30,7 @@ require_once("connect/connectDB.php");
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $U["username"]?>" >
+                                <input type="text" id="name" name="username" value="<?php echo $user_my_profiles["username"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -37,7 +38,7 @@ require_once("connect/connectDB.php");
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email" value="<?php echo $U["email"]?>" readonly >
+                                <input type="email" id="email" name="email" value="<?php echo $user_my_profiles["email"] ?>" readonly>
                             </div>
                         </td>
                     </tr>
@@ -45,28 +46,28 @@ require_once("connect/connectDB.php");
                         <td>Phone Number:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="phone" name="phone" value="<?php echo $U["phone"]?>" >
+                                <input type="text" id="phone" name="phone" value="<?php echo $user_my_profiles["phone"] ?>">
                             </div>
                         </td>
                     </tr>
 
                     <tr>
-                         <td>Gender:</td>
-                         <td>
-                                <input type="radio" id="male" name="sex" value="Male" <?php if ($U["sex"] === 'Male') echo 'checked'; ?> > Male
-                                <input type="radio" id="female" name="sex" value="Female" <?php if ($U["sex"] === 'Female') echo 'checked'; ?> > Female
-                                <input type="radio" id="other" name="sex" value="Other" <?php if ($U["sex"] === 'Other') echo 'checked'; ?> > Other
+                        <td>Gender:</td>
+                        <td>
+                            <input type="radio" id="male" name="sex" value="Male" <?php if ($user_my_profiles["sex"] === 'Male') echo 'checked'; ?>> Male
+                            <input type="radio" id="female" name="sex" value="Female" <?php if ($user_my_profiles["sex"] === 'Female') echo 'checked'; ?>> Female
+                            <input type="radio" id="other" name="sex" value="Other" <?php if ($user_my_profiles["sex"] === 'Other') echo 'checked'; ?>> Other
                         </td>
                     </tr>
                     <tr>
                         <td>Date of Birth:</td>
-                        <td><input type="date" id="dob" name="dob" value="<?php echo $U["birthday"]?>" required></td>
+                        <td><input type="date" id="dob" name="dob" value="<?php echo $user_my_profiles["birthday"] ?>" required></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" name="address" required value="<?php echo $U["address"]?>" >
+                                <input type="text" name="address" required value="<?php echo $user_my_profiles["address"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -74,9 +75,7 @@ require_once("connect/connectDB.php");
                         <td></td>
                         <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
                     </tr>
-                    <?php } ?>
                 </table>
-                
             </form>
         </div>
         <div class="profile-update-image">

@@ -4,9 +4,10 @@ error_reporting(E_ALL);
 session_start();
 require_once("connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    var_dump($user);
- }
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_my_profile = executeSingleResult("SELECT * FROM tb_user WHERE username = '$user_name'");
+    var_dump($user_name);
+}
 ?>
 
 <head>
@@ -293,6 +294,7 @@ if (isset($_SESSION["auth_user"])) {
             margin: 0 15px;
             color: #555;
         }
+
         .purchase-order .po-content-box {
             position: relative;
             width: 100%;
@@ -301,6 +303,7 @@ if (isset($_SESSION["auth_user"])) {
         .purchase-order .po-content-box .content {
             display: none;
         }
+
         .purchase-order .po-content-box .content {
             display: none;
         }
@@ -316,10 +319,8 @@ if (isset($_SESSION["auth_user"])) {
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
-            <?php foreach($user as $U ){?>
                 <img src="../public/images/admin1.jpg" alt="">
-                <h4> <?php echo $U["username"]?> </h4>
-                <?php } ?>
+                <h4> <?php echo $user_name ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
@@ -355,7 +356,7 @@ if (isset($_SESSION["auth_user"])) {
             <?php include("my_action_user/my_profile.php"); ?>
         </div>
     </div>
-    <?php if(isset($_SESSION['status'])) { ?>
+    <?php if (isset($_SESSION['status'])) { ?>
         <script>
             alert('<?php echo $_SESSION['status']; ?>');
         </script>
