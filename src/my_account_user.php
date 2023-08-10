@@ -5,7 +5,7 @@ require_once("../src/connect/connectDB.php");
 session_start();
 if (isset($_SESSION["auth_user"])) {
     $userID = $_SESSION['auth_user']['user_id'];
-    $user = executeResult("SELECT * FROM tb_user where user_id = $userID");
+    $user = executeSingleResult ("SELECT * FROM tb_user where user_id = $userID");
     // var_dump($user);
  }
 
@@ -318,10 +318,8 @@ if (isset($_SESSION["auth_user"])) {
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
-            <?php foreach($user as $U ){?>
                 <img src="../public/images/admin1.jpg" alt="">
                 <h4>  <?php echo $U["username"] ; ?> </h4>  
-                <?php } ?> 
             </div>
             <div class="sidebar">
                 <ul>

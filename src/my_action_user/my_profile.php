@@ -7,7 +7,7 @@ $user = array();
 
 if (isset($_SESSION["auth_user"])) {
     $userID = $_SESSION['auth_user']['user_id'];
-    $user = executeResult("SELECT * FROM tb_user where user_id = $userID");
+    $U = executeSingleResult ("SELECT * FROM tb_user where user_id = $userID");
 }
 ?>
 
@@ -20,7 +20,6 @@ if (isset($_SESSION["auth_user"])) {
     <div class="update-profile-box">
         <div class="profile-form">
             <form action="User/code-User.php" method="post" style="width: 100%;">
-            <?php foreach($user as $U ){?>
                 <table style="width: 100%;">
                 <tr>
                         <td></td>
@@ -79,7 +78,6 @@ if (isset($_SESSION["auth_user"])) {
                         <td></td>
                         <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
                     </tr>
-                    <?php } ?>
                 </table>
                 
             </form>

@@ -255,16 +255,16 @@ $cates = executeResult("SELECT * FROM tb_category c
               <div class="user-header d-none d-lg-block">
               <?php if (isset($_SESSION["auth_user"])) {
               $userID = $_SESSION['auth_user']['user_id'];
-              $user = executeResult("SELECT username FROM tb_user where user_id = $userID");
-              foreach ($user as $U) { ?>
+              $U = executeSingleResult ("SELECT * FROM tb_user where user_id = $userID");
+              ?>
                <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
              <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"] ?>
                </a>
                <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
               Log Out
                </a>
-                <?php }
-            } else { ?>
+                <?php 
+             }else { ?>
               <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                <i class="fa fa-user" aria-hidden="true"></i>
                  Log In
