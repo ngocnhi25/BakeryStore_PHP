@@ -46,8 +46,3 @@ $(document).ready(function () {
         $(".errorImages").empty().append('');
     });
 });
-
-function lineActive(tab) {
-    $('.line').style.left = tab.offsetLeft + 'px';
-    $('.line').style.width = tab.offsetWidth + 'px';
-}

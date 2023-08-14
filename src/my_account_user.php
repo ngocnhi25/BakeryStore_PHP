@@ -303,13 +303,11 @@ if (isset($_SESSION["auth_user"])) {
             display: none;
         }
 
-        .purchase-order .po-content-box .content {
-            display: none;
-        }
-
-        .content.active {
+        .purchase-order .po-content-box .content.active {
             display: block;
         }
+
+        
     </style>
 </head>
 
@@ -318,7 +316,7 @@ if (isset($_SESSION["auth_user"])) {
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
-                <img src="../public/images/admin1.jpg" alt="">
+                <img src="../public/images/icon/user.png" alt="">
                 <h4> <?php echo $user_name?> </h4>
             </div>
             <div class="sidebar">
@@ -329,13 +327,6 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item" >
-                        <a href="change_password.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
-                            <p>Change Password</p>
-                        </a>
-                    </li>
-
                     <li class="nav-item">
                         <a href="purchase_order.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>

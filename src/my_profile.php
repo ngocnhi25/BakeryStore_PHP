@@ -1,10 +1,6 @@
 <?php
 require_once("connect/connectDB.php");
-if (isset($_SESSION["auth_user"])) {
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
- }
-$user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
 
 ?>
 
@@ -83,7 +79,7 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
             <div class="profile-image-box">
                 <div class="profile-image">
                     <div id="preview-photo" class="preview-photo">
-                        <img src="../public/images/admin2.jpg" alt="">
+                        <img src="../public/images/icon/user.png" alt="">
                     </div>
                     <div class="btn-photo">
                         <input id="photo-profile" type="file" name="profile-image" accept="image/*">

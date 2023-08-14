@@ -2329,6 +2329,9 @@ section.product-information img {
   position: relative;
   border: 2px solid rgba(51, 51, 51, 0.2);
 }
+.one-product-container.product-carousel {
+  height: 353px;
+}
 /* line 7, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
 .one-product-container:before {
   position: absolute;
@@ -2498,7 +2501,7 @@ section.product-information img {
 .one-product-container .product-info .product-name {
   text-align: left;
   font-size: 18px;
-  line-height: 32px;
+  line-height: 22px;
   font-weight: 500;
 }
 /* line 166, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */

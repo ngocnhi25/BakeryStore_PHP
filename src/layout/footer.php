@@ -182,7 +182,6 @@
 </button>
 
 <script src="../public/frontend/js/librarys_js/jquery3.3.1.min.js"></script>
-<script src="../public/frontend/js/config.js"></script>
 <script async defer crossorigin="anonymous" src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1"></script>
 
 <script src="../public/frontend/js/librarys_js/bootstrap4.min.js"></script>
@@ -192,10 +191,12 @@
 
 
 
+<script src="../public/frontend/js/config.js"></script>
 <script src="../public/frontend/js/main.js?v=1.0.8"></script>
 <script src="public/myplugins/js/messagebox.js"></script>
 
 <script src="../public/frontend/js/my_account.js"></script>
+<script src="../public/frontend/js/product_page.js"></script>
 
 </body>
 

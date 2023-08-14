@@ -1,5 +1,4 @@
 <?php
-session_start();
 $cates = executeResult("SELECT * FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 

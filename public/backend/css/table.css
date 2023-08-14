@@ -62,7 +62,7 @@ table {
 table,
 td {
   border-collapse: collapse;
-  padding: 0.8rem;
+  padding: 0.6rem;
   text-align: center;
   color: #717171;
 }
@@ -97,7 +97,7 @@ tbody tr:nth-child(even) {
 }
 
 tbody tr:hover {
-  background-color: #fff6f2 !important;
+  background-color: #d7f4f7e3 !important;
 }
 tbody td {
   font-size: 14px;

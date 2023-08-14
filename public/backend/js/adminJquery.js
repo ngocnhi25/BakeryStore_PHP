@@ -29,10 +29,11 @@ function ajaxPages(url) {
     if (url != null) {
         $.ajax({
             url: url,
-            method: "POST",
+            type: "POST",
             dataType: "html",
+            data: { ajaxSidebar: "ok" },
             success: function(response) {
-                $("#main-page").html(response);
+                $("#main-page").empty().html(response);
             },
             error: function(xhr, status, error) {
                 console.error(error);

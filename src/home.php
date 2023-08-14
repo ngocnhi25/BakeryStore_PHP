@@ -81,230 +81,58 @@ foreach ($sale as $key => $s) {
 <section class="section-paddingY middle-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <p class="section-title" id="currentMonth"></p>
+      <p class="section-title" id="currentMonth">Best Seller</p>
     </div>
     <div class="section-body">
       <div class="owl-carousel-products owl-carousel owl-theme">
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
+        <?php foreach ($product as $p) { ?>
+          <div class="one-product-container product-carousel">
+            <div class="product-images">
+              <a href="details.php?product_id=<?= $p["product_id"] ?>">
+                <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                  <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                  <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                </div>
               </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
+              <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                <div class="product-discount">
+                  <span class="text">-
+                    <?php foreach ($sale as $s) {
+                      if ($p["product_id"] == $s["product_id"]) {
+                        echo ($s["percent_sale"]);
+                        break;
+                      }
+                    } ?> %</span>
+                </div>
+              <?php } ?>
+              <div class="box-actions-hover">
+                <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+              </div>
+            </div>
+            <div class="product-info">
+              <p class="product-name">
+                <a href="details.php?product_id=<?php $p["product_id"] ?>">
+                  <?php echo $p["product_name"] ?>
+                </a>
+              </p>
+              <div class="product-price">
+                <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                  <span class="price">
+                    <?php foreach ($sale as $s) {
+                      if ($p["product_id"] == $s["product_id"]) {
+                        displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                        break;
+                      }
+                    } ?> vnđ</span>
+                  <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                <?php } else { ?>
+                  <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                <?php } ?>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
-        <div class="one-product-container">
-
-          <div class="product-images">
-            <a class="product-image hover-animation" href="san-pham/opera-cake-27">
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-              <img src="source/B&aacute;nh Sinh Nhật THB/Banh opera 001.jpg" alt="Opera Cake " />
-            </a>
-          </div>
-          <div class="product-info">
-            <p class="product-name">
-              <a href="#/">
-                Opera Cake
-              </a>
-            </p>
-            <div class="product-price">
-
-              <span class="price">400,000&#8363;</span>
-            </div>
-          </div>
-        </div>
+        <?php } ?>
       </div>
     </div>
   </div>
@@ -349,7 +177,7 @@ foreach ($sale as $key => $s) {
                       <?php } ?>
                       <div class="box-actions-hover">
                         <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                        <button><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                        <button id="btn-addProduct"><span class="material-symbols-sharp">add_shopping_cart</span></button>
                       </div>
                     </div>
                     <div class="product-info">
@@ -801,5 +629,6 @@ foreach ($sale as $key => $s) {
     </div>
   </div>
 </section>
+
 
 <?php require "layout/footer.php" ?>
