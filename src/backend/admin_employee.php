@@ -1,5 +1,11 @@
 <?php
-require_once('../connect/connectDB.php')
+require_once('../connect/connectDB.php');
+session_start();
+if (isset($_SESSION["auth_user"])) {
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -133,8 +139,9 @@ require_once('../connect/connectDB.php')
                     </div>
                     <div class="profile">
                         <div class="info">
-                            <p>Hey, <b>Ngoc Nhi</b></p>
-                            <small class="text-muted">Admin</small>
+                        <div class="info">
+                            <p>Hey, <b> <?php echo $user_name ?>  </b></p>
+                            <small class="text-muted"> Position : Staff </small>
                         </div>
                     </div>
                 </div>

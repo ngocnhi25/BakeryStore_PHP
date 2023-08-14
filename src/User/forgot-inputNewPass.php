@@ -18,12 +18,8 @@ session_start();
             <div class="form-value">
                 <form action="code-User.php" method="post">
                     <h2 class="login-h2"> Reset Password Form </h2>
-                    <input type="hidden" name="token" value="<?php if(isset($_GET["token"])){echo $_GET["token"];} ?>">
-                    <div class="inputbox">
-                        <ion-icon name="mail"></ion-icon>
-                        <input type="email" name="email" value="<?php if(isset($_GET["email"])){echo $_GET["email"];} ?>" readonly >
-                        <label for="">Your Email : </label>
-                    </div>
+                    <input type="hidden" name="token" value="<?php if(isset($_GET["token"])){echo $_GET["token"];} ?>" readonly >
+                    <input type="hidden" name="email" value="<?php if(isset($_GET["email"])){echo $_GET["email"];} ?>" readonly >
                     <div class="inputbox">
                         <ion-icon name="mail"></ion-icon>
                         <input type="password" name="newPassword" required >
