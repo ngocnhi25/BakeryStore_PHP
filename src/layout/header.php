@@ -1,12 +1,23 @@
 <?php
-// session_start();
-$cates = executeResult("SELECT * FROM tb_category c
-                        INNER JOIN tb_products p 
-                        ON c.cate_id = p.cate_id 
-                        GROUP BY c.cate_id");
+session_start();
+// $cates = executeResult("SELECT * FROM tb_category c
+//                         INNER JOIN tb_products p 
+//                         ON c.cate_id = p.cate_id 
+//                         GROUP BY c.cate_id");
 
+// $grand_total = 0;
+// $allItems = '';
+// $items = [];
 
-
+// $sql = "SELECT CONCAT(product_name, '(',quantity,')') AS ItemQty, total_price FROM tb_cart";
+// $stmt = $conn->prepare($sql);
+// $stmt->execute();
+// $result = $stmt->get_result();
+// while ($row = $result->fetch_assoc()) {
+//   $grand_total += $row['total_price'];
+//   $items[] = $row['ItemQty'];
+// }
+// $allItems = implode(', ', $items);
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +46,6 @@ $cates = executeResult("SELECT * FROM tb_category c
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
   <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
   <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
-  
 
 
   <!-- PLUGIN CSS -->
@@ -245,6 +255,7 @@ $cates = executeResult("SELECT * FROM tb_category c
                 </span>
                 <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
               </form>
+              
 
               <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
@@ -252,19 +263,14 @@ $cates = executeResult("SELECT * FROM tb_category c
               </a>
 
               <div class="user-header d-none d-lg-block">
-                <?php
-                if (isset($_SESSION["auth_user"])) {
-                  $user = executeResult("SELECT * FROM tb_user limit 1 ");
-                ?>
-              <?php foreach($user as $U ){?>
-                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
-                      <i class="fa fa-user" aria-hidden="true"></i> <?php echo $U["username"]?>
+                <?php if (isset($_SESSION["auth_user"])) { ?>
+                  <a href="User/information-User.php">
+                    <ul class="user-header-button js-toggle-user-nav">
+                      <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
+                      <li><a href="User/logout.php" >Log Out</a></li>
                     </ul>
                   </a>
-                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                    Log Out 
-                  </a>
-                <?php } ?>
+
                 <?php } else { ?>
                   <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                     <i class="fa fa-user" aria-hidden="true"></i>
@@ -346,3 +352,19 @@ $cates = executeResult("SELECT * FROM tb_category c
       </div>
     </header>
   </div>
+  <script>
+  load_cart_item_number();
+
+  function load_cart_item_number() {
+    $.ajax({
+      url: '../handles_page/action.php',
+      method: 'GET',
+      data: {
+        cartItem: 'cart_item'
+      },
+      success: function(response) {
+        $("#cart-item").text(response); // Update the cart item count in the span
+      }
+    });
+  }
+  </script>

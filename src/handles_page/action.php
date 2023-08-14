@@ -37,13 +37,13 @@ if (isset($_POST['pid'])) {
 }
 
 // Get no.of items available in the cart table
-if (isset($_GET['cartItem']) && isset($_GET['cartItem']) == 'cart_item') {
-	$stmt = $conn->prepare('SELECT * FROM tb_cart');
-	$stmt->execute();
-	$stmt->store_result();
-	$rows = $stmt->num_rows;
+if (isset($_GET['cartItem']) && $_GET['cartItem'] == 'cart_item') {
+    $stmt = $conn->prepare('SELECT * FROM tb_cart');
+    $stmt->execute();
+    $stmt->store_result();
+    $rows = $stmt->num_rows;
 
-	echo $rows;
+    echo $rows;
 }
 
 // Remove single items from cart

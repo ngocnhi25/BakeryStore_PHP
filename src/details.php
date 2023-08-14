@@ -1,20 +1,38 @@
 <?php
 session_start();
+function isAuthenticated()
+{
+  return isset($_SESSION["authenticated"]);
+}
+
 require_once('connect/connectDB.php');
 
-$id = 18;
+$id = $_GET['id'];
+$cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flavor");
 $size = executeResult("select * from tb_size");
 $thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+$imageResult = executeSingleResult("SELECT image FROM tb_products WHERE product_id = $id");
 $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
 $productResult = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $id");
-$idproductResult = executeSingleResult("SELECT product_id FROM tb_products WHERE product_id = $id");
+$priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
+$percent_sale = executeSingleResult("SELECT percent_sale FROM tb_sale WHERE product_id = $id");
+if ($imageResult) {
+  $image = $imageResult['image'];
+} else {
+  echo "Image not available.";
+}
 if ($priceResult) {
   $price = $priceResult['price'];
 } else {
   echo "Price not available.";
 }
+if ($percent_sale) {
+  $percent = intval($percent_sale);
+  $discountedPrice = $price - ($price * $percent / 100);
+}
+$idproductResult = executeSingleResult("SELECT product_id FROM tb_products WHERE product_id = $id");
 //get name value
 if ($productResult) {
   $name = $productResult['product_name'];
@@ -31,6 +49,9 @@ if ($idproductResult) {
 $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
                                       JOIN tb_category c ON p.cate_id = c.cate_id
                                       WHERE p.product_id = $id");
+
+
+// connect/connectDB.php
 
 ?>
 
@@ -64,7 +85,286 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
 
 <body>
 
-  <?php include("layout/header.php"); ?>
+  <div class="page-wrapper">
+
+    <!-- MESSAGE FROM SERVER -->
+    <div class="msg-top ">
+      <div class="msg-from-server msg-container">
+        <span class="close-msg">&times;</span>
+      </div>
+    </div>
+
+    <div class="fullscreen-overlay"></div>
+
+    <div class="cart-sidebar-container">
+      <div class="header">
+        <p class="title">Carts</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
+            class="fas fa-times fa-2x"></i></span>
+      </div>
+      <!-- Display cart items -->
+      <div class="body">
+        <ul class="cart-list">
+          <?php foreach ($cartItems as $cartItem) { ?>
+            <li>
+              <p class="product-name">
+                <?php echo $cartItem['product_name']; ?>
+              </p>
+              <p class="quantity">
+                Số lượng:
+                <?php echo $cartItem['quantity']; ?>
+              </p>
+              <p class="subtotal">
+                <span class="equal">
+                  Price:
+                  <?php echo number_format($cartItem['total_price'], 0); ?> vnđ
+                </span>
+              </p>
+            </li>
+          <?php } ?>
+        </ul>
+      </div>
+
+      <!-- Display total and action buttons -->
+      <div class="footer">
+        <div class="total">
+          <span class="text">Tổng tiền</span>
+          <span class="money">
+            <?php
+            $grandTotal = 0;
+            foreach ($cartItems as $cartItem) {
+              $grandTotal += $cartItem['total_price'];
+            }
+            echo number_format($grandTotal, 0) . ' vnđ';
+            ?>
+          </span>
+        </div>
+        <div class="action-btns">
+          <a class="action-btn goto-cart" href="carts.php">View cart</a>
+          <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Clear cart</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mobile-menu-container">
+      <div class="header">
+        <p class="title">
+          <img src="../../public/images/logo/logo.jpg" alt="" srcset="">
+        </p><span class="toggle-mobile-menu js-toggle-mobile-menu"><i class="fas fa-times fa-2x"></i></span>
+      </div>
+      <div class="body">
+
+        <nav>
+          <div class="nav nav-tabs tabs-menu-mobile" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+              aria-controls="nav-home" aria-selected="true">MENU</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab"
+              aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
+          </div>
+        </nav>
+        <div class="tab-content" id="nav-tabContent">
+          <div class="tab-pane fade pt-3 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <ul class="mobile-menu-list">
+              <li class="li-menu">
+                <a href="#">
+                  Danh Muc San Pham
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class="submenu">
+                  <?php foreach ($cates as $key => $c) { ?>
+                    <li>
+                      <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                    </li>
+                  <?php } ?>
+                </ul>
+              </li>
+              <li class="li-menu">
+                <a href="home.php">
+                  Home
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="about.php">
+                  About Us
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="product.php">
+                  Products
+                </a>
+              </li>
+              <li class="li-menu">
+                <a href="#">
+                  News and Events
+                  <i class="fa fa-angle-down" aria-hidden="true"></i>
+                </a>
+                <ul class='submenu'>
+                  <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
+                  <li> <a href='news.php'> News</a></li>
+                </ul>
+              </li>
+              <li class="li-menu">
+                <a href="contact.php">
+                  Contact
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <ul class="mobile-menu-list">
+              <?php foreach ($cates as $key => $c) { ?>
+                <li>
+                  <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                </li>
+              <?php } ?>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="auth-actions depth1">
+          <a class="auth-action" href="dang-nhap#login">
+            <i class="fas fa-user-circle"></i>
+            <span>Đăng nhập</span>
+          </a>
+          <a class="auth-action" href="dang-ky#register">
+            <i class="fas fa-user-plus"></i>
+            <span>Đăng kí</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <header class="header">
+      <div class="header-top" id="HeaderTop">
+        <div class="container">
+          <span class="sologan float-left">Ch&agrave;o Mừng Qu&yacute; Kh&aacute;ch Đến Với Ngoc Nhi Bakery</span>
+          <span class="sologan float-right">Hotline: 123123123123 | 123123123123</span>
+        </div>
+      </div>
+      <div class="header-topbar">
+        <div class="container">
+          <div class="header-topbar-inner-container">
+            <div class="left">
+              <div class="logo">
+                <a class="big-logo" href="">
+                  <img src="../public/images/logo/logo.jpg" alt="">
+                </a>
+              </div>
+            </div>
+
+            <div class="right">
+
+              <!-- <form action="tim-kiem" method="GET" class="form-search-header">
+            <span class="icon">
+              <i class="fa fa-search"></i>
+            </span>
+            <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
+          </form> -->
+
+
+              <div class="search-container">
+                <input type="text" id="search-input" placeholder="Search products...">
+                <ul id="search-results"></ul>
+              </div>
+
+              <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
+                <img src="../public/images/icon/shopping-bag.svg" alt="">
+                <span class="counter" id="cart-item">0</span>
+              </a>
+
+              <div class="user-header d-none d-lg-block">
+                <?php if (isset($_SESSION["auth_user"])) { ?>
+                  <a href="User/information-User.php">
+                    <ul class="user-header-button js-toggle-user-nav">
+                      <li> <i class="fa fa-user" aria-hidden="true"></i>
+                        <?= $_SESSION['auth_user']['username'] ?>
+                      </li>
+                      <li><a href="User/logout.php">Log Out</a></li>
+                    </ul>
+                  </a>
+
+                <?php } else { ?>
+                  <a href="User/login.php" class="user-header-button js-toggle-user-nav">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Log In
+                  </a>
+                  <a href="User/register.php" class="user-header-button js-toggle-user-nav">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Sign In
+                  </a>
+                <?php } ?>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="header-nav">
+        <div class="container">
+          <div class="header-nav-inner-container">
+            <a class="toggle-mobile-menu js-toggle-mobile-menu d-lg-none" href="#/">
+              <i class="fas fa-bars fa-2x"></i>
+            </a>
+            <!-- DESKTOP MENU HERE-->
+            <div class="desktop-menu d-none d-lg-flex">
+              <ul class="main-menu">
+                <li class="li-menu">
+                  <a href="#">
+                    Danh Muc San Pham
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </a>
+                  <ul class="submenu">
+                    <?php foreach ($cates as $key => $c) { ?>
+                      <li>
+                        <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                      </li>
+                    <?php } ?>
+                  </ul>
+                </li>
+                <li class="li-menu">
+                  <a href="home.php">
+                    Home
+                  </a>
+                </li>
+                <li class="li-menu">
+                  <a href="about.php">
+                    About Us
+                  </a>
+                </li>
+                <li class="li-menu">
+                  <a href="product.php">
+                    Products
+                  </a>
+                </li>
+                <li class="li-menu">
+                  <a href="#">
+                    News and Events
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                  </a>
+                  <ul class='submenu'>
+                    <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
+                    <li> <a href='news.php'> News</a></li>
+                  </ul>
+                </li>
+                <li class="li-menu">
+                  <a href="contact.php">
+                    Contact
+                  </a>
+                </li>
+              </ul>
+
+            </div>
+            <!-- END DESKTOP MENU HERE-->
+
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
 
   <div class="breadcrumb">
     <div class="container">
@@ -114,79 +414,80 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
 
               </div>
               <div class="product-imgs">
-                <ul id="lightSlider">
-                  <li data-thumb="source/Bánh Sinh Nhật THB/Banh Sinh Nhat 003.jpg">
-                    <a href="source/Bánh Sinh Nhật THB/Banh Sinh Nhat 003.jpg" data-fancybox="gallery">
-                      <div class="big-img">
-                        <img src="../public/images/products/z4341665527978_fc1db1d413a2d7d2146b13ffffc50d0a.jpg">
-                      </div>
-                    </a>
-                  </li>
-                </ul>
+                <div class="big-img">
+                  <img id="mainBigImage" src="../<?php echo $image ?>">
+                </div>
                 <div class="images">
-                  <?php foreach($thumb as $t) { ?>
                   <div class="small-img">
-                    <img src="../<?php echo $t['thumbnail'] ?>" data-src="<?php echo $t['larger_image'] ?>" class="thumbnail-img">
+                    <img id="originalImage" src="../<?php echo $image ?>">
                   </div>
+                  <?php foreach ($thumb as $index => $t) { ?>
+                    <div class="small-img">
+                      <img src="../<?php echo $t['thumbnail'] ?>" class="thumbnail-img" data-index="<?php echo $index ?>">
+                    </div>
                   <?php } ?>
                 </div>
               </div>
+
             </div>
             <div class="col-12 col-lg-5">
 
               <div class="left">
 
               </div>
-              
+
               <div class="right">
-                <div class="pname"><?php echo $name ?></div>
-              <div class="size">
+                <div class="pname">
+                  <?php echo $name ?>
+                </div>
+                <div class="size">
                   <p>increaseSize:</p>
                   <div id="displayedIncreaseSize">N/A</div>
-              </div>
-              <div class="size">
+                </div>
+                <div class="size">
                   <p>Size:</p>
                   <?php foreach ($size as $s) { ?>
-                    
-                      <button class="sizeBtn" data-size="<?= $s['size_name'] ?>" value="<?= $s['size_name'] ?>"><?php echo $s["size_name"] ?></button>
-                    
+
+                    <button class="sizeBtn" data-size="<?= $s['size_name'] ?>" value="<?= $s['size_name'] ?>"><?php echo $s["size_name"] ?></button>
+
                   <?php } ?>
                 </div>
                 <div class="size">
                   <p>Flavor:</p>
                   <?php foreach ($flaror as $f) { ?>
-                    
-                      <button class="flavorBtn" data-size="<?= $f['flavor_name'] ?>"><?php echo $f["flavor_name"] ?></button>
-                    
+                    <button class="flavorBtn" data-size="<?= $f['flavor_name'] ?>" value="<?= $f['flavor_name'] ?>"><?php echo $f["flavor_name"] ?></button>
                   <?php } ?>
                 </div>
-              <form action="" class="form-submit">
-                <div class="ratings">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-                </div>
-                <div class="price">
-                  <p id="price"><?php echo number_format($price) ?>$</p>
-                </div>
-                
-                
-                <div class="quantity">
-                  <p>Quantity:</p>
-                  <input type="number" min="1" max="5" value="1">
-                </div>
+                <form action="" class="form-submit">
+                  <!-- Display the original price -->
+                  <div class="price">
+                    <span>Price:</span>
+                    <p class="original-price">
+                      <?php echo number_format($price, 0) ?>$
+                    </p>
+                  </div>
+                  <div class="price">
+                    <p class="discounted-price" id="price">
+                      Sale Price:
+                      <?php echo number_format($discountedPrice, 0) ?>$
+                    </p>
+                  </div>
 
-                <input type="hidden" class="pid" value="<?php echo $id ?>">
-                <input type="hidden" class="name" value="<?php echo $name ?>">
-                <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
+                  <div class="quantity">
+                    <p>Quantity:</p>
+                    <input type="number" min="1" max="5" value="1">
+                  </div>
 
-                <div class="btn-box">
-                  <button class="cart-btn add" id="add">Add to Cart</button>
-                  <button class="buy-btn">Buy Now</button>
-                </div>
-              </form>
+                  <input type="hidden" class="pid" value="<?php echo $id ?>">
+                  <input type="hidden" class="name" value="<?php echo $name ?>">
+                  <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
+                  <input type="hidden" class="lastPrice" value="<?php echo $discountedPrice ?>">
+
+                  <div class="btn-box">
+                    <button class="cart-btn add" id="add">Add to Cart</button>
+                    <button class="buy-btn">Buy Now</button>
+                  </div>
+                </form>
               </div>
             </div>
             <div class="col-12 mt-5">
@@ -275,8 +576,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                 </div>
               </section>
             </div>
-
-
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
             </script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
@@ -334,7 +633,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                         </a>
                       </p>
                       <div class="product-price">
-
                         <span class="price">400,000&#8363;</span>
                       </div>
                     </div>
@@ -391,9 +689,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
   <?php include("layout/footer.php"); ?>
 
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
-  <script>
-    var baseUrl = "";
-  </script>
   <script src="public/frontend/assets/js/config.js"></script>
   <script src="public/plugins/js/bootstrap4.min.js"></script>
   <script src="public/plugins/js/owl.carousel.min.js"></script>
@@ -404,106 +699,200 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
   <script src="public/myplugins/js/messagebox.js"></script>
 
   <script>
-  document.addEventListener("DOMContentLoaded", function () {
-  let selectedSize = ""; // Khai báo biến để lưu giá trị size đã chọn
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      var result = false;
+      $.ajax({
+        url: "handles_page/check_auth.php", // Đường dẫn tới tệp PHP kiểm tra
+        method: "GET",
+        async: false, // Đảm bảo AJAX request kết thúc trước khi trả về
+        success: function (response) {
+          if (response === "authenticated") {
+            result = true;
+          }
+        }
+      });
+      return result;
+    }
 
-  const sizeButtons = document.querySelectorAll(".sizeBtn");
+    document.addEventListener("DOMContentLoaded", function () {
+      let selectedSize = ""; // Initialize selected size variable
+      let selectedFlavor = ""; // Initialize selected flavor variable
 
-  sizeButtons.forEach(function (button) {
-    button.addEventListener("click", function () {
-      selectedSize = button.getAttribute("data-size"); // Lưu giá trị size đã chọn
-      // console.log("Selected Size:", selectedSize); // Debug
+      // Size buttons event listener
+      const sizeButtons = document.querySelectorAll(".sizeBtn");
+      sizeButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectedSize = button.getAttribute("data-size"); // Save selected size
+          console.log("Selected Size:", selectedSize); // Debug
+        });
+      });
+
+      // Flavor buttons event listener
+      const flavorButtons = document.querySelectorAll(".flavorBtn");
+      flavorButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          selectedFlavor = button.value; // Save selected flavor
+          console.log("Selected Flavor:", selectedFlavor); // Debug
+        });
+      });
+
+      // Add to cart button event listener
+      $(document).on("click", "#add", function (e) {
+        e.preventDefault();
+
+        if (!isAuthenticated()) {
+          alert("Please log in to use this feature.");
+          return;
+        }
+
+        // Validate inputs
+        if (selectedSize === "") {
+          alert("Please select a size.");
+          return;
+        }
+
+        if (selectedFlavor === "") {
+          alert("Please select a flavor.");
+          return;
+        }
+
+        var $form = $(this).closest(".form-submit");
+        var pid = $form.find(".pid").val();
+        var pname = $form.find(".name").val();
+        var increaseSizeText = $("#hiddenIncreaseSize").val();
+        var increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
+        var increaseSize = parseFloat(increaseSizeWithoutCommas);
+        var quantity = $form.find(".quantity input").val();
+        var price = parseInt($form.find(".lastPrice").val());
+
+        // Validate quantity
+        if (parseInt(quantity) > 20) {
+          alert("Quantity cannot be greater than 20.");
+          return;
+        }
+
+        // AJAX request to add product to cart
+        $.ajax({
+          url: "handles_page/add_to_cart.php",
+          method: "POST",
+          data: {
+            pid: pid,
+            pname: pname,
+            size: selectedSize,    // Add selected size
+            flavor: selectedFlavor, // Add selected flavor
+            increaseSize: increaseSize,
+            quantity: quantity,
+            price: price
+          },
+          success: function (response) {
+            alert("Product added to cart: " + response);
+            // alert(price);
+          },
+          error: function () {
+            alert("Error adding product to cart");
+          }
+        });
+      });
     });
-  });
-
-  $(document).on("click", "#add", function (e) {
-    e.preventDefault();
-
-    var $form = $(this).closest(".form-submit");
-    var pid = $form.find(".pid").val();
-    var pname = $form.find(".name").val();
-    var increaseSizeText = $("#hiddenIncreaseSize").val();
-    var increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, ''); // Loại bỏ dấu phẩy
-    var increaseSize = parseFloat(increaseSizeWithoutCommas);
-    var quantity = $form.find(".quantity input").val();
-    var priceText = $form.find("#price").text(); // Lấy chuỗi văn bản
-    var priceWithoutCommas = priceText.replace(/,/g, ''); // Loại bỏ dấu phẩy
-    var price = parseFloat(priceWithoutCommas); // Chuyển đổi chuỗi thành số // Chuyển đổi chuỗi thành số
-
-    // console.log("Product ID:", pid);
-    // console.log("Product Name:", pname);
-    // console.log("Selected Size:", selectedSize); 
-    // console.log("Increase Size:", increaseSize);
-    // console.log("Quantity:", quantity);
-    // console.log("Price:", price);
-
-    // Thực hiện AJAX để thêm sản phẩm vào giỏ hàng
-    $.ajax({
-      url: "../src/handles_page/add_to_cart.php", // Thay thế bằng URL thực sự để thêm sản phẩm vào giỏ hàng
-      method: "POST",
-      data: {
-        pid: pid,
-        pname: pname,
-        size: selectedSize,
-        increaseSize: increaseSize,
-        quantity: quantity,
-        price: price
-      },
-      success: function (response) {
-        // Xử lý phản hồi từ máy chủ (ví dụ: hiển thị thông báo thành công)
-        alert("Product added to cart: " + response);
-      },
-      error: function () {
-        alert("Error adding product to cart");
-      }
-    });
-  });
-});
-
 
   </script>
   <script>
     $(document).ready(function () {
-  // Add click event listener to the size buttons
-  $(".sizeBtn").on("click", function () {
-    var selectedSize = $(this).data("size");
+      // Add click event listener to the size buttons
+      $(".sizeBtn").on("click", function () {
+        var selectedSize = $(this).data("size");
 
-    // Make an Ajax request to get the increaseSize based on the selected size
-    $.ajax({
-      url: "../src/handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
-      method: "POST",
-      data: { size: selectedSize },
-      success: function (response) {
-        if (response !== "") {
-          var formattedIncreaseSize = parseFloat(response).toFixed(0);
-          formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          formattedIncreaseSize = "+" + formattedIncreaseSize;
-          
-          // Update the displayed increaseSize
-          $("#displayedIncreaseSize").text(formattedIncreaseSize);
-          
-          // Update the hidden input field
-          $(".IncreaseSize").val(formattedIncreaseSize);
-        } else {
-          $("#displayedIncreaseSize").text("N/A");
-          $(".IncreaseSize").val(""); // Reset the hidden input field if needed
-        }
-      },
-      error: function () {
-        $("#displayedIncreaseSize").text("Error fetching increaseSize");
-        $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
+        // Make an Ajax request to get the increaseSize based on the selected size
+        $.ajax({
+          url: "../src/handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
+          method: "POST",
+          data: { size: selectedSize },
+          success: function (response) {
+            if (response !== "") {
+              var formattedIncreaseSize = parseFloat(response).toFixed(0);
+              formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              formattedIncreaseSize = "+" + formattedIncreaseSize;
+
+              // Update the displayed increaseSize
+              $("#displayedIncreaseSize").text(formattedIncreaseSize);
+
+              // Update the hidden input field
+              $(".IncreaseSize").val(formattedIncreaseSize);
+            } else {
+              $("#displayedIncreaseSize").text("N/A");
+              $(".IncreaseSize").val(""); // Reset the hidden input field if needed
+            }
+          },
+          error: function () {
+            $("#displayedIncreaseSize").text("Error fetching increaseSize");
+            $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
+          }
+        });
+      });
+    });
+
+
+    //chang Big image
+    document.addEventListener("DOMContentLoaded", function () {
+      const mainBigImage = document.getElementById("mainBigImage");
+      const originalImage = document.getElementById("originalImage");
+      const thumbnailImages = document.querySelectorAll(".thumbnail-img");
+
+      thumbnailImages.forEach(function (thumbnail) {
+        thumbnail.addEventListener("click", function () {
+          const index = this.getAttribute("data-index");
+          const newImageSrc = this.getAttribute("src");
+          updateBigImage(newImageSrc);
+        });
+      });
+
+      originalImage.addEventListener("click", function () {
+        const originalSrc = originalImage.getAttribute("src");
+        updateBigImage(originalSrc);
+      });
+
+      function updateBigImage(newImageSrc) {
+        mainBigImage.src = newImageSrc;
       }
     });
-  });
-});
+
+
 
 
     $(document).ready(function () {
-    $(".thumbnail-img").click(function () {
-      var largerImageSrc = $(this).data("src");
-      $("#bigImage").attr("src", largerImageSrc);
+      $("#search-input").on("input", function () {
+        var query = $(this).val();
+        // alert(query);
+        if (query !== "") {
+          $.ajax({
+            url: "handles_page/search.php", // Replace with your actual search backend endpoint
+            method: "POST",
+            data: { query: query },
+            success: function (response) {
+              $("#search-results").html(response);
+            }
+          });
+        } else {
+          $("#search-results").empty();
+        }
+      });
     });
-  });
+
+    load_cart_item_number();
+
+    function load_cart_item_number() {
+      $.ajax({
+        url: 'handles_page/action.php',
+        method: 'GET',
+        data: {
+          cartItem: 'cart_item'
+        },
+        success: function (response) {
+          $("#cart-item").text(response); // Update the cart item count in the span
+        }
+      });
+    }
   </script>
   <script src="../public/frontend/js/product_page.js"></script>
   </div>

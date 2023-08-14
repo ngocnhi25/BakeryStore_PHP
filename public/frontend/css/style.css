@@ -3599,3 +3599,120 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 .flavorBtn:hover {
   background-color: #e487af9e;
 }
+/* Add this CSS to your stylesheet */
+.original-price {
+  position: relative;
+  display: inline-block;
+}
+
+.original-price::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top: 2px solid #000; /* Line color */
+  transform: translateY(-50%);
+}
+/* Add your custom styles here */
+.search-container {
+  text-align: center;
+  margin: 50px auto;
+}
+
+#search-input {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+#search-results {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 10px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  position: absolute;
+  z-index: 1;
+}
+
+#search-results li {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#search-results li:last-child {
+  border-bottom: none;
+}
+
+#search-results li:hover {
+  background-color: #e0e0e0;
+}
+.product-wrapper {
+  max-height: 300px; /* Đặt chiều cao tối đa của khung chứa */
+  overflow-y: auto; /* Hiển thị thanh cuộn dọc khi nội dung vượt quá kích thước */
+}
+
+.product-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  background-color: #f7f7f7;
+}
+
+.product-image {
+  max-width: 100px;
+  margin-right: 10px;
+}
+
+.product-details {
+  flex: 1;
+}
+
+.product-name {
+  font-size: 18px;
+  margin: 0;
+  color: #333;
+}
+
+.product-price {
+  font-size: 14px;
+  color: #555;
+}
+.order-success {
+  text-align: center;
+  padding: 20px;
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.order-title {
+  font-size: 36px;
+  margin: 10px 0;
+}
+
+.order-subtitle {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.order-details {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.order-details p {
+  margin: 5px 0;
+  font-size: 16px;
+}

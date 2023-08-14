@@ -38,6 +38,7 @@ require_once("../src/connect/connectDB.php");
                 <th>ID</th>
                 <th>Image</th>
                 <th>Product</th>
+                <th>Flavor</th>
                 <th>Price</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
@@ -61,6 +62,7 @@ require_once("../src/connect/connectDB.php");
                   <td><?= $row['product_id'] ?></td>
                   <td><img src="<?= $row['image'] ?>" width="50"></td>
                   <td><?= $row['product_name'] ?></td>
+                  <td><?= $row['flavor'] ?></td>
                   <td><?= number_format($price, 0); ?></td>
                   <td>
                     <input type="number" class="form-control itemQty" value="<?= $row['quantity'] ?>"
@@ -88,7 +90,7 @@ require_once("../src/connect/connectDB.php");
                   </a>
                 </td>
                 <td colspan="2"><b>Grand Total</b></td>
-                <td><b><i class="fas fa-rupee-sign"></i>&nbsp;&nbsp;<?= number_format($grand_total, 0); ?></b></td>
+                <td colspan="2"><b><?= number_format($grand_total, 0); ?></b></td>
                 <td>
                   <a href="checkout.php" class="btn btn-info <?= ($grand_total > 1) ? '' : 'disabled'; ?>">
                     <i class="far fa-credit-card"></i>&nbsp;&nbsp;Checkout

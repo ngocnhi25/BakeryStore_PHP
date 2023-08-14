@@ -19,7 +19,6 @@ $allItems = implode(', ', $items);
 
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +72,7 @@ $allItems = implode(', ', $items);
           </h6>
           <h6 class="lead"><b>Delivery Charge : </b>Free</h6>
           <h5><b>Total Amount Payable : </b>
-            <?= number_format($grand_total, 2) ?>/-
+            <?= number_format($grand_total, 0) ?>/-
           </h5>
         </div>
         <form action="" method="post" id="placeOrder">
@@ -87,6 +86,9 @@ $allItems = implode(', ', $items);
           </div>
           <div class="form-group">
             <input type="tel" name="phone" class="form-control" placeholder="Enter Phone" required>
+          </div>
+          <div class="form-group">
+            <input type="text" name="coupon_name" class="form-control" placeholder="Enter Coupon Code">
           </div>
           <div class="form-group">
             <textarea name="address" class="form-control" rows="3" cols="10"
@@ -136,7 +138,7 @@ $allItems = implode(', ', $items);
       $("#placeOrder").submit(function (e) {
         e.preventDefault();
         $.ajax({
-          url: 'action.php',
+          url: 'handles_page/add_to_cart.php',
           method: 'post',
           data: $('form').serialize() + "&action=order",
           success: function (response) {
