@@ -1,11 +1,11 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-session_start();
 require_once("connect/connectDB.php");
+session_start();
 if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
  }
 ?>
 
@@ -74,7 +74,7 @@ if (isset($_SESSION["auth_user"])) {
 
         .my-account .my-account-box .sidebar-user .sidebar .nav-item:hover .nav-link p,
         .my-account .my-account-box .sidebar-user .sidebar .nav-item.active .nav-link p {
-            color: red;
+            color: #ff5922;
         }
 
         .my-account .my-account-box .action-page-box {
@@ -141,9 +141,9 @@ if (isset($_SESSION["auth_user"])) {
         }
 
         .my-profile-page .update-profile-box .profile-form .css-input input {
-            width: 100%;
+            width: 60%;
             padding: 10px;
-            border: 1px solid #efefef;
+            border: 1px solid ;
             outline: none;
             border-radius: 3px;
             font-size: 16px;
@@ -218,9 +218,96 @@ if (isset($_SESSION["auth_user"])) {
             transition: box-shadow 0.3s ease;
             box-shadow: 1px 1px 3px black;
         }
+
         .submit:hover {
             box-shadow: none;
         }
+
+        /* purchase order */
+        .purchase-order {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .purchase-order .po-tab-ui {
+            width: 100%;
+            display: block;
+        }
+
+        .purchase-order .po-tab-ui .tabs {
+            display: flex;
+            position: relative;
+            justify-content: space-between;
+            border-bottom: 2px solid #efefef;
+        }
+
+        .purchase-order .po-tab-ui .tabs .tab-item {
+            flex: 1;
+            padding: 16px 0;
+            font-size: 16px;
+            text-align: center;
+            color: #000000cc;
+            background-color: #fff;
+            border-bottom: 5px solid transparent;
+            cursor: pointer;
+            transition: all 0.5s ease;
+        }
+
+        .purchase-order .po-tab-ui .tab-item:hover {
+            color: #ee4d2d;
+            background-color: rgba(194, 53, 100, 0.05);
+        }
+
+        .purchase-order .po-tab-ui .tabs .tab-item.active {
+            border-bottom: 2px solid #ee4d2d;
+            color: #ee4d2d;
+        }
+
+        .purchase-order .po-search {
+            width: 100%;
+            position: relative;
+            padding: 12px 0;
+            margin: 12px 0;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+            color: #212121;
+            background: #eaeaea;
+            border-radius: 2px;
+        }
+
+        .purchase-order .po-search>input {
+            width: 100%;
+            flex: 1;
+            font-size: 14px;
+            line-height: 16px;
+            border: 0;
+            outline: none;
+            background-color: inherit;
+        }
+
+        .purchase-order .po-search>span {
+            width: 19px;
+            height: 19px;
+            margin: 0 15px;
+            color: #555;
+        }
+
+        .purchase-order .po-content-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .purchase-order .po-content-box .content {
+            display: none;
+        }
+
+        .purchase-order .po-content-box .content.active {
+            display: block;
+        }
+
+        
     </style>
 </head>
 
@@ -229,46 +316,37 @@ if (isset($_SESSION["auth_user"])) {
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
-            <?php foreach($user as $U ){?>
-                <img src="../public/images/admin1.jpg" alt="">
-                <h4> <?php echo $U["username"]?> </h4>
-                <?php } ?>
+                <img src="../public/images/icon/user.png" alt="">
+                <h4> <?php echo $user_name?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
                     <li class="nav-item active">
-                        <a href="my_action_user/my_profile.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
+                        <a href="my_profile.php" class="nav-link">
+                            <span class="material-symbols-sharp" style="color: #356af1;">person</span>
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
-                        <a href="my_action_user/change_password.php" class="nav-link">
-                            <span class="material-symbols-sharp">person</span>
-                            <p>Change Password</p>
-                        </a>
-                    </li>
-
                     <li class="nav-item">
-                        <a href="my_action_user/purchase_order.php" class="nav-link">
-                            <span class="material-symbols-sharp">shopping_bag</span>
+                        <a href="purchase_order.php" class="nav-link">
+                            <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>
                             <p>Purchase Order</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="my_action_user/warehouse_voucher.php" class="nav-link">
-                            <span class="material-symbols-sharp">barcode_scanner</span>
-                            <p> My Voucher</p>
+                        <a href="warehouse_voucher.php" class="nav-link">
+                            <span class="material-symbols-sharp" style="color: #42995d;">barcode_scanner</span>
+                            <p>Warehouse Voucher</p>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="action-page-box" id="action-page-user">
-            <?php include("my_action_user/my_profile.php"); ?>
+            <?php include("my_profile.php"); ?>
         </div>
     </div>
-    <?php if(isset($_SESSION['status'])) { ?>
+    <?php if (isset($_SESSION['status'])) { ?>
         <script>
             alert('<?php echo $_SESSION['status']; ?>');
         </script>

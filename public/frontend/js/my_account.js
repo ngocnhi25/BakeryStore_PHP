@@ -1,9 +1,9 @@
 function previewPhoto(inputElement, previewElement) {
     $(previewElement).empty();
     if (inputElement.files) {
-        $.each(inputElement.files, function(i, file) {
+        $.each(inputElement.files, function (i, file) {
             var reader = new FileReader();
-            $(reader).on("load", function() {
+            $(reader).on("load", function () {
                 $(previewElement).append($("<img/>", {
                     src: this.result
                 }));
@@ -18,30 +18,30 @@ function ajaxPages(url) {
             url: url,
             method: "POST",
             dataType: "html",
-            success: function(response) {
+            success: function (response) {
                 $("#action-page-user").empty().html(response);
             },
-            error: function(xhr, status, error) {
+            error: function (xhr, status, error) {
                 console.error(error);
             }
         });
     }
 }
-$(document).ready(function() {
-    $(".sidebar-user .sidebar ul .nav-item").click(function(e) {
+$(document).ready(function () {
+    $(".sidebar-user .sidebar ul .nav-item").click(function (e) {
         e.preventDefault();
         const link = $(this).children('.nav-link').attr("href");
-
+        
         $(this).siblings().removeClass("active");
         $(this).addClass("active");
         ajaxPages(link);
-
+        
         return false;
     });
 })
 
-$(document).ready(function() {
-    $('#photo-profile').on("change", function() {
+$(document).ready(function () {
+    $('#photo-profile').on("change", function () {
         previewPhoto(this, "#preview-photo");
         $(".errorImages").empty().append('');
     });

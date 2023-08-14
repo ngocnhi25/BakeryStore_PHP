@@ -1,9 +1,8 @@
 <?php
-session_start();
-// $cates = executeResult("SELECT * FROM tb_category c
-//                         INNER JOIN tb_products p 
-//                         ON c.cate_id = p.cate_id 
-//                         GROUP BY c.cate_id");
+$cates = executeResult("SELECT * FROM tb_category c
+                        INNER JOIN tb_products p 
+                        ON c.cate_id = p.cate_id 
+                        GROUP BY c.cate_id");
 
 // $grand_total = 0;
 // $allItems = '';
@@ -48,9 +47,11 @@ session_start();
   <!-- <link rel="stylesheet" href="ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css"> -->
 
 
+
   <!-- PLUGIN CSS -->
 
   <link href="../public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
+  <link href="../public/frontend/css/product.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
     ! function(f, b, e, v, n, t, s) {
@@ -263,14 +264,16 @@ session_start();
               </a>
 
               <div class="user-header d-none d-lg-block">
-                <?php if (isset($_SESSION["auth_user"])) { ?>
-                  <a href="User/information-User.php">
-                    <ul class="user-header-button js-toggle-user-nav">
-                      <li> <i class="fa fa-user" aria-hidden="true"></i> <?= $_SESSION['auth_user']['username'] ?> </li>
-                      <li><a href="User/logout.php" >Log Out</a></li>
+                <?php
+                if (isset($_SESSION["auth_user"])) {
+                ?>
+                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
+                    <i class="fa fa-user" aria-hidden="true"></i> <?php echo $_SESSION["auth_user"]["username"] ?>
                     </ul>
                   </a>
-
+                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
+                    Log Out
+                  </a>
                 <?php } else { ?>
                   <a href="User/login.php" class="user-header-button js-toggle-user-nav">
                     <i class="fa fa-user" aria-hidden="true"></i>

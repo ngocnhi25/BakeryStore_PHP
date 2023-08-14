@@ -94,8 +94,8 @@ function sendEmail_thankuser_forupdate_fullifor($username, $email){
         $mail->isHTML(true);
         $mail->Subject = 'Thank you for updating the complete information at NgocNhibakery';
         $mail_template = "
-    <h2> We look forward to having the opportunity to serve you in the future </h2>
-    <br><br>
+    <h4> Dear my customer , $username </h4>   
+    <h4> Thank you for updating the complete information at NgocNhibakery . We look forward to having the opportunity to serve you in the future </h4>
     <a href='http://localhost/Group3-BakeryStore/src/home.php'>Shopping Now!</a>
     ";
         $mail->Body = $mail_template;
@@ -104,7 +104,6 @@ function sendEmail_thankuser_forupdate_fullifor($username, $email){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
-
 
 // 1. Register page - code
 if (isset($_POST["submit-register-btn"])){
@@ -228,6 +227,7 @@ if(isset($_POST["submit-login-btn"])){
                 $_SESSION['authenticeted']= TRUE;
                 
                 $_SESSION['auth_user'] = [
+                    'user_id' => $row['user_id'],
                     'username' => $row['username'],
                 ];
                 $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";
@@ -242,7 +242,7 @@ if(isset($_POST["submit-login-btn"])){
                     exit();
                 }
             }else{
-                $_SESSION['status'] = "Please verify email address to login !";
+                $_SESSION['status'] = "Email is not verified or can be deleted !";
                 header("Location: login.php");
                 exit();
             }
@@ -269,7 +269,7 @@ if (isset($_POST["submit-resetPass"])) {
 
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
         $row = mysqli_fetch_array($sql_checkmail_run);
-        if ($row["status"] == "1") {
+        if ($row["status"] == "1" && $row['stt_delete'] == "0" ) {
             $get_name = $row["username"];
             $get_email = $row["email"];
 
@@ -288,7 +288,7 @@ if (isset($_POST["submit-resetPass"])) {
             }
 
         } else {
-            $_SESSION['status'] = "Email is not verified!";
+            $_SESSION['status'] = "Email is not verified or can be deleted !";
             header("Location: forgot-inputEmail.php");
             exit();
         }
@@ -454,7 +454,9 @@ if (isset($_POST["submit-update-inforUser"])){
 }
 
 
-// 6. Web+token ( verify email registered)
+
+
+// . Web+token ( verify email registered)
 
 if(isset($_GET["token"])){
     $token = $_GET["token"] ;
@@ -488,6 +490,7 @@ if(isset($_GET["token"])){
     header("Location: login.php ") ;
     exit();
 }
+
 
 
 

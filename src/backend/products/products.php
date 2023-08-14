@@ -27,6 +27,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                     <th>Image</th>
                     <th>Price</th>
                     <th>Category</th>
+                    <th>View</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -40,6 +41,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                         </td>
                         <td><?php displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>
+                        <td><?= $product["view"] ?></td>
                         <td class="button">
                             <button id="editProduct" onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
                             <?php if ($product["deleted"] == 0) { ?>

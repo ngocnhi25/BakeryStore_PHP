@@ -1,3 +1,7 @@
+<?php
+require_once('../connect/connectDB.php')
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,13 +37,7 @@
             <div class="sidebar">
                 <ul>
                     <li class="nav-item active">
-                        <a href="./dashboad.html" class="nav-link">
-                            <span class="material-symbols-sharp">grid_view</span>
-                            <h3>Dashboard</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="./customer.php" class="nav-link">
+                        <a href="accounts/customer.php" class="nav-link">
                             <span class="material-symbols-sharp">person</span>
                             <h3>Customer</h3>
                         </a>
@@ -71,30 +69,10 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <div class="sub-btn nav-link">
-                            <div class="title">
-                                <span class="material-symbols-sharp">receipt_long</span>
-                                <h3>Orders</h3>
-                            </div>
-                            <span class="material-symbols-sharp more">expand_more</span>
-                            <span class="material-symbols-sharp less">expand_less</span>
-                        </div>
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="./logIn.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>dsfsdfs</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="./dashboad.html">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>detail</h4>
-                                </a>
-                            </li>
-                        </ul>
+                        <a href="orders.php" class="nav-link">
+                            <span class="material-symbols-sharp">receipt_long</span>
+                            <h3>Orders</h3>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a href="./signIn.php" class="nav-link">
@@ -163,7 +141,7 @@
             </div>
 
             <div id="main-page">
-
+                <?php include("accounts/customer.php"); ?>
             </div>
         </div>
     </div>

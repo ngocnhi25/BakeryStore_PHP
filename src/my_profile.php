@@ -1,12 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
 require_once("connect/connectDB.php");
- if (isset($_SESSION["auth_user"])) {
-    $user = executeResult("SELECT * FROM tb_user limit 1 ");
-    // var_dump($user);
- }
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
+
 ?>
+
+
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>My Profile</h1>
@@ -15,13 +13,12 @@ require_once("connect/connectDB.php");
     <div class="update-profile-box">
         <div class="profile-form">
             <form action="User/code-User.php" method="post" style="width: 100%;">
-            <?php foreach($user as $U ){?>
                 <table style="width: 100%;">
-                <tr>
+                    <tr>
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?php echo $U["user_id"]?>" >
+                                <input type="hidden" id="name" name="userId" value="<?= $user_id ?>" readonly>
                             </div>
                         </td>
                     </tr>
@@ -29,7 +26,8 @@ require_once("connect/connectDB.php");
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $U["username"]?>" >
+                                <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>" readonly >
+                                <a href=""> Change <ion-icon name="build-outline"></ion-icon> </a>
                             </div>
                         </td>
                     </tr>
@@ -37,7 +35,15 @@ require_once("connect/connectDB.php");
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email" value="<?php echo $U["email"]?>" readonly >
+                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" >
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password:</td>
+                        <td>
+                            <div class="css-input">
+                                <input type="password" id="password" name="password" value="<?php echo $user["password"] ?>" >
                             </div>
                         </td>
                     </tr>
@@ -45,28 +51,28 @@ require_once("connect/connectDB.php");
                         <td>Phone Number:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="phone" name="phone" value="<?php echo $U["phone"]?>" >
+                                <input type="text" id="phone" name="phone" value="<?php echo $user["phone"] ?>">
                             </div>
                         </td>
                     </tr>
 
                     <tr>
-                         <td>Gender:</td>
-                         <td>
-                                <input type="radio" id="male" name="sex" value="Male" <?php if ($U["sex"] === 'Male') echo 'checked'; ?> > Male
-                                <input type="radio" id="female" name="sex" value="Female" <?php if ($U["sex"] === 'Female') echo 'checked'; ?> > Female
-                                <input type="radio" id="other" name="sex" value="Other" <?php if ($U["sex"] === 'Other') echo 'checked'; ?> > Other
+                        <td>Gender:</td>
+                        <td>
+                            <input type="radio" id="male" name="sex" value="Male" <?php if ($user["sex"] === 'Male') echo 'checked'; ?>> Male
+                            <input type="radio" id="female" name="sex" value="Female" <?php if ($user["sex"] === 'Female') echo 'checked'; ?>> Female
+                            <input type="radio" id="other" name="sex" value="Other" <?php if ($user["sex"] === 'Other') echo 'checked'; ?>> Other
                         </td>
                     </tr>
                     <tr>
                         <td>Date of Birth:</td>
-                        <td><input type="date" id="dob" name="dob" value="<?php echo $U["birthday"]?>" required></td>
+                        <td><input type="date" id="dob" name="dob" value="<?php echo $user["birthday"] ?>"></td>
                     </tr>
                     <tr>
                         <td>Address:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" name="address" required value="<?php echo $U["address"]?>" >
+                                <input type="text" name="address" value="<?php echo $user["address"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -74,16 +80,15 @@ require_once("connect/connectDB.php");
                         <td></td>
                         <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
                     </tr>
-                    <?php } ?>
                 </table>
-                
+
             </form>
         </div>
         <div class="profile-update-image">
             <div class="profile-image-box">
                 <div class="profile-image">
                     <div id="preview-photo" class="preview-photo">
-                        <img src="../public/images/admin2.jpg" alt="">
+                        <img src="../public/images/icon/user.png" alt="">
                     </div>
                     <div class="btn-photo">
                         <input id="photo-profile" type="file" name="profile-image" accept="image/*">
@@ -97,3 +102,5 @@ require_once("connect/connectDB.php");
         </div>
     </div>
 </div>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

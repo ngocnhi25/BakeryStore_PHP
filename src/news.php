@@ -2,7 +2,7 @@
 require_once("connect/connectDB.php");
 ?>
 
-<?php require "layout/header.php"; ?>
+<?php include("layout/header.php"); ?>
 
 <div class="breadcrumb">
   <div class="container">
@@ -116,4 +116,4 @@ require_once("connect/connectDB.php");
   </div>
 </section>
 
-<?php require "layout/footer.php"; ?>
+<?php include("layout/footer.php"); ?>
