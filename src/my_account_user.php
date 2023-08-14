@@ -141,9 +141,9 @@ if (isset($_SESSION["auth_user"])) {
         }
 
         .my-profile-page .update-profile-box .profile-form .css-input input {
-            width: 100%;
+            width: 60%;
             padding: 10px;
-            border: 1px solid #efefef;
+            border: 1px solid ;
             outline: none;
             border-radius: 3px;
             font-size: 16px;
