@@ -1,6 +1,14 @@
 <?php
-require_once("connect/connectDB.php");
-$user = executeSingleResult("SELECT * FROM tb_user where user_id = 27");
+if(isset($_POST["page"])){
+    require_once("connect/connectDB.php");
+    session_start();
+
+    if (isset($_SESSION["auth_user"])) {
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+    }
+}
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 
 ?>
 

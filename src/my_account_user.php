@@ -6,7 +6,7 @@ session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
- }
+}
 ?>
 
 <head>
@@ -143,7 +143,7 @@ if (isset($_SESSION["auth_user"])) {
         .my-profile-page .update-profile-box .profile-form .css-input input {
             width: 60%;
             padding: 10px;
-            border: 1px solid ;
+            border: 1px solid;
             outline: none;
             border-radius: 3px;
             font-size: 16px;
@@ -307,7 +307,59 @@ if (isset($_SESSION["auth_user"])) {
             display: block;
         }
 
-        
+        .purchase-order .po-content-box .content .item-product-box {
+            background-color: #fff;
+            padding: 24px;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .detail-order {
+            width: 100%;
+            display: flex;
+            padding: 12px;
+            border-bottom: 1px solid #efefef;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .inf-prd {
+            width: 80%;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .inf-prd img {
+            width: 100px;
+            object-fit: contain;
+            vertical-align: middle;
+            border-radius: 4px;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .prd-name {
+            font-size: 18px;
+            color: #000;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .galary {
+            display: flex;
+            font-size: 15px;
+            color: #0000008a;
+            gap: 2rem;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .prd-price {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .price-hight-light {
+            color: #ff3f0b;
+            font-size: 16px;
+        }
+        .purchase-order .po-content-box .content .item-product-box .price-del {
+            color: #939393;
+            text-decoration: line-through;
+            font-size: 13px;
+            margin-left: 5px;
+        }
     </style>
 </head>
 
@@ -317,7 +369,7 @@ if (isset($_SESSION["auth_user"])) {
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/icon/user.png" alt="">
-                <h4> <?php echo $user_name?> </h4>
+                <h4> <?php echo $user_name ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>

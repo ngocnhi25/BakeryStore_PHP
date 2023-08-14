@@ -88,7 +88,7 @@ foreach ($sale as $key => $s) {
         <?php foreach ($product as $p) { ?>
           <div class="one-product-container product-carousel">
             <div class="product-images">
-              <a href="details.php?product_id=<?= $p["product_id"] ?>">
+              <a href="details.php?id=<?= $p["product_id"] ?>">
                 <div class="product-image hover-animation" href="san-pham/opera-cake-27">
                   <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
                   <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
@@ -106,13 +106,13 @@ foreach ($sale as $key => $s) {
                 </div>
               <?php } ?>
               <div class="box-actions-hover">
-                <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
                 <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
               </div>
             </div>
             <div class="product-info">
               <p class="product-name">
-                <a href="details.php?product_id=<?php $p["product_id"] ?>">
+                <a href="details.php?id=<?php $p["product_id"] ?>">
                   <?php echo $p["product_name"] ?>
                 </a>
               </p>
