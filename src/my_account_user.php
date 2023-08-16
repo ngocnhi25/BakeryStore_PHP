@@ -7,7 +7,7 @@ if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
 }
-?>
+?>  
 
 <head>
     <style>
@@ -425,7 +425,7 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a href="changePass.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #356af1;">redo</span>
                             <p>Change Password </p>
