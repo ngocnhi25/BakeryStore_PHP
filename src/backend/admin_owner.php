@@ -98,6 +98,13 @@ if (isset($_SESSION["auth_user"])) {
                                     <h4>Galery</h4>
                                 </a>
                             </li>
+                            <li class="menu-item">
+                                <a href="products/product_add.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Add Product</h4>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -123,12 +130,6 @@ if (isset($_SESSION["auth_user"])) {
                         <a href="ads.php" class="nav-link">
                             <span class="material-symbols-sharp">ad_units</span>
                             <h3>Advertising</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="products/product_add.php" class="nav-link">
-                            <span class="material-symbols-sharp">add</span>
-                            <h3>Add Product</h3>
                         </a>
                     </li>
                     <li class="nav-item logout">

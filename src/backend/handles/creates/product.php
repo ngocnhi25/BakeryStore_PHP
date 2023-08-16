@@ -98,21 +98,21 @@ if (isset($_FILES["images"]["name"])) {
         $imagesSize = $files['size'][$key] / 1024 / 1024;
 
         // kiểm tra xem file có hợp lệ không
-        if (!file_exists($imagesLink)) {
-            if (in_array($imagesType, $type_allow)) {
-                if ($imagesSize <= $size_allow) {
-                    $uploads_tmp_name[$key] = $files["tmp_name"][$key];
-                    $uploads_imagesLink[$key] = $imagesLink;
-                } else {
-                    $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' capacity must be less than ' . $size_allow . 'MB ';
-                    $errorNum = 1;
-                }
+        if (file_exists($imagesLink)) {
+            $fileExtension = pathinfo($imagesLink, PATHINFO_EXTENSION);
+            $newFileName = pathinfo($imagesLink, PATHINFO_FILENAME) . '_' . uniqid('product_') . '.' . $fileExtension;
+            $imagesLink = "../../../../$target_dir" . $newFileName;
+        }
+        if (in_array($imagesType, $type_allow)) {
+            if ($imagesSize <= $size_allow) {
+                $uploads_tmp_name[$key] = $files["tmp_name"][$key];
+                $uploads_imagesLink[$key] = $imagesLink;
             } else {
-                $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' format error';
+                $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' capacity must be less than ' . $size_allow . 'MB ';
                 $errorNum = 1;
             }
         } else {
-            $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' already exists in the directory';
+            $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' format error';
             $errorNum = 1;
         }
     }
@@ -131,8 +131,8 @@ if (
     if ($eventNum == 0) {
         $imageInsert = $images[0];
         $sql = "INSERT INTO tb_products 
-        (cate_id, product_name, image, price, description, create_date, deleted) VALUES
-        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0)";
+        (cate_id, product_name, image, price, description, create_date, view, deleted) VALUES
+        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0, 0)";
         execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(product_id) as new_id_product FROM tb_products");
         $new_id = $new_id_product["new_id_product"];

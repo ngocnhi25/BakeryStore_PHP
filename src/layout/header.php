@@ -1,15 +1,17 @@
 <?php
-session_start();
+// session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];
   $user_id = $_SESSION["auth_user"]["user_id"];
   $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
 }
-$cates = executeResult("SELECT * FROM tb_category c
+$cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
+                        FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
-                        GROUP BY c.cate_id");
+                        GROUP BY c.cate_name
+                        ORDER BY total_views DESC");
 
 
 // $grand_total = 0;
@@ -275,34 +277,34 @@ $cates = executeResult("SELECT * FROM tb_category c
               </button>
 
               <div class="user-header d-none d-lg-block">
-    <?php
-    if (isset($_SESSION["auth_user"])) {
-        if ($_SESSION["auth_user"]["role"] == "1") {
-            echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
-            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
-            echo '</a>';
-            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
-        } else if ($_SESSION["auth_user"]["role"] == "2") {
-            echo '<a href="backend/admin_employee.php" class="user-header-button js-toggle-user-nav">';
-            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
-            echo '</a>';
-            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
-        } else if ($_SESSION["auth_user"]["role"] == "3") {
-            echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
-            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
-            echo '</a>';
-            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
-        }
-    } else {
-        echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
-        echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
-        echo '</a>';
-        echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
-        echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
-        echo '</a>';
-    }
-    ?>
-            </div>
+                <?php
+                if (isset($_SESSION["auth_user"])) {
+                  if ($_SESSION["auth_user"]["role"] == "1") {
+                    echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '</a>';
+                    echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+                  } else if ($_SESSION["auth_user"]["role"] == "2") {
+                    echo '<a href="backend/admin_employee.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '</a>';
+                    echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+                  } else if ($_SESSION["auth_user"]["role"] == "3") {
+                    echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '</a>';
+                    echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+                  }
+                } else {
+                  echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+                  echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+                  echo '</a>';
+                  echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+                  echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+                  echo '</a>';
+                }
+                ?>
+              </div>
 
             </div>
           </div>
@@ -374,10 +376,10 @@ $cates = executeResult("SELECT * FROM tb_category c
   </div>
 
   <div id="success-box">
-      <div class="cart-success">
-        <div class="icon"><img src="../public/images/icon/icons8-success-50.png" alt=""></div>
-        <div>Successfully added product to cart!</div>
-      </div>
+    <div class="cart-success">
+      <div class="icon"><img src="../public/images/icon/icons8-success-50.png" alt=""></div>
+      <div>Successfully added product to cart!</div>
+    </div>
   </div>
 
   <script>

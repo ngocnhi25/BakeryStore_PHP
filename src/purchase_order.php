@@ -54,7 +54,7 @@ function checkStatus($status)
             <div class="tab-item" data-tab="prepare">Prepare</div>
             <div class="tab-item" data-tab="implementation">Implementation</div>
             <div class="tab-item" data-tab="delivering">Delivered</div>
-            <div class="tab-item" data-tab="complete">Complete</div>
+            <div class="tab-item" data-tab="completed">Completed</div>
             <div class="tab-item" data-tab="cancelled">Cancelled</div>
             <div class="tab-item" data-tab="return-refund">Return/Refund</div>
         </div>
@@ -68,28 +68,30 @@ function checkStatus($status)
                     foreach ($orders as $key => $o) {
                 ?>
                         <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
+                            <?php foreach ($orders_details as $key => $od) {
+                                if ($od["order_id"] == $o["order_id"]) { ?>
+                                    <div class="detail-order">
+                                        <div class="inf-prd">
+                                            <div>
+                                                <img src="../<?= $od["image"] ?>" alt="">
+                                            </div>
+                                            <div class="inf-text">
+                                                <div class="prd-name"><?= $od["product_name"] ?></div>
+                                                <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                                                <div>x<?= $od["quantity"] ?></div>
+                                            </div>
                                         </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
+                                        <div class="prd-price">
+                                            <?php if ($od["sale_product"] != 0) { ?>
+                                                <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                                <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                            <?php } else { ?>
+                                                <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                            <?php } ?>
                                         </div>
                                     </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
+                            <?php }
+                            } ?>
                             <div class="status-cal">
                                 <div class="status-ord">
                                     <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
@@ -112,7 +114,7 @@ function checkStatus($status)
 
             </div>
             <div class="content" data-content="pending">
-            <?php if (checkStatus("pending") != null) {
+                <?php if (checkStatus("pending") != null) {
                     foreach ($orders as $key => $o) {
                         if ($o["status"] == "pending") {
                 ?>
@@ -263,7 +265,7 @@ function checkStatus($status)
                     </div>
                 </div>
             </div>
-            <div class="content" data-content="complete">
+            <div class="content" data-content="completed">
                 <div class="item-product-box">
                     <div class="detail-order">
                         <div class="inf-prd">
