@@ -379,6 +379,12 @@ if (isset($_SESSION["auth_user"])) {
                             <p>My Account</p>
                         </a>
                     </li>
+                    <li class="nav-item active">
+                        <a href="changePass.php" class="nav-link">
+                            <span class="material-symbols-sharp" style="color: #356af1;">redo</span>
+                            <p>Change Password </p>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <a href="purchase_order.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #fc8000;">shopping_bag</span>

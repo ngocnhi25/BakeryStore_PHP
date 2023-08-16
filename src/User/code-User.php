@@ -74,7 +74,36 @@ function sendEmail_update_Password($get_name, $get_email, $token){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
+function sendEmail_change_Password($get_name, $get_email, $new_token){
+    try {
+        $mail = new PHPMailer;
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+        $mail->Host = 'smtp.gmail.com'; 
+        $mail->Username = 'nhilnts2210037@fpt.edu.vn'; 
+        $mail->Password = 'rzushtjlbjnppcft'; 
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS ;
+        $mail->Port = 587;
 
+        //Recipients
+        $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
+        $mail->addAddress($get_email,$get_name);
+
+        //Content
+        $mail->isHTML(true);
+        $mail->Subject = 'Email Reset Password from NgocNhiBakery';
+        $mail_template = "
+    <h2>You are receiving this email because we received a password reset request for your Account </h2>
+    <h5>Verify your email address to update the new password with the below given link</h5>
+    <br><br>
+    <a href='http://localhost/Group3-BakeryStore/src/User/verify-change-pass.php?newtoken=$new_token&email=$get_email'>Click me</a>
+    ";
+        $mail->Body = $mail_template;
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
 
 
 // 1. Register page - code
@@ -319,6 +348,72 @@ if(isset($_POST["update-password-btn"])){
 
 }
 
+// 6. CHANGE PASSWORD ( change_password.php)
+if(isset($_POST["sb-changePassword-User"])){
+    $userId = (mysqli_real_escape_string($conn ,$_POST["userId"]));
+    $current_password = md5($_POST["current-password"]) ;
+    $new_password = md5($_POST["new-password"]);
+    $email =  (mysqli_real_escape_string($conn ,$_POST["email"]));
+    $confirm_newPassword = md5(mysqli_real_escape_string($conn ,$_POST["confirm-password"]));
+    $new_token  = md5(rand()) ;
+
+    if (isset($_POST["new-password"])){
+        $newPassword = $_POST["new-password"];
+        if (empty($newPassword)) {
+            $_SESSION['status'] = "Password must not be blank.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+        if (strpos($newPassword, ' ') !== false) {
+            $_SESSION['status'] = "Password must not contain spaces.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+        if (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword )) {
+            $_SESSION['status'] = "Password must be between 6 and 20 characters long and consist of letters, numbers, and special characters only.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+    }
+    // check password voi database dung chua 
+        $sql_pass = "SELECT  * FROM tb_user WHERE user_id = '$userId' and password = '$current_password' LIMIT 1";
+        $sql_pass_run = mysqli_query($conn, $sql_pass);
+        if (mysqli_num_rows($sql_pass_run) > 0) {
+            $row = mysqli_fetch_array($sql_pass_run);
+            if ($row["status"] == "1" && $row['stt_delete'] == "0" ) {
+                $get_name = $row["username"];
+                $get_email = $row["email"];
+                $sql_update = "UPDATE tb_user SET token = '$new_token', status = '0' WHERE user_id = '$userId' LIMIT 1";
+                $sql_update_run = mysqli_query($conn, $sql_update);
+                    if ($sql_update_run) {
+                        $sql_update2 = "UPDATE tb_user SET password = '$new_password' WHERE user_id = '$userId' ";
+                        $sql_update2_run = mysqli_query($conn, $sql_update2);
+                        if ($sql_update2_run){
+                        sendEmail_change_Password($get_name, $get_email,$new_token);
+                        $_SESSION['status'] = "We emailed you a password reset link!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                        }else{
+                            $_SESSION['status'] = "Send Mail update Fail!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                        }
+                    } else {
+                        $_SESSION['status'] = " update Fail!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                }
+            }else{
+                $_SESSION['status'] = "Email is not verified or can be deleted !";
+            header("Location: ../my_account_user.php");
+            exit();
+            }
+        }else {
+            $_SESSION['status'] = "Current Password not correct !";
+            header("Location: ../my_account_user.php");
+            exit();
+}
+}
 
 // . Web+token ( verify email registered)
 
