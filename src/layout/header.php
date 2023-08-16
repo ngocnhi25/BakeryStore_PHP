@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];

@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_calculate.php');
 
