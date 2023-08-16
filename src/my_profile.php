@@ -110,5 +110,4 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
         </div>
     </div>
 </div>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+

@@ -741,10 +741,10 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
       $(document).on("click", "#add", function (e) {
         e.preventDefault();
 
-        if (!isAuthenticated()) {
-          alert("Please log in to use this feature.");
-          return;
-        }
+        // if (!isAuthenticated()) {
+        //   alert("Please log in to use this feature.");
+        //   return;
+        // }
 
         // Validate inputs
         if (selectedSize === "") {

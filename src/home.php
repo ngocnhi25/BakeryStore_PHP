@@ -1,15 +1,26 @@
 <?php
-session_start();
 require_once('connect/connectDB.php');
-require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 
 $arraySale = [];
+$maxAdsSmall = 2;
 $maxProductsToShow = 6;
+$maxProductsToShowCarosel = 10;
 
 
 $product = executeResult("SELECT * FROM tb_products where deleted = 0 ORDER BY product_id DESC ");
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
+$productSales = executeResult("SELECT * FROM tb_sale s INNER JOIN tb_products p
+                              ON s.product_id = p.product_id 
+                              WHERE CURDATE() BETWEEN s.start_date AND s.end_date 
+                              ORDER BY s.sale_id DESC");
+$productBestSeller = executeResult("SELECT * FROM tb_products p 
+                                    INNER JOIN tb_order_detail od ON p.product_id = od.product_id 
+                                    INNER JOIN tb_order o ON od.order_id = o.order_id 
+                                    WHERE p.deleted = 0 and o.status = 'completed' and 
+                                    DATE_FORMAT(o.order_date, '%Y-%m') = DATE_FORMAT(CURRENT_DATE - INTERVAL 1 MONTH, '%Y-%m')
+                                    GROUP BY p.product_id 
+                                    ORDER BY SUM(od.quantity) DESC");
 $ads = executeResult("SELECT * FROM tb_ads WHERE CURDATE() BETWEEN start_date AND end_date ORDER BY ads_id DESC");
 $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
@@ -30,7 +41,7 @@ foreach ($sale as $key => $s) {
 
 ?>
 
-<?php require "layout/header.php" ?>
+<?php include "layout/header.php" ?>
 <?php if (isset($_SESSION['status'])) { ?>
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
@@ -47,7 +58,7 @@ foreach ($sale as $key => $s) {
         <a href="<?php if ($a["type_ads"] == 'category') {
                     echo 'product.php?cate_id=' . $a["cate_id"];
                   } elseif ($a["type_ads"] == 'product') {
-                    echo 'details.php?product_id=' . $a["product_id"];
+                    echo 'details.php?id=' . $a["product_id"];
                   } elseif ($a["type_ads"] == 'sale') {
                     echo 'sale.php';
                   } else {
@@ -60,79 +71,90 @@ foreach ($sale as $key => $s) {
   </div>
   <div class="banner-right">
     <div class="banner-wapper">
-      <?php for ($i = 0; $i < 2; $i++) { ?>
-        <div class="banner-item">
-          <a href="<?php if ($ads[$i]["type_ads"] == 'category') {
-                      echo 'product.php?cate_id=' . $ads[$i]["cate_id"];
-                    } elseif ($ads[$i]["type_ads"] == 'product') {
-                      echo 'details.php?product_id=' . $ads[$i]["product_id"];
-                    } elseif ($ads[$i]["type_ads"] == 'sale') {
-                      echo 'sale.php';
-                    } else {
-                      echo 'news.php';
-                    } ?>">
-            <img src="../<?= $ads[$i]["image_ads"] ?>" alt="">
-          </a>
-        </div>
-      <?php } ?>
+      <?php foreach ($ads as $key => $a) {
+        if ($key < $maxAdsSmall) {
+      ?>
+          <div class="banner-item">
+            <a href="<?php if ($a["type_ads"] == 'category') {
+                        echo 'product.php?cate_id=' . $a["cate_id"];
+                      } elseif ($a["type_ads"] == 'product') {
+                        echo 'details.php?id=' . $a["product_id"];
+                      } elseif ($a["type_ads"] == 'sale') {
+                        echo 'sale.php';
+                      } else {
+                        echo 'news.php';
+                      } ?>">
+              <img src="../<?= $a["image_ads"] ?>" alt="">
+            </a>
+          </div>
+      <?php }
+      } ?>
     </div>
   </div>
 </section>
 <section class="section-paddingY middle-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <p class="section-title" id="currentMonth">Best Seller</p>
+      <div class="hover-yellow">
+        <span class="section-title">
+          <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
+          Best Seller in <?php echo getMonthNow() ?>
+        </span>
+      </div>
     </div>
     <div class="section-body">
       <div class="owl-carousel-products owl-carousel owl-theme">
-        <?php foreach ($product as $p) { ?>
-          <div class="one-product-container product-carousel">
-            <div class="product-images">
-              <a href="details.php?id=<?= $p["product_id"] ?>">
-                <div class="product-image hover-animation" href="san-pham/opera-cake-27">
-                  <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                  <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                </div>
-              </a>
-              <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                <div class="product-discount">
-                  <span class="text">-
-                    <?php foreach ($sale as $s) {
-                      if ($p["product_id"] == $s["product_id"]) {
-                        echo ($s["percent_sale"]);
-                        break;
-                      }
-                    } ?> %</span>
-                </div>
-              <?php } ?>
-              <div class="box-actions-hover">
-                <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
-              </div>
-            </div>
-            <div class="product-info">
-              <p class="product-name">
-                <a href="details.php?id=<?php $p["product_id"] ?>">
-                  <?php echo $p["product_name"] ?>
+        <?php foreach ($productBestSeller as $key => $p) {
+          if ($key < $maxProductsToShowCarosel) {
+        ?>
+            <div class="one-product-container product-carousel">
+              <div class="product-images">
+                <a href="details.php?id=<?= $p["product_id"] ?>">
+                  <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                  </div>
                 </a>
-              </p>
-              <div class="product-price">
                 <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                  <span class="price">
-                    <?php foreach ($sale as $s) {
-                      if ($p["product_id"] == $s["product_id"]) {
-                        displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
-                        break;
-                      }
-                    } ?> vnđ</span>
-                  <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
-                <?php } else { ?>
-                  <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                  <div class="product-discount">
+                    <span class="text">-
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo ($s["percent_sale"]);
+                          break;
+                        }
+                      } ?> %</span>
+                  </div>
                 <?php } ?>
+                <div class="box-actions-hover">
+                  <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                  <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <p class="product-name">
+                  <a href="details.php?id=<?php $p["product_id"] ?>">
+                    <?php echo $p["product_name"] ?>
+                  </a>
+                </p>
+                <div class="product-price">
+                  <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                    <span class="price">
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo calculatePercentPrice($p["price"], $s["percent_sale"]);
+                          break;
+                        }
+                      } ?> vnđ</span>
+                    <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } else { ?>
+                    <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } ?>
+                </div>
               </div>
             </div>
-          </div>
-        <?php } ?>
+        <?php }
+        } ?>
       </div>
     </div>
   </div>
@@ -141,83 +163,135 @@ foreach ($sale as $key => $s) {
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <a class="hover-yellow" href="danh-muc/banh-sinh-nhat">
+      <div class="hover-yellow">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
-          Sản phẩm mới
+          Product going on sale
         </span>
-      </a>
+      </div>
     </div>
     <div class="section-body">
-      <div class="tab-content row" id="pills-tabContent">
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-          <div class="row">
-
-            <?php foreach ($product as $key => $p) {
-              if ($key < $maxProductsToShow) { ?>
-                <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2">
-                  <div class="one-product-container">
-                    <div class="product-images">
-                      <a href="details.php?product_id=<?= $p["product_id"] ?>">
-                        <div class="product-image hover-animation" href="san-pham/opera-cake-27">
-                          <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                          <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                        </div>
-                      </a>
-                      <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                        <div class="product-discount">
-                          <span class="text">-
-                            <?php foreach ($sale as $s) {
-                              if ($p["product_id"] == $s["product_id"]) {
-                                echo ($s["percent_sale"]);
-                                break;
-                              }
-                            } ?> %</span>
-                        </div>
-                      <?php } ?>
-                      <div class="box-actions-hover">
-                        <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                        <button id="btn-addProduct"><span class="material-symbols-sharp">add_shopping_cart</span></button>
-                      </div>
-                    </div>
-                    <div class="product-info">
-                      <p class="product-name">
-                        <a href="details.php?product_id=<?php $p["product_id"] ?>">
-                          <?php echo $p["product_name"] ?>
-                        </a>
-                      </p>
-                      <div class="product-price">
-                        <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                          <span class="price">
-                            <?php foreach ($sale as $s) {
-                              if ($p["product_id"] == $s["product_id"]) {
-                                displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
-                                break;
-                              }
-                            } ?> vnđ</span>
-                          <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
-                        <?php } else { ?>
-                          <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
-                        <?php } ?>
-                      </div>
-                    </div>
+      <div class="owl-carousel-products owl-carousel owl-theme">
+        <?php foreach ($productSales as $key => $p) {
+          if ($key < $maxProductsToShowCarosel) {
+        ?>
+            <div class="one-product-container product-carousel">
+              <div class="product-images">
+                <a href="details.php?id=<?= $p["product_id"] ?>">
+                  <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
                   </div>
+                </a>
+                <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                  <div class="product-discount">
+                    <span class="text">-
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo ($s["percent_sale"]);
+                          break;
+                        }
+                      } ?> %</span>
+                  </div>
+                <?php } ?>
+                <div class="box-actions-hover">
+                  <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                  <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
                 </div>
-            <?php } else {
-                break;
-              }
-            } ?>
-
-          </div>
-          <div class="see-more">
-            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
-          </div>
-        </div>
-        <div class="col-md-3 pl-1 pr-1">
-          <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
-          </div>
-        </div>
+              </div>
+              <div class="product-info">
+                <p class="product-name">
+                  <a href="details.php?id=<?php $p["product_id"] ?>">
+                    <?php echo $p["product_name"] ?>
+                  </a>
+                </p>
+                <div class="product-price">
+                  <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                    <span class="price">
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo calculatePercentPrice($p["price"], $s["percent_sale"]);
+                          break;
+                        }
+                      } ?> vnđ</span>
+                    <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } else { ?>
+                    <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } ?>
+                </div>
+              </div>
+            </div>
+        <?php }
+        }
+        ?>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="section-paddingY middlw-section home-latest-products mt-5">
+  <div class="container">
+    <div class="section-header">
+      <div class="hover-yellow">
+        <span class="section-title">
+          <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
+          New product
+        </span>
+      </div>
+    </div>
+    <div class="section-body">
+      <div class="owl-carousel-products owl-carousel owl-theme">
+        <?php foreach ($product as $key => $p) {
+          if ($key < $maxProductsToShowCarosel) {
+        ?>
+            <div class="one-product-container product-carousel">
+              <div class="product-images">
+                <a href="details.php?id=<?= $p["product_id"] ?>">
+                  <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                  </div>
+                </a>
+                <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                  <div class="product-discount">
+                    <span class="text">-
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo ($s["percent_sale"]);
+                          break;
+                        }
+                      } ?> %</span>
+                  </div>
+                <?php } ?>
+                <div class="box-actions-hover">
+                  <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                  <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                </div>
+              </div>
+              <div class="product-info">
+                <p class="product-name">
+                  <a href="details.php?id=<?php $p["product_id"] ?>">
+                    <?php echo $p["product_name"] ?>
+                  </a>
+                </p>
+                <div class="product-price">
+                  <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                    <span class="price">
+                      <?php foreach ($sale as $s) {
+                        if ($p["product_id"] == $s["product_id"]) {
+                          echo calculatePercentPrice($p["price"], $s["percent_sale"]);
+                          break;
+                        }
+                      } ?> vnđ</span>
+                    <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } else { ?>
+                    <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                  <?php } ?>
+                </div>
+              </div>
+            </div>
+        <?php }
+        }
+        ?>
       </div>
     </div>
   </div>
@@ -281,13 +355,13 @@ foreach ($sale as $key => $s) {
                         <span class="price">
                           <?php foreach ($sale as $s) {
                             if ($p["product_id"] == $s["product_id"]) {
-                              displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                              echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                               break;
                             }
                           } ?> vnđ</span>
-                        <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } else { ?>
-                        <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } ?>
                     </div>
                   </div>
@@ -356,13 +430,13 @@ foreach ($sale as $key => $s) {
                         <span class="price">
                           <?php foreach ($sale as $s) {
                             if ($p["product_id"] == $s["product_id"]) {
-                              displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                              echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                               break;
                             }
                           } ?> vnđ</span>
-                        <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } else { ?>
-                        <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } ?>
                     </div>
                   </div>
@@ -445,13 +519,13 @@ foreach ($sale as $key => $s) {
                         <span class="price">
                           <?php foreach ($sale as $s) {
                             if ($p["product_id"] == $s["product_id"]) {
-                              displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                              echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                               break;
                             }
                           } ?> vnđ</span>
-                        <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } else { ?>
-                        <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } ?>
                     </div>
                   </div>
@@ -520,13 +594,13 @@ foreach ($sale as $key => $s) {
                         <span class="price">
                           <?php foreach ($sale as $s) {
                             if ($p["product_id"] == $s["product_id"]) {
-                              displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                              echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                               break;
                             }
                           } ?> vnđ</span>
-                        <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } else { ?>
-                        <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } ?>
                     </div>
                   </div>

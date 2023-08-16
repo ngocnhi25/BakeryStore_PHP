@@ -1,6 +1,7 @@
 <?php
 // Include your database connection or any necessary files here
-require_once("../connect/connection.php"); // Adjust the path as needed
+require_once("../connect/connection.php");
+require_once("handle_calculate.php");
 
 if (isset($_POST['query'])) {
     $searchTerm = $_POST['query'];
@@ -18,7 +19,7 @@ if (isset($_POST['query'])) {
                 echo "<img src='../" . $row['image'] . "' class='product-image' alt='Product Image'>";
                 echo "<div class='product-details'>";
                 echo "<p class='product-name'><a href='details.php?id=" . $row['product_id'] . "'>" . $row['product_name'] . "</a></p>";
-                echo "<p class='product-price'>Price: $" . $row['price'] . "</p>";
+                echo "<p class='product-price'>Price: $" . displayPrice($row['price']) . "</p>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";

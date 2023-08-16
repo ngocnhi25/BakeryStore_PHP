@@ -542,6 +542,7 @@ a:hover {
 /* line 31, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-topbar-inner-container .right .form-search-header {
   position: relative;
+  width: 300px;
 }
 /* line 33, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-topbar-inner-container .right .form-search-header .icon {
@@ -554,13 +555,16 @@ a:hover {
 /* line 40, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-topbar-inner-container .right .form-search-header input {
   border-radius: 20px;
-  padding-left: 25px;
+  padding-left: 30px;
 }
 /* line 45, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-topbar-inner-container .right .btn-toggle-search-box,
 .header .header-topbar-inner-container .right .shopping-bag,
 .header .header-topbar-inner-container .right .user-header {
   margin-left: 20px;
+}
+.header .header-topbar-inner-container .right .shopping-bag {
+  background-color: transparent;
 }
 /* line 49, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_header.scss */
 .header .header-topbar-inner-container .right .btn-toggle-search-box img,
@@ -2477,6 +2481,7 @@ section.product-information img {
   width: 100%;
   height: 100px;
   overflow: hidden;
+  line-height: 40px;
   /* text-align: center; */
 }
 /* line 145, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
@@ -3578,25 +3583,25 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
   transition: 0.2s;
   cursor: pointer;
 }
-.sizeBtn:hover{
+.sizeBtn:hover {
   background-color: #e487af9e;
 }
-#displayedIncreaseSize{
+#displayedIncreaseSize {
   font-size: 27px;
-    margin-left: 10px;
-    color: #e487af9e;
+  margin-left: 10px;
+  color: #e487af9e;
 }
 .flavorBtn {
   display: inline-block;
-    padding: 10px 15px;
-    background-color: beige;
-    color: black;
-    border: 2px solid black;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 00 10px;
-    font-size: 20px;
-    transition: 0.2s;
+  padding: 10px 15px;
+  background-color: beige;
+  color: black;
+  border: 2px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 00 10px;
+  font-size: 20px;
+  transition: 0.2s;
 }
 
 .flavorBtn:hover {
@@ -3639,9 +3644,9 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
   overflow-y: auto;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #fff;
   position: absolute;
-  z-index: 1;
+  z-index: 900;
 }
 
 #search-results li {
@@ -3673,7 +3678,7 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 }
 
 .product-image {
-  max-width: 100px;
+  max-width: 70px;
   margin-right: 10px;
 }
 

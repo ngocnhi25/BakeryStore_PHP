@@ -1,8 +1,16 @@
 <?php
+session_start();
+$itemCart = '';
+if (isset($_SESSION["auth_user"])) {
+  $user_name = $_SESSION["auth_user"]["username"];
+  $user_id = $_SESSION["auth_user"]["user_id"];
+  $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
+}
 $cates = executeResult("SELECT * FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
                         GROUP BY c.cate_id");
+
 
 // $grand_total = 0;
 // $allItems = '';
@@ -34,6 +42,8 @@ $cates = executeResult("SELECT * FROM tb_category c
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
 
   <!-- Favicon -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
   <!-- FONT -->
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cabin" />
@@ -233,8 +243,8 @@ $cates = executeResult("SELECT * FROM tb_category c
     <header class="header">
       <div class="header-top" id="HeaderTop">
         <div class="container">
-          <span class="sologan float-left">Ch&agrave;o Mừng Qu&yacute; Kh&aacute;ch Đến Với Ngoc Nhi Bakery</span>
-          <span class="sologan float-right">Hotline: 123123123123 | 123123123123</span>
+          <span class="sologan float-left">Welcome dear customers to NgocNhi Bakery store</span>
+          <span class="sologan float-right">Hotline: 0707364628 | 0907733229</span>
         </div>
       </div>
       <div class="header-topbar">
@@ -250,18 +260,19 @@ $cates = executeResult("SELECT * FROM tb_category c
 
             <div class="right">
 
-              <form action="tim-kiem" method="GET" class="form-search-header">
+              <div class="form-search-header">
                 <span class="icon">
                   <i class="fa fa-search"></i>
                 </span>
-                <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
-              </form>
-              
+                <input id="search-product" type="text" name="search" placeholder="Search product..." class="form-control">
+                <ul id="search-results" style="display: none;"></ul>
+              </div>
 
-              <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
+
+              <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter" id="cart-item">0</span>
-              </a>
+                <span class="counter" id="cart-item"><?= $itemCart != null ? $itemCart["total"] : 0 ?></span>
+              </button>
 
               <div class="user-header d-none d-lg-block">
                 <?php
@@ -355,19 +366,27 @@ $cates = executeResult("SELECT * FROM tb_category c
       </div>
     </header>
   </div>
-  <script>
-  load_cart_item_number();
 
-  function load_cart_item_number() {
-    $.ajax({
-      url: '../handles_page/action.php',
-      method: 'GET',
-      data: {
-        cartItem: 'cart_item'
-      },
-      success: function(response) {
-        $("#cart-item").text(response); // Update the cart item count in the span
-      }
-    });
-  }
+  <div id="success-box">
+      <div class="cart-success">
+        <div class="icon"><img src="../public/images/icon/icons8-success-50.png" alt=""></div>
+        <div>Successfully added product to cart!</div>
+      </div>
+  </div>
+
+  <script>
+    load_cart_item_number();
+
+    function load_cart_item_number() {
+      $.ajax({
+        url: '../handles_page/action.php',
+        method: 'GET',
+        data: {
+          cartItem: 'cart_item'
+        },
+        success: function(response) {
+          $("#cart-item").text(response); // Update the cart item count in the span
+        }
+      });
+    }
   </script>
