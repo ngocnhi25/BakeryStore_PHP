@@ -275,28 +275,34 @@ $cates = executeResult("SELECT * FROM tb_category c
               </button>
 
               <div class="user-header d-none d-lg-block">
-                <?php
-                if (isset($_SESSION["auth_user"])) {
-                ?>
-                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i> <?php echo $_SESSION["auth_user"]["username"] ?>
-                    </ul>
-                  </a>
-                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                    Log Out
-                  </a>
-                <?php } else { ?>
-                  <a href="User/login.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Log In
-                  </a>
-                  <a href="User/register.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Sign In
-                  </a>
-                <?php } ?>
-              </div>
-
+    <?php
+    if (isset($_SESSION["auth_user"])) {
+        if ($_SESSION["auth_user"]["role"] == "1") {
+            echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
+            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+            echo '</a>';
+            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+        } else if ($_SESSION["auth_user"]["role"] == "2") {
+            echo '<a href="backend/admin_employee.php" class="user-header-button js-toggle-user-nav">';
+            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+            echo '</a>';
+            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+        } else if ($_SESSION["auth_user"]["role"] == "3") {
+            echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
+            echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+            echo '</a>';
+            echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+        }
+    } else {
+        echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+        echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+        echo '</a>';
+        echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+        echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+        echo '</a>';
+    }
+    ?>
+            </div>
 
             </div>
           </div>

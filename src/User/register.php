@@ -42,7 +42,7 @@ session_start();
                     </div>
                     <button type="submit" name="submit-register-btn">Submit</button>
                     <div class="register">
-                        <p> Tôi đã có tài khoản <a href="../../src/User/login.php"> Log In </a></p>
+                        <p> I already have an account | <a href="../../src/User/login.php"> LogIn Now </a></p>
                     </div>
                 </form>
             </div>

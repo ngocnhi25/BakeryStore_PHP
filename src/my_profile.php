@@ -35,7 +35,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>
                             <div class="css-input">
                                 <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>" readonly >
-                                <a href=""> Change <ion-icon name="build-outline"></ion-icon> </a>
                             </div>
                         </td>
                     </tr>
@@ -44,14 +43,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>
                             <div class="css-input">
                                 <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" >
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password:</td>
-                        <td>
-                            <div class="css-input">
-                                <input type="password" id="password" name="password" value="<?php echo $user["password"] ?>" >
                             </div>
                         </td>
                     </tr>
