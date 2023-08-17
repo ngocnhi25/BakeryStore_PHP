@@ -2,24 +2,42 @@
 require_once("../../../connect/connectDB.php");
 
 $errorNum = $eventNum = 0;
-$errors = [];
-$errors["errorCateName"] = '';
+$errors = $sizesInsert = [];
+$errors["errorCateName"] =
+    $errors["errorSizes"] =
+    '';
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
     $eventNum = 1;
 }
 
-if (isset($_POST["cateName"]) && !empty($_POST["cateName"])) {
-    $cate_name = trim($_POST["cateName"]);
-    $cates = checkRowTable("SELECT * FROM tb_category WHERE cate_name = '$cate_name'");
-    if ($cates != 0) {
-        $errors["errorCateName"] = 'Category name already exists';
-        $errorNum = 1;
-    } else {
-        if (strlen($cate_name) <= 3) {
-            $errors["errorCateName"] = 'Product name must be more than 3 characters';
+if (isset($_POST["name"]) && !empty($_POST["name"])) {
+    $name = trim($_POST["name"]);
+    if ($eventNum == 0) {
+        $cates = checkRowTable("SELECT * FROM tb_category WHERE cate_name = '$name'");
+        if ($cates != 0) {
+            $errors["errorCateName"] = 'Category name already exists';
             $errorNum = 1;
+        } else {
+            if (strlen($name) <= 3) {
+                $errors["errorCateName"] = 'Category name must be more than 3 characters';
+                $errorNum = 1;
+            }
+        }
+    } else {
+        $cateNameUpdate = executeSingleResult("SELECT * FROM tb_category WHERE cate_id = $id");
+        if ($name != $cateNameUpdate["cate_name"]) {
+            $cates = checkRowTable("SELECT * FROM tb_category WHERE cate_name = '$name'");
+            if ($cates != 0) {
+                $errors["errorCateName"] = 'Flavor name already exists';
+                $errorNum = 1;
+            }else {
+                if (strlen($name) <= 3) {
+                    $errors["errorCateName"] = 'Category name must be more than 3 characters';
+                    $errorNum = 1;
+                }
+            }
         }
     }
 } else {
@@ -27,12 +45,47 @@ if (isset($_POST["cateName"]) && !empty($_POST["cateName"])) {
     $errorNum = 1;
 }
 
+if (isset($_POST["sizeID"])) {
+    $sizesID = $_POST["sizeID"];
+    $size_increase = $_POST["size_increase"];
+    foreach ($sizesID as $key => $size) {
+        if ($size_increase[$key] == null) {
+            $errors["errorSizes"] = "Do not leave the box you selected blank";
+            $errorNum = 1;
+        } elseif ($size_increase[$key] < 0) {
+            $errors["errorSizes"] = "Price increase must be greater than or equal to 0";
+            $errorNum = 1;
+        } else {
+            $sizesInsert[$key]["size"] = $sizesID[$key];
+            $sizesInsert[$key]["increase"] = $size_increase[$key];
+            $errorNum = 0;
+        }
+    }
+} else {
+    $errors["errorSizes"] = "Add at least one cake size";
+    $errorNum = 1;
+}
+
 if ($errorNum == 0) {
-    if ($eventNum == 0) {
-        execute("INSERT INTO tb_category (cate_name) VALUES ('$cate_name')");
+    if($eventNum == 0) {
+        execute("INSERT INTO tb_category (cate_name) VALUES ('$name')");
+        $new_cateID = executeSingleResult("SELECT MAX(cate_id) as new_cateID FROM tb_category");
+        $id = $new_cateID["new_cateID"];
+    
+        foreach ($sizesInsert as $key => $valSize) {
+            $sizeID = $valSize["size"];
+            $size_increase = $valSize["increase"];
+            execute("INSERT INTO tb_cate_size (cate_id, size_id, increase_size) VALUES
+                    ($id, $sizeID, $size_increase)");
+        }
         echo 'success';
     } else {
-        execute("UPDATE tb_category SET cate_name = '$cate_name' WHERE cate_id = $id");
+        execute("UPDATE tb_category SET cate_name = '$name' WHERE cate_id = $id");
+        foreach ($sizesInsert as $key => $valSize) {
+            $sizeID = $valSize["size"];
+            $size_increase = $valSize["increase"];
+            execute("UPDATE tb_cate_size SET increase_size = $size_increase WHERE cate_size_id = $sizeID");
+        }
         echo 'success';
     }
 } else {

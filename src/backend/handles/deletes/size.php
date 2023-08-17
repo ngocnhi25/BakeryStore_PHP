@@ -3,8 +3,8 @@ require_once("../../../connect/connectDB.php");
 
 if(isset($_POST["id"])){
     $id = $_POST["id"];
-    execute("UPDATE tb_flavor SET deleted_flavor = 0 WHERE flavor_id = $id");
+    execute("DELETE FROM tb_size WHERE size_id = $id");
 }
 
-echo 'products/galery.php';
+echo 'products/gallery.php';
 ?>

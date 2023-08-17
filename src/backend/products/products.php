@@ -43,10 +43,13 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                         <td><?= $product["cate_name"] ?></td>
                         <td><?= $product["view"] ?></td>
                         <td class="button">
-                            <button id="editProduct" onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
+                            <button onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
                             <?php if ($product["deleted"] == 0) { ?>
-                                <button type="button" onclick='deleteProduct(<?= $product["product_id"] ?>)' class="delete">Delete</button>
+                                <button onclick='hideProduct(<?= $product["product_id"] ?>)' type="button" class="hide">Hide</button>
+                            <?php } else { ?>
+                                <button onclick='recoverProduct(<?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
                             <?php } ?>
+                            <button type="button" onclick='deleteProduct("<?= $product["product_name"] ?>", <?= $product["product_id"] ?>)' class="delete">Delete</button>
                         </td>
                     </tr>
                 <?php } ?>

@@ -92,10 +92,10 @@ if (isset($_SESSION["auth_user"])) {
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/galery.php">
+                                <a href="products/gallery.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Galery</h4>
+                                    <h4>Gallery</h4>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -133,10 +133,10 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item logout">
-                        <a href="./signIn.php" class="nav-link">
+                        <button class="logout-btn">
                             <span class="material-symbols-sharp">logout</span>
                             <h3>Logout</h3>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>

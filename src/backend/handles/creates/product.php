@@ -92,7 +92,7 @@ if (isset($_FILES["images"]["name"])) {
     }
 
     foreach ($file_names as $key => $value) {
-        $images[$key] = $target_dir . basename($value);
+        $imagesInsert = $target_dir . basename($value);
         $imagesLink = "../../../../$target_dir" . basename($value);
         $imagesType = $files['type'][$key];
         $imagesSize = $files['size'][$key] / 1024 / 1024;
@@ -102,11 +102,13 @@ if (isset($_FILES["images"]["name"])) {
             $fileExtension = pathinfo($imagesLink, PATHINFO_EXTENSION);
             $newFileName = pathinfo($imagesLink, PATHINFO_FILENAME) . '_' . uniqid('product_') . '.' . $fileExtension;
             $imagesLink = "../../../../$target_dir" . $newFileName;
+            $imagesInsert = $target_dir . $newFileName;
         }
         if (in_array($imagesType, $type_allow)) {
             if ($imagesSize <= $size_allow) {
                 $uploads_tmp_name[$key] = $files["tmp_name"][$key];
                 $uploads_imagesLink[$key] = $imagesLink;
+                $images[$key] = $imagesInsert;
             } else {
                 $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' capacity must be less than ' . $size_allow . 'MB ';
                 $errorNum = 1;
