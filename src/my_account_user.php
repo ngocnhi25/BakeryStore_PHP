@@ -408,7 +408,8 @@ if (isset($_SESSION["auth_user"])) {
         }
     </style>
 </head>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
 <?php include("layout/header.php"); ?>
 <section class="my-account">
     <div class="my-account-box">
