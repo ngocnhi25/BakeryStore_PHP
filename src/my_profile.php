@@ -9,7 +9,6 @@ if(isset($_POST["page"])){
     }
 }
 $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
-
 ?>
 
 
@@ -20,21 +19,22 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
     </div>
     <div class="update-profile-box">
         <div class="profile-form">
-            <form action="User/code-User.php" method="post" style="width: 100%;">
+            <form action="User/code-User.php" method="post" id="update_profile_form" style="width: 100%;">
                 <table style="width: 100%;">
                     <tr>
                         <td></td>
                         <td>
                             <div class="css-input">
-                                <input type="hidden" id="name" name="userId" value="<?= $user_id ?>" readonly>
+                                <input type="hidden" id="userId" name="userId" value="<?= $user_id ?>" readonly>
                             </div>
                         </td>
                     </tr>
+
                     <tr>
                         <td>Username:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" id="name" name="username" value="<?php echo $user["username"] ?>" readonly >
+                                <input type="text" id="username" name="username" value="<?php echo $user["username"] ?>">
                             </div>
                         </td>
                     </tr>
@@ -42,7 +42,8 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>Email:</td>
                         <td>
                             <div class="css-input">
-                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" >
+                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" readonly >
+                               <button name="update_email" style="color: red;">Change</button>
                             </div>
                         </td>
                     </tr>
@@ -71,34 +72,16 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>Address:</td>
                         <td>
                             <div class="css-input">
-                                <input type="text" name="address" value="<?php echo $user["address"] ?>">
+                                <input type="text" id="address" name="address" value="<?php echo $user["address"] ?>">
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td></td>
-                        <td><button class="submit" type="submit" name="submit-update-inforUser">Submit</button></td>
+                        <td><button class="submit" type="submit" id="update_profile_btn" name="submit-update-inforUser">Submit</button></td>
                     </tr>
                 </table>
-
             </form>
-        </div>
-        <div class="profile-update-image">
-            <div class="profile-image-box">
-                <div class="profile-image">
-                    <div id="preview-photo" class="preview-photo">
-                        <img src="../public/images/icon/user.png" alt="">
-                    </div>
-                    <div class="btn-photo">
-                        <input id="photo-profile" type="file" name="profile-image" accept="image/*">
-                    </div>
-                    <div class="text">
-                        <span>Maximum file size 1 MB</span>
-                        <span>Format: .JPEG, .PNG, .JPG</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
-
