@@ -47,6 +47,9 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $errors["errorName"] = 'Product name cannot be blank';
     $errorNum = 1;
 }
+
+
+
 // product price
 if (isset($_POST["price"]) && !empty($_POST["price"])) {
     $price = $_POST["price"];

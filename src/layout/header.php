@@ -5,6 +5,7 @@ if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];
   $user_id = $_SESSION["auth_user"]["user_id"];
   $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
+  $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
 }
 $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
@@ -281,17 +282,17 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                 if (isset($_SESSION["auth_user"])) {
                   if ($_SESSION["auth_user"]["role"] == "1") {
                     echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
                     echo '</a>';
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   } else if ($_SESSION["auth_user"]["role"] == "2") {
                     echo '<a href="backend/admin_employee.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
                     echo '</a>';
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   } else if ($_SESSION["auth_user"]["role"] == "3") {
                     echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $_SESSION["auth_user"]["username"];
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' .$user["username"];
                     echo '</a>';
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   }

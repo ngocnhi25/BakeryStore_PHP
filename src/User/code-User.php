@@ -104,65 +104,8 @@ function sendEmail_change_Password($get_name, $get_email, $new_token){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
-function sendEmail_change_Email($get_name, $get_email,$get_id) {
-    try {
-        $mail = new PHPMailer;
-        $mail->isSMTP();
-        $mail->SMTPAuth = true;
-        $mail->Host = 'smtp.gmail.com'; 
-        $mail->Username = 'nhilnts2210037@fpt.edu.vn'; 
-        $mail->Password = 'rzushtjlbjnppcft'; 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS ;
-        $mail->Port = 587;
-        //Recipients
-        $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
-        $mail->addAddress($get_email,$get_name);
 
-        //Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Confirm change of your Email information from NgocNhiBakery';
-        $mail_template = "
-    <h2>You received this email because we received an email reset request for your Account</h2>
-    <h5>Verify your this email address to update your account with new email with the link below</h5>
-    <br><br>
-    <a href='http://localhost/Group3-BakeryStore/src/change-email.php?email=$get_email&id=$get_id'>Click me</a>
-    ";
-        $mail->Body = $mail_template;
-        $mail->send();
-    } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-}
 
-function sendEmail_updateNew_Email($get_name, $new_email, $new_token_email){
-    try {
-        $mail = new PHPMailer;
-        $mail->isSMTP();
-        $mail->SMTPAuth = true;
-        $mail->Host = 'smtp.gmail.com'; 
-        $mail->Username = 'nhilnts2210037@fpt.edu.vn'; 
-        $mail->Password = 'rzushtjlbjnppcft'; 
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS ;
-        $mail->Port = 587;
-        //Recipients
-        $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
-        $mail->addAddress($new_email,$get_name);
-
-        //Content
-        $mail->isHTML(true);
-        $mail->Subject = 'Confirm new update email for your account from NgocNhiBakery';
-        $mail_template = "
-    <h2>You received this email because we received a request to update your account information New Email for your Account</h2>
-    <h5>Verify your email address to update your account information New Email with the below given link</h5>
-    <br><br>
-    <a href='http://localhost/Group3-BakeryStore/src/User/code-User.php?newemail=$new_email&newtoken=$new_token_email'>Click me</a>
-    ";
-        $mail->Body = $mail_template;
-        $mail->send();
-    } catch (Exception $e) {
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-    }
-}
 
 // 1. Register page - code
 if (isset($_POST["submit-register-btn"])){
@@ -480,59 +423,7 @@ if(isset($_POST["sb-changePassword-User"])){
             exit();
 }
 }
-//  7 . send email ole email to update new email (my_profile.php)
-if (isset($_POST["update_email"])){
-    $userID = $_POST["userId"];
-    $email = $_POST["email"];
-        // check email voi database dung chua 
-        $sql_checkmail = "SELECT * FROM tb_user WHERE email = '$email'";
-        $sql_checkmail_run = mysqli_query($conn, $sql_checkmail);
-    
-        if (mysqli_num_rows($sql_checkmail_run) > 0) {
-            $row = mysqli_fetch_array(($sql_checkmail_run));
-            $get_name = $row["username"];
-            $get_email = $row["email"];
-            $get_id =$row["user_id"];
-            sendEmail_change_Email($get_name, $get_email,$get_id);
-            $_SESSION['status'] = " We email you !";
-            header("Location: ../my_account_user.php");
-            exit();
-        }else {
-            $_SESSION['status'] = " Email User does exist or not invalid !";
-            header("Location: ../my_account_user.php");
-            exit();
-        }
-}
 
-
-// 8 . save new email 
-
-if (isset($_POST["save-new-Email"])){
-    $id = $_POST['id'];
-    $new_email = $_POST['new-email'];
-    $new_token_email = md5(rand()) ;
-
-    $sql_check = "SELECT  * FROM tb_user WHERE user_id = '$id'";
-    $sql_check_run = mysqli_query($conn, $sql_check);
-    if (mysqli_num_rows($sql_check_run) > 0) {
-        $row = mysqli_fetch_array($sql_check_run);
-        $get_name = $row["username"];
-        $get_id =$row["user_id"];
-
-    $sql_update = " UPDATE tb_user SET token = '$new_token_email' , status = '0' WHERE user_id = '$get_id'";
-    $sql_update_run = mysqli_query($conn, $sql_update);
-    if ($sql_update_run) {
-        sendEmail_updateNew_Email($get_name, $new_email, $new_token_email);
-        $_SESSION['status'] = " We have sent you an email to $new_email confirm your new email account. Please authenticate to update information or login error will occur  !";
-        header("Location: ../home.php ") ;
-        exit();
-    }else{
-        $_SESSION['status'] = " Something error !";
-        header("Location: change-email.php ") ;
-        exit();
-    }
-    }       
-}
 
 //5 . update full information User ( my_profile.php)
 if (isset($_POST["submit-update-inforUser"])) {
@@ -608,40 +499,8 @@ if (isset($_POST["submit-update-inforUser"])) {
     }
 }
 
-// update set stauts new email = 1 
-if(isset($_GET["newemail"])){
-    $newEmail = $_GET["newemail"] ;
-    $newtoken = $_GET["newtoken"] ;
 
-    $sql_verify = " SELECT * FROM tb_user WHERE token = '$newtoken' LIMIT 1";
-    $sql_verify_run = mysqli_query($conn,  $sql_verify);
 
-    if(mysqli_num_rows($sql_verify_run) > 0 ){
-        $row = mysqli_fetch_array($sql_verify_run);
-        if($row['status'] == "0"){
-            $clicked_token = $row['token'] ;
-            $sql_update = "UPDATE tb_user SET status = '1' , email = '$newEmail' WHERE token = '$clicked_token' LIMIT 1";
-            $sql_update_run = mysqli_query($conn, $sql_update );
-
-            if( $sql_update_run){
-                $_SESSION['status'] = "New Email has been update succsessfully  ! ";
-                header("Location: login.php ") ;
-                exit();
-            }else{
-                $_SESSION['status'] = "Verification Failed !";
-                header("Location: login.php ") ;
-                exit();
-            }
-        }else {
-            $_SESSION['status'] = " Email already verified . Please login !";
-            header("Location: login.php ") ;
-            exit();
-        }
-    }}else {
-    $_SESSION['status'] = "Invalid !";
-    header("Location: login.php ") ;
-    exit();
-}
 
 // . Web+token ( verify email registered)
 
