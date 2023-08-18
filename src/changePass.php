@@ -94,7 +94,7 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                 success: function(response) {
                     if (response === 'success') {
                         alert("Save your email successfully!");
-                        // You might want to update the UI or redirect here
+                        
                     } else {
                         var errors = JSON.parse(response);
                         for (var key in errors) {
