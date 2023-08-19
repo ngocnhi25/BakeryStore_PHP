@@ -17,7 +17,7 @@ $date = date('Y-m-d H:i:s');
 
 $target_dir = "public/images/products/";
 $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
-$size_allow = 3;
+$size_allow = 2;
 
 // id
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
@@ -27,19 +27,31 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 
 // product name
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
-    if ($eventNum == 1) {
-        $name = trim($_POST["name"]);
-    } else {
-        $name = trim($_POST["name"]);
-        $nameSearch = checkRowTable("select * from tb_products where product_name = '$name'");
+    $name = trim($_POST["name"]);
+    if ($eventNum == 0) {
+        $productName = checkRowTable("SELECT * from tb_products where product_name = '$name'");
 
-        if ($nameSearch != 0) {
-            $errors["errorName"] = 'product name already exists';
+        if ($productName != 0) {
+            $errors["errorName"] = 'Product name already exists';
             $errorNum = 1;
         } else {
-            if (strlen($name) <= 3) {
-                $errors["errorName"] = 'Product name must be more than 3 characters';
+            if (strlen($name) <= 3 || strlen($name) > 80) {
+                $errors["errorName"] = 'character length greater than 3 is less than 80';
                 $errorNum = 1;
+            } 
+        }
+    } else {
+        $nameUpdate = executeSingleResult("SELECT * FROM tb_products WHERE product_id = $id");
+        if ($name != $nameUpdate["product_name"]) {
+            $productName = checkRowTable("SELECT * from tb_products where product_name = '$name'");
+            if ($productName != 0) {
+                $errors["errorName"] = 'Product name already exists';
+                $errorNum = 1;
+            }else {
+                if (strlen($name) <= 3 || strlen($name) > 80) {
+                    $errors["errorName"] = 'character length greater than 3 is less than 80';
+                    $errorNum = 1;
+                } 
             }
         }
     }

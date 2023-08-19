@@ -12,9 +12,9 @@ $date = date('Y-m-d');
 
 $target_dir = "public/images/banners/";
 $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
-$size_allow = 4;
+$size_allow = 3;
 
-if ($_POST["typeAds"]) {
+if (isset($_POST["typeAds"]) && !empty($_POST["typeAds"])) {
     $typeAds = $_POST["typeAds"];
     if($typeAds == 'category'){
         if ($_POST["cateID"]) {
@@ -29,7 +29,7 @@ if ($_POST["typeAds"]) {
             $errors["errorTypeAds"] = "Type advertising cannot be blank";
             $errorNum = 1;
         }
-    } elseif($typeAds == 'product'){
+    } elseif ($typeAds == 'product'){
         if ($_POST["productID"]) {
             $productID = $_POST["productID"];
             $ads = checkRowTable("SELECT * FROM tb_ads Where product_id = $productID");
@@ -48,13 +48,13 @@ if ($_POST["typeAds"]) {
     $errorNum = 1;
 }
 
-if ($_POST["startDate"]) {
+if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
     $startDate = $_POST["startDate"];
     if($startDate < $date ){
         $errors["errorDate"] = "The ad start date must be greater than or equal to the current date";
         $errorNum = 1;
     }
-    if ($_POST["endDate"]) {
+    if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
         $endDate = $_POST["endDate"];
         if($endDate <= $startDate ){
             $errors["errorDate"] = "The ad end date must be greater than or equal to the ad start date";
