@@ -7,6 +7,7 @@ if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
 }
+
 ?>  
 
 <head>
@@ -416,7 +417,7 @@ if (isset($_SESSION["auth_user"])) {
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/icon/user.png" alt="">
-                <h4> <?php echo $user_name ?> </h4>
+                <h4> <?php echo $user["username"] ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
@@ -429,7 +430,7 @@ if (isset($_SESSION["auth_user"])) {
                     <li class="nav-item">
                         <a href="changePass.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #356af1;">redo</span>
-                            <p>Change Password </p>
+                            <p>Email & Password </p>
                         </a>
                     </li>
                     <li class="nav-item">

@@ -1,8 +1,42 @@
 <?php
 require_once("connect/connectDB.php");
+
+
+$cate = executeResult("SELECT c.cate_id, c.cate_name 
+                        FROM tb_category c
+                        INNER JOIN tb_news p 
+                        ON c.cate_id = p.new_cate_id 
+                        GROUP BY c.cate_name DESC");
+
+$limit = 1;
+$page = 1;
+$number = 0;
+$cate_id = $countResult = '';
+if (isset($_GET['page'])) {
+  $page = $_GET['page'];
+  
+}
+$firstIndex = ($page - 1) * $limit;
+
+if (isset($_GET['cate_id']) && !empty($_GET['cate_id'])) {
+  $cate_id = $_GET['cate_id'];
+  $sql = 'SELECT * from tb_news where deleted = 0 and new_cate_id = ' . $cate_id . ' ORDER BY new_id DESC limit ' . $firstIndex . ',' . $limit;
+  $product = executeResult($sql);
+  $countResult = executeSingleResult("SELECT count(new_id) AS total from tb_news where deleted = 0 and new_cate_id = $cate_id");
+} else {
+  $countResult = executeSingleResult("SELECT count(new_id) AS total from tb_news where deleted = 0");
+  $sql = 'SELECT * from tb_news where deleted = 0 ORDER BY new_id DESC limit ' . $firstIndex . ',' . $limit;
+  $product = executeResult($sql);
+}
+
+if ($countResult != null) {
+  $count = $countResult['total'];
+  $number = ceil($count / $limit); 
+}
 ?>
 
 <?php include("layout/header.php"); ?>
+
 
 <div class="breadcrumb">
   <div class="container">
@@ -25,13 +59,58 @@ require_once("connect/connectDB.php");
   </div>
 </div>
 <section class="section-paddingY blog-section">
+  <!-- <div class="section-loader">
+    <i class="fas fa-spinner fa-5x fa-pulse"></i>
+  </div> -->
   <div class="container">
-    <div class="section-header">
+    <!-- <div class="section-header">
       <p class="section-title">Tin tức - Sự kiện</p>
-    </div>
-    <div class="section-body">
-      <div class="row">
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-4 mt-4">
+    </div> -->
+    <div class="row">
+      <div class="col-md-3">
+        <ul class="menu-category">
+          <li><span class="title-category">Danh mục Tin Tức</span></li>
+          <hr>
+          <?php foreach ($cate as $c) { ?>
+            <li class="item-nav">
+              <a href="?cate_id=<?= $c["cate_id"] ?>">
+                <?php echo $c["cate_name"] ?>
+              </a>
+            </li>
+          <?php } ?>
+        </ul>
+      </div>
+      <div class="col-md-9">
+        <div class="section-header">
+          <p class="section-title"></p>
+          <input type="hidden" name="cate_id" value="1">
+        </div>
+        <div class="section-body">
+          <div class="row">
+            <?php foreach ($product as $p) { ?>
+              <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2">
+                <div class="one-product-container">
+                  <div class="product-images">
+                    <a href="details.php?new_id=<?= $p["new_id"] ?>">
+                      <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                        <img src="../<?php echo $p["new_image"] ?>" alt="Opera Cake " />
+                        <img src="../<?php echo $p["new_image"] ?>" alt="Opera Cake " />
+                      </div>
+                    </a>                    
+                    
+                  </div>
+                  <div class="product-info">
+                    <p class="product-name">
+                      <a href="details.php?new_id=<?php $p["new_id"] ?>">
+                        <?php echo $p["new_title"] ?>
+                      </a>
+                    </p>
+                    
+                  </div>
+                </div>
+              </div>
+            <?php } ?>
+        <!-- <div class="col-12 col-sm-6 col-lg-4 col-xl-4 mt-4">
           <div class="article-column-container">
             <div class="article-image">
               <a class="product-image hover-animation" href="tin-tuc/bo-suu-tap-banh-trung-thu-2022-6">
@@ -105,14 +184,21 @@ require_once("connect/connectDB.php");
                 những Người y&ecirc;u thương... </p>
             </div>
           </div>
+        </div> -->
+          </div>
+          <div class="section-bottom has-pagination">
+            <div class="website-pagination">
+
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="section-bottom has-pagination">
+    <!-- <div class="section-bottom has-pagination">
       <div class="website-pagination">
 
       </div>
-    </div>
+    </div> -->
   </div>
 </section>
 
