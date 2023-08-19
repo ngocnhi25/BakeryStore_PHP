@@ -447,8 +447,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
         //   return;
         // }
 
-        if
-
         var $form = $(this).closest(".form-submit");
         var checkAuth = $form.find(".checkAuth").val();
         var pid = $form.find(".pid").val();
