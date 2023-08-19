@@ -8,7 +8,8 @@ if (isset($_SESSION["auth_user"])) {
 // var_dump($user_id);
 // die();
 
-$id = $_GET['product_id'];
+$id = intval($_GET['id']);
+
 $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flavor");
@@ -52,9 +53,8 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                                       WHERE p.product_id = $id");
 
 
-// connect/connectDB.php
-
 ?>
+
 
 
 <body>
@@ -111,8 +111,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                 <h5 class="product-name">
                   <?php echo $product["product_name"] ?>
                 </h5>
-
-                <span>(Cake Mousse Passion Fruit)</span>
 
               </div>
               <div class="product-imgs">
@@ -184,7 +182,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                   <input type="hidden" class="name" value="<?php echo $name ?>">
                   <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
                   <input type="hidden" class="lastPrice" value="<?php echo $discountedPrice ?>">
-                  <input type="hidden" class="checkAuth" value="<?php echo $user_id ?>">
+
 
                   <div class="btn-box">
                     <button class="cart-btn add" id="add">Add to Cart</button>
@@ -303,15 +301,13 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
               });
             </script>
 
-
-
-
             <div class="col-12 mt-3">
               <div class="section-header">
                 <p class="section-title">Sản phẩm gợi ý</p>
               </div>
+              
               <div class="section-body">
-                <div class="owl-products-some owl-carousel owl-theme">
+                <div class="owl-products-some owl-carousel ">
                   <div class="one-product-container">
 
                     <div class="product-images">
@@ -392,73 +388,55 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
   <script src="public/frontend/assets/js/product_page.js"></script>
   <script src="public/myplugins/js/messagebox.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-
-    document.addEventListener("DOMContentLoaded", function () {
-      let selectedSize = ""; // Initialize selected size variable
-      let selectedFlavor = ""; // Initialize selected flavor variable
+    $(document).ready(function () {
+      let selectedSize = "";
+      let selectedFlavor = "";
 
       // Size buttons event listener
-      const sizeButtons = document.querySelectorAll(".sizeBtn");
-      sizeButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          selectedSize = button.getAttribute("data-size"); // Save selected size
-          console.log("Selected Size:", selectedSize); // Debug
-        });
+      $(".sizeBtn").on("click", function () {
+        selectedSize = $(this).val();
+        // alert("Selected Size: " + selectedSize);
       });
 
       // Flavor buttons event listener
-      const flavorButtons = document.querySelectorAll(".flavorBtn");
-      flavorButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-          selectedFlavor = button.value; // Save selected flavor
-          console.log("Selected Flavor:", selectedFlavor); // Debug
-        });
+      $(".flavorBtn").on("click", function () {
+        selectedFlavor = $(this).val();
+        // alert("Selected Flavor: " + selectedFlavor);
       });
 
       // Add to cart button event listener
       $(document).on("click", "#add", function (e) {
         e.preventDefault();
+        if (selectedSize == "") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Choose your cake size',
+            timer: 2000,
+            showConfirmButton: false
+          });
+          return;
+        }
+        if (selectedFlavor == "") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Choose your cake size',
+            timer: 2000,
+            showConfirmButton: false
+          });
+          return;
+        }
 
-        // if (!isAuthenticated()) {
-        //   alert("Please log in to use this feature.");
-        //   return;
-        // }
-
-        // Validate inputs
-        // if (selectedSize === "") {
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Choose a size',
-        //     timer: 2000, // Automatically close after 2 seconds
-        //     showConfirmButton: false
-        //   });
-        //   return;
-        // }
-
-        // if (selectedFlavor === "") {
-        //   Swal.fire({
-        //     icon: 'error',
-        //     title: 'Choose a flavor',
-        //     timer: 2000, // Automatically close after 2 seconds
-        //     showConfirmButton: false
-        //   });
-        //   return;
-        // }
-
-        var $form = $(this).closest(".form-submit");
-        var checkAuth = $form.find(".checkAuth").val();
-        var pid = $form.find(".pid").val();
-        var pname = $form.find(".name").val();
-        var increaseSizeText = $("#hiddenIncreaseSize").val();
-        var increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
-        var increaseSize = parseFloat(increaseSizeWithoutCommas);
-        var quantity = $form.find(".quantity input").val();
-        var price = parseInt($form.find(".lastPrice").val());
-
-        alert(checkAuth);
-
+        const $form = $(this).closest(".form-submit");
+        const pid = $form.find(".pid").val();
+        const pname = $form.find(".name").val();
+        const increaseSizeText = $("#hiddenIncreaseSize").val();
+        const increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
+        const increaseSize = parseFloat(increaseSizeWithoutCommas);
+        const quantity = $form.find(".quantity input").val();
+        const price = parseInt($form.find(".lastPrice").val());
+        // alert(price);
         if (parseInt(quantity) > 20) {
           Swal.fire({
             icon: 'error',
@@ -470,7 +448,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
         }
 
 
-        // AJAX request to add product to cart
+        // // AJAX request to add product to cart
         $.ajax({
           url: "handles_page/add_to_cart.php",
           method: "POST",
@@ -484,12 +462,14 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
             price: price
           },
           success: function (response) {
-            // Swal.fire({
-            //   icon: 'success',
-            //   title: 'Add to cart success',
-            //   timer: 2000, // Automatically close after 2 seconds
-            //   showConfirmButton: false
-            // });
+            // console.log("Selected Size (in AJAX): " + selectedSize);
+            // console.log("Selected Flavor (in AJAX): " + selectedFlavor);
+            Swal.fire({
+              icon: 'success',
+              title: 'Add to cart success',
+              timer: 2000, // Automatically close after 2 seconds
+              showConfirmButton: false
+            });
             // alert(response);
           },
           error: function () {
@@ -560,42 +540,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
       }
     });
 
-
-
-
-    $(document).ready(function () {
-      $("#search-input").on("input", function () {
-        var query = $(this).val();
-        // alert(query);
-        if (query !== "") {
-          $.ajax({
-            url: "handles_page/search.php", // Replace with your actual search backend endpoint
-            method: "POST",
-            data: { query: query },
-            success: function (response) {
-              $("#search-results").html(response);
-            }
-          });
-        } else {
-          $("#search-results").empty();
-        }
-      });
-    });
-
-    load_cart_item_number();
-
-    function load_cart_item_number() {
-      $.ajax({
-        url: 'handles_page/action.php',
-        method: 'GET',
-        data: {
-          cartItem: 'cart_item'
-        },
-        success: function (response) {
-          $("#cart-item").text(response); // Update the cart item count in the span
-        }
-      });
-    }
   </script>
   <script src="../public/frontend/js/product_page.js"></script>
   </div>
