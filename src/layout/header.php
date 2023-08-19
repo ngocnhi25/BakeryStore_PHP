@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 <<<<<<< HEAD
 // require_once("../connect/connectDB.php");
 $cates = executeResult("SELECT * FROM tb_category c
@@ -20,7 +20,7 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                         ORDER BY total_views DESC");
 
 
-// Connect to the database
+//Connect to the database
 $conn = new mysqli("localhost", "root", "", "projecthk2");
 
 // Check connection
@@ -505,4 +505,4 @@ $conn->close();
       });
     }
   </script>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
+>>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6 -->
