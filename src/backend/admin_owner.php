@@ -92,10 +92,17 @@ if (isset($_SESSION["auth_user"])) {
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/galery.php">
+                                <a href="products/gallery.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Galery</h4>
+                                    <h4>Gallery</h4>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="products/product_add.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Add Product</h4>
                                 </a>
                             </li>
                         </ul>
@@ -131,37 +138,11 @@ if (isset($_SESSION["auth_user"])) {
                             <h3>Add Product</h3>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <div class="sub-btn nav-link">
-                            <div class="title">
-                                <span class="material-symbols-sharp">news</span>
-                                <h3>News</h3>
-                            </div>
-                            <span class="material-symbols-sharp more">expand_more</span>
-                            <span class="material-symbols-sharp less">expand_less</span>
-                        </div>
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="news/news.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>All News</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="news/news_add.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Add New</h4>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="nav-item logout">
-                        <a href="./signIn.php" class="nav-link">
+                        <button class="logout-btn">
                             <span class="material-symbols-sharp">logout</span>
                             <h3>Logout</h3>
-                        </a>
+                        </button>
                     </li>
                 </ul>
             </div>

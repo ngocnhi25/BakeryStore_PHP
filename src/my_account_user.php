@@ -7,7 +7,8 @@ if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
 }
-?>
+
+?>  
 
 <head>
     <style>
@@ -310,17 +311,18 @@ if (isset($_SESSION["auth_user"])) {
         .purchase-order .po-content-box .content .item-product-box {
             background-color: #fff;
             padding: 24px;
+            margin-bottom: 12px;
         }
 
         .purchase-order .po-content-box .content .item-product-box .detail-order {
             width: 100%;
             display: flex;
             padding: 12px;
-            border-bottom: 1px solid #efefef;
+            border-bottom: 1px solid #ccc;
         }
 
         .purchase-order .po-content-box .content .item-product-box .inf-prd {
-            width: 80%;
+            width: 75%;
             display: flex;
             gap: 1rem;
         }
@@ -345,6 +347,7 @@ if (isset($_SESSION["auth_user"])) {
         }
 
         .purchase-order .po-content-box .content .item-product-box .prd-price {
+            width: 25%;
             display: flex;
             gap: 0.5rem;
             align-items: center;
@@ -354,22 +357,67 @@ if (isset($_SESSION["auth_user"])) {
             color: #ff3f0b;
             font-size: 16px;
         }
+
         .purchase-order .po-content-box .content .item-product-box .price-del {
             color: #939393;
             text-decoration: line-through;
             font-size: 13px;
             margin-left: 5px;
         }
+
+        .purchase-order .po-content-box .content .item-product-box .status-cal {
+            display: flex;
+            justify-content: space-between;
+            padding: 25px 25px 10px 25px;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .status-ord {
+            color: #ff3f0b;
+            font-size: 16px;
+            text-transform: capitalize;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .price-total-pay {
+            color: #ff3f0b;
+            font-size: 20px;
+        }
+
+        .purchase-order .po-content-box .content .item-product-box .cal-total {
+            display: flex;
+            gap: 1rem;
+            font-size: 18px;
+        }
+
+        .purchase-order .no-order-yet {
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+            border-radius: 0.125rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 600px;
+            background: #fff;
+        }
+
+        .purchase-order .no-order-yet .no-data {
+            margin: 20px 0 0;
+            font-size: 20px;
+            line-height: 1.4;
+            color: #000c;
+        }
     </style>
 </head>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
 <?php include("layout/header.php"); ?>
 <section class="my-account">
     <div class="my-account-box">
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/icon/user.png" alt="">
-                <h4> <?php echo $user_name ?> </h4>
+                <h4> <?php echo $user["username"] ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>
@@ -377,6 +425,12 @@ if (isset($_SESSION["auth_user"])) {
                         <a href="my_profile.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #356af1;">person</span>
                             <p>My Account</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="changePass.php" class="nav-link">
+                            <span class="material-symbols-sharp" style="color: #356af1;">redo</span>
+                            <p>Email & Password </p>
                         </a>
                     </li>
                     <li class="nav-item">

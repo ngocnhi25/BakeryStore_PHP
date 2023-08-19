@@ -1,6 +1,6 @@
 <?php
 require_once('../../connect/connectDB.php');
-require_once('../../handles_page/handle_display.php');
+require_once('../../handles_page/handle_calculate.php');
 
 $products = executeResult("select * from tb_products p
                             inner join tb_category c 
@@ -39,14 +39,17 @@ $allProduct = executeSingleResult("select count(*) as total from tb_products");
                         <td>
                             <img src="../../<?= $product["image"] ?>" alt="" style="width: 130px; border-radius: 8px;">
                         </td>
-                        <td><?php displayPrice($product["price"]) ?> VNĐ</td>
+                        <td><?php echo displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>
                         <td><?= $product["view"] ?></td>
                         <td class="button">
-                            <button id="editProduct" onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
+                            <button onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
                             <?php if ($product["deleted"] == 0) { ?>
-                                <button type="button" onclick='deleteProduct(<?= $product["product_id"] ?>)' class="delete">Delete</button>
+                                <button onclick='hideProduct(<?= $product["product_id"] ?>)' type="button" class="hide">Hide</button>
+                            <?php } else { ?>
+                                <button onclick='recoverProduct(<?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
                             <?php } ?>
+                            <button type="button" onclick='deleteProduct("<?= $product["product_name"] ?>", <?= $product["product_id"] ?>)' class="delete">Delete</button>
                         </td>
                     </tr>
                 <?php } ?>

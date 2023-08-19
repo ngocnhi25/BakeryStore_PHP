@@ -66,10 +66,10 @@ if (isset($_SESSION["auth_user"])) {
                                 </a>
                             </li>
                             <li class="menu-item">
-                                <a href="products/galery.php">
+                                <a href="products/gallery.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Galery</h4>
+                                    <h4>Gallery</h4>
                                 </a>
                             </li>
                         </ul>

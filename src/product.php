@@ -1,9 +1,8 @@
 <?php
 require_once("connect/connectDB.php");
-require_once('handles_page/handle_display.php');
 require_once('handles_page/handle_calculate.php');
 require_once('handles_page/pagination.php');
-
+$arraySale = [];
 $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
                         INNER JOIN tb_products p 
@@ -13,14 +12,12 @@ $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
 
 //xử lý phân trang
-$limit = 1;
+$limit = 2;
 $page = 1;
 $number = 0;
 $cate_id = $countResult = '';
 if (isset($_GET['page'])) {
   $page = $_GET['page'];
-  // var_dump($page);
-  // die();
 }
 $firstIndex = ($page - 1) * $limit;
 
@@ -34,7 +31,7 @@ if (isset($_GET['cate_id']) && !empty($_GET['cate_id'])) {
   $sql = 'SELECT * from tb_products where deleted = 0 ORDER BY product_id DESC limit ' . $firstIndex . ',' . $limit;
   $product = executeResult($sql);
 }
-// var_dump($cate_id);
+// var_dump($product);
 // die();
 
 
@@ -57,14 +54,14 @@ foreach ($sale as $key => $s) {
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="" itemprop="item">
+          <a href="home.php" itemprop="item">
             <span itemprop="name">Trang chủ</span>
             <meta itemprop="position" content="1" />
           </a>
         </li>
         <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="#" itemprop="item">
-            <span itemprop="name">B&aacute;nh Sinh Nhật</span>
+            <span itemprop="name"><?= $cate_id ?></span>
             <meta itemprop="position" content="2" />
           </a>
         </li>
@@ -106,8 +103,8 @@ foreach ($sale as $key => $s) {
               <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2">
                 <div class="one-product-container">
                   <div class="product-images">
-                    <a href="details.php?product_id=<?= $p["product_id"] ?>">
-                      <div class="product-image hover-animation" href="san-pham/opera-cake-27">
+                    <a href="details.php?id=<?= $p["product_id"] ?>">
+                      <div class="product-image hover-animation">
                         <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
                         <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
                       </div>
@@ -124,28 +121,28 @@ foreach ($sale as $key => $s) {
                       </div>
                     <?php } ?>
                     <div class="box-actions-hover">
-                      <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                      <button><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                      <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                      <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
                     </div>
                   </div>
                   <div class="product-info">
-                    <p class="product-name">
-                      <a href="details.php?product_id=<?php $p["product_id"] ?>">
+                    <div class="product-name">
+                      <a href="details.php?id=<?php $p["product_id"] ?>">
                         <?php echo $p["product_name"] ?>
                       </a>
-                    </p>
+                    </div>
                     <div class="product-price">
                       <?php if (in_array($p["product_id"], $arraySale)) { ?>
                         <span class="price">
                           <?php foreach ($sale as $s) {
                             if ($p["product_id"] == $s["product_id"]) {
-                              displayPrice(calculatePercentPrice($p["price"], $s["percent_sale"]));
+                              echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                               break;
                             }
                           } ?> vnđ</span>
-                        <span class="price-del"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } else { ?>
-                        <span class="price"><?php displayPrice($p["price"]) ?> vnđ</span>
+                        <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
                       <?php } ?>
                     </div>
                   </div>

@@ -109,7 +109,6 @@
 </footer>
 
 
-<div id="fb-root">stjstrjtrjfvfgdfgdfg</div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="T1W405h4"></script>
 <div class='zalome'>
   <a href='#' target='_blank'>
@@ -195,8 +194,8 @@
 <script src="../public/frontend/js/main.js?v=1.0.8"></script>
 <script src="public/myplugins/js/messagebox.js"></script>
 
-<script src="../public/frontend/js/my_account.js"></script>
 <script src="../public/frontend/js/product_page.js"></script>
+<script src="../public/frontend/js/my_account.js"></script>
 
 </body>
 

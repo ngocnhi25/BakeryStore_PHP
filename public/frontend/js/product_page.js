@@ -158,19 +158,50 @@ function changeInputOption(_this) {
 }
 
 function addNewProduct(id) {
-  const postData = {
-    product_id: id
-  }
+  $(document).ready(function () {
+    const postData = {
+      product_id: id
+    }
 
-  $.ajax({
-    type: "POST",
-    url: 'handles_page/add-new-cart.php',
-    data: postData,
-    success: function (res) {
-      
-    },
-    error: function (xhr, status, error) {
-      console.error("Lỗi: " + error);
+    $.ajax({
+      type: "POST",
+      url: 'handles_page/add_new_cart.php',
+      data: postData,
+      success: function (res) {
+        if (res === "not logged in") {
+          window.location.href = "User/login.php";
+        } else {
+          setTimeout(function () {
+            $("#success-box").fadeIn();
+          }, 100);
+          
+          setTimeout(function () {
+            $("#success-box").fadeOut();
+          }, 1000);
+          $('.shopping-bag .counter').empty().append(res);
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("Lỗi: " + error);
+      }
+    });
+  })
+}
+
+$(document).ready(function () {
+  $("#search-product").on("input", function () {
+    var query = $(this).val();
+    if (query !== "") {
+      $.ajax({
+        url: "handles_page/search.php",
+        method: "POST",
+        data: { query: query },
+        success: function (response) {
+          $("#search-results").show().html(response);
+        }
+      });
+    } else {
+      $("#search-results").hide().empty();
     }
   });
-}
+});
