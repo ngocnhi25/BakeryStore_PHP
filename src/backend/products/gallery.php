@@ -29,6 +29,7 @@ if (isset($_POST["idSize"])) {
 <div class="table_category">
     <div>
         <h1>Category</h1>
+        <button onclick="createCate()" class="create" type="button">Add new category</button>
         <div>
             <table>
                 <thead>
@@ -40,21 +41,6 @@ if (isset($_POST["idSize"])) {
                     </tr>
                 </thead>
                 <tbody>
-                    <form id="cateForm" method="post" action="">
-                        <tr>
-                            <td>
-                                <?php if ($idCate != null) { ?>
-                                    <input id="cateUpdate" type="hidden" name="id" value="<?= $nameCate["cate_id"] ?>" readonly>
-                                <?php } ?>
-                            </td>
-                            <td>
-                                <input id="cateInsert" type="text" name="cateName" value="<?php echo (($idCate != null) ? $nameCate["cate_name"] : '') ?>">
-                                <p class="errorCateName" style="color: red;"></p>
-                            </td>
-                            <td></td>
-                            <td><button id="submitCate" class="create" type="button">Create</button></td>
-                        </tr>
-                    </form>
                     <?php foreach ($cates as $key => $cate) {
                         $cate_id = $cate["cate_id"];
                         $row = executeSingleResult("SELECT count(*) AS total FROM tb_products WHERE cate_id = $cate_id");
@@ -85,6 +71,7 @@ if (isset($_POST["idSize"])) {
                     <tr>
                         <th></th>
                         <th>Flavor name</th>
+                        <th>Flavors in stock(kg)</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -100,26 +87,34 @@ if (isset($_POST["idSize"])) {
                                 <input id="flavorInsert" type="text" name="flavor" value="<?php echo (($idFlavor != null) ? $nameFlavor["flavor_name"] : '') ?>">
                                 <p class="errorFlavor" style="color: red;"></p>
                             </td>
-                            <td><button id="submitFlavor" class="create" type="button">Create</button></td>
+                            <td>
+                                <input id="flavorInStockInsert" type="text" name="flavorInStock" value="<?php echo (($idFlavor != null) ? $nameFlavor["qti_flavor"] : '') ?>">
+                                <p class="errorFlavorInStock" style="color: red;"></p>
+                            </td>
+                            <td><button id="submitFlavor" class="create" type="button"><?php echo ($idFlavor != null ? "Save" : "Create") ?></button></td>
                         </tr>
                     </form>
                     <?php foreach ($flavors as $key => $f) { ?>
-                        <?php if ($f["deleted_flavor"] == 0) { ?>
+                        <?php if ($f["qti_flavor"] > 0 && $f["deleted_flavor"] == 0) { ?>
                             <tr>
                                 <td><?= $key + 1 ?></td>
                                 <td><?= $f["flavor_name"] ?></td>
+                                <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
                                     <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Update</button>
-                                    <button class="delete" onclick="deleteFlavor(<?= $f['flavor_id'] ?>)">Delete</button>
+                                    <button class="hide" onclick="hideFlavor(<?= $f['flavor_id'] ?>)">Hide</button>
+                                    <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
                             </tr>
                         <?php } else { ?>
                             <tr style="opacity: 0.5;">
                                 <td><?= $key + 1 ?></td>
                                 <td><?= $f["flavor_name"] ?></td>
+                                <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
                                     <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Update</button>
-                                    <button class="recover" onclick="recoverFlavor(<?= $f['flavor_id'] ?>)">Recover</button>
+                                    <button class="recover" onclick="recoverFlavor(<?= $f['qti_flavor'] ?>, <?= $f['flavor_id'] ?>)">Recover</button>
+                                    <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
                             </tr>
                     <?php }
@@ -136,7 +131,7 @@ if (isset($_POST["idSize"])) {
                     <tr>
                         <th></th>
                         <th>Size (cm)</th>
-                        <th>Plus Amount</th>
+                        <th>Number of boxes</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -153,22 +148,37 @@ if (isset($_POST["idSize"])) {
                                 <p class="errorSize" style="color: red;"></p>
                             </td>
                             <td>
-                                <input id="increaseSizeInsert" type="number" name="increaseSize" value="<?php echo (($idSize != null) ? $nameSize["increase_size"] : '') ?>">
-                                <p class="errorIncreaseSize" style="color: red;"></p>
+                                <input id="qtiBoxSizeInsert" type="text" name="qtiBoxSize" value="<?php echo (($idSize != null) ? $nameSize["qti_boxes_size"] : '') ?>">
+                                <p class="errorqtiBoxSize" style="color: red;"></p>
                             </td>
                             <td><button id="submitSize" class="create" type="button">Create</button></td>
                         </tr>
                     </form>
                     <?php foreach ($sizes as $key => $s) { ?>
-                        <tr>
-                            <td><?= $key + 1 ?></td>
-                            <td><?= $s["size_name"] ?></td>
-                            <td><?= $s["increase_size"] ?></td>
-                            <td class="button">
-                                <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Update</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
+                        <?php if ($s["qti_boxes_size"] > 0 && $s["deleted_size"] == 0) { ?>
+                            <tr>
+                                <td><?= $key + 1 ?></td>
+                                <td><?= $s["size_name"] ?></td>
+                                <td><?= $s["qti_boxes_size"] ?> boxes</td>
+                                <td class="button">
+                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Update</button>
+                                    <button class="hide" onclick="hideSize(<?= $s['size_id'] ?>)">Hide</button>
+                                    <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
+                                </td>
+                            </tr>
+                        <?php } else { ?>
+                            <tr style="opacity: 0.5;">
+                                <td><?= $key + 1 ?></td>
+                                <td><?= $s["size_name"] ?></td>
+                                <td><?= $s["qti_boxes_size"] ?> boxes</td>
+                                <td class="button">
+                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Update</button>
+                                    <button class="recover" onclick="recoverSize(<?= $s['qti_boxes_size'] ?>, <?= $s['size_id'] ?>)">Recover</button>
+                                    <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
+                                </td>
+                            </tr>
+                    <?php }
+                    } ?>
                 </tbody>
             </table>
         </div>
@@ -176,11 +186,11 @@ if (isset($_POST["idSize"])) {
     <div id="success">
         <div class="message">
             <p>
-                <?php if($idCate == null && $idFlavor == null && $idSize == null) { 
+                <?php if ($idCate == null && $idFlavor == null && $idSize == null) {
                     echo "Added Successful!";
                 } else {
                     echo "Update Successful!";
-                }?>
+                } ?>
             </p>
             <div class="button-success">
                 <button id="okButton">Ok</button>
@@ -188,23 +198,9 @@ if (isset($_POST["idSize"])) {
         </div>
     </div>
 </div>
-<script src="../../public/backend/js/galery.js"></script>
+<script src="../../public/backend/js/gallery.js"></script>
 <script type="text/javascript">
     $("#success").hide();
-    $("#submitCate").click(function(e) {
-        e.preventDefault();
-        $(document).ready(function() {
-            var formCateData = new FormData();
-
-            <?php if ($idCate != null) { ?>
-                formCateData.append("id", $("#cateUpdate").val());
-            <?php } ?>
-
-            formCateData.append("cateName", $("#cateInsert").val());
-
-            ajaxForm('handles/creates/category.php', formCateData);
-        })
-    })
 
     $("#submitFlavor").click(function(e) {
         e.preventDefault();
@@ -212,10 +208,11 @@ if (isset($_POST["idSize"])) {
             var formFlavorData = new FormData();
 
             <?php if ($idFlavor != null) { ?>
-                formFlavorData.append("name", $("#flavorUpdate").val());
+                formFlavorData.append("id", $("#flavorUpdate").val());
             <?php } ?>
 
             formFlavorData.append("flavor", $("#flavorInsert").val());
+            formFlavorData.append("flavorInStock", $("#flavorInStockInsert").val());
 
             ajaxForm('handles/creates/flavor.php', formFlavorData);
 
@@ -232,7 +229,7 @@ if (isset($_POST["idSize"])) {
             <?php } ?>
 
             formSizeData.append("size", $("#sizeInsert").val());
-            formSizeData.append("increase_size", $("#increaseSizeInsert").val());
+            formSizeData.append("qtiBoxSize", $("#qtiBoxSizeInsert").val());
 
             ajaxForm('handles/creates/size.php', formSizeData);
 
@@ -247,9 +244,8 @@ if (isset($_POST["idSize"])) {
             contentType: false,
             processData: false,
             success: function(res) {
-                // alert(res);
                 if (res === 'success') {
-                    showSuccessMessage("products/galery.php");
+                    showSuccessMessage("products/gallery.php");
                 } else {
                     var errors = JSON.parse(res);
                     for (var key in errors) {

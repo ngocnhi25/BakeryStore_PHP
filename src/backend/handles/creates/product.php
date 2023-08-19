@@ -47,10 +47,13 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $errors["errorName"] = 'Product name cannot be blank';
     $errorNum = 1;
 }
+
+
+
 // product price
 if (isset($_POST["price"]) && !empty($_POST["price"])) {
     $price = $_POST["price"];
-    if ($price <= 0 && $price > 10000000) {
+    if ($price <= 0 || $price > 10000000) {
         $errors["errorPrice"] = 'The product price is only in the range from 0 to 10000000 VND';
         $errorNum = 1;
     }
@@ -92,27 +95,29 @@ if (isset($_FILES["images"]["name"])) {
     }
 
     foreach ($file_names as $key => $value) {
-        $images[$key] = $target_dir . basename($value);
+        $imagesInsert = $target_dir . basename($value);
         $imagesLink = "../../../../$target_dir" . basename($value);
         $imagesType = $files['type'][$key];
         $imagesSize = $files['size'][$key] / 1024 / 1024;
 
         // kiểm tra xem file có hợp lệ không
-        if (!file_exists($imagesLink)) {
-            if (in_array($imagesType, $type_allow)) {
-                if ($imagesSize <= $size_allow) {
-                    $uploads_tmp_name[$key] = $files["tmp_name"][$key];
-                    $uploads_imagesLink[$key] = $imagesLink;
-                } else {
-                    $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' capacity must be less than ' . $size_allow . 'MB ';
-                    $errorNum = 1;
-                }
+        if (file_exists($imagesLink)) {
+            $fileExtension = pathinfo($imagesLink, PATHINFO_EXTENSION);
+            $newFileName = pathinfo($imagesLink, PATHINFO_FILENAME) . '_' . uniqid('product_') . '.' . $fileExtension;
+            $imagesLink = "../../../../$target_dir" . $newFileName;
+            $imagesInsert = $target_dir . $newFileName;
+        }
+        if (in_array($imagesType, $type_allow)) {
+            if ($imagesSize <= $size_allow) {
+                $uploads_tmp_name[$key] = $files["tmp_name"][$key];
+                $uploads_imagesLink[$key] = $imagesLink;
+                $images[$key] = $imagesInsert;
             } else {
-                $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' format error';
+                $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' capacity must be less than ' . $size_allow . 'MB ';
                 $errorNum = 1;
             }
         } else {
-            $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' already exists in the directory';
+            $errors["errorImages"][$key] = 'file ' . $files["name"][$key] . ' format error';
             $errorNum = 1;
         }
     }
@@ -131,8 +136,8 @@ if (
     if ($eventNum == 0) {
         $imageInsert = $images[0];
         $sql = "INSERT INTO tb_products 
-        (cate_id, product_name, image, price, description, create_date, deleted) VALUES
-        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0)";
+        (cate_id, product_name, image, price, description, create_date, view, deleted) VALUES
+        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0, 0)";
         execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(product_id) as new_id_product FROM tb_products");
         $new_id = $new_id_product["new_id_product"];

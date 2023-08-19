@@ -74,8 +74,7 @@ function sendEmail_update_Password($get_name, $get_email, $token){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
-
-function sendEmail_thankuser_forupdate_fullifor($username, $email){
+function sendEmail_change_Password($get_name, $get_email, $new_token){
     try {
         $mail = new PHPMailer;
         $mail->isSMTP();
@@ -88,15 +87,16 @@ function sendEmail_thankuser_forupdate_fullifor($username, $email){
 
         //Recipients
         $mail->setFrom('nhilnts2210037@fpt.edu.vn', 'NgocNhiBakery');
-        $mail->addAddress($email ,$username);
+        $mail->addAddress($get_email,$get_name);
 
         //Content
         $mail->isHTML(true);
-        $mail->Subject = 'Thank you for updating the complete information at NgocNhibakery';
+        $mail->Subject = 'Password change email from NgocNhiBakery';
         $mail_template = "
-    <h4> Dear my customer , $username </h4>   
-    <h4> Thank you for updating the complete information at NgocNhibakery . We look forward to having the opportunity to serve you in the future </h4>
-    <a href='http://localhost/Group3-BakeryStore/src/home.php'>Shopping Now!</a>
+    <h2>You received this email because we received a request to update the password for your Account </h2>
+    <h5>Verify your email address to update the new password with the below given link</h5>
+    <br><br>
+    <a href='http://localhost/Group3-BakeryStore/src/User/verify-change-pass.php?newtoken=$new_token&email=$get_email'>Click me</a>
     ";
         $mail->Body = $mail_template;
         $mail->send();
@@ -104,6 +104,8 @@ function sendEmail_thankuser_forupdate_fullifor($username, $email){
         echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
+
+
 
 // 1. Register page - code
 if (isset($_POST["submit-register-btn"])){
@@ -224,11 +226,12 @@ if(isset($_POST["submit-login-btn"])){
         if(mysqli_num_rows($sql_login_run) > 0 ){
             $row = mysqli_fetch_array(($sql_login_run));
             if($row['status'] == "1" && $row['stt_delete'] == "0" ){
+            
                 $_SESSION['authenticeted']= TRUE;
-                
                 $_SESSION['auth_user'] = [
                     'user_id' => $row['user_id'],
                     'username' => $row['username'],
+                    'role' => $row['role'],
                 ];
                 $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";
                 $sql_update_login_recent_day_run = mysqli_query($conn, $sql_update_login_recent_day);
@@ -264,7 +267,7 @@ if (isset($_POST["submit-resetPass"])) {
     $email = $_POST["email"];
     $token = md5(rand()); // Generate a unique token
 
-    $sql_checkmail = "SELECT email, username, status FROM tb_user WHERE email = '$email' LIMIT 1";
+    $sql_checkmail = "SELECT * FROM tb_user WHERE email = '$email' LIMIT 1";
     $sql_checkmail_run = mysqli_query($conn, $sql_checkmail);
 
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
@@ -273,12 +276,12 @@ if (isset($_POST["submit-resetPass"])) {
             $get_name = $row["username"];
             $get_email = $row["email"];
 
-            $sql_update = "UPDATE tb_user SET token = '$token' WHERE email = '$get_email' LIMIT 1";
+            $sql_update = "UPDATE tb_user SET token = '$token' WHERE email = '$get_email' and username = '$get_name' ";
             $sql_update_run = mysqli_query($conn, $sql_update);
 
             if ($sql_update_run) {
                 sendEmail_update_Password($get_name, $get_email,$token);
-                $_SESSION['status'] = "We emailed you a password reset link!";
+                $_SESSION['status'] = "We emailed you a password reset link! Please verify your email :  $get_email ";
                  header("Location: forgot-inputEmail.php");
                 exit();
             } else {
@@ -345,109 +348,152 @@ if(isset($_POST["update-password-btn"])){
     }
 
 }
-//5 . update full information User ( my_profile.php)
 
-if (isset($_POST["submit-update-inforUser"])){
-    $userID = $_POST["userId"];
-    $email = $_POST["email"];
-    $sex = $_POST["sex"];
-    $address = $_POST["address"];
+// 6. CHANGE PASSWORD ( change_password.php)
+if(isset($_POST["sb-changePassword-User"])){
+    $userId = (mysqli_real_escape_string($conn ,$_POST["userId"]));
+    $current_password = md5($_POST["current-password"]) ;
+    $new_password = md5($_POST["new-password"]);
+    $email =  (mysqli_real_escape_string($conn ,$_POST["email"]));
+    $confirm_newPassword = md5(mysqli_real_escape_string($conn ,$_POST["confirm-password"]));
+    $new_token  = md5(rand()) ;
 
-   if (isset($_POST["username"])) {
-        // Perform validation checks
-        $username = trim($_POST["username"]);
-    
-        if (empty($username)) {
-            $_SESSION['status'] = "Username must not be blank.";
-            header("Location: ../my_account_user.php");
-            exit();
-        } 
-        
-        if (strpos($username, ' ') !== false) {
-            $_SESSION['status'] = "Username must not contain spaces.";
+    if (isset($_POST["new-password"])){
+        $newPassword = $_POST["new-password"];
+        if (empty($newPassword)) {
+            $_SESSION['status'] = "Password must not be blank.";
             header("Location: ../my_account_user.php");
             exit();
         }
-
-        if (!preg_match("/^[a-zA-Z0-9]{6,20}$/", $username)) {
-            $_SESSION['status'] = "Username must be between 6 and 20 characters long and consist of letters and numbers only.";
+        if (strpos($newPassword, ' ') !== false) {
+            $_SESSION['status'] = "Password must not contain spaces.";
+            header("Location: ../my_account_user.php");
+            exit();
+        }
+        if (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword )) {
+            $_SESSION['status'] = "Password must be between 6 and 20 characters long and consist of letters, numbers, and special characters only.";
             header("Location: ../my_account_user.php");
             exit();
         }
     }
 
-    if (isset($_POST["phone"])) {
-        $phone = $_POST["phone"];
-        if (!preg_match("/^[0-9]{10,12}$/", $phone)) {
-            $_SESSION['status'] = "Invalid Phone Number!";
-            header("Location: ../my_account_user.php");
-            exit();
-        }
-    }
-
-    if (isset($_POST['dob'])) {
-        $dob = $_POST['dob'];
-        $currentDate = date('Y-m-d');
-        
-        // Convert selected date to DateTime object
-        $selectedDate = new DateTime($dob);
-        // Convert current date to DateTime object
-        $currentDateTime = new DateTime($currentDate);
-        
-        // Calculate the difference between the selected date and the current date
-        $dateDifference = $selectedDate->diff($currentDateTime);
-        
-        // Check if the user is at least 18 years old
-        if ($dateDifference->y < 18) {
-            $_SESSION['status'] = "You must be at least 18 years old to proceed.";
-            header("Location: ../my_account_user.php");
-            exit();
-        }
-        
-        // Compare the selected date with the current date
-        if ($selectedDate <= $currentDateTime) {
-            // Valid date of birth
-            $date_birthday = date('Y-m-d', strtotime($dob));
-        } else {
-            // Invalid date of birth
-            $_SESSION['status'] = "Invalid Date of Birth! Please select a date not greater than today.";
-            header("Location: ../my_account_user.php");
-            exit();
-        }
-    } else {
-        // Date of birth not provided
-        $_SESSION['status'] = "Please provide your Date of Birth!";
+    if($new_password != $confirm_newPassword ){
+        $_SESSION['status'] = " Password and Confirm Password dose not match!";
         header("Location: ../my_account_user.php");
         exit();
     }
-    
+
+
+    // check password voi database dung chua 
+        $sql_pass = "SELECT  * FROM tb_user WHERE user_id = '$userId' and password = '$current_password' LIMIT 1";
+        $sql_pass_run = mysqli_query($conn, $sql_pass);
+        if (mysqli_num_rows($sql_pass_run) > 0) {
+            $row = mysqli_fetch_array($sql_pass_run);
+            if ($row["status"] == "1" && $row['stt_delete'] == "0" ) {
+                $get_name = $row["username"];
+                $get_email = $row["email"];
+                $sql_update = "UPDATE tb_user SET token = '$new_token', status = '0' WHERE user_id = '$userId' LIMIT 1";
+                $sql_update_run = mysqli_query($conn, $sql_update);
+                    if ($sql_update_run) {
+                        $sql_update2 = "UPDATE tb_user SET password = '$new_password' WHERE user_id = '$userId' ";
+                        $sql_update2_run = mysqli_query($conn, $sql_update2);
+                        if ($sql_update2_run){
+                        sendEmail_change_Password($get_name, $get_email,$new_token);
+                        $_SESSION['status'] = "We emailed to $get_email a password reset link!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                        }else{
+                            $_SESSION['status'] = "Send Mail update Fail!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                        }
+                    } else {
+                        $_SESSION['status'] = " update Fail!";
+                        header("Location: ../my_account_user.php");
+                        exit();
+                }
+            }else{
+                $_SESSION['status'] = "Email is not verified or can be deleted !";
+            header("Location: ../my_account_user.php");
+            exit();
+            }
+        }else {
+            $_SESSION['status'] = "Current Password not correct !";
+            header("Location: ../my_account_user.php");
+            exit();
+}
+}
+
+
+//5 . update full information User ( my_profile.php)
+if (isset($_POST["submit-update-inforUser"])) {
+    $username = $_POST["username"];
+    $userID = $_POST["userId"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $sex = $_POST["sex"];
+    $address = $_POST["address"];
+
+    // Validate username
+    if (empty($username) || strlen($username) < 6 || strlen($username) > 20 || preg_match('/\s/', $username)) {
+        $_SESSION['username_error'] = "Username must be between 6 and 20 characters long and should not contain spaces.";
+        header("Location: ../my_account_user.php");
+        exit();
+    }
+
+    // Validate phone number
+    if (!preg_match("/^[0-9]{10,12}$/", $phone)) {
+        $_SESSION['phone_error'] = "Invalid Phone Number!";
+        header("Location: ../my_account_user.php");
+        exit();
+    }
+
+    // Validate date of birth
+    if (!isset($_POST['dob'])) {
+        $_SESSION['dob_error'] = "Please provide your Date of Birth!";
+        header("Location: ../my_account_user.php");
+        exit();
+    }
+
+    $dob = $_POST['dob'];
+    $currentDate = date('Y-m-d');
+    $selectedDate = new DateTime($dob);
+    $currentDateTime = new DateTime($currentDate);
+    $dateDifference = $selectedDate->diff($currentDateTime);
+
+    if ($dateDifference->y < 18 || $selectedDate > $currentDateTime) {
+        $_SESSION['dob_error'] = "You must be at least 18 years old and provide a valid Date of Birth.";
+        header("Location: ../my_account_user.php");
+        exit();
+    }
+
+    // Validate email and account status
     $sql_checkmail = "SELECT * FROM tb_user WHERE email = '$email' LIMIT 1";
     $sql_checkmail_run = mysqli_query($conn, $sql_checkmail);
 
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
         $row = mysqli_fetch_array(($sql_checkmail_run));
-        if($row['status'] == "1" && $row['stt_delete'] == "0" ){
-            $sql_update_infor_user = "UPDATE tb_user SET username = '$username' , phone = '$phone' , sex = '$sex' , birthday = '$date_birthday' , address = '$address' WHERE user_id = $userID ";        
+        if ($row['status'] == "1" && $row['stt_delete'] == "0") {
+            // Update user information
+            $sql_update_infor_user = "UPDATE tb_user SET username = '$username', phone = '$phone', sex = '$sex', birthday = '$dob', address = '$address' WHERE user_id = $userID ";
             $sql_update_infor_user_run = mysqli_query($conn, $sql_update_infor_user);
 
-            if($sql_update_infor_user_run) {
-                sendEmail_thankuser_forupdate_fullifor($username, $email) ;
+            if ($sql_update_infor_user_run) {
                 $_SESSION['status'] = "Thank you for updating your information!";
                 header("Location: ../my_account_user.php");
                 exit();
-            }else{
+            } else {
                 $_SESSION['status'] = "Failed to update your information!";
                 header("Location: ../my_account_user.php");
-                 exit();
-            }
-        }else{
-            $_SESSION['status'] = "Please verify email address to update profile !";
-            header("Location: ../my_account_user.php");
                 exit();
+            }
+        } else {
+            $_SESSION['status'] = "Please verify email address to update profile!";
+            header("Location: ../my_account_user.php");
+            exit();
         }
-        
-    }else {
-        $_SESSION['status'] = " Information User does exist or not invalid !";
+    } else {
+        $_SESSION['status'] = "Information User does not exist or is invalid!";
         header("Location: ../my_account_user.php");
         exit();
     }
@@ -484,8 +530,7 @@ if(isset($_GET["token"])){
             header("Location: login.php ") ;
             exit();
         }
-    }
-}else {
+    }}else {
     $_SESSION['status'] = " Not Allowed !";
     header("Location: login.php ") ;
     exit();

@@ -236,6 +236,7 @@ function checkCate($value)
 <script>
     CKEDITOR.replace('description');
 </script>
+
 <script type="text/javascript">
     $("#success").hide();
     $("#submitData").click(function(e) {

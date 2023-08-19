@@ -420,7 +420,12 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
       // Add to cart button event listener
       $(document).on("click", "#add", function (e) {
         e.preventDefault();
-        alert
+
+        // if (!isAuthenticated()) {
+        //   alert("Please log in to use this feature.");
+        //   return;
+        // }
+
         // Validate inputs
         // if (selectedSize === "") {
         //   Swal.fire({

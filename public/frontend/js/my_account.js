@@ -18,6 +18,7 @@ function ajaxPages(url) {
             url: url,
             method: "POST",
             dataType: "html",
+            data: { page: "page" },
             success: function (response) {
                 $("#action-page-user").empty().html(response);
             },
