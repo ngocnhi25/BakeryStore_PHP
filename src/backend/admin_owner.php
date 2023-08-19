@@ -132,6 +132,12 @@ if (isset($_SESSION["auth_user"])) {
                             <h3>Advertising</h3>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="products/product_add.php" class="nav-link">
+                            <span class="material-symbols-sharp">add</span>
+                            <h3>Add Product</h3>
+                        </a>
+                    </li>
                     <li class="nav-item logout">
                         <button class="logout-btn">
                             <span class="material-symbols-sharp">logout</span>
