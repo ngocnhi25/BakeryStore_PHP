@@ -1,6 +1,6 @@
 <?php
 require_once('../../connect/connectDB.php');
-require_once('../../handles_page/handle_display.php');
+require_once('../../handles_page/handle_calculate.php');
 
 $products = executeResult("select * from tb_news p
                             inner join tb_category c 
@@ -23,7 +23,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_news");
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>News Name</th>
+                    <th>News Title</th>
                     <th>Image</th>
                     <th>Category</th>
                     <th>Actions</th>
