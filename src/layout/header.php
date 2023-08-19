@@ -1,8 +1,4 @@
 <?php
-<<<<<<< HEAD
-// require_once("../connect/connectDB.php");
-$cates = executeResult("SELECT * FROM tb_category c
-=======
 // session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
@@ -13,7 +9,6 @@ if (isset($_SESSION["auth_user"])) {
 }
 $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
                         GROUP BY c.cate_name
@@ -335,53 +330,19 @@ $conn->close();
                 <span class="icon">
                   <i class="fa fa-search"></i>
                 </span>
-<<<<<<< HEAD
-                <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
-              </form>
-
-=======
                 <input id="search-product" type="text" name="search" placeholder="Search product..." class="form-control">
                 <ul id="search-results" style="display: none;"></ul>
               </div>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
 
 
               <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-<<<<<<< HEAD
-                <span class="counter" id="cart-item">
-                  <?php echo $cartItemCount; ?>
-                </span>
-              </a>
-=======
-                <span class="counter" id="cart-item"><?= $itemCart != null ? $itemCart["total"] : 0 ?></span>
+                <span class="counter" id="cart-item"><?= $cartItemCount ?></span>
               </button>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
 
               <div class="user-header d-none d-lg-block">
                 <?php
                 if (isset($_SESSION["auth_user"])) {
-<<<<<<< HEAD
-                  ?>
-                  <a href="my_account_user.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <?php echo $_SESSION["auth_user"]["username"] ?>
-                    </ul>
-                  </a>
-                  <a href="User/logout.php" class="user-header-button js-toggle-user-nav">
-                    Log Out
-                  </a>
-                <?php } else { ?>
-                  <a href="User/login.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Log In
-                  </a>
-                  <a href="User/register.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Sign In
-                  </a>
-                <?php } ?>
-=======
                   if ($_SESSION["auth_user"]["role"] == "1") {
                     echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
                     echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
@@ -407,7 +368,6 @@ $conn->close();
                   echo '</a>';
                 }
                 ?>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
               </div>
 
             </div>
@@ -477,9 +437,6 @@ $conn->close();
         </div>
       </div>
     </header>
-<<<<<<< HEAD
-  </div>
-=======
   </div>
 
   <div id="success-box">
@@ -505,4 +462,3 @@ $conn->close();
       });
     }
   </script>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6
