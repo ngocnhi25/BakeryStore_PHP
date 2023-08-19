@@ -9,9 +9,9 @@ function editProduct(id) {
 function deleteProduct(id) {
     $.post(
         "handles/deletes/product.php", {
-            id: id
-        },
-        function(data) {
+        id: id
+    },
+        function (data) {
             ajaxPages(data);
         }
     )
@@ -69,8 +69,26 @@ function deleteProduct(productName, id) {
     });
 }
 
+$(document).ready(function () {
+    $("#cateSearch").on("change", function () {
+        const cateID = $(this).val();
+        alert(cateID);
+    });
+    $("#filterPrice").jRange({
+        from: 0,
+        to: 10000000,
+        step: 50000,
+        format: '$%s USD',
+        width: 300,
+        showLabels: true,
+        isRange: true,
+    });
+    $("#filterPrice").on("change", function () {
+        alert($(this).val());
+    })
+});
 
 function formatVND(amount) {
-  return amount.toLocaleString("vi-VN") + " VNĐ";
+    return amount.toLocaleString("vi-VN") + " VNĐ";
 }
 
