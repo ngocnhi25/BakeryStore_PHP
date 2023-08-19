@@ -1,13 +1,14 @@
 <?php
 session_start();
-function isAuthenticated()
-{
-  return isset($_SESSION["authenticated"]);
-}
-
 require_once('connect/connectDB.php');
 
-$id = $_GET['id'];
+if (isset($_SESSION["auth_user"])) {
+  $user_id = $_SESSION["auth_user"]["user_id"];
+}
+// var_dump($user_id);
+// die();
+
+$id = $_GET['product_id'];
 $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeResult("select * from tb_products where product_id = $id");
 $flaror = executeResult("select * from tb_flavor");
@@ -55,316 +56,17 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <title>Bánh Mousse Chanh Leo | Bánh Sinh Nhật | Mousse Passion Fruit</title>
-
-  <!-- FONT -->
-  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Cabin" />
-  <!-- FONT -->
-
-  <!-- PLUGIN CSS -->
-  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/bootstrap4.min.css">
-  <link rel="stylesheet" href="../public/frontend/css/librarys_css/css/owl.carousel.min.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css">
-  <link rel="stylesheet" href="../public/frontend/css/lightslider.css">
-  <link rel="stylesheet" href="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css">
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-  <!-- PLUGIN CSS -->
-
-  <link href="../public/frontend/css/style.css" rel="stylesheet">
-
-</head>
 
 <body>
-
-  <div class="page-wrapper">
-
-    <!-- MESSAGE FROM SERVER -->
-    <div class="msg-top ">
-      <div class="msg-from-server msg-container">
-        <span class="close-msg">&times;</span>
-      </div>
-    </div>
-
-    <div class="fullscreen-overlay"></div>
-
-    <div class="cart-sidebar-container">
-      <div class="header">
-        <p class="title">Carts</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
-            class="fas fa-times fa-2x"></i></span>
-      </div>
-      <!-- Display cart items -->
-      <div class="body">
-        <ul class="cart-list">
-          <?php foreach ($cartItems as $cartItem) { ?>
-            <li>
-              <p class="product-name">
-                <?php echo $cartItem['product_name']; ?>
-              </p>
-              <p class="quantity">
-                Số lượng:
-                <?php echo $cartItem['quantity']; ?>
-              </p>
-              <p class="subtotal">
-                <span class="equal">
-                  Price:
-                  <?php echo number_format($cartItem['total_price'], 0); ?> vnđ
-                </span>
-              </p>
-            </li>
-          <?php } ?>
-        </ul>
-      </div>
-
-      <!-- Display total and action buttons -->
-      <div class="footer">
-        <div class="total">
-          <span class="text">Tổng tiền</span>
-          <span class="money">
-            <?php
-            $grandTotal = 0;
-            foreach ($cartItems as $cartItem) {
-              $grandTotal += $cartItem['total_price'];
-            }
-            echo number_format($grandTotal, 0) . ' vnđ';
-            ?>
-          </span>
-        </div>
-        <div class="action-btns">
-          <a class="action-btn goto-cart" href="carts.php">View cart</a>
-          <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Clear cart</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="mobile-menu-container">
-      <div class="header">
-        <p class="title">
-          <img src="../../public/images/logo/logo.jpg" alt="" srcset="">
-        </p><span class="toggle-mobile-menu js-toggle-mobile-menu"><i class="fas fa-times fa-2x"></i></span>
-      </div>
-      <div class="body">
-
-        <nav>
-          <div class="nav nav-tabs tabs-menu-mobile" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-              aria-controls="nav-home" aria-selected="true">MENU</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab"
-              aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
-          </div>
-        </nav>
-        <div class="tab-content" id="nav-tabContent">
-          <div class="tab-pane fade pt-3 show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-            <ul class="mobile-menu-list">
-              <li class="li-menu">
-                <a href="#">
-                  Danh Muc San Pham
-                  <i class="fa fa-angle-down" aria-hidden="true"></i>
-                </a>
-                <ul class="submenu">
-                  <?php foreach ($cates as $key => $c) { ?>
-                    <li>
-                      <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
-                    </li>
-                  <?php } ?>
-                </ul>
-              </li>
-              <li class="li-menu">
-                <a href="home.php">
-                  Home
-                </a>
-              </li>
-              <li class="li-menu">
-                <a href="about.php">
-                  About Us
-                </a>
-              </li>
-              <li class="li-menu">
-                <a href="product.php">
-                  Products
-                </a>
-              </li>
-              <li class="li-menu">
-                <a href="#">
-                  News and Events
-                  <i class="fa fa-angle-down" aria-hidden="true"></i>
-                </a>
-                <ul class='submenu'>
-                  <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
-                  <li> <a href='news.php'> News</a></li>
-                </ul>
-              </li>
-              <li class="li-menu">
-                <a href="contact.php">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <ul class="mobile-menu-list">
-              <?php foreach ($cates as $key => $c) { ?>
-                <li>
-                  <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
-                </li>
-              <?php } ?>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="footer">
-        <div class="auth-actions depth1">
-          <a class="auth-action" href="dang-nhap#login">
-            <i class="fas fa-user-circle"></i>
-            <span>Đăng nhập</span>
-          </a>
-          <a class="auth-action" href="dang-ky#register">
-            <i class="fas fa-user-plus"></i>
-            <span>Đăng kí</span>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <header class="header">
-      <div class="header-top" id="HeaderTop">
-        <div class="container">
-          <span class="sologan float-left">Ch&agrave;o Mừng Qu&yacute; Kh&aacute;ch Đến Với Ngoc Nhi Bakery</span>
-          <span class="sologan float-right">Hotline: 123123123123 | 123123123123</span>
-        </div>
-      </div>
-      <div class="header-topbar">
-        <div class="container">
-          <div class="header-topbar-inner-container">
-            <div class="left">
-              <div class="logo">
-                <a class="big-logo" href="">
-                  <img src="../public/images/logo/logo.jpg" alt="">
-                </a>
-              </div>
-            </div>
-
-            <div class="right">
-
-              <!-- <form action="tim-kiem" method="GET" class="form-search-header">
-            <span class="icon">
-              <i class="fa fa-search"></i>
-            </span>
-            <input type="text" name="search" placeholder="Tìm kiếm" class="form-control">
-          </form> -->
-
-
-              <div class="search-container">
-                <input type="text" id="search-input" placeholder="Search products...">
-                <ul id="search-results"></ul>
-              </div>
-
-              <a class="shopping-bag js-toggle-cart-sidebar" href="#/">
-                <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter" id="cart-item">0</span>
-              </a>
-
-              <div class="user-header d-none d-lg-block">
-                <?php if (isset($_SESSION["auth_user"])) { ?>
-                  <a href="User/information-User.php">
-                    <ul class="user-header-button js-toggle-user-nav">
-                      <li> <i class="fa fa-user" aria-hidden="true"></i>
-                        <?= $_SESSION['auth_user']['username'] ?>
-                      </li>
-                      <li><a href="User/logout.php">Log Out</a></li>
-                    </ul>
-                  </a>
-
-                <?php } else { ?>
-                  <a href="User/login.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Log In
-                  </a>
-                  <a href="User/register.php" class="user-header-button js-toggle-user-nav">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    Sign In
-                  </a>
-                <?php } ?>
-              </div>
-
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="header-nav">
-        <div class="container">
-          <div class="header-nav-inner-container">
-            <a class="toggle-mobile-menu js-toggle-mobile-menu d-lg-none" href="#/">
-              <i class="fas fa-bars fa-2x"></i>
-            </a>
-            <!-- DESKTOP MENU HERE-->
-            <div class="desktop-menu d-none d-lg-flex">
-              <ul class="main-menu">
-                <li class="li-menu">
-                  <a href="#">
-                    Danh Muc San Pham
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </a>
-                  <ul class="submenu">
-                    <?php foreach ($cates as $key => $c) { ?>
-                      <li>
-                        <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
-                      </li>
-                    <?php } ?>
-                  </ul>
-                </li>
-                <li class="li-menu">
-                  <a href="home.php">
-                    Home
-                  </a>
-                </li>
-                <li class="li-menu">
-                  <a href="about.php">
-                    About Us
-                  </a>
-                </li>
-                <li class="li-menu">
-                  <a href="product.php">
-                    Products
-                  </a>
-                </li>
-                <li class="li-menu">
-                  <a href="#">
-                    News and Events
-                    <i class="fa fa-angle-down" aria-hidden="true"></i>
-                  </a>
-                  <ul class='submenu'>
-                    <li> <a href='shopping_guide.php'> Shopping Guide</a></li>
-                    <li> <a href='news.php'> News</a></li>
-                  </ul>
-                </li>
-                <li class="li-menu">
-                  <a href="contact.php">
-                    Contact
-                  </a>
-                </li>
-              </ul>
-
-            </div>
-            <!-- END DESKTOP MENU HERE-->
-
-          </div>
-        </div>
-      </div>
-    </header>
-  </div>
+  <?php include("layout/header.php") ?>
+  <?php if (isset($_SESSION['status'])) { ?>
+    <script>
+      alert('<?php echo $_SESSION['status']; ?>');
+    </script>
+    <?php
+    unset($_SESSION['status']); // Clear the session status after displaying
+  }
+  ?>
 
   <div class="breadcrumb">
     <div class="container">
@@ -482,6 +184,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                   <input type="hidden" class="name" value="<?php echo $name ?>">
                   <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
                   <input type="hidden" class="lastPrice" value="<?php echo $discountedPrice ?>">
+                  <input type="hidden" class="checkAuth" value="<?php echo $user_id ?>">
 
                   <div class="btn-box">
                     <button class="cart-btn add" id="add">Add to Cart</button>
@@ -511,19 +214,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                       </span></p>
 
                   </div>
-                  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                  </div>
                 </div>
-              </div>
-              <div class="tags">
-                <i class="fa fa-tags" aria-hidden="true"></i>
-                <p><a href="danh-muc/banh-sinh-nhat">B&aacute;nh Sinh Nhật</a>, <a
-                    href="danh-muc/banh-sinh-nhat">B&aacute;nh Sinh Nhật Tại H&agrave; Nội</a>, <a
-                    href="danh-muc/banh-sinh-nhat">B&aacute;nh Sinh Nhật H&igrave;nh Logo C&ocirc;ng Ty</a>, <a
-                    href="danh-muc/banh-cho-be">B&aacute;nh Sinh Nhật Cho B&eacute; Trai</a>, <a
-                    href="danh-muc/banh-cho-be">B&aacute;nh Sinh Nhật Cho B&eacute; G&aacute;i</a></p>
-                <p><a href="san-pham/banh-mousse-chanh-leo-5">B&aacute;nh Mousse Chanh Leo</a></p>
-                <p>&nbsp;</p>
               </div>
             </div>
 
@@ -612,6 +303,9 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
               });
             </script>
 
+
+
+
             <div class="col-12 mt-3">
               <div class="section-header">
                 <p class="section-title">Sản phẩm gợi ý</p>
@@ -697,23 +391,9 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
   <script src="public/frontend/js/main.js"></script>
   <script src="public/frontend/assets/js/product_page.js"></script>
   <script src="public/myplugins/js/messagebox.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
-    // Check if the user is authenticated
-    function isAuthenticated() {
-      var result = false;
-      $.ajax({
-        url: "handles_page/check_auth.php", // Đường dẫn tới tệp PHP kiểm tra
-        method: "GET",
-        async: false, // Đảm bảo AJAX request kết thúc trước khi trả về
-        success: function (response) {
-          if (response === "authenticated") {
-            result = true;
-          }
-        }
-      });
-      return result;
-    }
 
     document.addEventListener("DOMContentLoaded", function () {
       let selectedSize = ""; // Initialize selected size variable
@@ -740,24 +420,32 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
       // Add to cart button event listener
       $(document).on("click", "#add", function (e) {
         e.preventDefault();
-
-        if (!isAuthenticated()) {
-          alert("Please log in to use this feature.");
-          return;
-        }
-
+        alert
         // Validate inputs
-        if (selectedSize === "") {
-          alert("Please select a size.");
-          return;
-        }
+        // if (selectedSize === "") {
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Choose a size',
+        //     timer: 2000, // Automatically close after 2 seconds
+        //     showConfirmButton: false
+        //   });
+        //   return;
+        // }
 
-        if (selectedFlavor === "") {
-          alert("Please select a flavor.");
-          return;
-        }
+        // if (selectedFlavor === "") {
+        //   Swal.fire({
+        //     icon: 'error',
+        //     title: 'Choose a flavor',
+        //     timer: 2000, // Automatically close after 2 seconds
+        //     showConfirmButton: false
+        //   });
+        //   return;
+        // }
+
+        if
 
         var $form = $(this).closest(".form-submit");
+        var checkAuth = $form.find(".checkAuth").val();
         var pid = $form.find(".pid").val();
         var pname = $form.find(".name").val();
         var increaseSizeText = $("#hiddenIncreaseSize").val();
@@ -766,11 +454,18 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
         var quantity = $form.find(".quantity input").val();
         var price = parseInt($form.find(".lastPrice").val());
 
-        // Validate quantity
+        alert(checkAuth);
+
         if (parseInt(quantity) > 20) {
-          alert("Quantity cannot be greater than 20.");
-          return;
+          Swal.fire({
+            icon: 'error',
+            title: 'Quantity must be < 20 ',
+            timer: 2000, // Automatically close after 2 seconds
+            showConfirmButton: false
+          });
+          return; // Exit the function to prevent further processing
         }
+
 
         // AJAX request to add product to cart
         $.ajax({
@@ -786,8 +481,13 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
             price: price
           },
           success: function (response) {
-            alert("Product added to cart: " + response);
-            // alert(price);
+            // Swal.fire({
+            //   icon: 'success',
+            //   title: 'Add to cart success',
+            //   timer: 2000, // Automatically close after 2 seconds
+            //   showConfirmButton: false
+            // });
+            // alert(response);
           },
           error: function () {
             alert("Error adding product to cart");
