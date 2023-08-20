@@ -430,7 +430,7 @@ if (isset($_SESSION["auth_user"])) {
                     <li class="nav-item">
                         <a href="changePass.php" class="nav-link">
                             <span class="material-symbols-sharp" style="color: #356af1;">redo</span>
-                            <p>Email & Password </p>
+                            <p>Change Password </p>
                         </a>
                     </li>
                     <li class="nav-item">
