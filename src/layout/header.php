@@ -1,9 +1,4 @@
 <?php
-<<<<<<< HEAD
-// require_once("../connect/connectDB.php");
-$cates = executeResult("SELECT * FROM tb_category c
-=======
-// session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];
@@ -460,4 +455,3 @@ $conn->close();
       });
     }
   </script>
->>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6

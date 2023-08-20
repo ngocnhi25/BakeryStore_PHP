@@ -1,15 +1,12 @@
 <?php
-require_once('../../../connect/connectDB.php');
+require_once("../../../connect/connectDB.php");
 
 $errorNum = $eventNum = 0;
 $errors = [];
-$errors["errorCouponName"] =
-    $errors["errorDiscount"] =
-    $errors["errorStartDate"] =
-    $errors["errorEndDate"] =
-    $errors["errorCondition"] =
-    $errors["errorQtiUsed"] =
-    $errors["errorQtiCoupon"] = '';
+$errors["errorProductName"] = 
+$errors["errorPercent"] = 
+$errors["errorStartDateSale"] = 
+$errors["errorEndDateSale"] = '';
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
@@ -19,98 +16,39 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $eventNum = 1;
 }
 
-// // coupon name
-if (isset($_POST["codeCoupon"]) && !empty($_POST["codeCoupon"])) {
-    $coupon_name = trim($_POST["codeCoupon"]);
+if (isset($_POST["product_name"]) && !empty($_POST["product_name"])) {
+    $product_name = trim($_POST["product_name"]);
+    $product = executeSingleResult("SELECT * from tb_products where product_name = '$product_name'");
+    $product_id = $product["product_id"];
     if ($eventNum == 0) {
-        $couponName = checkRowTable("SELECT * FROM tb_coupon WHERE coupon_name = '$coupon_name'");
-        if ($couponName != 0) {
-            $errors["errorCouponName"] = 'Coupon code already exists';
+        $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
+        if ($checkSaleProduct != 0) {
+            $errors["errorProductName"] = 'The product is still on promotion';
             $errorNum = 1;
-        } else {
-            if (strpos($coupon_name, ' ')) {
-                $errors["errorCouponName"] = 'Coupon code must be written without spaces';
-                $errorNum = 1;
-            } else {
-                if (strlen($coupon_name) < 5 || strlen($coupon_name) > 100) {
-                    $errors["errorCouponName"] = 'character length greater than 5 is less than 100';
-                    $errorNum = 1;
-                }
-            }
         }
     } else {
-        $nameUpdate = executeSingleResult("SELECT * FROM tb_coupon WHERE coupon_id = $id");
-        if ($coupon_name != $nameUpdate["coupon_name"]) {
-            $couponName = checkRowTable("SELECT * FROM tb_coupon WHERE coupon_name = '$coupon_name'");
-            if ($couponName != 0) {
-                $errors["errorCouponName"] = 'Coupon code already exists';
+        $saleUpdate = executeSingleResult("SELECT * from tb_sale s INNER JOIN tb_products p ON s.product_id = p.product_id where s.sale_id = $id");
+        if ($product_name != $saleUpdate["product_name"]) {
+            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
+            if ($checkSaleProduct != 0) {
+                $errors["errorProductName"] = 'The product is still on promotion';
                 $errorNum = 1;
-            } else {
-                if (strpos($coupon_name, ' ')) {
-                    $errors["errorCouponName"] = 'Coupon code must be written without spaces';
-                    $errorNum = 1;
-                } else {
-                    if (strlen($coupon_name) < 5 || strlen($coupon_name) > 100) {
-                        $errors["errorCouponName"] = 'character length greater than 5 is less than 100';
-                        $errorNum = 1;
-                    }
-                }
             }
         }
     }
 } else {
-    $errors["errorCouponName"] = "Coupon code cannot be blank";
+    $errors["errorProductName"] = "Product name still on promotion can't be blank";
     $errorNum = 1;
 }
 
-// discount
-if (isset($_POST["discount"]) && !empty($_POST["discount"])) {
-    $discount = $_POST["discount"];
-    if ($discount < 1000 || $discount > 100000) {
-        $errors["errorDiscount"] = 'Reduction amount must be greater than 1000 and less than 100000';
+if (isset($_POST["percent"]) && !empty($_POST["percent"])) {
+    $percent = $_POST["percent"];
+    if ($percent <= 0 || $percent > 100) {
+        $errors["errorPercent"] = "Promotion percentage must be greater than 0 and less than 100";
         $errorNum = 1;
     }
 } else {
-    $errors["errorDiscount"] = "Reduction amount cannot be left blank";
-    $errorNum = 1;
-}
-
-// condition
-if (isset($_POST["condition"]) && !empty($_POST["condition"])) {
-    $condition = $_POST["condition"];
-    if (isset($_POST["discount"]) && !empty($_POST["discount"])) {
-        $discount = $_POST["discount"];
-        if ($condition < ($discount * 5)) {
-            $errors["errorCondition"] = 'Conditions for using the code must be 5 times the amount of the discount';
-            $errorNum = 1;
-        }
-    }
-} else {
-    $errors["errorCondition"] = "Condition of using the code cannot be left blank";
-    $errorNum = 1;
-}
-
-// quantity received
-if (isset($_POST["qtiUsed"]) && !empty($_POST["qtiUsed"])) {
-    $qtiUsed = $_POST["qtiUsed"];
-    if ($qtiUsed <= 0) {
-        $errors["errorQtiUsed"] = "The number of times the user uses it must be greater than 0";
-        $errorNum = 1;
-    }
-} else {
-    $errors["errorQtiUsed"] = "Number of times users use cannot be left blank";
-    $errorNum = 1;
-}
-
-// quantity coupon
-if (isset($_POST["qtiCoupon"]) && !empty($_POST["qtiCoupon"])) {
-    $qtiCoupon = $_POST["qtiCoupon"];
-    if ($qtiCoupon <= 0) {
-        $errors["errorQtiCoupon"] = "Coupon number must be greater than 0";
-        $errorNum = 1;
-    }
-} else {
-    $errors["errorQtiCoupon"] = "Coupon number cannot be left blank";
+    $errors["errorPercent"] = "Promotion percentage cannot be empty";
     $errorNum = 1;
 }
 
@@ -119,12 +57,12 @@ if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
     $startDate = $_POST["startDate"];
     if ($eventNum == 0) {
         if ($startDate < $date) {
-            $errors["errorStartDate"] = "The ad start date must be greater than or equal to the current date";
+            $errors["errorStartDateSale"] = "Sale start date must be greater than or equal to current date";
             $errorNum = 1;
         }
     }
 } else {
-    $errors["errorStartDate"] = "Start date cannot be left blank";
+    $errors["errorStartDateSale"] = "Start date cannot be left blank";
     $errorNum = 1;
 }
 
@@ -133,21 +71,30 @@ if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
     if ($startDate != null) {
         $endDate = $_POST["endDate"];
         if ($endDate <= $startDate) {
-            $errors["errorEndDate"] = "Coupon end date must be greater than or equal to coupon start date";
+            $errors["errorEndDateSale"] = "Sale end date must be greater than or equal to sale start date";
             $errorNum = 1;
         }
     }
 } else {
-    $errors["errorEndDate"] = "End date cannot be left blank";
+    $errors["errorEndDateSale"] = "End date cannot be left blank";
     $errorNum = 1;
 }
 
 
-if($errorNum == 0){
-    if($eventNum == 0){
-        echo "success insert";
+
+if ($errorNum == 0) {
+    if ($eventNum == 0) {
+        execute("INSERT INTO tb_sale (product_id, percent_sale, start_date, end_date) 
+        VALUES ($product_id, $percent, '$startDate', '$endDate')");
+        echo 'success';
     } else {
-        echo "success update";
+        execute("UPDATE tb_sale SET 
+        product_id = '$product_id', 
+        percent_sale = '$percent', 
+        start_date = '$startDate', 
+        end_date = '$endDate'
+        WHERE flavor_id = $id");
+        echo 'success';
     }
 } else {
     echo json_encode($errors);

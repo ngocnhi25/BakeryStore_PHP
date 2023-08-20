@@ -9,7 +9,7 @@ if (isset($_POST["product_id"])) {
 
         $product = executeSingleResult("SELECT * FROM tb_products WHERE product_id = $product_id");
         $flavors = executeResult("SELECT * FROM tb_flavor WHERE deleted_flavor = 0");
-        $sizes = executeResult("SELECT * FROM tb_size WHERE deleted_size = 0 ORDER BY size_name ASC");
+        $sizes = executeResult("SELECT * FROM tb_size s INNER JOIN tb_cate_size cs ON s.size_id = cs.size_id WHERE deleted_size = 0 ORDER BY size_name ASC");
         $price = $product["price"];
         $total_price = ($product["price"] + $sizes[0]["increase_size"]);
         $product_name = $product["product_name"];
@@ -21,7 +21,7 @@ if (isset($_POST["product_id"])) {
           execute("INSERT INTO tb_cart (user_id, product_id, quantity, total_price, product_name, price, flavor, size) 
                     VALUES ($user_id, $product_id, 1, $total_price, '$product_name', $price, '$flavor', $size)");
         } else {
-          execute("UPDATE tb_cart SET quantity = quantity + 1 WHERE product_id = $product_id");
+          execute("UPDATE tb_cart SET total_price = total_price + $total_price,  quantity = quantity + 1 WHERE product_id = $product_id and user_id = $user_id");
         }
 
         

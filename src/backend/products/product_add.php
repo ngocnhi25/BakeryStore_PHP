@@ -34,8 +34,6 @@ function checkCate($value)
 ?>
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../../public/backend/css/table.css">
     <style>
         .title-page {
             margin-top: 20px;

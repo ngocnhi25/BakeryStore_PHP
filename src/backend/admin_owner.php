@@ -133,12 +133,6 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products/product_add.php" class="nav-link">
-                            <span class="material-symbols-sharp">add</span>
-                            <h3>Add Product</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">news</span>

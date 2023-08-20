@@ -38,7 +38,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             if (strlen($name) <= 3 || strlen($name) > 80) {
                 $errors["errorName"] = 'character length greater than 3 is less than 80';
                 $errorNum = 1;
-            } 
+            }
         }
     } else {
         $nameUpdate = executeSingleResult("SELECT * FROM tb_products WHERE product_id = $id");
@@ -47,11 +47,11 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             if ($productName != 0) {
                 $errors["errorName"] = 'Product name already exists';
                 $errorNum = 1;
-            }else {
+            } else {
                 if (strlen($name) <= 3 || strlen($name) > 80) {
                     $errors["errorName"] = 'character length greater than 3 is less than 80';
                     $errorNum = 1;
-                } 
+                }
             }
         }
     }
@@ -107,17 +107,22 @@ if (isset($_FILES["images"]["name"])) {
     }
 
     foreach ($file_names as $key => $value) {
+        $original_image_link = $target_dir . basename($value);
         $imagesInsert = $target_dir . basename($value);
         $imagesLink = "../../../../$target_dir" . basename($value);
         $imagesType = $files['type'][$key];
         $imagesSize = $files['size'][$key] / 1024 / 1024;
+        $counter = 1;
 
         // kiểm tra xem file có hợp lệ không
         if (file_exists($imagesLink)) {
-            $fileExtension = pathinfo($imagesLink, PATHINFO_EXTENSION);
-            $newFileName = pathinfo($imagesLink, PATHINFO_FILENAME) . '_' . uniqid('product_') . '.' . $fileExtension;
-            $imagesLink = "../../../../$target_dir" . $newFileName;
-            $imagesInsert = $target_dir . $newFileName;
+            while (file_exists($imagesLink)) {
+                $fileExtension = pathinfo($original_image_link, PATHINFO_EXTENSION);
+                $newFileName = pathinfo($original_image_link, PATHINFO_FILENAME) . '_(' . $counter . ').' . $fileExtension;
+                $imagesLink = "../../../../$target_dir" . $newFileName;
+                $imagesInsert = $target_dir . $newFileName;
+                $counter++;
+            }
         }
         if (in_array($imagesType, $type_allow)) {
             if ($imagesSize <= $size_allow) {
