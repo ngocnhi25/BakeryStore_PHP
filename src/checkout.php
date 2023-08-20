@@ -17,6 +17,10 @@ while ($row = $result->fetch_assoc()) {
 }
 $allItems = implode(', ', $items);
 
+if (isset($_SESSION["auth_user"])) {
+  $user_id = $_SESSION["auth_user"]["user_id"];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -76,6 +80,8 @@ $allItems = implode(', ', $items);
           </h5>
         </div>
         <form action="" method="post" id="placeOrder">
+          <input type="hidden" name="user_id" value="<?= isset($user_id) ? $user_id : ''; ?>">
+          <!-- Add this hidden input -->
           <input type="hidden" name="products" value="<?= $allItems; ?>">
           <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
           <div class="form-group">
@@ -103,6 +109,79 @@ $allItems = implode(', ', $items);
               <option value="cards">Debit/Credit Card</option>
             </select>
           </div>
+
+          <script
+            src='https://www.paypal.com/sdk/js?client-id=AaiK0St63FF408Ut2I_lM0WFlyGUs9Wz4O5QthU3dGilujAwRruek1xceLSycd9RXBTYsgLOjT-bkZOg&currency=USD'></script>
+
+          <div id='paypal-button-container'></div>
+
+          <script>
+            // Function to calculate total order amount
+            function calculateTotalAmount(grand_total) {
+              // Calculate the total order amount based on the grand_total
+              return grand_total;
+            }
+
+            // Function to get the list of purchased items as a formatted string
+            function getProductsAsString(allItems) {
+              // Convert the array of items to a formatted string
+              var itemsString = allItems.map(function (item) {
+                return item.product_name + " (Quantity: " + item.quantity + ")";
+              }).join(", ");
+
+              return itemsString;
+            }
+
+            // Get the grand_total value from the PHP variable
+            var grand_total = <?= $grand_total ?>;
+            var allItems = <?= json_encode($items) ?>; // Make sure $items is properly formatted as a JSON array of objects
+
+            // Initialize PayPal buttons
+            paypal.Buttons({
+              createOrder: function (data, actions) {
+                var totalAmount = calculateTotalAmount(grand_total);
+                var itemsString = getProductsAsString(allItems);
+
+                return actions.order.create({
+                  purchase_units: [{
+                    amount: {
+                      currency_code: "USD",
+                      value: totalAmount
+                    },
+                    description: itemsString
+                  }]
+                });
+              },
+              onApprove: function (data, actions) {
+                return actions.order.capture().then(function (orderData) {
+                  // Get transaction details from the PayPal response
+                  var transactionID = orderData.id;
+                  var payerName = orderData.payer.name.given_name + ' ' + orderData.payer.name.surname;
+                  var payerEmail = orderData.payer.email_address;
+                  var shippingAddress = orderData.purchase_units[0].shipping.address;
+                  var address = shippingAddress.address_line_1 + ', ' + shippingAddress.admin_area_2 + ', ' + shippingAddress.admin_area_1 + ', ' + shippingAddress.postal_code + ', ' + shippingAddress.country_code;
+
+                  // Send data to the server using AJAX
+                  $.ajax({
+                    url: 'handles_page/add_to_cart.php', // Adjust the correct processing URL
+                    method: 'post',
+                    data: {
+                      transactionID: transactionID,
+                      payerName: payerName,
+                      payerEmail: payerEmail,
+                      address: address,
+                      action: 'save_paypal_data' // Adjust the action to be performed in the processing code
+                    },
+                    success: function (response) {
+                      // Handle the server response if needed
+                      console.log(response);
+                    }
+                  });
+                });
+              }
+            }).render('#paypal-button-container');
+          </script>
+
           <div class="form-group">
             <input type="submit" name="submit" value="Place Order" class="btn btn-danger btn-block">
           </div>
@@ -112,10 +191,6 @@ $allItems = implode(', ', $items);
   </div>
 
   <?php include("layout/footer.php"); ?>
-
-  <button class="gototop text-yellow">
-    <img src="public/frontend/assets/img/icons/goto.png" alt="ve dau trang" style="margin-right: 10px"> Về đầu trang
-  </button>
 
   <!-- script link -->
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
@@ -133,7 +208,6 @@ $allItems = implode(', ', $items);
 
   <script type="text/javascript">
     $(document).ready(function () {
-
       // Sending Form data to the server
       $("#placeOrder").submit(function (e) {
         e.preventDefault();

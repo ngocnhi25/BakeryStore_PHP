@@ -109,7 +109,6 @@
 </footer>
 
 
-<div id="fb-root">stjstrjtrjfvfgdfgdfg</div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="T1W405h4"></script>
 <div class='zalome'>
   <a href='#' target='_blank'>

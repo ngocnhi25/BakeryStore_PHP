@@ -3,11 +3,13 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require '../connect/connection.php';
+require '../connect/connectDB.php';
 if (isset($_POST['flavor'])) {
 	$selectedFlavor = $_POST['flavor'];
-	echo "Received flavor: " . $selectedFlavor;
+	// echo "Received flavor: " . $selectedFlavor;
 	// ... your existing code ...
 }
+
 if (isset($_POST['pid'])) {
 	$pid = $_POST['pid'];
 	$pname = $_POST['pname'];
@@ -34,10 +36,8 @@ if (isset($_POST['pid'])) {
 		$query->bind_param('iiisiss', $pid, $pqty, $total_price, $pname, $pprice, $flavor, $size);
 		$query->execute();
 
-		echo '<div class="alert alert-success alert-dismissible mt-2">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Item added to your cart!</strong>
-        </div>';
+
+
 	} elseif ($size_int == $existing_size) {
 		// If product with the same product ID and size is already in cart, update the quantity and total price
 		// var_dump($size_int,$sexisting_size);
@@ -47,31 +47,28 @@ if (isset($_POST['pid'])) {
 		$query->bind_param('iiss', $new_qty, $new_total_price, $pid, $size);
 		$query->execute();
 
-		echo '<div class="alert alert-success alert-dismissible mt-2">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Quantity updated in your cart!</strong>
-        </div>';
 	} else {
 		// Check if the size exists for the given product ID in the cart
-		var_dump($size_int, $existing_size);
+		// var_dump($size_int, $existing_size);
 		$size_exists_query = $conn->prepare('SELECT size FROM tb_cart WHERE product_id=? AND size=?');
 		$size_exists_query->bind_param('is', $pid, $size_int);
 		$size_exists_query->execute();
 		$size_exists_query->store_result();
 
 		if ($size_exists_query->num_rows == 0) {
-			var_dump($size_int, $existing_size);
-			// If product with the same product ID is in cart but different size, insert as a new item
-			$new_qty = $existing_qty + $pqty;
-			$new_total_price = (intval($existing_price) + intval($increaseSize)) * intval($new_qty);
-			$insert_query = $conn->prepare('INSERT INTO tb_cart (product_id, quantity, total_price, product_name, price, flavor, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
-			$insert_query->bind_param('iiisiss', $pid, $new_qty, $new_total_price, $pname, $pprice, $flavor, $size);
-			$insert_query->execute();
+			// Calculate the new total price for the new item
+			$new_total_price = (intval($existing_price) + intval($increaseSize)) * intval($pqty);
 
+			// Insert the new item with the different size into the cart
+			$insert_query = $conn->prepare('INSERT INTO tb_cart (product_id, quantity, total_price, product_name, price, flavor, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
+			$insert_query->bind_param('iiisiss', $pid, $pqty, $new_total_price, $pname, $pprice, $flavor, $size);
+			$insert_query->execute();
+			var_dump($pid);
+			// Optionally, you can provide feedback to the user that the item has been added with the new size
 			echo '<div class="alert alert-success alert-dismissible mt-2">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Item added to your cart as a new item with a different size!</strong>
-            </div>';
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong>Item added to your cart with a new size!</strong>
+				  </div>';
 		} else {
 			echo '<div class="alert alert-warning alert-dismissible mt-2">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
@@ -136,6 +133,17 @@ if (isset($_POST['qty'])) {
 
 
 // Checkout and save customer info in the orders table
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "save_paypal_data") {
+//     $transactionID = $_POST["transactionID"];
+//     $payerName = $_POST["payerName"];
+//     $payerEmail = $_POST["payerEmail"];
+//     $address = $_POST["address"];
+
+    
+
+//     // Phản hồi về trạng thái lưu dữ liệu
+//     echo "Dữ liệu đã được lưu vào cơ sở dữ liệu từ PayPal!";
+// }
 if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
@@ -143,6 +151,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$grand_total = $_POST['grand_total'];
 	$address = $_POST['address'];
 	$pmode = $_POST['pmode'];
+	$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
 
 	$deposit = $grand_total * 0.3; // Calculate deposit as 30% of grand_total
 
@@ -153,12 +162,12 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 
 	if (!empty($coupon_name)) {
 		// Get discount from tb_coupon based on the coupon name
-		$stmt_coupon = $conn->prepare('SELECT discount FROM tb_coupon WHERE coupon_name = ?');
-		$stmt_coupon->bind_param('s', $coupon_name);
-		$stmt_coupon->execute();
-		$stmt_coupon->bind_result($discount_percent);
-		$stmt_coupon->fetch();
-		$stmt_coupon->close();
+		$sql_coupon = "SELECT discount FROM tb_coupon WHERE coupon_name = '$coupon_name'";
+		$discount = executeSingleResult($sql_coupon);
+
+		if ($discount != null) {
+			$discount_percent = $discount['discount'];
+		}
 
 		// Calculate discount amount
 		$discount_amount = $grand_total * ($discount_percent / 100);
@@ -170,48 +179,59 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$order_id = mt_rand(100000, 999999);
 	$order_date = date('Y-m-d');
 
-	// Lấy thông tin vị của từng sản phẩm và lưu vào mảng flavors
-	$flavors = [];
-	$stmt_flavor = $conn->prepare('SELECT flavor FROM tb_cart WHERE product_id = ?');
-	$stmt_flavor->bind_param('i', $product_id);
+	// Fetch items from the tb_cart table
+	$sql_items = "SELECT product_id, product_name, flavor, quantity FROM tb_cart";
+	$items = executeResult($sql_items);
 
-	// Loop through the items in the cart and fetch flavor information
+	$products_array = array();
 	foreach ($items as $item) {
 		$product_id = $item['product_id'];
-		$stmt_flavor->execute();
-		$stmt_flavor->bind_result($flavor);
-		$stmt_flavor->fetch();
-		$flavors[] = $flavor;
+		$product_name = $item['product_name'];
+		$flavor = $item['flavor'];
+		$quantity = $item['quantity'];
+
+		$products_array[] = "Product: {$product_name}, Quantity: {$quantity}, Flavor: {$flavor}<br>";
 	}
-	$stmt_flavor->close();
-	$flavors_string = implode(', ', $flavors);
 
-	$stmt = $conn->prepare('INSERT INTO tb_order (order_id, name, email, phone, address, order_date, deposit, products, flavors, total_pay, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "pending")');
-	$stmt->bind_param('isssssdsds', $order_id, $name, $email, $phone, $address, $order_date, $deposit, $products, $flavors_string, $total_pay);
-	$stmt->execute();
+	$products_string = implode('', $products_array);
+	// echo $products_string;
+	// die();	
+	// Display the product details
+	// var_dump($user_id);
+	// print_r($items);
+	// die();
 
-	$stmt2 = $conn->prepare('DELETE FROM tb_cart');
-	$stmt2->execute();
+	// Insert order details into tb_order table
+	$sql_insert = "INSERT INTO tb_order (order_id, user_id, name, email, phone, address, order_date, deposit, products, total_pay, status) 
+                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$products_string', '$total_pay', 'pending')";
+	$insert_result = execute($sql_insert);
 
-	$data = '
-    <div class="order-success">
-        <h1 class="order-title">Thank You!</h1>
-        <h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
-        <div class="order-details">
-            <p><strong>Order ID:</strong> ' . $order_id . '</p>
-            <p><strong>Items Purchased:</strong> ' . $products . '</p>
-            <p><strong>Your Name:</strong> ' . $name . '</p>
-            <p><strong>Your E-mail:</strong> ' . $email . '</p>
-            <p><strong>Your Phone:</strong> ' . $phone . '</p>
-            <p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
-            <p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
-            <p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
-            <p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
-            <p><strong>Payment Mode:</strong> ' . $pmode . '</p>
-        </div>
-    </div>';
+	if ($insert_result) {
+		// Delete cart items after successful order
+		$sql_delete_cart = "DELETE FROM tb_cart";
+		execute($sql_delete_cart);
 
-	echo $data;
+		// Display order success message
+		$data = '
+        <div class="order-success">
+            <h1 class="order-title">Thank You!</h1>
+            <h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
+            <div class="order-details">
+                <p><strong>Order ID:</strong> ' . $order_id . '</p>
+                <p><strong>Items Purchased:</strong> ' . $products_string . '</p>
+                <p><strong>Your Name:</strong> ' . $name . '</p>
+                <p><strong>Your E-mail:</strong> ' . $email . '</p>
+                <p><strong>Your Phone:</strong> ' . $phone . '</p>
+                <p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
+                <p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
+                <p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
+                <p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
+                <p><strong>Payment Mode:</strong> ' . $pmode . '</p>
+            </div>
+        </div>';
+
+		echo $data;
+	}
 }
 
 ?>

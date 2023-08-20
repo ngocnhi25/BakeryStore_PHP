@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+// require_once("../connect/connectDB.php");
+$cates = executeResult("SELECT * FROM tb_category c
+=======
 // session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
@@ -15,19 +19,28 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                         ORDER BY total_views DESC");
 
 
-// $grand_total = 0;
-// $allItems = '';
-// $items = [];
+//Connect to the database
+$conn = new mysqli("localhost", "root", "", "projecthk2");
 
-// $sql = "SELECT CONCAT(product_name, '(',quantity,')') AS ItemQty, total_price FROM tb_cart";
-// $stmt = $conn->prepare($sql);
-// $stmt->execute();
-// $result = $stmt->get_result();
-// while ($row = $result->fetch_assoc()) {
-//   $grand_total += $row['total_price'];
-//   $items[] = $row['ItemQty'];
-// }
-// $allItems = implode(', ', $items);
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Query to count the number of rows in tb_cart
+$query = "SELECT COUNT(*) as cart_count FROM tb_cart";
+$result = $conn->query($query);
+
+// Fetch the count
+if ($result && $result->num_rows > 0) {
+  $row = $result->fetch_assoc();
+  $cartItemCount = $row['cart_count'];
+} else {
+  $cartItemCount = 0;
+}
+
+// Close the connection
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -136,21 +149,69 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
       </div>
       <div class="body">
         <ul class="cart-list">
-          <li>
-            <p class="product-name">bánh trái dứa</p>
-            <p class="options">Bánh trẻ em</p>
-            <p class="subtotal"><span class="multi">230.000 vnđ</span> <span class="equal">280.000 vnđ</span></p>
-          </li>
+          <?php
+          // Connect to the database
+          $conn = new mysqli("localhost", "root", "", "projecthk2");
+
+          // Check connection
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          // Query to get cart items from tb_cart table
+          $query = "SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart";
+          $result = $conn->query($query);
+
+          // Display cart items
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              $getPrice = $row['price'];
+              $priceFormat = number_format($getPrice, 0);
+
+              echo '<li>';
+              echo '<p class="product-name">' . "Product: " . $row['product_name'] . '</p>';
+              echo '<p class="subtotal">' . "Flavor: " . $row['flavor'] . '</p>';
+              echo '<p class="subtotal"><span class="multi">' . "Price: " . $priceFormat . '$' . '</span></p>';
+              echo '<p class="subtotal"><span class="multi">' . "Quantity: " . $row['quantity'] . '</span></p>';
+              echo '<p class="subtotal"><span class="multi">' . "Size: " . $row['size'] . '</span></p>';
+              echo '</li>';
+            }
+          } else {
+            echo '<li>No items in the cart.</li>';
+          }
+
+          // Close the connection
+          $conn->close();
+          ?>
         </ul>
       </div>
       <div class="footer">
         <div class="total">
           <span class="text">Tổng tiền</span>
-          <span class="money">6.587.436 vnđ</span>
+          <?php
+          // Connect to the database
+          $conn = new mysqli("localhost", "root", "", "projecthk2");
+
+          $query = "SELECT SUM(total_price) as totalPrice FROM tb_cart";
+          $result = $conn->query($query);
+
+          // Display cart items
+          if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+              $totalPrice = $row['totalPrice'];
+              echo '<li>';
+              echo "" . number_format($totalPrice, 0) . " vnđ";
+              echo '</li>';
+            }
+          } else {
+            echo '<li>No items in the cart.</li>';
+          }
+          // Close the connection
+          $conn->close();
+          ?>
         </div>
         <div class="action-btns">
           <a class="action-btn goto-cart" href="carts.php">View cart</a>
-          <a class="action-btn remove-cart js-remove-cart" href="gio-hang/xoa">Clear cart</a>
         </div>
       </div>
     </div>
@@ -292,7 +353,7 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   } else if ($_SESSION["auth_user"]["role"] == "3") {
                     echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' .$user["username"];
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
                     echo '</a>';
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   }
@@ -399,3 +460,4 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
       });
     }
   </script>
+>>>>>>> f59da6b2e22cf7550f857771062fe3309826bbf6

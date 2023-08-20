@@ -1,6 +1,10 @@
 <?php
 require_once('../connect/connectDB.php');
 
+$countCustomer = executeSingleResult("SELECT count(*) as customer FROM tb_user where role = 1");
+$countEmp = executeSingleResult("SELECT count(*) as emp FROM tb_user where role = 2");
+$countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where role = 3");
+
 ?>
 
 <head>
@@ -20,6 +24,7 @@ require_once('../connect/connectDB.php');
         }
 
         .dashboad-box .box-left .user-db {
+            width: 100%;
             display: flex;
             gap: 1rem;
         }
@@ -59,12 +64,32 @@ require_once('../connect/connectDB.php');
             color: #000;
         }
 
-        .dashboad-box .box-left .revenue-box {
-            display: flex;
-        }
-
         .dashboad-box .box-right {
             width: 30%;
+        }
+
+        .chart {
+            width: 100%;
+            position: relative;
+            
+        }
+        .chart .chart-month-year {
+            display: flex;
+            position: relative;
+            width: 100%;
+            height: 500px;
+            justify-content: space-between;
+            /* gap: 2rem; */
+        }
+        .chart .chart-month-year .month-chart {
+            position: relative;
+            width: 70%;
+            height: 500px;
+        }
+        .chart .chart-month-year .year-chart {
+            position: relative;
+            width: 30%;
+            height: 300px;
         }
     </style>
 </head>
@@ -77,27 +102,40 @@ require_once('../connect/connectDB.php');
             <div class="user-db">
                 <div class="user-db-item">
                     <div class="middle">
-                        <h1>1234</h1>
+                        <h1><?= $countCustomer["customer"] ?></h1>
                         <span class="material-symbols-sharp customer">person</span>
                     </div>
                     <h3>Customers</h3>
-                    <small>
                 </div>
                 <div class="user-db-item">
                     <div class="middle">
-                        <h1>3</h1>
+                        <h1><?= $countEmp["emp"] ?></h1>
                         <span class="material-symbols-sharp employee">person_apron</span>
                     </div>
                     <h3>Employees</h3>
                 </div>
-            </div>
-            <div class="revenue-box">
-                <canvas id="myChart" width="400" height="200"></canvas>
+                <div class="user-db-item">
+                    <div class="middle">
+                        <h1><?= $countOwner["owner"] ?></h1>
+                        <span class="material-symbols-sharp owner">manage_accounts</span>
+                    </div>
+                    <h3>Owner</h3>
+                </div>
             </div>
         </div>
         <div class="box-right">
             <div>
                 jkhdfkjs
+            </div>
+        </div>
+    </div>
+    <div class="chart">
+        <div class="chart-month-year">
+            <div class="revenue-box">
+                <canvas class="month-chart" id="month-chart"></canvas>
+            </div>
+            <div class="revenue-box">
+                <canvas class="year-chart" id="year-chart"></canvas>
             </div>
         </div>
     </div>

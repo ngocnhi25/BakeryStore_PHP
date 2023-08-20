@@ -10,15 +10,14 @@ if (isset($_POST["id"])) {
     $id = $_POST["id"];
     $title = $_POST["title"];
 
-    $product = executeSingleResult("select * from tb_products where product_id = $id");
+    $product = executeSingleResult("select * from tb_news where new_id = $id");
 
     $thumbnails = executeResult("select * from tb_thumbnail where product_id = $id");
 
-    $name = $product["product_name"];
-    $cateID = $product["cate_id"];
-    $price = $product["price"];
-    $description = $product['description'];
-    $images[0] = $product['image'];
+    $name = $product["new_title"];
+    $cateID = $product["new_cate_id"];
+    $description = $product['new_description'];
+    $images[0] = $product['new_image'];
 
     foreach ($thumbnails as $key => $th) {
         $images[$key + 1] = $th["thumbnail"];
@@ -162,26 +161,25 @@ function checkCate($value)
     </style>
 </head>
 <div class="page-box">
-    <h1 class="title-page"><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
+    <h1 class="title-page"><?php echo (($title != null ? $title : 'Add new News')) ?></h1>
     <div>
         <form method="post" enctype="multipart/form-data" action="">
             <div class="addPro-wapper">
+                <?php if ($id != null) { ?>
+                    <div>
+                        <p>ID: <span><?php echo $id ?></span></p>
+                    </div>
+                <?php } ?>
                 <div class="product-input-box">
                     <div class="product-input">
                         <div class="input-animation">
                             <div class="input-box">
                                 <input id="input-name" type="text" name="name" value="<?php echo (($name != null ? $name : '')) ?>" required>
-                                <label for="">Product name</label> <br>
+                                <label for="">News Title</label> <br>
                             </div>
                             <div class="errorName error" style="color: red;"></div>
                         </div>
-                        <div class="input-animation">
-                            <div class="input-box">
-                                <input id="input-price" type="number" name="price" value="<?php echo (($price != null ? $price : '')) ?>" required>
-                                <label for="">Price</label> <br>
-                            </div>
-                            <div class="errorPrice error" style="color: red;"></div>
-                        </div>
+                        
                     </div>
                     <div class="input-animation">
                         <div class="select-container">
@@ -210,7 +208,7 @@ function checkCate($value)
                 </div>
             </div>
             <div class="ckeditor-box">
-                <textarea id="description" name="description">
+                <textarea id="description" name="new_description">
                     <?php echo (($description != null ? $description : '')) ?>
                 </textarea>
                 <div class="errorDescription" style="color: red;"></div>
@@ -220,7 +218,7 @@ function checkCate($value)
     </div>
     <div id="success">
         <div class="message">
-            <p><?php echo (($id == null ? 'Product successfully added to the data!' : 'Successfully fixed the product in the data!')) ?></p>
+            <p><?php echo (($id == null ? 'News successfully added to the data!' : 'Successfully fixed the product in the data!')) ?></p>
             <div class="button-success">
                 <button id="okButton">Ok</button>
             </div>
@@ -231,7 +229,6 @@ function checkCate($value)
 <script>
     CKEDITOR.replace('description');
 </script>
-
 <script type="text/javascript">
     $("#success").hide();
     $("#submitData").click(function(e) {
@@ -244,9 +241,8 @@ function checkCate($value)
             <?php } ?>
 
             formData.append("name", $('#input-name').val());
-            formData.append("price", $('#input-price').val());
             formData.append("cateID", $('#input-cateID').val());
-            formData.append("description", CKEDITOR.instances.description.getData());
+            formData.append("new_description", CKEDITOR.instances.description.getData());
 
             var totalFiles = $('#input-images').get(0).files.length;
             for (let i = 0; i < totalFiles; i++) {
@@ -255,13 +251,14 @@ function checkCate($value)
 
             $.ajax({
                 type: "POST",
-                url: 'handles/creates/product.php',
+                url: 'handles/creates/new.php',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    alert(res);
                     if (res === 'success') {
-                        showSuccessMessage("products/<?php echo (($id == null ? 'product_add.php' : 'products.php')) ?>");
+                        showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {
                         var errors = JSON.parse(res);
                         for (var key in errors) {
@@ -292,10 +289,6 @@ function checkCate($value)
 
         $('#input-name').on("keyup", function() {
             $(".errorName").empty().append('');
-        });
-
-        $('#input-price').on("keyup", function() {
-            $(".errorPrice").empty().append('');
         });
 
         $('#input-cateID').on("change", function() {
