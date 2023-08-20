@@ -42,13 +42,13 @@ if (isset($_SESSION["auth_user"])) {
 
             <div class="sidebar">
                 <ul>
-                    <li class="nav-item active">
+                    <li class="nav-item ">
                         <a href="accounts/customer.php" class="nav-link">
                             <span class="material-symbols-sharp">person</span>
                             <h3>Customer</h3>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active ">
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">inventory</span>
