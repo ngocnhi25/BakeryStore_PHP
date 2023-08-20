@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_POST["page"])) {
     require_once("connect/connectDB.php");
     session_start();
@@ -9,28 +10,24 @@ if (isset($_POST["page"])) {
     }
 }
 $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
-?>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+?>
 
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>Change Password</h1>
+        <p>You need to authenticate your account by entering your existing password</p>
     </div>
     <div class="update-profile-box">
         <div class="profile-form">
-            <form action="" method="post" id="changeEmail" style="width: 100%;">
-                <input type="hidden" id="name" name="userId" value="<?php echo $user["user_id"] ?>">
+            <form id="changePasswordForm" style="width: 100%;">
                 <table style="width: 100%;">
+                    <input type="hidden" id="id" name="id" value="<?= $user["user_id"] ?>" readonly>
                     <tr>
                         <td>Your Email:</td>
                         <td>
                             <div class="css-input">
                                 <input type="email" id="email" name="email" value="<?= $user["email"] ?>" readonly>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#editEmail"> Edit</button>
                             </div>
                         </td>
                     </tr>
@@ -38,65 +35,45 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>Current Password:</td>
                         <td>
                             <div class="css-input">
-                                <input type="password" id="current-password" name="current-password" required>
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#editPass"> Edit</button>
+                                <input type="password" id="current-password" name="current-password">
+                                <div class="pass error" style="color: red;"></div>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><button class="submit" type="button" id="sb-changePass" name="sb-changePassword-User">Submit</button></td>
                     </tr>
                 </table>
             </form>
         </div>
     </div>
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="editEmail" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel" >Request to change email </h4>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="" id="saveNewEmail"> 
-      <div class="modal-body">
-        <div class="mb-3"></div>
-        <p> Are you sure you want to update your new email? </p>
-        <p> If sure, please enter your new email here, we will send a confirmation link to the new email you entered. </p>
-        <div class="errornewemail error" style="color: red;"></div>
-        <label for="">New Email : </label>
-        <input type="hidden" id="name" name="username" value="<?php echo $user["username"] ?>">
-        <input type="email" name="newemail" class="form-control"> 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save </button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
-        $(document).on('submit', '#saveNewEmail', function(e) {
+        $("#sb-changePass").click(function(e) {
             e.preventDefault();
 
-            var formData = new FormData(this);
-            formData.append("save_email", true);
+            var formData = new FormData();
+
+            formData.append("email", $('#email').val());
+            formData.append("current-password", $('#current-password').val());
 
             $.ajax({
                 type: "POST",
-                url: 'User/code-Email-Pass.php',
+                url: 'User/code-change-Pass.php',
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(response) {
-                    if (response === 'success') {
-                        alert("Save your email successfully!");
-                        
-                    } else {
-                        var errors = JSON.parse(response);
+                success: function(res) {
+                    if (res === 'success') {
+                        alert("Verify your account successfully !");
+                        window.location.href = "changPass-inputNew.php"; 
+                    } else if (res === 'fail') {
+                        alert("Incorrect Password . Please input again !");
+                    }else {
+                        var errors = JSON.parse(res);
                         for (var key in errors) {
                             if (errors.hasOwnProperty(key)) {
                                 $('.' + key).html(errors[key]);

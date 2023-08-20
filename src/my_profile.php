@@ -21,7 +21,7 @@ $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
     </div>
     <div class="update-profile-box">
         <div class="profile-form">
-            <form action="" method="post" id="myform" style="width: 100%;">
+            <form action="" method="post" style="width: 100%;">
             <input type="hidden" id="userId" name="userId" value="<?= $user_id ?>" readonly>    
             <table style="width: 100%;">
                     <tr>
@@ -38,6 +38,14 @@ $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
                             <div class="css-input">
                                 <input type="text" id="username" name="username" value="<?php echo $user["username"] ?>">
                                 <div class="errorUsername error" style="color: red;"></div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Emai:</td>
+                        <td>
+                            <div class="css-input">
+                                <input type="email" id="email" name="email" value="<?php echo $user["email"] ?>" readonly >
                             </div>
                         </td>
                     </tr>
