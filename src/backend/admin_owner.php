@@ -166,6 +166,12 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item">
+                        <a href="warehouse.php" class="nav-link">
+                            <span class="material-symbols-sharp">add</span>
+                            <h3>Add Qty Product</h3>
+                        </a>
+                    </li>
                     <li class="nav-item logout">
                         
                             <a href="../User/logout.php">

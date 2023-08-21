@@ -2,13 +2,22 @@
 session_start();
 require_once('connect/connectDB.php');
 
+
+
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
 // var_dump($user_id);
 // die();
 
+// get id form web
 $id = intval($_GET['id']);
+
+
+//debug product_qty
+$product_qty = executeSingleResult("SELECT product_qty FROM tb_warehouse WHERE product_id = $id");
+// var_dump($product_qty);
+// die();
 
 $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeResult("select * from tb_products where product_id = $id");
@@ -176,6 +185,13 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                   <div class="quantity">
                     <p>Quantity:</p>
                     <input type="number" min="1" max="5" value="1">
+                  </div>
+
+                  <div class="price">
+                    <p class="discounted-price" id="price">
+                      Cake in warehouse: 
+                      <?php echo $product_qty['product_qty'] ?> cake
+                    </p>
                   </div>
 
                   <input type="hidden" class="pid" value="<?php echo $id ?>">
