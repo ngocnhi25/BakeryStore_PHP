@@ -4,6 +4,7 @@ require_once('connect/connectDB.php');
 
 
 
+
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
