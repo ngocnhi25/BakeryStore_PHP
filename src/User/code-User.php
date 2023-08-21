@@ -277,11 +277,37 @@ if (isset($_POST["submit-resetPass"])) {
 
 // 4 . forgot-inputNewPass.php
 // Input new password into database 
+
 if(isset($_POST["update-password-btn"])){
     $email = mysqli_real_escape_string($conn ,$_POST["email"]) ;
-    $newPassword = md5(mysqli_real_escape_string($conn ,$_POST["newPassword"])) ;
-    $confirm_newPassword = md5(mysqli_real_escape_string($conn ,$_POST["confirm_newPassword"]));
+    $confirm_newPassword = $_POST["confirm_newPassword"] ;
     $token  = mysqli_real_escape_string($conn , $_POST["token"]) ;
+
+    if (isset($_POST["newPassword"])) {
+        $newPassword = $_POST["newPassword"];
+        if (empty($newPassword)) {
+            $_SESSION['status'] = "New Password must not be blank.";
+            header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
+            exit();
+        }
+        if (strpos($newPassword, ' ') !== false) {
+            $_SESSION['status'] = "New Password must not contain spaces.";
+            header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
+            exit();
+        }
+        if (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword)) {
+            $_SESSION['status'] = "New Password must be between 6 and 20 characters ";
+            header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
+            exit();
+        }
+    }
+
+    if ($newPassword !== $confirm_newPassword) {
+        $_SESSION['status'] = " Password and Confirm Password dose not match!";
+        header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
+        exit();
+    }
+
 
     if(!empty($token)){
         //check token is valid or not
@@ -289,8 +315,8 @@ if(isset($_POST["update-password-btn"])){
         $sql_checkToken_run = mysqli_query($conn,  $sql_checkToken );
 
         if (mysqli_num_rows($sql_checkToken_run) > 0){
-            if($newPassword === $confirm_newPassword ){
-                $sql_update_password = "UPDATE tb_user SET password = '$newPassword' WHERE token = '$token' LIMIT 1";
+            $hashpass = md5($newPassword); 
+                $sql_update_password = "UPDATE tb_user SET password = '$hashpass' WHERE token = '$token'";
                 $sql_update_password_run = mysqli_query($conn, $sql_update_password );
                 
                 if($sql_update_password_run){
@@ -302,12 +328,6 @@ if(isset($_POST["update-password-btn"])){
                     header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
                     exit();
                 }
-
-            }else{
-                $_SESSION['status'] = " Password and Confirm Password dose not match!";
-                header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;
-                exit();
-            }
         }else{
             $_SESSION['status'] = " Invalid Token!";
             header("Location: forgot-inputNewPass.php?token=$token&email=$email") ;

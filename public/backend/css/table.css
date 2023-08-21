@@ -117,7 +117,7 @@ tbody tr {
   border-bottom: 1px solid black;
 }
 
-// ============= Success Message =====================
+/* //Success Message */
 #success {
   height: 100vh;
   width: 100%;
@@ -166,7 +166,7 @@ tbody tr {
   background-color: #0056b3;
 }
 
-// ================= All button ==============
+/* // ================= All button ============== */
 .button {
   gap: 0.9rem;
   justify-content: space-between;
@@ -254,5 +254,4 @@ button:hover {
   justify-content: center;
 }
 
-// product
 
