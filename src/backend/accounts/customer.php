@@ -36,9 +36,12 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                             <td><?= $user["phone"] ?></td>
                             <td><?= $user["create_date"] ?></td>
                             <td>
-                                <button>Deactive</button>
-                                <button>Send Mail </button>
-                            </td>
+                            <?php if ($user["role"] == 1 && $user["status"] == 1 ) { ?>
+                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;" >Activate</button>
+                            <?php } else { ?>
+                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;" >Deactivate</button>
+                             <?php } ?>   
+                        </td>
 
                         </tr>
                 <?php }
@@ -47,3 +50,45 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
         </table>
     </div>
 </div>
+
+<script type="text/javascript">
+    function deactivateUser(userId) {
+        if (confirm("Are you sure you want to deactivate this user?")) {
+            // User confirmed, perform the deactivation logic
+            $.ajax({
+                type: "GET",
+                url: '../User/deactive.php',
+                data: { code: userId },
+                success: function(res) {
+                    if (res === 'success') {
+                        alert("User deactivated successfully!");
+                    } else {
+                        alert("Failed to deactivate user.");
+                    }
+                }
+            });
+        }
+    }
+
+    function ActivateUser(userId) {
+        if (confirm("Are you sure you want to Activate this user?")) {
+            // User confirmed, perform the deactivation logic
+            $.ajax({
+                type: "GET",
+                url: '../User/deactive.php',
+                data: { id: userId },
+                success: function(res) {
+                    if (res === 'success') {
+                        alert("User Activated successfully!");
+                    } else {
+                        alert("Failed to Activate user.");
+                    }
+                }
+            });
+        }
+    }
+
+
+
+
+</script>

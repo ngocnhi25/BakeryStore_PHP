@@ -47,7 +47,9 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
             </form>
         </div>
     </div>
-</div>
+
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#sb-changePass").click(function(e) {
@@ -84,4 +86,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
             });
         });
     });
+
+
 </script>

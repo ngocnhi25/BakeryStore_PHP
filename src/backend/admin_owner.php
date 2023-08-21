@@ -1,16 +1,17 @@
 <?php
-require_once("../connect/connectDB.php");
 session_start();
-if (isset($_SESSION["auth_user"])) {
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
-    $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
-    if($checkRole != 0 ){
-        header("location: ../User/login.php");
-    }
-} else {
-    header("location: ../User/login.php");
-}
+// require_once("../connect/connectDB.php");
+
+// if (isset($_SESSION["auth_user"])) {
+//     $user_name = $_SESSION["auth_user"]["username"];
+//     $user_id = $_SESSION["auth_user"]["user_id"];
+//     $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+//     if($checkRole != 0 ){
+//         header("location: ../User/login.php");
+//     }
+// } else {
+//     header("location: ../User/login.php");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +69,7 @@ if (isset($_SESSION["auth_user"])) {
                                 <a href="accounts/profile-Owner.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>My Profile </h4>
+                                    <h4>Change Password </h4>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -83,6 +84,13 @@ if (isset($_SESSION["auth_user"])) {
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>Employees</h4>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="accounts/add-employee.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Add Employees</h4>
                                 </a>
                             </li>
                         </ul>
