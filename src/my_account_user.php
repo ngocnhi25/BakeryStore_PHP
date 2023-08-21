@@ -8,7 +8,7 @@ if (isset($_SESSION["auth_user"])) {
     $user_id = $_SESSION["auth_user"]["user_id"];
 }
 
-?>  
+?>
 
 <head>
     <style>
@@ -231,19 +231,24 @@ if (isset($_SESSION["auth_user"])) {
             display: block;
         }
 
-        .purchase-order .po-tab-ui {
+        .po-tab-ui,
+        .wh-tab-ui {
             width: 100%;
             display: block;
         }
 
-        .purchase-order .po-tab-ui .tabs {
+        .po-tab-ui .tabs,
+        .wh-tab-ui .wh-tabs,
+        .wh-history-tab-ui .wh-history-tabs {
             display: flex;
             position: relative;
             justify-content: space-between;
             border-bottom: 2px solid #efefef;
         }
 
-        .purchase-order .po-tab-ui .tabs .tab-item {
+        .po-tab-ui .tabs .tab-item,
+        .wh-tab-ui .wh-tabs .wh-tab-item,
+        .wh-history-tab-ui .wh-history-tabs .wh-history-tab-item {
             flex: 1;
             padding: 16px 0;
             font-size: 16px;
@@ -255,12 +260,16 @@ if (isset($_SESSION["auth_user"])) {
             transition: all 0.5s ease;
         }
 
-        .purchase-order .po-tab-ui .tab-item:hover {
+        .po-tab-ui .tab-item:hover,
+        .wh-tab-ui .wh-tab-item:hover,
+        .wh-history-tab-ui .wh-history-tab-item:hover {
             color: #ee4d2d;
             background-color: rgba(194, 53, 100, 0.05);
         }
 
-        .purchase-order .po-tab-ui .tabs .tab-item.active {
+        .po-tab-ui .tabs .tab-item.active,
+        .wh-tab-ui .wh-tabs .wh-tab-item.active,
+        .wh-history-tab-ui .wh-history-tabs .wh-history-tab-item.active {
             border-bottom: 2px solid #ee4d2d;
             color: #ee4d2d;
         }
@@ -295,16 +304,23 @@ if (isset($_SESSION["auth_user"])) {
             color: #555;
         }
 
-        .purchase-order .po-content-box {
+        .po-content-box,
+        .wh-content-box,
+        .wh-history-content-box {
             position: relative;
             width: 100%;
         }
 
-        .purchase-order .po-content-box .content {
+        .po-content-box .content,
+        .wh-content-box .wh-content,
+        .wh-history-content-box .wh-history-content {
             display: none;
+            position: relative;
         }
 
-        .purchase-order .po-content-box .content.active {
+        .po-content-box .content.active,
+        .wh-content-box .wh-content.active,
+        .wh-history-content-box .wh-history-content.active {
             display: block;
         }
 
@@ -388,7 +404,7 @@ if (isset($_SESSION["auth_user"])) {
             font-size: 18px;
         }
 
-        .purchase-order .no-order-yet {
+        .no-order-yet {
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
             border-radius: 0.125rem;
             overflow: hidden;
@@ -400,12 +416,235 @@ if (isset($_SESSION["auth_user"])) {
             height: 600px;
             background: #fff;
         }
+        .no-vouchers {
+            grid-template-columns: none;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+            border-radius: 0.125rem;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 600px;
+            background: #fff;
+        }
 
-        .purchase-order .no-order-yet .no-data {
+        .no-vouchers .no-data {
             margin: 20px 0 0;
             font-size: 20px;
             line-height: 1.4;
             color: #000c;
+        }
+
+        /* warehouse voucher */
+        .wh-voucher {
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .05);
+            border-radius: 0.125rem;
+            overflow: hidden;
+            flex-grow: 1;
+            padding: 1.5625rem 2rem;
+            background: #fff;
+        }
+
+        .wh-voucher .wh-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .wh-voucher .wh-top .wh-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+            text-transform: capitalize;
+            color: rgba(0, 0, 0, .8);
+        }
+
+        .wh-voucher .wh-history-used {
+            color: #ee4d2d;
+            text-decoration: none;
+            font-size: 0.875rem;
+            line-height: 1rem;
+            cursor: pointer;
+        }
+
+        .wh-voucher .wh-user-add-vch {
+            background: rgba(0, 0, 0, .03);
+            padding: 1.75rem 2.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.25rem;
+            gap: 1rem;
+        }
+
+        .wh-voucher .wh-user-add-vch .wh-vch-code {
+            color: rgba(0, 0, 0, .87);
+            font-size: 1rem;
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+
+        .wh-voucher .text-code-vch {
+            position: relative;
+            width: 25.875rem;
+            height: 2.75rem;
+            padding: 0.8125rem;
+            border: 1px solid rgba(0, 0, 0, .14);
+            box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, .02);
+        }
+
+        .wh-voucher .save-vch {
+            width: 6.25rem;
+            height: 2.75rem;
+            text-align: center;
+            border-radius: 0.125rem;
+            outline: none;
+            border: 0;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .09);
+            background: #ef6145;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        }
+
+        .wh-voucher .save-vch .save-vch-btn {
+            background-color: transparent;
+            color: #efefef;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wh-voucher .wh-content {
+            margin-top: 20px;
+        }
+
+        .wh-voucher .wh-item-box {
+            position: relative;
+            margin-top: 20px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .wh-voucher .wh-limited {
+            position: absolute;
+            display: flex;
+            left: -0.25rem;
+            top: 0.3125rem;
+            color: #fff;
+            text-align: center;
+            background-color: #eda500;
+            border-radius: 0.125rem 0.125rem 0.125rem 0;
+            font-size: .625rem;
+            line-height: .75rem;
+            padding: .125rem .25rem;
+        }
+
+        .wh-voucher .wh-item {
+            position: relative;
+            width: 100%;
+            height: 118px;
+            box-sizing: border-box;
+            border-radius: 3px;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0.125rem 0.125rem 0.3125rem rgba(0, 0, 0, .07);
+            border-left: none;
+            border: 0.0625rem solid #ccc;
+        }
+
+        .wh-voucher .wh-left-item {
+            height: 100%;
+            width: 30%;
+            background-color: #E487AF;
+            word-wrap: break-word;
+            padding: 10px;
+            text-align: center;
+            align-items: center;
+            position: relative;
+            display: flex;
+        }
+
+        .wh-voucher .wh-left-item .wh-code-show {
+            width: 100%;
+            font-size: 18px;
+            word-wrap: break-word;
+            text-align: center;
+            color: #fff;
+        }
+
+        .wh-voucher .wh-center-item {
+            height: 100%;
+            width: 50%;
+            padding: 12px 0px;
+        }
+
+        .wh-voucher .wh-center-item .wh-redution {
+            font-size: 18px;
+            color: rgba(0, 0, 0, .87);
+        }
+
+        .wh-voucher .wh-center-item .wh-condition {
+            font-size: 16px;
+            color: rgba(0, 0, 0, .87);
+            margin-left: 10px;
+        }
+
+        .wh-voucher .wh-center-item .wh-end-date {
+            font-size: 13px;
+            color: #ee4d2d;
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+        }
+
+        .wh-voucher .wh-center-item .wh-end-date span {
+            font-size: 13px;
+        }
+
+        .wh-voucher .wh-right-item {
+            width: 20%;
+            align-items: flex-end;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 0.75rem;
+            position: relative;
+        }
+
+        .wh-voucher .wh-btn-order {
+            width: 100%;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background-color: #ee4d2d;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .wh-voucher .wh-btn-buy-now {
+            background-color: transparent;
+            color: #efefef;
+            width: 100%;
+            height: 100%;
+        }
+
+        .wh-voucher .wh-history-tab-ui {
+            width: 400px;
+        }
+
+        .wh-voucher .expired {
+            opacity: 0.4;
+        }
+
+        .wh-voucher .wh-no-more {
+            background-color: #999;
+        }
+
+        .wh-voucher .wh-blur {
+            background-color: #c5c5c5;
         }
     </style>
 </head>
