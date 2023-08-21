@@ -73,6 +73,17 @@ if (isset($_POST["price"]) && !empty($_POST["price"])) {
     $errors["errorPrice"] = 'Product price cannot be blank';
     $errorNum = 1;
 }
+// quantity product
+if (isset($_POST["qtyProduct"]) && !empty($_POST["qtyProduct"])) {
+    $qtyProduct = $_POST["qtyProduct"];
+    if ($qtyProduct <= 0 || $qtyProduct > 100) {
+        $errors["errorQty"] = 'Product quantity must be greater than 0 and less than 100';
+        $errorNum = 1;
+    }
+} else {
+    $errors["errorQty"] = 'Product quantity cannot be blank';
+    $errorNum = 1;
+}
 // // product category
 if (isset($_POST["cateID"]) && !empty($_POST["cateID"])) {
     $cateID = $_POST["cateID"];
@@ -153,8 +164,8 @@ if (
     if ($eventNum == 0) {
         $imageInsert = $images[0];
         $sql = "INSERT INTO tb_products 
-        (cate_id, product_name, image, price, description, create_date, view, deleted) VALUES
-        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0, 0)";
+        (cate_id, product_name, image, price, description, create_date, view, qty_warehouse, deleted) VALUES
+        ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0, $qtyProduct, 0)";
         execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(product_id) as new_id_product FROM tb_products");
         $new_id = $new_id_product["new_id_product"];
@@ -174,7 +185,8 @@ if (
             execute("UPDATE tb_products SET 
                 cate_id = '$cateID', product_name = '$name', 
                 image = '$imageUpdate', price = '$price', 
-                description = '$description', update_date = '$date'
+                description = '$description', update_date = '$date',
+                qty_warehouse = $qtyProduct
             WHERE product_id = $id");
             for ($i = 1; $i < count($images); $i++) {
                 $updateThumb = $images[$i];

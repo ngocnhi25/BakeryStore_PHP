@@ -202,7 +202,7 @@ function checkCate($value)
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-qty" type="number" name="quantity" value="<?php echo (($id != null ? $quantity : '')) ?>" required>
+                                <input id="input-qty" type="number" name="qtyProduct" value="<?php echo (($id != null ? $quantity : '')) ?>" required>
                                 <label for="">Product quantity</label> <br>
                             </div>
                             <div class="errorQty error" style="color: red;"></div>
@@ -259,6 +259,7 @@ function checkCate($value)
 
             formData.append("name", $('#input-name').val());
             formData.append("price", $('#input-price').val());
+            formData.append("qtyProduct", $('#input-qty').val());
             formData.append("cateID", $('#input-cateID').val());
             formData.append("description", CKEDITOR.instances.description.getData());
 
