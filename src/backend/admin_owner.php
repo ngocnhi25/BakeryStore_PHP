@@ -138,6 +138,12 @@ if (isset($_SESSION["auth_user"])) {
                             <h3>Add Product</h3>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="warehouse.php" class="nav-link">
+                            <span class="material-symbols-sharp">add</span>
+                            <h3>Add Qty Product</h3>
+                        </a>
+                    </li>
                     <li class="nav-item logout">
                         <button class="logout-btn">
                             <span class="material-symbols-sharp">logout</span>

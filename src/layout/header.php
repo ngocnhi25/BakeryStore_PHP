@@ -439,13 +439,6 @@ $conn->close();
     </header>
   </div>
 
-  <div id="success-box">
-    <div class="cart-success">
-      <div class="icon"><img src="../public/images/icon/icons8-success-50.png" alt=""></div>
-      <div>Successfully added product to cart!</div>
-    </div>
-  </div>
-
   <script>
     load_cart_item_number();
 

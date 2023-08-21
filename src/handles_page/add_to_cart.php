@@ -139,7 +139,7 @@ if (isset($_POST['qty'])) {
 //     $payerEmail = $_POST["payerEmail"];
 //     $address = $_POST["address"];
 
-    
+
 
 //     // Phản hồi về trạng thái lưu dữ liệu
 //     echo "Dữ liệu đã được lưu vào cơ sở dữ liệu từ PayPal!";
@@ -200,6 +200,28 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	// var_dump($user_id);
 	// print_r($items);
 	// die();
+
+	// Fetch items from the tb_cart table
+	$sql_items = "SELECT product_id, quantity FROM tb_cart";
+	$items = executeResult($sql_items);
+
+	foreach ($items as $item) {
+		$product_id = $item['product_id'];
+		$quantity = $item['quantity'];
+
+		// Fetch the current product quantity from tb_warehouse
+		$sql_current_qty = "SELECT product_qty FROM tb_warehouse WHERE product_id = '$product_id'";
+		$current_qty_result = executeSingleResult($sql_current_qty);
+
+		if ($current_qty_result) {
+			$current_product_qty = $current_qty_result['product_qty'];
+			$updated_product_qty = $current_product_qty - $quantity;
+
+			// Update the product quantity in tb_warehouse
+			$sql_update_qty = "UPDATE tb_warehouse SET product_qty = $updated_product_qty WHERE product_id = '$product_id'";
+			execute($sql_update_qty);
+		}
+	}
 
 	// Insert order details into tb_order table
 	$sql_insert = "INSERT INTO tb_order (order_id, user_id, name, email, phone, address, order_date, deposit, products, total_pay, status) 
