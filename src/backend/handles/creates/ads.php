@@ -14,8 +14,8 @@ $target_dir = "public/images/banners/";
 $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
 $size_allow = 3;
 
-if (isset($_POST["id"]) && !empty($_POST["id"])) {
-    $id = $_POST["id"];
+if (isset($_POST["ads_id"]) && !empty($_POST["ads_id"])) {
+    $id = $_POST["ads_id"];
     echo $id;
     $eventNum = 1;
 }

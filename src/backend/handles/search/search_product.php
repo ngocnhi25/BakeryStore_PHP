@@ -1,5 +1,4 @@
 <?php
-// Include your database connection or any necessary files here
 require_once("../../../connect/connectDB.php");
 
 if (isset($_POST['product_id'])) {

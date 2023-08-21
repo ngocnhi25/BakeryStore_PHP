@@ -32,8 +32,8 @@ if (isset($_POST["codeCoupon"]) && !empty($_POST["codeCoupon"])) {
                 $errors["errorCouponName"] = 'Coupon code must be written without spaces';
                 $errorNum = 1;
             } else {
-                if (strlen($coupon_name) < 5 || strlen($coupon_name) > 100) {
-                    $errors["errorCouponName"] = 'character length greater than 5 is less than 100';
+                if (strlen($coupon_name) < 5 || strlen($coupon_name) > 30) {
+                    $errors["errorCouponName"] = 'character length greater than 5 is less than 30';
                     $errorNum = 1;
                 }
             }
@@ -50,8 +50,8 @@ if (isset($_POST["codeCoupon"]) && !empty($_POST["codeCoupon"])) {
                     $errors["errorCouponName"] = 'Coupon code must be written without spaces';
                     $errorNum = 1;
                 } else {
-                    if (strlen($coupon_name) < 5 || strlen($coupon_name) > 100) {
-                        $errors["errorCouponName"] = 'character length greater than 5 is less than 100';
+                    if (strlen($coupon_name) < 5 || strlen($coupon_name) > 30) {
+                        $errors["errorCouponName"] = 'character length greater than 5 is less than 30';
                         $errorNum = 1;
                     }
                 }
