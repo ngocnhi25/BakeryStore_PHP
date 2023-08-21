@@ -1,5 +1,6 @@
 <?php
 require_once("../connect/connectDB.php");
+require_once ("../User/authencation.php");
 session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
