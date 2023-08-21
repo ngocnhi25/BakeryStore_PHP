@@ -11,7 +11,9 @@ if (isset($_SESSION["auth_user"])) {
 // die();
 
 // get id form web
-$id = intval($_GET['id']);
+if(isset($_GET["product_id"])){
+  $id = $_GET['product_id'];
+}
 
 
 //debug product_qty

@@ -1,6 +1,6 @@
 <div class="wh-voucher">
-    <div class="wh-top-hitory">
-        <div class="wh-title-hidtory">
+    <div class="wh-top-history">
+        <div class="wh-title-history">
             Voucher History
         </div>
     </div>

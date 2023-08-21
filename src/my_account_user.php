@@ -646,6 +646,21 @@ if (isset($_SESSION["auth_user"])) {
         .wh-voucher .wh-blur {
             background-color: #c5c5c5;
         }
+
+        .wh-voucher .wh-top-history {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            padding: 24px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .wh-voucher .wh-title-history {
+            font-size: 1.25rem;
+            font-weight: 500;
+            text-transform: capitalize;
+            color: rgba(0, 0, 0, .8);
+        }
     </style>
 </head>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

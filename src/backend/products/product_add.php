@@ -5,6 +5,7 @@ $category = executeResult("SELECT * FROM tb_category");
 
 $name = $thumbnails = $cateID = $price = $description = $id = $title = '';
 $images = [];
+$id = '';
 
 if (isset($_POST["id"])) {
     $id = $_POST["id"];
@@ -17,6 +18,7 @@ if (isset($_POST["id"])) {
     $name = $product["product_name"];
     $cateID = $product["cate_id"];
     $price = $product["price"];
+    $quantity = $product["qty_warehouse"];
     $description = $product['description'];
     $images[0] = $product['image'];
 
@@ -49,8 +51,13 @@ function checkCate($value)
 
         .product-input-box {
             display: flex;
+            flex-direction: column;
             position: relative;
             justify-content: space-evenly;
+        }
+        .product-input-box .product-input{
+            display: flex;
+            gap: 2rem;
         }
 
         .input-animation {
@@ -160,7 +167,7 @@ function checkCate($value)
     </style>
 </head>
 <div class="page-box">
-    <h1 class="title-page"><?php echo (($title != null ? $title : 'Add new product')) ?></h1>
+    <h1 class="title-page"><?php echo (($id != null ? $title : 'Add new product')) ?></h1>
     <div>
         <form method="post" enctype="multipart/form-data" action="">
             <div class="addPro-wapper">
@@ -168,36 +175,45 @@ function checkCate($value)
                     <div class="product-input">
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-name" type="text" name="name" value="<?php echo (($name != null ? $name : '')) ?>" required>
+                                <input id="input-name" type="text" name="name" value="<?php echo (($id != null ? $name : '')) ?>" required>
                                 <label for="">Product name</label> <br>
                             </div>
                             <div class="errorName error" style="color: red;"></div>
                         </div>
                         <div class="input-animation">
+                            <div class="select-container">
+                                <select id="input-cateID" name="cateID" class="select-box">
+                                    <option value="">___Category___</option>
+                                    <?php foreach ($category as $cate) { ?>
+                                        <option value="<?= $cate["cate_id"] ?>" <?php checkCate($cate["cate_id"]); ?>><?= $cate["cate_name"] ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class="errorCateID error" style="color: red;"></div>
+                        </div>
+                    </div>
+                    <div class="product-input">
+                        <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-price" type="number" name="price" value="<?php echo (($price != null ? $price : '')) ?>" required>
+                                <input id="input-price" type="number" name="price" value="<?php echo (($id != null ? $price : '')) ?>" required>
                                 <label for="">Price</label> <br>
                             </div>
                             <div class="errorPrice error" style="color: red;"></div>
                         </div>
-                    </div>
-                    <div class="input-animation">
-                        <div class="select-container">
-                            <select id="input-cateID" name="cateID" class="select-box">
-                                <option value="">___Category___</option>
-                                <?php foreach ($category as $cate) { ?>
-                                    <option value="<?= $cate["cate_id"] ?>" <?php checkCate($cate["cate_id"]); ?>><?= $cate["cate_name"] ?></option>
-                                <?php } ?>
-                            </select>
+                        <div class="input-animation">
+                            <div class="input-box">
+                                <input id="input-qty" type="number" name="quantity" value="<?php echo (($id != null ? $quantity : '')) ?>" required>
+                                <label for="">Product quantity</label> <br>
+                            </div>
+                            <div class="errorQty error" style="color: red;"></div>
                         </div>
-                        <div class="errorCateID error" style="color: red;"></div>
                     </div>
                 </div>
                 <div class="image-box">
                     <label for="">Images: </label>
                     <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file" multiple="multiple" accept="image/*">
                     <div id="preview-images"></div>
-                    <?php if ($images != null) { ?>
+                    <?php if ($id != null) { ?>
                         <div id="oldThumbnail">
                             <?php foreach ($images as $key => $image) { ?>
                                 <img src="../../<?= $image ?>">
@@ -209,7 +225,7 @@ function checkCate($value)
             </div>
             <div class="ckeditor-box">
                 <textarea id="description" name="description">
-                    <?php echo (($description != null ? $description : '')) ?>
+                    <?php echo (($id != null ? $description : '')) ?>
                 </textarea>
                 <div class="errorDescription" style="color: red;"></div>
             </div>
