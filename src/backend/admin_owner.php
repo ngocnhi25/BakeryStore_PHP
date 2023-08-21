@@ -1,5 +1,6 @@
 <?php
 session_start();
+<<<<<<< HEAD
 // require_once("../connect/connectDB.php");
 
 // if (isset($_SESSION["auth_user"])) {
@@ -10,6 +11,17 @@ session_start();
 //         header("location: ../User/login.php");
 //     }
 // } else {
+=======
+if (isset($_SESSION["auth_user"])) {
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+    // if($checkRole != 0 ){
+    //     header("location: ../User/login.php");
+    // }
+} 
+// else {
+>>>>>>> 5476d7d1d3d4c59bd43c6276f91be44019ddd669
 //     header("location: ../User/login.php");
 // }
 ?>

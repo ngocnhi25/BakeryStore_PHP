@@ -55,7 +55,7 @@
   margin-bottom: 10px;
 }
 
-#image-ads img{
+#image-ads img {
   width: 400px;
   border-radius: 5px;
   vertical-align: middle;
@@ -254,4 +254,103 @@ button:hover {
   justify-content: center;
 }
 
+/* sale coupon */
+.add-coupon {
+  display: flex;
+  gap: 2rem;
+}
 
+.coupon-input .box-input input {
+  width: 300px;
+  padding: 10px;
+  border: 1px solid;
+  outline: none;
+  border-radius: 3px;
+  font-size: 16px;
+  color: #141212;
+  transition: 0.5s;
+}
+
+.coupon-input p {
+  font-size: 16px;
+  font-weight: 500;
+  color: #020202;
+}
+
+.coupon-input .error {
+  color: #f13e02;
+  font-size: 12px;
+}
+
+.select-container {
+  display: flex;
+  width: 200px;
+  position: relative;
+  height: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 1px 1px 3px black;
+}
+
+.select-box {
+  border: none;
+  width: 100%;
+  padding: 6px 10px 6px 10px;
+  color: #000;
+  background-color: #96dcd57a;
+  font-size: 14px;
+}
+
+.search-product {
+  position: relative;
+}
+
+#search-result-product {
+  display: none;
+  padding: 10px;
+  margin-top: 10px;
+  max-width: 200px;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  position: absolute;
+  z-index: 900;
+}
+
+#search-result-product::-webkit-scrollbar {
+  width: 10px;
+}
+
+#search-result-product::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 5px;
+}
+
+#search-result-product::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+#search-result-product::-webkit-scrollbar-track {
+  background-color: #eee;
+}
+
+#search-result-product .product-name {
+  padding: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#search-result-product .product-name:hover {
+  background-color: var(--color-pink);
+  border-radius: 8px;
+}
+
+#search-result-product .notfound {
+  color: red;
+  font-size: 14px;
+}

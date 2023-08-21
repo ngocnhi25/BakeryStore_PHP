@@ -19,110 +19,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
 
 ?>
 
-<head>
-    <style>
-        .add-coupon {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .coupon-input .box-input input {
-            width: 300px;
-            padding: 10px;
-            border: 1px solid;
-            outline: none;
-            border-radius: 3px;
-            font-size: 16px;
-            color: #141212;
-            transition: .5s;
-        }
-
-        .coupon-input p {
-            font-size: 16px;
-            font-weight: 500;
-            color: #020202;
-        }
-
-        .coupon-input .error {
-            color: #f13e02;
-            font-size: 12px;
-        }
-
-        .select-container {
-            display: flex;
-            width: 200px;
-            position: relative;
-            height: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 1px 1px 3px black;
-        }
-
-        .select-box {
-            border: none;
-            width: 100%;
-            padding: 6px 10px 6px 10px;
-            color: #000;
-            background-color: #96dcd57a;
-            font-size: 14px;
-        }
-
-        .search-product {
-            position: relative;
-        }
-
-        #search-results {
-            display: none;
-            padding: 10px;
-            margin-top: 10px;
-            max-width: 200px;
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-            position: absolute;
-            z-index: 900;
-        }
-
-        #search-results::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        #search-results::-webkit-scrollbar-thumb {
-            background-color: #888;
-            border-radius: 5px;
-        }
-
-        #search-results::-webkit-scrollbar-thumb:hover {
-            background-color: #555;
-        }
-
-        #search-results::-webkit-scrollbar-track {
-            background-color: #eee;
-        }
-
-        #search-results .product-name {
-            padding: 5px;
-            font-size: 14px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: pointer;
-        }
-
-        #search-results .product-name:hover {
-            background-color: var(--color-pink);
-            border-radius: 8px;
-        }
-
-        #search-results .notfound {
-            color: red;
-            font-size: 14px;
-        }
-    </style>
-</head>
-<div style=" width: 100%;">
+<div style=" width: 100%; padding-bottom: 30px;">
     <div>
         <h1>Add new coupon</h1>
         <form action="">
@@ -233,7 +130,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                                 <div class="box-input">
                                     <input type="text" id="input-product-name" value="<?= ($idSale != null ? $saleUpdate["product_name"] : '') ?>">
                                 </div>
-                                <div id="search-results"></div>
+                                <div id="search-result-product"></div>
                             </div>
                             <div class="error errorProductName"></div>
                         </div>
@@ -443,16 +340,16 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                         product_id: search
                     },
                     success: function(response) {
-                        $("#search-results").show().html(response);
+                        $("#search-result-product").show().html(response);
                         $(".product-name").click(function() {
                             var productName = $(this).text();
                             $("#input-product-name").val(productName);
-                            $("#search-results").hide().empty();
+                            $("#search-result-product").hide().empty();
                         })
                     }
                 });
             } else {
-                $("#search-results").hide().empty();
+                $("#search-result-product").hide().empty();
             }
         });
     });

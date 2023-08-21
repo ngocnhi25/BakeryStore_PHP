@@ -82,7 +82,7 @@ function maxPrice() {
                             <?php if ($product["deleted"] == 0) { ?>
                                 <button onclick='hideProduct(<?= $product["product_id"] ?>)' type="button" class="hide">Hide</button>
                             <?php } else { ?>
-                                <button onclick='recoverProduct(<?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
+                                <button onclick='recoverProduct(<?= $product["qty_warehouse"] ?>, <?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
                             <?php } ?>
                             <button type="button" onclick='deleteProduct("<?= $product["product_name"] ?>", <?= $product["product_id"] ?>)' class="delete">Delete</button>
                         </td>

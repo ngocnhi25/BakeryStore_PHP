@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(isset($_POST["ajaxSidebar"])) {
     require_once('../../connect/connectDB.php');
     session_start();

@@ -1,8 +1,5 @@
 <?php
-session_start();
-if (isset($_POST["ajaxSidebar"])) {
-    require_once('../../connect/connectDB.php');
-}
+require_once('../../connect/connectDB.php');
 
 $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
 ?>
