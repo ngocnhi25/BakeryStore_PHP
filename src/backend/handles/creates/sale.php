@@ -1,45 +1,101 @@
 <?php
-require_once('../../../connect/connectDB.php');
+require_once("../../../connect/connectDB.php");
 
-if (isset($_POST["coupon_name"]) && isset($_POST["discount"]) && isset($_POST["startDate"]) && isset($_POST["endDate"])) {
-    $coupname = trim($_POST["coupon_name"]);
-    $discount = floatval($_POST["discount"]); // Convert to a float number
-    $startDate = DateTime::createFromFormat('Y-m-d', $_POST["startDate"]);
-    $endDate = DateTime::createFromFormat('Y-m-d', $_POST["endDate"]);
+$errorNum = $eventNum = 0;
+$errors = [];
+$errors["errorProductName"] = 
+$errors["errorPercent"] = 
+$errors["errorStartDateSale"] = 
+$errors["errorEndDateSale"] = '';
 
-    // Validate coupon name: Ensure it is not empty
-    if (empty($coupname)) {
-        echo "Error: Coupon name is required.";
-        exit();
-    }
+date_default_timezone_set('Asia/Bangkok');
+$date = date('Y-m-d');
 
-    // Validate discount: Ensure it is a valid number
-    if (!is_numeric($discount) || $discount <= 0 || $discount > 100) {
-        echo "Error: Invalid discount. Please enter a number between 0 and 100.";
-        exit();
-    }
-
-    // Validate dates: Ensure the start date is not later than the end date
-    if ($startDate > $endDate) {
-        echo "Error: Start date cannot be later than end date.";
-        exit();
-    }
-
-    // Create a database connection (assuming you have a connection object named $conn)
-    // Replace 'column_name_1', 'column_name_2', etc. with the actual column names in your 'tb_sale' table
-    $stmt = $conn->prepare("INSERT INTO tb_sale (discount, start_date, end_date, coupon_name) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("dsss", $discount, $startDate->format('Y-m-d'), $endDate->format('Y-m-d'), $coupname);
-
-    if ($stmt->execute()) {
-        echo "success";
-    } else {
-        echo "Error inserting coupon information: " . $stmt->error;
-    }
-
-    // Close the statement and database connection
-    $stmt->close();
-    $conn->close();
-} else {
-    echo "Error: All fields are required.";
+if (isset($_POST["id"]) && !empty($_POST["id"])) {
+    $id = $_POST["id"];
+    $eventNum = 1;
 }
-?>
+
+if (isset($_POST["product_name"]) && !empty($_POST["product_name"])) {
+    $product_name = trim($_POST["product_name"]);
+    $product = executeSingleResult("SELECT * from tb_products where product_name = '$product_name'");
+    $product_id = $product["product_id"];
+    if ($eventNum == 0) {
+        $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
+        if ($checkSaleProduct != 0) {
+            $errors["errorProductName"] = 'The product is still on promotion';
+            $errorNum = 1;
+        }
+    } else {
+        $saleUpdate = executeSingleResult("SELECT * from tb_sale s INNER JOIN tb_products p ON s.product_id = p.product_id where s.sale_id = $id");
+        if ($product_name != $saleUpdate["product_name"]) {
+            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
+            if ($checkSaleProduct != 0) {
+                $errors["errorProductName"] = 'The product is still on promotion';
+                $errorNum = 1;
+            }
+        }
+    }
+} else {
+    $errors["errorProductName"] = "Product name still on promotion can't be blank";
+    $errorNum = 1;
+}
+
+if (isset($_POST["percent"]) && !empty($_POST["percent"])) {
+    $percent = $_POST["percent"];
+    if ($percent <= 0 || $percent > 100) {
+        $errors["errorPercent"] = "Promotion percentage must be greater than 0 and less than 100";
+        $errorNum = 1;
+    }
+} else {
+    $errors["errorPercent"] = "Promotion percentage cannot be empty";
+    $errorNum = 1;
+}
+
+// start date
+if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
+    $startDate = $_POST["startDate"];
+    if ($eventNum == 0) {
+        if ($startDate < $date) {
+            $errors["errorStartDateSale"] = "Sale start date must be greater than or equal to current date";
+            $errorNum = 1;
+        }
+    }
+} else {
+    $errors["errorStartDateSale"] = "Start date cannot be left blank";
+    $errorNum = 1;
+}
+
+// end date
+if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
+    if ($startDate != null) {
+        $endDate = $_POST["endDate"];
+        if ($endDate <= $startDate) {
+            $errors["errorEndDateSale"] = "Sale end date must be greater than or equal to sale start date";
+            $errorNum = 1;
+        }
+    }
+} else {
+    $errors["errorEndDateSale"] = "End date cannot be left blank";
+    $errorNum = 1;
+}
+
+
+
+if ($errorNum == 0) {
+    if ($eventNum == 0) {
+        execute("INSERT INTO tb_sale (product_id, percent_sale, start_date, end_date) 
+        VALUES ($product_id, $percent, '$startDate', '$endDate')");
+        echo 'success';
+    } else {
+        execute("UPDATE tb_sale SET 
+        product_id = '$product_id', 
+        percent_sale = '$percent', 
+        start_date = '$startDate', 
+        end_date = '$endDate'
+        WHERE flavor_id = $id");
+        echo 'success';
+    }
+} else {
+    echo json_encode($errors);
+}

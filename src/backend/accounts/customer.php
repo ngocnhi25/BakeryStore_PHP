@@ -1,5 +1,6 @@
 <?php
-if(isset($_POST["ajaxSidebar"])){
+session_start();
+if (isset($_POST["ajaxSidebar"])) {
     require_once('../../connect/connectDB.php');
 }
 
@@ -23,6 +24,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                     <th>Email</th>
                     <th>Telephone</th>
                     <th>Create Date</th>
+                    <th> Action </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +35,11 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                             <td><?= $user["email"] ?></td>
                             <td><?= $user["phone"] ?></td>
                             <td><?= $user["create_date"] ?></td>
+                            <td>
+                                <button>Deactive</button>
+                                <button>Send Mail </button>
+                            </td>
+
                         </tr>
                 <?php }
                 } ?>

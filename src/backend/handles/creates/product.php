@@ -17,7 +17,7 @@ $date = date('Y-m-d H:i:s');
 
 $target_dir = "public/images/products/";
 $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
-$size_allow = 3;
+$size_allow = 2;
 
 // id
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
@@ -27,19 +27,31 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 
 // product name
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
-    if ($eventNum == 1) {
-        $name = trim($_POST["name"]);
-    } else {
-        $name = trim($_POST["name"]);
-        $nameSearch = checkRowTable("select * from tb_products where product_name = '$name'");
+    $name = trim($_POST["name"]);
+    if ($eventNum == 0) {
+        $productName = checkRowTable("SELECT * from tb_products where product_name = '$name'");
 
-        if ($nameSearch != 0) {
-            $errors["errorName"] = 'product name already exists';
+        if ($productName != 0) {
+            $errors["errorName"] = 'Product name already exists';
             $errorNum = 1;
         } else {
-            if (strlen($name) <= 3) {
-                $errors["errorName"] = 'Product name must be more than 3 characters';
+            if (strlen($name) <= 3 || strlen($name) > 80) {
+                $errors["errorName"] = 'character length greater than 3 is less than 80';
                 $errorNum = 1;
+            }
+        }
+    } else {
+        $nameUpdate = executeSingleResult("SELECT * FROM tb_products WHERE product_id = $id");
+        if ($name != $nameUpdate["product_name"]) {
+            $productName = checkRowTable("SELECT * from tb_products where product_name = '$name'");
+            if ($productName != 0) {
+                $errors["errorName"] = 'Product name already exists';
+                $errorNum = 1;
+            } else {
+                if (strlen($name) <= 3 || strlen($name) > 80) {
+                    $errors["errorName"] = 'character length greater than 3 is less than 80';
+                    $errorNum = 1;
+                }
             }
         }
     }
@@ -95,17 +107,22 @@ if (isset($_FILES["images"]["name"])) {
     }
 
     foreach ($file_names as $key => $value) {
+        $original_image_link = $target_dir . basename($value);
         $imagesInsert = $target_dir . basename($value);
         $imagesLink = "../../../../$target_dir" . basename($value);
         $imagesType = $files['type'][$key];
         $imagesSize = $files['size'][$key] / 1024 / 1024;
+        $counter = 1;
 
         // kiểm tra xem file có hợp lệ không
         if (file_exists($imagesLink)) {
-            $fileExtension = pathinfo($imagesLink, PATHINFO_EXTENSION);
-            $newFileName = pathinfo($imagesLink, PATHINFO_FILENAME) . '_' . uniqid('product_') . '.' . $fileExtension;
-            $imagesLink = "../../../../$target_dir" . $newFileName;
-            $imagesInsert = $target_dir . $newFileName;
+            while (file_exists($imagesLink)) {
+                $fileExtension = pathinfo($original_image_link, PATHINFO_EXTENSION);
+                $newFileName = pathinfo($original_image_link, PATHINFO_FILENAME) . '_(' . $counter . ').' . $fileExtension;
+                $imagesLink = "../../../../$target_dir" . $newFileName;
+                $imagesInsert = $target_dir . $newFileName;
+                $counter++;
+            }
         }
         if (in_array($imagesType, $type_allow)) {
             if ($imagesSize <= $size_allow) {

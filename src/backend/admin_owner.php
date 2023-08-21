@@ -52,12 +52,19 @@ if (isset($_SESSION["auth_user"])) {
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">supervisor_account</span>
-                                <h3>Users</h3>
+                                <h3> Management</h3>
                             </div>
                             <span class="material-symbols-sharp more">expand_more</span>
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
+                        <li class="menu-item">
+                                <a href="accounts/profile-Owner.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>My Profile </h4>
+                                </a>
+                            </li>
                             <li class="menu-item">
                                 <a href="accounts/customer.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
@@ -133,10 +140,31 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="products/product_add.php" class="nav-link">
-                            <span class="material-symbols-sharp">add</span>
-                            <h3>Add Product</h3>
-                        </a>
+                        <div class="sub-btn nav-link">
+                            <div class="title">
+                                <span class="material-symbols-sharp">news</span>
+                                <h3>News</h3>
+                            </div>
+                            <span class="material-symbols-sharp more">expand_more</span>
+                            <span class="material-symbols-sharp less">expand_less</span>
+                        </div>
+                        <ul class="sub-menu">
+                            <li class="menu-item">
+                                <a href="news/news.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>All News</h4>
+                                </a>
+                            </li>
+                            
+                            <li class="menu-item">
+                                <a href="news/news_add.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Add News</h4>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="warehouse.php" class="nav-link">
@@ -145,10 +173,12 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item logout">
-                        <button class="logout-btn">
+                        
+                            <a href="../User/logout.php">
                             <span class="material-symbols-sharp">logout</span>
                             <h3>Logout</h3>
-                        </button>
+                            </a>
+
                     </li>
                 </ul>
             </div>
@@ -194,5 +224,13 @@ if (isset($_SESSION["auth_user"])) {
     <script src="../../public/backend/js/admin.js"></script>
     <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
-
+<?php if (isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
+</section>
 </html>

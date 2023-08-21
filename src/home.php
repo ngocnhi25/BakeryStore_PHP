@@ -88,7 +88,7 @@ function productItemDisplay($p)
 {
   return "
   <div class='product-images'>
-      <a href='details.php?id=" . $p['product_id'] . "'>
+      <a href='details.php?product_id=" . $p['product_id'] . "'>
         <div class='product-image hover-animation'>
           <img src='../" . $p['image'] . "' alt='Opera Cake ' />
           <img src='../" . $p['image'] . "' alt='Opera Cake ' />
@@ -96,13 +96,13 @@ function productItemDisplay($p)
       </a>
       " . showPecentSale($p) . "
       <div class='box-actions-hover'>
-        <button><a href='details.php?id=" . $p['product_id'] . "'><span class='material-symbols-sharp'>visibility</span></a></button>
-        <button onclick='addNewProduct(" . $p['product_id'] . ")' type='button'><span class='material-symbols-sharp'>add_shopping_cart</span></button>
+        <button><a href='details.php?product_id=" . $p['product_id'] . "'><span class='material-symbols-sharp'>visibility</span></a></button>
+        <button onclick='addNewCart(" . $p['product_id'] . ")' type='button'><span class='material-symbols-sharp'>add_shopping_cart</span></button>
       </div>
     </div>
     <div class='product-info'>
       <p class='product-name'>
-        <a href='details.php?id=" . $p['product_id'] . "'>
+        <a href='details.php?product_id=" . $p['product_id'] . "'>
           " . $p['product_name'] . "
         </a>
       </p>

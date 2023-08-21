@@ -3,7 +3,7 @@ require_once("connect/connectDB.php");
 require_once('handles_page/handle_calculate.php');
 require_once('handles_page/pagination.php');
 $arraySale = [];
-$cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
+$cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
                         INNER JOIN tb_products p 
                         ON c.cate_id = p.cate_id 
@@ -25,6 +25,7 @@ if (isset($_GET['cate_id']) && !empty($_GET['cate_id'])) {
   $cate_id = $_GET['cate_id'];
   $sql = 'SELECT * from tb_products where deleted = 0 and cate_id = ' . $cate_id . ' ORDER BY product_id DESC limit ' . $firstIndex . ',' . $limit;
   $product = executeResult($sql);
+  $cate = executeSingleResult("SELECT * FROM tb_category WHERE cate_id = $cate_id");
   $countResult = executeSingleResult("SELECT count(product_id) AS total from tb_products where deleted = 0 and cate_id = $cate_id");
 } else {
   $countResult = executeSingleResult("SELECT count(product_id) AS total from tb_products where deleted = 0");
@@ -61,7 +62,7 @@ foreach ($sale as $key => $s) {
         </li>
         <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="#" itemprop="item">
-            <span itemprop="name"><?= $cate_id ?></span>
+            <span itemprop="name"><?= ($cate_id != null ? $cate["cate_name"] : "All Product") ?></span>
             <meta itemprop="position" content="2" />
           </a>
         </li>
@@ -82,7 +83,7 @@ foreach ($sale as $key => $s) {
         <ul class="menu-category">
           <li><span class="title-category">Danh mục sản phẩm</span></li>
           <hr>
-          <?php foreach ($cate as $c) { ?>
+          <?php foreach ($cates as $c) { ?>
             <li class="item-nav">
               <a href="?cate_id=<?= $c["cate_id"] ?>">
                 <?php echo $c["cate_name"] ?>
@@ -122,7 +123,7 @@ foreach ($sale as $key => $s) {
                     <?php } ?>
                     <div class="box-actions-hover">
                       <button><a href="details.php?id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                      <button onclick="addNewProduct(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                      <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
                     </div>
                   </div>
                   <div class="product-info">

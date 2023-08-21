@@ -34,8 +34,6 @@ function checkCate($value)
 ?>
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="../../public/backend/css/table.css">
     <style>
         .title-page {
             margin-top: 20px;
@@ -166,11 +164,6 @@ function checkCate($value)
     <div>
         <form method="post" enctype="multipart/form-data" action="">
             <div class="addPro-wapper">
-                <?php if ($id != null) { ?>
-                    <div>
-                        <p>ID: <span><?php echo $id ?></span></p>
-                    </div>
-                <?php } ?>
                 <div class="product-input-box">
                     <div class="product-input">
                         <div class="input-animation">

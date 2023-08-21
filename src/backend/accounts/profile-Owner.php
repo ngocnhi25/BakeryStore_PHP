@@ -1,9 +1,8 @@
 <?php
-
-if (isset($_POST["page"])) {
-    require_once("connect/connectDB.php");
+session_start();
+if(isset($_POST["ajaxSidebar"])) {
+    require_once('../../connect/connectDB.php');
     session_start();
-
     if (isset($_SESSION["auth_user"])) {
         $user_name = $_SESSION["auth_user"]["username"];
         $user_id = $_SESSION["auth_user"]["user_id"];
@@ -11,8 +10,8 @@ if (isset($_POST["page"])) {
 }
 $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 
-?>
 
+?>
 <div class="my-profile-page">
     <div class="profile-title">
         <h1>Change Password</h1>
@@ -21,6 +20,7 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
     <div class="update-profile-box">
         <div class="profile-form">
             <form id="changePasswordForm" style="width: 100%;">
+            <div class="pass error" style="color: red;"></div>
                 <table style="width: 100%;">
                     <input type="hidden" id="id" name="id" value="<?= $user["user_id"] ?>" readonly>
                     <tr>
@@ -36,7 +36,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                         <td>
                             <div class="css-input">
                                 <input type="password" id="current-password" name="current-password">
-                                <div class="pass error" style="color: red;"></div>
                             </div>
                         </td>
                     </tr>
@@ -49,7 +48,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $("#sb-changePass").click(function(e) {
@@ -62,17 +60,19 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 
             $.ajax({
                 type: "POST",
-                url: 'User/code-change-Pass.php',
+                url: '../User/code-change-Pass-Owner.php',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(res) {
                     if (res === 'success') {
-                        alert("Verify your account successfully !");
-                        window.location.href = "changPass-inputNew.php"; 
+                        alert("We sent email to update new password . Please verify !");
                     } else if (res === 'fail') {
                         alert("Incorrect Password . Please input again !");
-                    }else {
+                    }else if (res === 'error') {
+                        alert("Send email Fail !");
+                    }
+                    else {
                         var errors = JSON.parse(res);
                         for (var key in errors) {
                             if (errors.hasOwnProperty(key)) {

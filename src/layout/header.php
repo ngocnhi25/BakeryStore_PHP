@@ -1,5 +1,4 @@
 <?php
-// session_start();
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];
@@ -15,7 +14,7 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                         ORDER BY total_views DESC");
 
 
-// Connect to the database
+//Connect to the database
 $conn = new mysqli("localhost", "root", "", "projecthk2");
 
 // Check connection
@@ -48,12 +47,10 @@ $conn->close();
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>Bakery Store</title>
-  <meta name="description"
-    content="Thu Hương Bakery ra đời từ năm 1996, trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô.">
+  <meta name="description" content="Thu Hương Bakery ra đời từ năm 1996, trong suốt hơn 25 năm hình thành và phát triển, với sự nỗ lực không ngừng nghỉ Thu Hương Bakery đã mang lại những dấu ấn khó phai trong lòng người dân Thủ Đô.">
   <meta name="keywords" content="Bánh Sinh Nhật, Bánh Trung Thu, Quà Trung Thu, Thu Hương Bakery Since 1996">
 
-  <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@48,400,0,0" />
 
   <!-- Favicon -->
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
@@ -78,9 +75,9 @@ $conn->close();
   <link href="../public/frontend/css/product.css" rel="stylesheet">
   <!-- Meta Pixel Code -->
   <script>
-    ! function (f, b, e, v, n, t, s) {
+    ! function(f, b, e, v, n, t, s) {
       if (f.fbq) return;
-      n = f.fbq = function () {
+      n = f.fbq = function() {
         n.callMethod ?
           n.callMethod.apply(n, arguments) : n.queue.push(arguments)
       };
@@ -99,8 +96,7 @@ $conn->close();
     fbq('init', '1913464958707044');
     fbq('track', 'PageView');
   </script>
-  <noscript><img height="1" width="1" style="display:none"
-      src="tr?id=1913464958707044&ev=PageView&noscript=1" /></noscript>
+  <noscript><img height="1" width="1" style="display:none" src="tr?id=1913464958707044&ev=PageView&noscript=1" /></noscript>
   <!-- End Meta Pixel Code -->
 
   <!-- Google tag (gtag.js) - Google Analytics -->
@@ -144,8 +140,7 @@ $conn->close();
 
     <div class="cart-sidebar-container">
       <div class="header">
-        <p class="title">Carts</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i
-            class="fas fa-times fa-2x"></i></span>
+        <p class="title">Carts</p><span class="toggle-cart-sidebar js-toggle-cart-sidebar"><i class="fas fa-times fa-2x"></i></span>
       </div>
       <div class="body">
         <ul class="cart-list">
@@ -226,10 +221,8 @@ $conn->close();
 
         <nav>
           <div class="nav nav-tabs tabs-menu-mobile" id="nav-tab" role="tablist">
-            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
-              aria-controls="nav-home" aria-selected="true">MENU</a>
-            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab"
-              aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">MENU</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-category" role="tab" aria-controls="nav-profile" aria-selected="false">DANH MỤC SẢN PHẨM</a>
           </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
@@ -337,7 +330,7 @@ $conn->close();
 
               <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter" id="cart-item"><?= $cartItemCount ?></span>
+                <span class="counter" id="cart-item"><?= $itemCart != null ? $itemCart["total"] : 0 ?></span>
               </button>
 
               <div class="user-header d-none d-lg-block">
@@ -355,7 +348,7 @@ $conn->close();
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   } else if ($_SESSION["auth_user"]["role"] == "3") {
                     echo '<a href="backend/admin_owner.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' .$user["username"];
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
                     echo '</a>';
                     echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
                   }

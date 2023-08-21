@@ -28,6 +28,11 @@ if (isset($_POST["username"]) && !empty($_POST["username"])) {
         $errors["errorUsername"] = 'Username must be between 6 and 20 characters';
         $errorNum++;
     }
+    if (strpos($username, ' ') !== false) {
+        $errors["errorUsername"] = 'New password must not contain spaces';
+        $errorNum++;
+    }
+
 } else {
     $errors["errorUsername"] = 'Username cannot be blank';
     $errorNum++;

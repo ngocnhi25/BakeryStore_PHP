@@ -157,7 +157,7 @@ function changeInputOption(_this) {
   _this.parents('.option-zone').find('.option-result').html(value);
 }
 
-function addNewProduct(id) {
+function addNewCart(id) {
   $(document).ready(function () {
     const postData = {
       product_id: id

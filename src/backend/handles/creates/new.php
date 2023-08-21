@@ -70,7 +70,7 @@ if (isset($_FILES["images"]["name"])) {
         $thumbnails = executeResult("SELECT * FROM tb_thumbnail WHERE product_id = $id");
         $imageDelete = executeSingleResult("SELECT * FROM tb_news WHERE new_id = $id");
 
-        $imagesDelete[0] = $imageDelete["image"];
+        $imagesDelete[0] = $imageDelete["new_image"];
         foreach ($thumbnails as $key => $thumb) {
             $imagesDelete[$key + 1] = $thumb["thumbnail"];
         }
@@ -110,7 +110,7 @@ if (isset($_FILES["images"]["name"])) {
         $errors["errorImages"] = "News images cannot be blank";
         $errorNum = 1;
     } else {
-        $noUpdateImage = 0;
+        $noUpdateImage = 1;
     }
 }
 
