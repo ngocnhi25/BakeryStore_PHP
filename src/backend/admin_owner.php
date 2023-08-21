@@ -1,9 +1,9 @@
 <?php
 require_once("../connect/connectDB.php");
+require_once ("../User/authencation.php");
 session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
 }
 ?>
 <!DOCTYPE html>
@@ -165,12 +165,6 @@ if (isset($_SESSION["auth_user"])) {
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="warehouse.php" class="nav-link">
-                            <span class="material-symbols-sharp">add</span>
-                            <h3>Add Qty Product</h3>
-                        </a>
                     </li>
                     <li class="nav-item logout">
                         
