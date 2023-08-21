@@ -1,4 +1,16 @@
-<?php require_once("connect/connectDB.php") ?>
+<?php 
+require_once("connect/connectDB.php");
+session_start();
+
+
+if (isset($_SESSION["auth_user"])) {
+  $user_name = $_SESSION["auth_user"]["username"];
+  $user_id = $_SESSION["auth_user"]["user_id"];
+}
+
+$user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+
+?>
 
 <?php require "layout/header.php"; ?>
 
@@ -44,36 +56,45 @@
             </div>
           </div>
         </div>
-
+        
         <div class="col-md-6">
           <div class="form-contact">
-            <form action="supportForm"  method="post" >
+            <form action="User/supportForm.php"  method="post" >
               <input type="hidden" name="csrf_test_name" value="3441edce48242ee241352e447f2ea713" />
               <h3 style="text-align: center;"> Support Request Form</h3>
               <div class="form-group">
                 <label for="">Fullname : </label>
                 <input type="hidden" name="link" value="lien-he">
-                <input type="text" class="form-control" name="fullname" required="required" placeholder="Your fullname " />
+                <input type="text" class="form-control" name="fullname" required="required" value="<?= $user["username"] ?>" placeholder="Your fullname " readonly />
               </div>
               <div class="form-group">
                 <label for="">Phone number : </label>
-                <input type="text" class="form-control" name="phone" placeholder="Your Phone Number " pattern="[0][1-9][0-9]{7,9}" />
+                <input type="text" class="form-control" name="phone" required="required" placeholder="Your Phone Number " value="<?= $user["phone"] ?>" pattern="[0][1-9][0-9]{7,9}" readonly />
               </div>
               <div class="form-group">
                 <label for="">Email Address : </label>
-                <input type="text" class="form-control" name="email" placeholder=" Your Email Address">
+                <input type="email" class="form-control" name="email" required="required" value="<?= $user["email"] ?>" placeholder=" Your Email Address" readonly >
               </div>
               <div class="form-group">
-                <label for="">Content : </label>
-                <textarea name="message" placeholder="Content" required="required" class="form-control"></textarea>
+                <label for="">Comment : </label>
+                <textarea name="content" placeholder="Content" required="required" class="form-control"></textarea>
               </div>
               <div class="form-group text-center">
-                <button class="btn btn-save-kinhdoanh" type="submit"> Submit </button>
+                <button class="btn btn-save-kinhdoanh" type="submit" name="sb-FormSupport"> Submit </button>
               </div>
             </form>
           </div>
         </div>
 
 </section>
+
+<?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>
 
 <?php require "layout/footer.php"; ?>
