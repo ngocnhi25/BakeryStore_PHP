@@ -2,15 +2,12 @@
 session_start();
 require_once('connect/connectDB.php');
 
-<<<<<<< HEAD
-=======
 
 
 
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
->>>>>>> 5effbef88119196f26931432d3bf4b3284190b2a
 // var_dump($user_id);
 // die();
 
