@@ -1,54 +1,47 @@
 <?php
 session_start();
 require_once('connect/connectDB.php');
+require_once('handles_page/handle_calculate.php');
 
-<<<<<<< HEAD
-=======
-
+$arraySale = [];
 
 
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
->>>>>>> 5effbef88119196f26931432d3bf4b3284190b2a
 // var_dump($user_id);
 // die();
 
 // get id form web
-if(isset($_GET["product_id"])){
+if (isset($_GET["product_id"])) {
   $id = $_GET['product_id'];
 }
 
-
-//debug product_qty
-$product_qty = executeSingleResult("SELECT product_qty FROM tb_warehouse WHERE product_id = $id");
-// var_dump($product_qty);
-// die();
+$cartItems = executeResult("SELECT * FROM tb_cart");
+$product = executeSingleResult("SELECT * from tb_products where product_id = $id");
+$flaror = executeResult("select * from tb_flavor");
+$size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id");
+$thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+$sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
+// $imageResult = executeSingleResult("SELECT image FROM tb_products WHERE product_id = $id");
+// $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
+// $productResult = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $id");
+// $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
+$percent_sale = executeSingleResult("SELECT percent_sale FROM tb_sale WHERE product_id = $id");
 
 // Lấy dữ liệu sản phẩm và danh mục tương ứng từ cơ sở dữ liệu
-$query = "SELECT p.product_name, p.price, p.image, c.cate_name
-          FROM tb_products p
-          INNER JOIN tb_cate c ON p.cate_id = c.cate_id";
-$products = executeResult($query);
+$cateProduct = $product["cate_id"];
+$products = executeResult("SELECT * FROM tb_products p
+                          INNER JOIN tb_category c ON p.cate_id = c.cate_id 
+                          where c.cate_id = $cateProduct and p.deleted = 0");
 
-
-$cartItems = executeResult("SELECT * FROM tb_cart");
-$product = executeResult("select * from tb_products where product_id = $id");
-$flaror = executeResult("select * from tb_flavor");
-$size = executeResult("select * from tb_size");
-$thumb = executeResult("select * from tb_thumbnail where product_id = $id");
-$imageResult = executeSingleResult("SELECT image FROM tb_products WHERE product_id = $id");
-$priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
-$productResult = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $id");
-$priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
-$percent_sale = executeSingleResult("SELECT percent_sale FROM tb_sale WHERE product_id = $id");
-if ($imageResult) {
-  $image = $imageResult['image'];
+if ($product) {
+  $image = $product['image'];
 } else {
   echo "Image not available.";
 }
-if ($priceResult) {
-  $price = $priceResult['price'];
+if ($product) {
+  $price = $product['price'];
 } else {
   echo "Price not available.";
 }
@@ -56,18 +49,17 @@ if ($percent_sale) {
   $percent = intval($percent_sale);
   $discountedPrice = $price - ($price * $percent / 100);
 }
-// var_dump($percent_sale);
-// die();
+
 $idproductResult = executeSingleResult("SELECT product_id FROM tb_products WHERE product_id = $id");
 //get name value
-if ($productResult) {
-  $name = $productResult['product_name'];
+if ($product) {
+  $name = $product['product_name'];
 } else {
   echo "Name not available.";
 }
 //get product_id
-if ($idproductResult) {
-  $id = $idproductResult['product_id'];
+if ($product) {
+  $id = $product['product_id'];
 } else {
   echo "Name not available.";
 }
@@ -76,18 +68,28 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                                       JOIN tb_category c ON p.cate_id = c.cate_id
                                       WHERE p.product_id = $id");
 
+foreach ($sale as $key => $s) {
+  $arraySale[$key] = $s["product_id"];
+}
+
 
 ?>
 
 
-
+<head>
+  <style>
+    .product_detail_carosel {
+      width: 250px;
+    }
+  </style>
+</head>
 
 <?php include("layout/header.php") ?>
 <?php if (isset($_SESSION['status'])) { ?>
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-  <?php
+<?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -110,8 +112,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
             <meta itemprop="position" content="2" />
           </a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope
-          itemtype="https://schema.org/ListItem">
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="#" itemprop="item">
             <span itemprop="name">
               <?php echo $productDetails['product_name']; ?>
@@ -166,7 +167,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
               </div>
               <div class="size">
                 <p>increaseSize:</p>
-                <div id="displayedIncreaseSize">N/A</div>
+                <div id="displayedIncreaseSize">+0</div>
               </div>
               <div class="size">
                 <p>Size:</p>
@@ -211,7 +212,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                 <div class="price">
                   <p class="discounted-price" id="price">
                     Cake in warehouse:
-                    <?php echo $product_qty['product_qty'] ?> cake
+                    <?php echo $product['qty_warehouse'] ?> cake
                   </p>
                 </div>
 
@@ -219,13 +220,13 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                 <input type="hidden" class="name" value="<?php echo $name ?>">
                 <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
                 <input type="hidden" class="lastPrice" value="<?php
-                if (isset($discountedPrice)) {
-                  echo $discountedPrice;
-                } else {
-                  $discountedPrice = $price;
-                  echo $discountedPrice;
-                }
-                ?>">
+                                                              if (isset($discountedPrice)) {
+                                                                echo $discountedPrice;
+                                                              } else {
+                                                                $discountedPrice = $price;
+                                                                echo $discountedPrice;
+                                                              }
+                                                              ?>">
 
 
 
@@ -240,8 +241,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
             <div class="card-content-pro">
               <ul class="nav nav-pills tabs-categories" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
-                    aria-controls="pills-home" aria-selected="true">Mô
+                  <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Mô
                     tả sản phẩm</a>
                 </li>
               </ul>
@@ -250,9 +250,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
                   <p><span style="font-size: 12px;">
-                      <?php foreach ($product as $p) { ?>
-                        <?php echo $p["description"] ?>
-                      <?php } ?>
+                      <?php echo $product["description"] ?>
                     </span></p>
 
                 </div>
@@ -262,20 +260,54 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
           <div class="col-12 mt-5">
             <div class="card-content-pro">
 
-              <div class="clients-carousel owl-carousel">
-                <?php foreach ($products as $carou) { ?>
-                  <div class="single-box">
-                    <div class="content">
-                      <img src="<?php echo $carou['image']; ?>" alt="<?php echo $carou['product_name']; ?>">
-                      <h4>
-                        <?php echo $carou['product_name']; ?>
-                      </h4>
-                      <p>$
-                        <?php echo $carou['price']; ?>
-                      </p>
-                      <p>Category:
-                        <?php echo $carou['cate_name']; ?>
-                      </p>
+              <div class="clients-carousel owl-carousel owl-theme">
+                <?php foreach ($products as $p) { ?>
+                  <div class='col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2'>
+                    <div class='one-product-container product-carousel product_detail_carosel'>
+                      <div class="product-images">
+                        <a href="details.php?product_id=<?= $p["product_id"] ?>">
+                          <div class="product-image hover-animation">
+                            <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                            <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                          </div>
+                        </a>
+                        <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                          <div class="product-discount">
+                            <span class="text">-
+                              <?php foreach ($sale as $s) {
+                                if ($p["product_id"] == $s["product_id"]) {
+                                  echo ($s["percent_sale"]);
+                                  break;
+                                }
+                              } ?> %</span>
+                          </div>
+                        <?php } ?>
+                        <div class="box-actions-hover">
+                          <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                          <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                        </div>
+                      </div>
+                      <div class="product-info">
+                        <div class="product-name">
+                          <a href="details.php?product_id=<?php $p["product_id"] ?>">
+                            <?php echo $p["product_name"] ?>
+                          </a>
+                        </div>
+                        <div class="product-price">
+                          <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                            <span class="price">
+                              <?php foreach ($sale as $s) {
+                                if ($p["product_id"] == $s["product_id"]) {
+                                  echo calculatePercentPrice($p["price"], $s["percent_sale"]);
+                                  break;
+                                }
+                              } ?> vnđ</span>
+                            <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                          <?php } else { ?>
+                            <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                          <?php } ?>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 <?php } ?>
@@ -297,28 +329,27 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
               loop: true,
               nav: false,
               autoplay: true,
-              autoplayTimeout: 5000,
+              autoplayTimeout: 3000,
               animateOut: 'fadeOut',
               animateIn: 'fadeIn',
               smartSpeed: 450,
-              margin: 30,
+              margin: 10,
+              autoplaySpeed: 1000,
               responsive: {
                 0: {
-                  items: 1
+                  items: 2,
                 },
-                768: {
-                  items: 2
+                600: {
+                  items: 3,
                 },
-                991: {
-                  items: 2
+                1000: {
+                  items: 3,
                 },
-                1200: {
-                  items: 2
-                },
-                1920: {
-                  items: 2
-                }
-              }
+              },
+              navText: [
+                '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+                '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
+              ],
             });
           </script>
 
@@ -347,7 +378,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
     $.ajax({
       type: "GET",
       url: "handles_page/check_login_status.php",
-      success: function (response) {
+      success: function(response) {
         if (response === "loggedin") {
           Swal.fire({
             icon: 'success',
@@ -368,30 +399,30 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
     });
   }
   // Call the function when needed, e.g., on a button click
-  $(document).ready(function () {
-    $("#add").click(function () {
+  $(document).ready(function() {
+    $("#add").click(function() {
       checkLoginStatus();
     });
   });
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     let selectedSize = "";
     let selectedFlavor = "";
 
     // Size buttons event listener
-    $(".sizeBtn").on("click", function () {
+    $(".sizeBtn").on("click", function() {
       selectedSize = $(this).val();
       // alert("Selected Size: " + selectedSize);
     });
 
     // Flavor buttons event listener
-    $(".flavorBtn").on("click", function () {
+    $(".flavorBtn").on("click", function() {
       selectedFlavor = $(this).val();
       // alert("Selected Flavor: " + selectedFlavor);
     });
 
     // Add to cart button event listener
-    $(document).on("click", "#add", function (e) {
+    $(document).on("click", "#add", function(e) {
       e.preventDefault();
       if (selectedSize == "") {
         Swal.fire({
@@ -439,13 +470,13 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
         data: {
           pid: pid,
           pname: pname,
-          size: selectedSize,    // Add selected size
+          size: selectedSize, // Add selected size
           flavor: selectedFlavor, // Add selected flavor
           increaseSize: increaseSize,
           quantity: quantity,
           price: price
         },
-        success: function (response) {
+        success: function(response) {
           // console.log("Selected Size (in AJAX): " + selectedSize);
           // console.log("Selected Flavor (in AJAX): " + selectedFlavor);
           Swal.fire({
@@ -456,26 +487,27 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
           });
           // alert(response);
         },
-        error: function () {
+        error: function() {
           alert("Error adding product to cart");
         }
       });
     });
   });
-
 </script>
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Add click event listener to the size buttons
-    $(".sizeBtn").on("click", function () {
+    $(".sizeBtn").on("click", function() {
       var selectedSize = $(this).data("size");
       // alert(selectedSize);
       // Make an Ajax request to get the increaseSize based on the selected size
       $.ajax({
         url: "../src/handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
         method: "POST",
-        data: { size: selectedSize },
-        success: function (response) {
+        data: {
+          size: selectedSize
+        },
+        success: function(response) {
           if (response !== "") {
             var formattedIncreaseSize = parseFloat(response).toFixed(0);
             formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -491,7 +523,7 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
             $(".IncreaseSize").val(""); // Reset the hidden input field if needed
           }
         },
-        error: function () {
+        error: function() {
           $("#displayedIncreaseSize").text("Error fetching increaseSize");
           $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
         }
@@ -501,20 +533,20 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
 
 
   //chang Big image
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function() {
     const mainBigImage = document.getElementById("mainBigImage");
     const originalImage = document.getElementById("originalImage");
     const thumbnailImages = document.querySelectorAll(".thumbnail-img");
 
-    thumbnailImages.forEach(function (thumbnail) {
-      thumbnail.addEventListener("click", function () {
+    thumbnailImages.forEach(function(thumbnail) {
+      thumbnail.addEventListener("click", function() {
         const index = this.getAttribute("data-index");
         const newImageSrc = this.getAttribute("src");
         updateBigImage(newImageSrc);
       });
     });
 
-    originalImage.addEventListener("click", function () {
+    originalImage.addEventListener("click", function() {
       const originalSrc = originalImage.getAttribute("src");
       updateBigImage(originalSrc);
     });
@@ -523,7 +555,6 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
       mainBigImage.src = newImageSrc;
     }
   });
-
 </script>
 <script src="../public/frontend/js/product_page.js"></script>
 </div>

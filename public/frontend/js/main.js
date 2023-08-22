@@ -262,12 +262,15 @@ $(document).ready(function () {
   });
 
   $(".owl-products-some").owlCarousel({
-    margin: 10,
-    loop: false,
-    autoplay: true,
-    autoplaySpeed: 1000,
-    autoplayHoverPause: true,
+    loop: true,
     nav: false,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    smartSpeed: 450,
+    margin: 10,
+    autoplaySpeed: 1000,
     responsive: {
       0: {
         items: 2,
@@ -817,12 +820,12 @@ $(window).resize(function () {
 });
 
 const section = document.querySelector("section"),
-closeBtn = section.querySelectorAll("#close"),
-textArea = section.querySelector("textarea");
+  closeBtn = section.querySelectorAll("#close"),
+  textArea = section.querySelector("textarea");
 
 closeBtn.forEach(cBtn => {
-  cBtn.addEventListener("click" , ()=>{
-      section.classList.remove("show");
-      textArea.value = "";
+  cBtn.addEventListener("click", () => {
+    section.classList.remove("show");
+    textArea.value = "";
   });
 });
