@@ -132,12 +132,10 @@ function showProductCarosel($p)
   ";
 }
 
-// var_dump($cate);
-// die();
-
 ?>
 
 <?php include "layout/header.php" ?>
+
 <?php if (isset($_SESSION['status'])) { ?>
   <script>
     alert('<?php echo $_SESSION['status']; ?>');

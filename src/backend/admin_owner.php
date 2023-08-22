@@ -1,10 +1,29 @@
 <?php
-require_once("../connect/connectDB.php");
 session_start();
+<<<<<<< HEAD
+// require_once("../connect/connectDB.php");
+
+// if (isset($_SESSION["auth_user"])) {
+//     $user_name = $_SESSION["auth_user"]["username"];
+//     $user_id = $_SESSION["auth_user"]["user_id"];
+//     $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+//     if($checkRole != 0 ){
+//         header("location: ../User/login.php");
+//     }
+// } else {
+=======
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
-}
+    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+    // if($checkRole != 0 ){
+    //     header("location: ../User/login.php");
+    // }
+} 
+// else {
+>>>>>>> 5476d7d1d3d4c59bd43c6276f91be44019ddd669
+//     header("location: ../User/login.php");
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +81,7 @@ if (isset($_SESSION["auth_user"])) {
                                 <a href="accounts/profile-Owner.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>My Profile </h4>
+                                    <h4>Change Password </h4>
                                 </a>
                             </li>
                             <li class="menu-item">
@@ -77,6 +96,13 @@ if (isset($_SESSION["auth_user"])) {
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>Employees</h4>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="accounts/add-employee.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Add Employees</h4>
                                 </a>
                             </li>
                         </ul>
@@ -165,12 +191,6 @@ if (isset($_SESSION["auth_user"])) {
                                 </a>
                             </li>
                         </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a href="warehouse.php" class="nav-link">
-                            <span class="material-symbols-sharp">add</span>
-                            <h3>Add Qty Product</h3>
-                        </a>
                     </li>
                     <li class="nav-item logout">
                         

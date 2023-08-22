@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(isset($_POST["ajaxSidebar"])) {
     require_once('../../connect/connectDB.php');
     session_start();
@@ -47,7 +46,9 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
             </form>
         </div>
     </div>
-</div>
+
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         $("#sb-changePass").click(function(e) {
@@ -84,4 +85,6 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
             });
         });
     });
+
+
 </script>

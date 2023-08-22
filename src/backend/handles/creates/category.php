@@ -52,7 +52,7 @@ if (isset($_POST["sizeID"])) {
         if ($size_increase[$key] == null) {
             $errors["errorSizes"] = "Do not leave the box you selected blank";
             $errorNum = 1;
-        } elseif ($size_increase[$key] < 0) {
+        } elseif ($size_increase[$key] <= 0) {
             $errors["errorSizes"] = "Price increase must be greater than or equal to 0";
             $errorNum = 1;
         } else {

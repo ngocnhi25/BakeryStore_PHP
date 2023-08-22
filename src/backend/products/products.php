@@ -61,6 +61,7 @@ function maxPrice() {
                     <th>Price</th>
                     <th>Category</th>
                     <th>View</th>
+                    <th>Product Quantity</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -75,12 +76,13 @@ function maxPrice() {
                         <td><?php echo displayPrice($product["price"]) ?> VNĐ</td>
                         <td><?= $product["cate_name"] ?></td>
                         <td><?= $product["view"] ?></td>
+                        <td><?= $product["qty_warehouse"] ?></td>
                         <td class="button">
                             <button onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
                             <?php if ($product["deleted"] == 0) { ?>
                                 <button onclick='hideProduct(<?= $product["product_id"] ?>)' type="button" class="hide">Hide</button>
                             <?php } else { ?>
-                                <button onclick='recoverProduct(<?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
+                                <button onclick='recoverProduct(<?= $product["qty_warehouse"] ?>, <?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
                             <?php } ?>
                             <button type="button" onclick='deleteProduct("<?= $product["product_name"] ?>", <?= $product["product_id"] ?>)' class="delete">Delete</button>
                         </td>
