@@ -3521,7 +3521,7 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
   margin: 20px 0;
 }
 .size p {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   margin-bottom: 0;
 }
@@ -3598,16 +3598,21 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 }
 .flavorBtn {
   display: inline-block;
-  padding: 10px 15px;
+  padding: 6px 10px;
   background-color: beige;
   color: black;
   border: 2px solid black;
   border-radius: 5px;
   cursor: pointer;
-  margin: 00 10px;
-  font-size: 20px;
+  margin: 0 8px;
+  font-size: 14px;
+  width: 100px;
+  text-align: center;
+  white-space: nowrap; /* Ngăn văn bản xuống dòng */
+  text-overflow: ellipsis; /* Hiển thị dấu chấm (...) nếu văn bản bị tràn */
   transition: 0.2s;
 }
+
 
 .flavorBtn:hover {
   background-color: #e487af9e;
@@ -3728,4 +3733,22 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 .order-details p {
   margin: 5px 0;
   font-size: 16px;
+}
+.carousel {
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-container {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
 }

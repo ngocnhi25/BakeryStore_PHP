@@ -6,14 +6,16 @@ if (isset($_POST['size'])) {
     $selectedSize = $_POST['size'];
 
     // Fetch the increaseSize from the database based on the selected size
-    $query = $conn->prepare('SELECT increase_size FROM tb_size WHERE size_name = ?');
+    $query = $conn->prepare('SELECT cs.increase_size
+                             FROM tb_size s
+                             JOIN tb_cate_size cs ON s.size_id = cs.size_id
+                             WHERE s.size_name = ?');
     $query->bind_param('s', $selectedSize);
     $query->execute();
-    $result = $query->get_result();
+    $query->bind_result($increaseSize);
+    $query->fetch();
 
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $increaseSize = $row['increase_size'];
+    if ($increaseSize !== null) {
         echo $increaseSize;
     } else {
         echo ""; // Return an empty string if the size is not found

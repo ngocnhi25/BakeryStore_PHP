@@ -217,6 +217,7 @@ if (isset($_SESSION["auth_user"])) {
           data: $('form').serialize() + "&action=order",
           success: function (response) {
             $("#order").html(response);
+            // window.location.href = "home.php";
           }
         });
       });

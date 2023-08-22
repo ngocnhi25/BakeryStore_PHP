@@ -69,10 +69,10 @@ $orders = executeResult("SELECT * FROM tb_order");
             <thead>
                 <tr>
                     <th>Order ID</th>
+                    <th>User ID</th>
                     <th>Customer Name</th>
                     <th>Contact Information</th>
                     <th>Order Date</th>
-                    <th>Products</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -82,6 +82,10 @@ $orders = executeResult("SELECT * FROM tb_order");
                         <td>#
                             <?php echo $order['order_id']; ?>
                             <input type="hidden" class="order-id" value="<?php echo $order['order_id']; ?>">
+                        </td>
+                        <td>#
+                            <?php echo $order['user_id']; ?>
+                            <input type="hidden" class="user_id" value="<?php echo $order['user_id']; ?>">
                         </td>
                         <td>
                             <?php echo $order['name']; ?>
@@ -96,9 +100,6 @@ $orders = executeResult("SELECT * FROM tb_order");
                         </td>
                         <td>
                             <?php echo $order['order_date']; ?>
-                        </td>
-                        <td>
-                            <?php echo $order['products']; ?>
                         </td>
                         <td>
                             <button class="view-btn" data-order-id="<?php echo $order['order_id']; ?>">View</button>

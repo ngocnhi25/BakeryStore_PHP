@@ -152,29 +152,50 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$address = $_POST['address'];
 	$pmode = $_POST['pmode'];
 	$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
-
+	$coupon_name = isset($_POST['coupon_name']) ? $_POST['coupon_name'] : null;
 	$deposit = $grand_total * 0.3; // Calculate deposit as 30% of grand_total
 
-	// Initialize discount related variables
-	$coupon_name = $_POST['coupon_name'];
-	$discount_percent = 0;
-	$discount_amount = 0;
-
 	if (!empty($coupon_name)) {
-		// Get discount from tb_coupon based on the coupon name
-		$sql_coupon = "SELECT discount FROM tb_coupon WHERE coupon_name = '$coupon_name'";
-		$discount = executeSingleResult($sql_coupon);
+		// Get discount and condition_used_coupon from tb_coupon based on the coupon name
+		$sql_coupon = "SELECT discount_coupon, condition_used_coupon, qti_coupon, qti_used_coupon FROM tb_coupon WHERE coupon_name = '$coupon_name'";
+		$coupon = executeSingleResult($sql_coupon);
 
-		if ($discount != null) {
-			$discount_percent = $discount['discount'];
+		if ($coupon != null) {
+			$discount_percent = $coupon['discount_coupon'];
+			$condition_used_coupon = $coupon['condition_used_coupon'];
+			$intcondition_used_coupon = intval($condition_used_coupon);
+
+			// Calculate discount amount
+			$discount_amount = 0;
+
+			if ($grand_total < $intcondition_used_coupon) {
+				$discount_amount = $discount_percent;
+			}
+			else {
+				echo "Discount Amount Need To be < ". $intcondition_used_coupon;
+				// exit();
+			}
+
+			// Check if there are available qti_coupon and qti_used_coupon
+			$qti_coupon = $coupon['qti_coupon'];
+			$qti_used_coupon = $coupon['qti_used_coupon'];
+
+			if ($qti_coupon > 0 && $qti_used_coupon < $qti_coupon) {
+				// Deduct one qti_coupon and increment qti_used_coupon
+				$qti_used_coupon++;
+				$qti_coupon--;
+
+				// Update the qti_coupon and qti_used_coupon values in the database
+				$update_qti_sql = "UPDATE tb_coupon SET qti_coupon = $qti_coupon, qti_used_coupon = $qti_used_coupon WHERE coupon_name = '$coupon_name'";
+				execute($update_qti_sql);
+			}
 		}
-
-		// Calculate discount amount
-		$discount_amount = $grand_total * ($discount_percent / 100);
 	}
-
+	// var_dump($intcondition_used_coupon);
+	// die();
 	// Calculate total_pay
 	$total_pay = $grand_total - $discount_amount;
+
 
 	$order_id = mt_rand(100000, 999999);
 	$order_date = date('Y-m-d');
@@ -223,11 +244,15 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		}
 	}
 
+	global $coupon_name;
+	// var_dump($coupon_name);
+	// die();
 	// Insert order details into tb_order table
-	$sql_insert = "INSERT INTO tb_order (order_id, user_id, name, email, phone, address, order_date, deposit, products, total_pay, status) 
-                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$products_string', '$total_pay', 'pending')";
+	$sql_insert = "INSERT INTO tb_order (order_id, user_id, name, email, phone, address, order_date, deposit, products,coupon_sale, total_pay, status) 
+                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$products_string','$coupon_name', '$total_pay', 'pending')";
 	$insert_result = execute($sql_insert);
-
+	// var_dump($insert_result);
+	// die();
 	if ($insert_result) {
 		// Delete cart items after successful order
 		$sql_delete_cart = "DELETE FROM tb_cart";

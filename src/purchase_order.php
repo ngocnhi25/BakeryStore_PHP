@@ -10,9 +10,9 @@ if (isset($_SESSION["auth_user"])) {
 $arrayPrepare = $arrayPending = [];
 
 $orders = executeResult("SELECT * FROM tb_order where user_id = $user_id");
-$orders_details = executeResult("SELECT * FROM tb_order_detail o 
-                                    INNER JOIN tb_products p
-                                    ON o.product_id = p.product_id where user_id = $user_id");
+// $orders_details = executeResult("SELECT * FROM tb_order_detail o 
+//                                     INNER JOIN tb_products p
+//                                     ON o.product_id = p.product_id where user_id = $user_id");
 
 
 function noOrderYet()
@@ -98,10 +98,10 @@ function checkStatus($status)
                                 <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
                             </div>
                             <div class="cal-total">
-                                <?php if ($o["sale_coupon"] != 0) { ?>
+                                <?php if ($o["coupon_sale"] != 0) { ?>
                                     <span>Total Pay:
                                     </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                    <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["sale_coupon"]) ?> vnđ</span>
+                                    
                                 <?php } else { ?>
                                     <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
                                 <?php } ?>
@@ -196,10 +196,10 @@ function checkStatus($status)
                                     <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
                                 </div>
                                 <div class="cal-total">
-                                    <?php if ($o["sale_coupon"] != 0) { ?>
+                                    <?php if ($o["coupon_sale"] != 0) { ?>
                                         <span>Total Pay:
                                         </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["sale_coupon"]) ?> vnđ</span>
+                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["coupon_sale"]) ?> vnđ</span>
                                     <?php } else { ?>
                                         <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
                                     <?php } ?>
@@ -349,30 +349,7 @@ function checkStatus($status)
         </div>
     </div>
 </div>
-<div class="po-content-box">
-    <div class="content active" data-content="all">
-        <?php
-        if (isset($user_id)) {
-            // Retrieve and display orders with all statuses for the specific user
-            $orders = executeResult("SELECT * FROM tb_order WHERE user_id = $user_id");
 
-            foreach ($orders as $order) {
-                // Display order information based on your layout
-                echo '<div class="order-item">';
-                echo '<p>Order ID: ' . $order['order_id'] . '</p>';
-                echo '<p>Customer Name: ' . $order['name'] . '</p>';
-                echo '<p>Contact Information: Phone: ' . $order['phone'] . ', Address: ' . $order['address'] . '</p>';
-                echo '<p>Order Date: ' . $order['order_date'] . '</p>';
-                echo '<p>Status: ' . $order['status'] . '</p>';
-                echo '</div>';
-            }
-        } else {
-            echo '<p>No user logged in.</p>';
-        }
-        ?>
-    </div>
-    <!-- ... (other content sections) ... -->
-</div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
