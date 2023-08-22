@@ -71,8 +71,9 @@ $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where r
         .chart {
             width: 100%;
             position: relative;
-            
+
         }
+
         .chart .chart-month-year {
             display: flex;
             position: relative;
@@ -81,11 +82,13 @@ $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where r
             justify-content: space-between;
             /* gap: 2rem; */
         }
+
         .chart .chart-month-year .month-chart {
             position: relative;
             width: 70%;
             height: 500px;
         }
+
         .chart .chart-month-year .year-chart {
             position: relative;
             width: 30%;
@@ -124,8 +127,37 @@ $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where r
             </div>
         </div>
         <div class="box-right">
-            <div>
-                jkhdfkjs
+            <div class="recent-updates">
+                <h2>Recent Updates</h2>
+                <div class="updates">
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="images/admin2.jpg" alt="admin 1">
+                        </div>
+                        <div class="message">
+                            <p><b>Truong</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="images/admin2.jpg" alt="admin 1">
+                        </div>
+                        <div class="message">
+                            <p><b>Phi</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="profile-photo">
+                            <img src="images/admin2.jpg" alt="admin 1">
+                        </div>
+                        <div class="message">
+                            <p><b>Hung</b> received his order of Night lion tech GPS drone.</p>
+                            <small class="text-muted">2 Minutes Ago</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

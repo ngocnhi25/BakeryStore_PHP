@@ -1,4 +1,12 @@
+<?php 
+require_once("../../connect/connectDB.php");
 
+$id = '';
+
+if(isset($_POST["id"]) && !empty($_POST["id"])){
+    $id = $_POST["id"];
+}
+?>
 <head>
     <style>
         .title-page {
@@ -19,7 +27,8 @@
             position: relative;
             justify-content: space-evenly;
         }
-        .product-input-box .product-input{
+
+        .product-input-box .product-input {
             display: flex;
             gap: 2rem;
         }
@@ -131,60 +140,60 @@
     </style>
 </head>
 <div class="my-profile-page">
-    <div class="profile-title"> 
-    <h1 >Add New Empployee </h1>
-    <div>
-        <form method="post" action="">
-            <div class="addPro-wapper">
-                <div class="profile-form">
-                    <div class="product-input">
-                        <div class="input-animation">
-                            <div class="input-box">
-                                <input id="input-name" type="text" name="username" value="<?php echo (($id != null ? $name : '')) ?>" >
-                                <label for="">Username : </label> <br>
+    <div class="profile-title">
+        <h1>Add New Empployee </h1>
+        <div>
+            <form method="post" action="">
+                <div class="addPro-wapper">
+                    <div class="profile-form">
+                        <div class="product-input">
+                            <div class="input-animation">
+                                <div class="input-box">
+                                    <input id="input-name" type="text" name="username" value="<?php echo (($id != null ? $name : '')) ?>">
+                                    <label for="">Username : </label> <br>
+                                </div>
+                                <div class="errorName error" style="color: red;"></div>
                             </div>
-                            <div class="errorName error" style="color: red;"></div>
-                        </div>
-                        <!-- <div class="input-animation">
+                            <!-- <div class="input-animation">
                             <div class="input-box">
                                 <input id="status" type="hidden" name="status" value="2" readonly >
                             </div>
                         </div> -->
-                        <div class="input-animation">
-                            <div class="input-box">
-                                <input id="input-email" type="email" name="email" value="<?php echo (($id != null ? $email : '')) ?>" >
-                                <label for="">Email : </label> <br>
+                            <div class="input-animation">
+                                <div class="input-box">
+                                    <input id="input-email" type="email" name="email" value="<?php echo (($id != null ? $email : '')) ?>">
+                                    <label for="">Email : </label> <br>
+                                </div>
+                                <div class="errorEmail error" style="color: red;"></div>
                             </div>
-                            <div class="errorEmail error" style="color: red;"></div>
+                            <div class="input-animation">
+                                <div class="input-box">
+                                    <input id="input-phone" type="text" name="phone" value="<?php echo (($id != null ? $phone : '')) ?>">
+                                    <label for="">Phone : </label> <br>
+                                </div>
+                                <div class="errorPhone error" style="color: red;"></div>
+                            </div>
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-phone" type="text" name="phone" value="<?php echo (($id != null ? $phone : '')) ?>" >
-                                <label for="">Phone : </label> <br>
-                            </div>
-                            <div class="errorPhone error" style="color: red;"></div>
-                        </div>
-                    </div>
-                        <div class="input-animation">
-                            <div class="input-box">
-                                <input id="input-password" type="password" name="password" value="<?php echo (($id != null ? $password : '')) ?>" >
+                                <input id="input-password" type="password" name="password" value="<?php echo (($id != null ? $password : '')) ?>">
                                 <label for="">Password</label> <br>
                             </div>
                             <div class="errorPassword error" style="color: red;"></div>
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-Repassword" type="password" name="re-password" value="<?php echo (($id != null ? $re_password : '')) ?>" >
+                                <input id="input-Repassword" type="password" name="re-password" value="<?php echo (($id != null ? $re_password : '')) ?>">
                                 <label for="">Repeat Password</label> <br>
                             </div>
                             <div class="errorRePassword error" style="color: red;"></div>
                         </div>
 
+                    </div>
                 </div>
-            </div>
-            <button id="submitData" class="submit" type="button">Submit</button>
-        </form>
-    </div>
+                <button id="submitData" class="submit" type="button">Submit</button>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -213,23 +222,14 @@
                 success: function(res) {
                     if (res === 'success') {
                         alert("Add new employee successfully ! ")
-                    }  else if (res === 'exist'){
+                    } else if (res === 'exist') {
                         alert("Email already exist ")
-                    } 
-                    else {
+                    } else {
                         var errors = JSON.parse(res);
                         for (var key in errors) {
                             if (errors.hasOwnProperty(key)) {
-                                if (typeof errors[key] === 'object') {
-                                    $('.' + key).empty();
-                                    for (let subkey in errors[key]) {
-                                        const subElement = $('<p style="color: red;"></p>').text(`${subkey}: ${errors[key][subkey]}`);
-                                        $('.' + key).append(subElement);
-                                    }
-                                } else {
-                                    var value = errors[key];
-                                    $('.' + key).empty().append(value);
-                                }
+                                var value = errors[key];
+                                $('.' + key).empty().append(value);
                             }
                         }
                     }
@@ -237,5 +237,4 @@
             })
         })
     })
-
 </script>
