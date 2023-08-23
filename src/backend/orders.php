@@ -88,14 +88,14 @@ $orders = executeResult("SELECT * FROM tb_order");
                             <input type="hidden" class="user_id" value="<?php echo $order['user_id']; ?>">
                         </td>
                         <td>
-                            <?php echo $order['name']; ?>
+                            <?php echo $order['receiver_name']; ?>
                         </td>
                         <td>
                             <p><strong>Phone:</strong>
-                                <?php echo $order['phone']; ?>
+                                <?php echo $order['receiver_phone']; ?>
                             </p>
                             <p><strong>Address:</strong>
-                                <?php echo $order['address']; ?>
+                                <?php echo $order['receiver_address']; ?>
                             </p>
                         </td>
                         <td>

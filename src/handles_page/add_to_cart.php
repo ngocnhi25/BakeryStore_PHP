@@ -17,77 +17,47 @@ if (isset($_POST['pid'])) {
 	$pqty = $_POST['quantity'];
 	$flavor = $_POST['flavor'];
 	$increaseSize = isset($_POST['increaseSize']) ? $_POST['increaseSize'] : 0; // Default value is 0
+	$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
 	$size = $_POST['size'];
 
-	$size_int = intval($size); // Convert $size to an integer
+	$getResultOfCart = executeSingleResult("SELECT product_id, size, quantity, total_price FROM tb_cart WHERE user_id = $user_id");
+	$recentSize = $getResultOfCart['size'];
+	$recentQty = $getResultOfCart['quantity'];
+	$total = ($pprice + $increaseSize) * $pqty;
 
-	// Check if the product with the same product ID and size is already in the cart
-	$stmt = $conn->prepare('SELECT product_id, quantity, total_price, price, size FROM tb_cart WHERE product_id=?');
-	$stmt->bind_param('s', $pid);
-	$stmt->execute();
-	$stmt->store_result();
-	$stmt->bind_result($existing_pid, $existing_qty, $existing_total_price, $existing_price, $existing_size);
-	$stmt->fetch();
+	if ($recentSize == $size && $recentQty > 0) {
+		// Update logic for updating quantity and total price of an existing item
+		$updateQty = $recentQty + $pqty;
+		$totalUpdate = ($pprice + $increaseSize) * $updateQty;
+		$updateQuery = "UPDATE tb_cart SET quantity = $updateQty, total_price = $totalUpdate WHERE user_id = $user_id AND product_id = $pid";
+		$updateQtyResult = execute($updateQuery);
 
-	if ($stmt->num_rows == 0) {
-		// If product with the same product ID not in cart, insert it
-		$total_price = (intval($pprice) + intval($increaseSize)) * intval($pqty); // Calculate total price without increaseSize
-		$query = $conn->prepare('INSERT INTO tb_cart (product_id, quantity, total_price, product_name, price, flavor, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
-		$query->bind_param('iiisiss', $pid, $pqty, $total_price, $pname, $pprice, $flavor, $size);
-		$query->execute();
-
-
-
-	} elseif ($size_int == $existing_size) {
-		// If product with the same product ID and size is already in cart, update the quantity and total price
-		// var_dump($size_int,$sexisting_size);
-		$new_qty = $existing_qty + $pqty;
-		$new_total_price = (intval($existing_price) + intval($increaseSize)) * intval($new_qty);
-		$query = $conn->prepare('UPDATE tb_cart SET quantity=?, total_price=? WHERE product_id=? AND size=?');
-		$query->bind_param('iiss', $new_qty, $new_total_price, $pid, $size);
-		$query->execute();
-
-	} else {
-		// Check if the size exists for the given product ID in the cart
-		// var_dump($size_int, $existing_size);
-		$size_exists_query = $conn->prepare('SELECT size FROM tb_cart WHERE product_id=? AND size=?');
-		$size_exists_query->bind_param('is', $pid, $size_int);
-		$size_exists_query->execute();
-		$size_exists_query->store_result();
-
-		if ($size_exists_query->num_rows == 0) {
-			// Calculate the new total price for the new item
-			$new_total_price = (intval($existing_price) + intval($increaseSize)) * intval($pqty);
-
-			// Insert the new item with the different size into the cart
-			$insert_query = $conn->prepare('INSERT INTO tb_cart (product_id, quantity, total_price, product_name, price, flavor, size) VALUES (?, ?, ?, ?, ?, ?, ?)');
-			$insert_query->bind_param('iiisiss', $pid, $pqty, $new_total_price, $pname, $pprice, $flavor, $size);
-			$insert_query->execute();
-			var_dump($pid);
-			// Optionally, you can provide feedback to the user that the item has been added with the new size
-			echo '<div class="alert alert-success alert-dismissible mt-2">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<strong>Item added to your cart with a new size!</strong>
-				  </div>';
+		if ($updateQtyResult) {
+			echo "Quantity updated successfully.";
 		} else {
-			echo '<div class="alert alert-warning alert-dismissible mt-2">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>Item with the same product ID and size already exists in your cart.</strong>
-            </div>';
+			echo "Failed to update quantity.";
+		}
+	} else if ($recentSize != $size) {
+		// Insert logic for adding new items to the cart
+		$insertQuery = "INSERT INTO tb_cart (user_id, product_id, quantity, total_price, product_name, price, flavor, size) VALUES ($user_id, $pid, $pqty, $total, '$pname', $pprice, '$flavor', $size)";
+		$insertItems = execute($insertQuery);
+
+		if ($insertItems) {
+			echo "Item added to the cart.";
+		} else {
+			echo "Failed to add item to the cart.";
+		}
+	} else {
+		//insert Cart
+		$insertItems = execute("INSERT INTO tb_cart (user_id, product_id, quantity, total_price, product_name, price, flavor, size) VALUES ($user_id, $pid, $pqty, $total, '$pname', $pprice, '$flavor', $size)");
+		if ($insertItems) {
+			echo "Item added to the cart.";
+		} else {
+			echo "Failed to add item to the cart.";
 		}
 	}
 }
 
-
-// Get no.of items available in the cart table
-if (isset($_GET['cartItem']) && isset($_GET['cartItem']) == 'cart_item') {
-	$stmt = $conn->prepare('SELECT * FROM tb_cart');
-	$stmt->execute();
-	$stmt->store_result();
-	$rows = $stmt->num_rows;
-
-	echo $rows;
-}
 
 // Remove single items from cart
 if (isset($_GET['remove'])) {
@@ -99,7 +69,7 @@ if (isset($_GET['remove'])) {
 
 	$_SESSION['showAlert'] = 'block';
 	$_SESSION['message'] = 'Item removed from the cart!';
-	header('location:cart.php');
+	header('location: ../cart.php');
 }
 
 // Remove all items at once from cart
@@ -131,19 +101,6 @@ if (isset($_POST['qty'])) {
 }
 
 
-
-// Checkout and save customer info in the orders table
-// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["action"]) && $_POST["action"] == "save_paypal_data") {
-//     $transactionID = $_POST["transactionID"];
-//     $payerName = $_POST["payerName"];
-//     $payerEmail = $_POST["payerEmail"];
-//     $address = $_POST["address"];
-
-
-
-//     // Phản hồi về trạng thái lưu dữ liệu
-//     echo "Dữ liệu đã được lưu vào cơ sở dữ liệu từ PayPal!";
-// }
 if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
@@ -170,9 +127,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 
 			if ($grand_total < $intcondition_used_coupon) {
 				$discount_amount = $discount_percent;
-			}
-			else {
-				echo "Discount Amount Need To be < ". $intcondition_used_coupon;
+			} else {
+				echo "Discount Amount Need To be < " . $intcondition_used_coupon;
 				// exit();
 			}
 
@@ -191,10 +147,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 			}
 		}
 	}
-	// var_dump($intcondition_used_coupon);
-	// die();
 	// Calculate total_pay
 	$total_pay = $grand_total - $discount_amount;
+	// var_dump($total_pay);
+	// die();
 
 
 	$order_id = mt_rand(100000, 999999);
@@ -231,25 +187,35 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$quantity = $item['quantity'];
 
 		// Fetch the current product quantity from tb_warehouse
-		$sql_current_qty = "SELECT product_qty FROM tb_warehouse WHERE product_id = '$product_id'";
+		$sql_current_qty = "SELECT qty_warehouse FROM tb_products WHERE product_id = '$product_id'";
 		$current_qty_result = executeSingleResult($sql_current_qty);
 
 		if ($current_qty_result) {
-			$current_product_qty = $current_qty_result['product_qty'];
+			$current_product_qty = $current_qty_result['qty_warehouse'];
 			$updated_product_qty = $current_product_qty - $quantity;
 
 			// Update the product quantity in tb_warehouse
-			$sql_update_qty = "UPDATE tb_warehouse SET product_qty = $updated_product_qty WHERE product_id = '$product_id'";
+			$sql_update_qty = "UPDATE tb_products SET qty_warehouse = $updated_product_qty WHERE product_id = '$product_id'";
 			execute($sql_update_qty);
 		}
 	}
 
+	global $pid;
+	global $quantity;
+	//rever 
+	$intUser_id = intval($user_id);
+	$intpid = intval($pid);
+	$intQty = intval($quantity);
+
 	global $coupon_name;
-	// var_dump($coupon_name);
+
+	$insertDetails = execute("INSERT INTO tb_order_detail (user_id, order_id, product_id, size, flavor, quantity, sale_product, total_money) 
+	VAlUES ($intUser_id, $order_id,$intpid, '$size', '$flavor', $intQty, $total_pay, $grand_total)");
+	// var_dump($insertDetails);
 	// die();
 	// Insert order details into tb_order table
-	$sql_insert = "INSERT INTO tb_order (order_id, user_id, name, email, phone, address, order_date, deposit, products,coupon_sale, total_pay, status) 
-                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$products_string','$coupon_name', '$total_pay', 'pending')";
+	$sql_insert = "INSERT INTO tb_order (order_id, user_id, receiver_name, receiver_email, receiver_phone, receiver_address, order_date, deposit,coupon_used, status) 
+                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'pending')";
 	$insert_result = execute($sql_insert);
 	// var_dump($insert_result);
 	// die();
