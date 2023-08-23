@@ -1,10 +1,12 @@
 <?php 
+session_start();
 require_once("../../connect/connectDB.php");
 
-$id = '';
+if (isset($_SESSION["auth_user"])) {
+  $user_name = $_SESSION["auth_user"]["username"];
+  $user_id = $_SESSION["auth_user"]["user_id"];
 
-if(isset($_POST["id"]) && !empty($_POST["id"])){
-    $id = $_POST["id"];
+  $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 }
 ?>
 <head>
@@ -220,6 +222,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                 contentType: false,
                 processData: false,
                 success: function(res) {
+                    alert(res)
                     if (res === 'success') {
                         alert("Add new employee successfully ! ")
                     } else if (res === 'exist') {

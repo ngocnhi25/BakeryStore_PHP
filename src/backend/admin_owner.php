@@ -64,7 +64,7 @@ if (isset($_SESSION["auth_user"])) {
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
-                        <li class="menu-item">
+                            <li class="menu-item">
                                 <a href="accounts/profile-Owner.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
