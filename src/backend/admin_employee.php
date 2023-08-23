@@ -1,16 +1,16 @@
 <?php
 session_start();
 if (isset($_SESSION["auth_user"])) {
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
-    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
-    // if($checkRole != 0 ){
-    //     header("location: ../User/login.php");
-    // }
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 2) { 
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+    } else {
+        header("location: ../User/login.php");
+    }
+} else {
+    header("location: ../User/login.php");
 }
-// else {
-//     header("location: ../User/login.php");
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,13 @@ if (isset($_SESSION["auth_user"])) {
 
             <div class="sidebar">
                 <ul>
-                    <li class="nav-item active">
+                    <!-- <li class="nav-item">
+                        <a href="dashboad.php" class="nav-link">
+                            <span class="material-symbols-sharp">grid_view</span>
+                            <h3>Dashboard</h3>
+                        </a>
+                    </li> -->
+                    <li class="nav-item ">
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">supervisor_account</span>
@@ -58,25 +64,18 @@ if (isset($_SESSION["auth_user"])) {
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
-                            <li class="menu-item active">
+                            <li class="menu-item">
                                 <a href="accounts/profile-Owner.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>My Profile </h4>
+                                    <h4>Change Password </h4>
                                 </a>
                             </li>
-                            <li class="menu-item">
+                            <li class="menu-item ">
                                 <a href="accounts/customer.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
                                     <h4>Customers</h4>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="accounts/employee.php">
-                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
-                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
-                                    <h4>Employees</h4>
                                 </a>
                             </li>
                         </ul>
@@ -114,7 +113,7 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active ">
                         <a href="orders.php" class="nav-link">
                             <span class="material-symbols-sharp">receipt_long</span>
                             <h3>Orders</h3>
@@ -156,7 +155,7 @@ if (isset($_SESSION["auth_user"])) {
                                     <h4>All News</h4>
                                 </a>
                             </li>
-
+                            
                             <li class="menu-item">
                                 <a href="news/news_add.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
@@ -166,13 +165,9 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item logout">
-
-                        <a href="../User/logout.php">
+                    <li  onclick="LogOut()" class="menu-item">                       
                             <span class="material-symbols-sharp">logout</span>
                             <h3>Logout</h3>
-                        </a>
-
                     </li>
                 </ul>
             </div>
@@ -191,10 +186,6 @@ if (isset($_SESSION["auth_user"])) {
                         <span class="material-symbols-sharp">arrow_left_alt</span>
                     </button>
                 </div>
-                <!-- <div class="input-search">
-                    <input type="search" placeholder="Search Data...">
-                    <img src="images/search.png" alt="">
-                </div> -->
                 <div class="profile-theme">
                     <div class="theme-toggler">
                         <span class="material-symbols-sharp active">light_mode</span>
@@ -202,15 +193,15 @@ if (isset($_SESSION["auth_user"])) {
                     </div>
                     <div class="profile">
                         <div class="info">
-                            <p>Hey, <b> <?php echo $user_name ?> </b></p>
-                            <small class="text-muted"> Position : Owner </small>
+                            <p>Hey, <b> <?php echo $user_name ?>  </b></p>
+                            <small class="text-muted"> Position : Staff </small>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div id="main-page">
-                <?php include("accounts/customer.php"); ?>
+                <?php include("orders.php"); ?>
             </div>
         </div>
     </div>
@@ -218,14 +209,25 @@ if (isset($_SESSION["auth_user"])) {
     <script src="../../public/backend/js/admin.js"></script>
     <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
-<?php if (isset($_SESSION['status'])) { ?>
-    <script>
-        alert('<?php echo $_SESSION['status']; ?>');
-    </script>
-<?php
-    unset($_SESSION['status']); // Clear the session status after displaying
-}
-?>
 </section>
-
 </html>
+<script>
+function LogOut() {
+    if (confirm("Are you sure you want to log out?")) {
+        $.ajax({
+            type: "POST",
+            url: '../User/logout2-3.php', // Make sure the URL is correct
+            success: function(res) {
+                if (res === 'success') {
+                    window.location.href = "../User/login.php"; // Redirect to login page
+                } else {
+                    alert("Logout failed.");
+                }
+            },
+            error: function() {
+                alert("An error occurred during logout.");
+            }
+        });
+    }
+}
+</script>

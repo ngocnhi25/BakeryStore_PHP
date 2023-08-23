@@ -69,6 +69,7 @@ if(isset($_POST["ajaxSidebar"])) {
                 success: function(res) {
                     if (res === 'success') {
                         alert("We sent email to update new password . Please verify !");
+                        location.reload();
                     } else if (res === 'fail') {
                         alert("Incorrect Password . Please input again !");
                     }else if (res === 'error') {
