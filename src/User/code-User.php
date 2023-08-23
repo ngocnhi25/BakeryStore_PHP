@@ -193,11 +193,11 @@ if(isset($_POST["submit-login-btn"])){
         $sql_login = "SELECT * FROM tb_user WHERE email = '$email'  and password = '$password' LIMIT 1" ;
         $sql_login_run = mysqli_query($conn,$sql_login);
 
-        if(mysqli_num_rows($sql_login_run) > 0 ){
+        if (mysqli_num_rows($sql_login_run) > 0) {
             $row = mysqli_fetch_array(($sql_login_run));
-            if($row['status'] == "1" && $row['stt_delete'] == "0" ){
-            
-                $_SESSION['authenticeted']= TRUE;
+            if ($row['status'] == "1" && $row['stt_delete'] == "0") {
+
+                $_SESSION['authenticeted'] = TRUE;
                 $_SESSION['auth_user'] = [
                     'user_id' => $row['user_id'],
                     'username' => $row['username'],
@@ -206,9 +206,19 @@ if(isset($_POST["submit-login-btn"])){
                 $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";
                 $sql_update_login_recent_day_run = mysqli_query($conn, $sql_update_login_recent_day);
                 if ($sql_update_login_recent_day_run) {
-                    $_SESSION['status'] = " You logged in successfully !";
-                    header("Location: ../home.php");
-                    exit();
+                    if ($_SESSION["auth_user"]["role"] == 3) {
+                        $_SESSION['status'] = " You logged in successfully !";
+                        header("Location: ../backend/admin_owner.php");
+                        exit();
+                    } elseif ($_SESSION["auth_user"]["role"] == 2) {
+                        $_SESSION['status'] = " You logged in successfully !";
+                        header("Location: ../backend/admin_employee.php");
+                        exit();
+                    } else {
+                        $_SESSION['status'] = " You logged in successfully !";
+                        header("Location: ../home.php");
+                        exit();
+                    }
                 } else {
                     $_SESSION['status'] = "Failed to update recent day login!";
                     header("Location: ../home.php");
@@ -379,9 +389,3 @@ if(isset($_GET["token"])){
     header("Location: login.php ") ;
     exit();
 }
-
-
-
-
-
-?>

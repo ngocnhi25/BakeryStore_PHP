@@ -2,50 +2,39 @@
 require_once("connect/connectDB.php");
 session_start();
 
-if (isset($_POST["sb-Update-Pass"])) {
-    $email = $_POST["email"];
-    $confirm_newPassword = ($_POST["con-password"]);
-
-    if (isset($_POST["new-password"])) {
+if (isset($_SESSION["auth_user"])) {
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+    $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
+    $email = $user["email"];
+    if (isset($_POST["sb-Update-Pass"])) {
+        $confirm_newPassword = ($_POST["con-password"]);
         $newPassword = $_POST["new-password"];
         if (empty($newPassword)) {
             $_SESSION['status'] = "New Password must not be blank.";
-            header("Location: changPass-inputNew.php");
-            exit();
-        }
-        if (strpos($newPassword, ' ') !== false) {
+        } elseif (strpos($newPassword, ' ') !== false) {
             $_SESSION['status'] = "New Password must not contain spaces.";
-            header("Location: changPass-inputNew.php");
-            exit();
+        } elseif (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword)) {
+            $_SESSION['status'] = "New Password must be between 6 and 20 characters.";
+        } elseif ($newPassword !== $confirm_newPassword) {
+            $_SESSION['status'] = "Password and Confirm Password do not match!";
+        } else {
+            // Use more secure hashing method like password_hash
+            $hashpass = md5($newPassword); 
+            
+            $sql_update2 = "UPDATE tb_user SET password = '$hashpass' WHERE email = '$email' ";
+            $sql_update2_run = mysqli_query($conn, $sql_update2);
+            if ($sql_update2_run) {
+                $_SESSION['status'] = "Save new password successfully!";
+            } else {
+                $_SESSION['status'] = "Failed to update password.";
+            }
         }
-        if (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword)) {
-            $_SESSION['status'] = "New Password must be between 6 and 20 characters ";
-            header("Location: changPass-inputNew.php");
-            exit();
-        }
-    }
 
-    if ($newPassword !== $confirm_newPassword) {
-        $_SESSION['status'] = " Password and Confirm Password dose not match!";
-        header("Location: changPass-inputNew.php");
-        exit();
-    }
-
-    $hashpass = md5($newPassword); 
-
-    $sql_update2 = "UPDATE tb_user SET password = '$hashpass' WHERE email = '$email' ";
-    $sql_update2_run = mysqli_query($conn, $sql_update2);
-    if ($sql_update2_run) {
-        $_SESSION['status'] = "Save new password successfully !";
-        header("Location: home.php");
-        exit();
-    } else {
-        $_SESSION['status'] = "Send Mail update Fail!";
         header("Location: changPass-inputNew.php");
         exit();
     }
 }
-
 ?>
 
 <?php require "layout/header.php"; ?>
@@ -217,7 +206,6 @@ if (isset($_POST["sb-Update-Pass"])) {
         </div>
         <div class="update-profile-box">
             <div class="profile-form">
-                <!-- Display errors -->
                 <p><?php echo $errors; ?></p>
                 <form action="" method="post" style="width: 100%;">
                     <table style="width: 100%;">
@@ -226,7 +214,7 @@ if (isset($_POST["sb-Update-Pass"])) {
                             <td>Your Email:</td>
                             <td>
                                 <div class="css-input">
-                                    <input type="email" id="email" name="email" value="<?= $user["email"] ?>" readonly>
+                                    <input type="text" id="email" name="email" value="<?= $email ?>" readonly>
                                 </div>
                             </td>
                         </tr>

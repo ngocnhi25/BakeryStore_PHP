@@ -17,29 +17,36 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
         <table>
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Customer</th>
                     <th>Email</th>
                     <th>Telephone</th>
+                    <th>Gender</th>
+                    <th> Date of Birrthday </th>
                     <th>Create Date</th>
-                    <th> Action </th>
+                    <th>Status</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($users as $user) {
                     if ($user["role"] == 1) { ?>
                         <tr>
+                            <td><?= $user["user_id"] ?></td>
                             <td><?= $user["username"] ?></td>
                             <td><?= $user["email"] ?></td>
                             <td><?= $user["phone"] ?></td>
+                            <td><?= $user["sex"] ?></td>
+                            <td><?= $user["birthday"] ?></td>
                             <td><?= $user["create_date"] ?></td>
                             <td>
-                            <?php if ($user["role"] == 1 && $user["status"] == 1 ) { ?>
-                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;" >Activate</button>
-                            <?php } else { ?>
-                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;" >Deactivate</button>
-                             <?php } ?>   
-                        </td>
-
+                                <?php if ($user["role"] == 1 && $user["status"] == 1) { ?>
+                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;">Activate</button>
+                                <?php } else { ?>
+                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
+                                <?php } ?>
+                            </td>
+                            <td> <button> Update </button></td>
                         </tr>
                 <?php }
                 } ?>
@@ -55,7 +62,9 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             $.ajax({
                 type: "GET",
                 url: '../User/deactive.php',
-                data: { code: userId },
+                data: {
+                    code: userId
+                },
                 success: function(res) {
                     if (res === 'success') {
                         alert("User deactivated successfully!");
@@ -73,7 +82,9 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             $.ajax({
                 type: "GET",
                 url: '../User/deactive.php',
-                data: { id: userId },
+                data: {
+                    id: userId
+                },
                 success: function(res) {
                     if (res === 'success') {
                         alert("User Activated successfully!");
@@ -84,8 +95,4 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             });
         }
     }
-
-
-
-
 </script>
