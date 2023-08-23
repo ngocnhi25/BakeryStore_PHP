@@ -3,7 +3,7 @@ session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
-    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+    // $checkRole = checkRowTable("SELECT * FROM tb_user WHERE user_id = $user_id and role = 3");
     // if($checkRole != 0 ){
     //     header("location: ../User/login.php");
     // }

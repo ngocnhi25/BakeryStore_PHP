@@ -2513,6 +2513,7 @@ section.product-information img {
   font-size: 18px;
   line-height: 22px;
   font-weight: 500;
+  text-transform: capitalize;
 }
 /* line 166, /home/thuhuong/domains/thuhuongbakery.com.vn/public_html/public/frontend/sass/_product_column.scss */
 .one-product-container .product-info .product-name a {

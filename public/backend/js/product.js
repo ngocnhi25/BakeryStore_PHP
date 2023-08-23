@@ -1,3 +1,12 @@
+var sliderOne = $("#slider-1");
+var sliderTwo = $("#slider-2");
+var displayValOne = $("#range1");
+var displayValTwo = $("#range2");
+var minGap = 100;
+var sliderTrack = $(".slider-track");
+var sliderMaxValue = $("#slider-1").attr("max");
+
+
 function editProduct(id) {
     var postData = {
         id: id,
@@ -102,25 +111,87 @@ function deleteProduct(productName, id) {
 }
 
 $(document).ready(function () {
+    $("#filter-search-product").on("input", function () {
+        var search = $(this).val();
+        if (search !== "") {
+            $.ajax({
+                url: "handles/search/filter_search_product.php",
+                method: "POST",
+                data: {
+                    filter_search: search
+                },
+                success: function (response) {
+                    $("#search-result-product").empty().html(response);
+                }
+            });
+        } else {
+            $("#search-result-product").hide().empty();
+        }
+    });
+
     $("#cateSearch").on("change", function () {
         const cateID = $(this).val();
         alert(cateID);
     });
-    $("#filterPrice").jRange({
-        from: 0,
-        to: 10000000,
-        step: 50000,
-        format: '$%s USD',
-        width: 300,
-        showLabels: true,
-        isRange: true,
+
+    sliderOne.on("input", function () {
+        slideOne();
     });
-    $("#filterPrice").on("change", function () {
-        alert($(this).val());
-    })
+    sliderTwo.on("input", function () {
+        slideTwo();
+    });
+
+    const c = $('.pagination');
+    const indexs = $('.index');
+    let cur = -1;
+
+    indexs.each(function (i) {
+        $(this).on('click', function (e) {
+            // clear
+            c.removeClass().addClass('pagination');
+            c[0].offsetWidth; // Reflow
+            c.addClass('open').addClass(`i${i + 1}`);
+            if (cur > i) {
+                c.addClass('flip');
+            }
+            cur = i;
+        });
+    });
+
+    slideOne();
+    slideTwo();
 });
 
 function formatVND(amount) {
     return amount.toLocaleString("vi-VN") + " VNĐ";
 }
 
+
+function slideOne() {
+    if (parseInt(sliderTwo.val()) - parseInt(sliderOne.val()) <= minGap) {
+        sliderOne.val(parseInt(sliderTwo.val()) - minGap);
+    }
+    displayValOne.text(sliderOne.val() + 'k');
+    fillColor();
+}
+
+function slideTwo() {
+    if (parseInt(sliderTwo.val()) - parseInt(sliderOne.val()) <= minGap) {
+        sliderTwo.val(parseInt(sliderOne.val()) + minGap);
+    }
+    displayValTwo.text(sliderTwo.val() + 'k');
+    fillColor();
+}
+
+function fillColor() {
+    const percent1 = (sliderOne.val() / sliderMaxValue) * 100;
+    const percent2 = (sliderTwo.val() / sliderMaxValue) * 100;
+    sliderTrack.css("background", `linear-gradient(to right, #dadae5 ${percent1}% , #3264fe ${percent1}% , #3264fe ${percent2}%, #dadae5 ${percent2}%)`);
+}
+
+function product_previous(id) {
+    alert(id);
+};
+function next_previous(id) {
+    alert(id);
+};

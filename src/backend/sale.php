@@ -337,7 +337,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     url: "handles/search/search_product.php",
                     method: "POST",
                     data: {
-                        product_id: search
+                        product_name: search
                     },
                     success: function(response) {
                         $("#search-result-product").show().html(response);

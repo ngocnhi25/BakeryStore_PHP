@@ -1,6 +1,7 @@
 <?php
 require_once('../../connect/connectDB.php');
 
+
 $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
 ?>
 
@@ -33,12 +34,12 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                             <td><?= $user["phone"] ?></td>
                             <td><?= $user["create_date"] ?></td>
                             <td>
-                            <?php if ($user["role"] == 1 && $user["status"] == 1 ) { ?>
-                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;" >Activate</button>
-                            <?php } else { ?>
-                            <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;" >Deactivate</button>
-                             <?php } ?>   
-                        </td>
+                                <?php if ($user["role"] == 1 && $user["status"] == 1) { ?>
+                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;">Activate</button>
+                                <?php } else { ?>
+                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
+                                <?php } ?>
+                            </td>
 
                         </tr>
                 <?php }
@@ -55,7 +56,9 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             $.ajax({
                 type: "GET",
                 url: '../User/deactive.php',
-                data: { code: userId },
+                data: {
+                    code: userId
+                },
                 success: function(res) {
                     if (res === 'success') {
                         alert("User deactivated successfully!");
@@ -73,7 +76,9 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             $.ajax({
                 type: "GET",
                 url: '../User/deactive.php',
-                data: { id: userId },
+                data: {
+                    id: userId
+                },
                 success: function(res) {
                     if (res === 'success') {
                         alert("User Activated successfully!");
@@ -84,8 +89,4 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
             });
         }
     }
-
-
-
-
 </script>

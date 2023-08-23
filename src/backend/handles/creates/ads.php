@@ -135,8 +135,12 @@ if (isset($_FILES["imageAds"]["name"])) {
         $errorNum = 1;
     }
 } else {
-    $errors["errorImages"] = "Product images cannot be blank";
-    $errorNum = 1;
+    if ($eventNum == 0) {
+        $errors["errorImages"] = "Ads images cannot be blank";
+        $errorNum = 1;
+    } else {
+        $noUpdateImage = 1;
+    }
 }
 
 

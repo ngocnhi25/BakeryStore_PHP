@@ -330,7 +330,7 @@ $conn->close();
 
               <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter" id="cart-item"><?= $cartItemCount ?></span>
+                <span class="counter" id="cart-item"><?= ($itemCart != null ? $itemCart["total"] : 0) ?></span>
               </button>
 
               <div class="user-header d-none d-lg-block">

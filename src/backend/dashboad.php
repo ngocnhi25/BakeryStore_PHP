@@ -4,6 +4,8 @@ require_once('../connect/connectDB.php');
 $countCustomer = executeSingleResult("SELECT count(*) as customer FROM tb_user where role = 1");
 $countEmp = executeSingleResult("SELECT count(*) as emp FROM tb_user where role = 2");
 $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where role = 3");
+$countProduct = executeSingleResult("SELECT count(*) as product FROM tb_products");
+$countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
 
 ?>
 
@@ -94,6 +96,49 @@ $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where r
             width: 30%;
             height: 300px;
         }
+
+        .box-right .recent-updates {
+            margin-top: 1rem;
+        }
+
+        .box-right .recent-updates h2 {
+            margin-bottom: 0.8rem;
+        }
+
+        .box-right .recent-updates .top-best-order {
+            background: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            box-shadow: var(--box-shadow);
+            transition: all 300ms ease;
+        }
+
+        .box-right .recent-updates .top-best-order:hover {
+            box-shadow: none;
+        }
+
+        .box-right .recent-updates .top-best-order .profile-dasboad {
+            display: grid;
+            grid-template-columns: 2.6rem auto;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .box-right .recent-updates .top-best-order .profile-photo img {
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            object-fit: contain;
+        }
+        .box-right .recent-updates .top-best-order .profile-photo img {
+            width: 100%;
+            height: 100%;
+            vertical-align: middle;
+            object-fit: contain;
+        }
+        .box-right .recent-updates .top-best-order .total-order-price {
+            color: red;
+            font-size: 13px;
+        }
     </style>
 </head>
 <div style="width: 100%;">
@@ -125,35 +170,51 @@ $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where r
                     <h3>Owner</h3>
                 </div>
             </div>
+            <div class="user-db">
+                <div class="user-db-item">
+                    <div class="middle">
+                        <h1><?= $countProduct["product"] ?></h1>
+                        <span class="material-symbols-sharp customer">store</span>
+                    </div>
+                    <h3>Product</h3>
+                </div>
+                <div class="user-db-item">
+                    <div class="middle">
+                        <h1><?= $countCate["cate"] ?></h1>
+                        <span class="material-symbols-sharp employee">list_alt</span>
+                    </div>
+                    <h3>Category</h3>
+                </div>
+            </div>
         </div>
         <div class="box-right">
             <div class="recent-updates">
-                <h2>Recent Updates</h2>
-                <div class="updates">
-                    <div class="update">
+                <h2>Potential Customers</h2>
+                <div class="top-best-order">
+                    <div class="profile-dasboad">
                         <div class="profile-photo">
-                            <img src="images/admin2.jpg" alt="admin 1">
+                            <img src="../../public/images/admin1.jpg" alt="admin 1">
                         </div>
-                        <div class="message">
-                            <p><b>Truong</b> received his order of Night lion tech GPS drone.</p>
+                        <div class="account-top-order">
+                            <p><b>Truong</b></p>
+                            <small class="text-muted">Total amount ordered: <span class="total-order-price">200.000vnđ</span></small>
+                        </div>
+                    </div>
+                    <div class="profile-dasboad">
+                        <div class="profile-photo">
+                            <img src="../../public/images/admin1.jpg" alt="admin 1">
+                        </div>
+                        <div class="account-top-order">
+                            <p><b>Phi</b></p>
                             <small class="text-muted">2 Minutes Ago</small>
                         </div>
                     </div>
-                    <div class="update">
+                    <div class="profile-dasboad">
                         <div class="profile-photo">
-                            <img src="images/admin2.jpg" alt="admin 1">
+                            <img src="../../public/images/admin1.jpg" alt="admin 1">
                         </div>
-                        <div class="message">
-                            <p><b>Phi</b> received his order of Night lion tech GPS drone.</p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                    <div class="update">
-                        <div class="profile-photo">
-                            <img src="images/admin2.jpg" alt="admin 1">
-                        </div>
-                        <div class="message">
-                            <p><b>Hung</b> received his order of Night lion tech GPS drone.</p>
+                        <div class="account-top-order">
+                            <p><b>Hung</b></p>
                             <small class="text-muted">2 Minutes Ago</small>
                         </div>
                     </div>
