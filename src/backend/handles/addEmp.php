@@ -2,13 +2,14 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 session_start();
-require_once("../../../connect/connectDB.php");
+require_once("../../connect/connectDB.php");
 
 $errors = [];
 $errors["errorName"] =
     $errors["errorPassword"] =
     $errors["errorRePassword"] =
     $errors["errorPhone"] = 
+    $errors["errorSalary"] = 
     $errors["errorEmail"] = '';
 $errorNum = 0;
 $status = 1 ; // Set the desired status value
@@ -30,7 +31,7 @@ if (isset($_POST["username"])) {
     }
 
     if (!preg_match("/^[a-zA-Z0-9]{6,20}$/", $username)) {
-        $errors["errorName"] = "Username must be between 6 and 20 characters.";
+        $errors["errorName"] = "Username must be between 6 and 20 characters long and do not include special characters";
         $errorNum = 1;
     }
 }
@@ -54,7 +55,7 @@ if (isset($_POST["password"])) {
         $errorNum = 1 ; 
     }
         if ($password !== $repeatPassword) {
-            $errors["errorRe Password"] = 'Password does match ' ; 
+            $errors["errorRePassword"] = 'Password does match ' ; 
             $errorNum = 1 ; 
     }
 
@@ -80,7 +81,19 @@ if (isset($_POST["phone"])) {
         $errorNum = 1;
     }
 }
+if (isset($_POST["salary"])) {
+    $salary = $_POST["salary"];
 
+    if (empty($salary)) {
+        $errors["errorSalary"] = "Salary can not blank !";
+        $errorNum = 1;
+    } 
+
+    if (!preg_match("/^[0-9]{2,12}$/", $salary)) {
+        $errors["errorSalary"] = "Invalid Salary !";
+        $errorNum = 1;
+    }
+}
 
 
 
@@ -95,7 +108,7 @@ if ($errorNum === 0) {
     if (mysqli_num_rows($sql_checkmail_run) > 0) {
         echo 'exist';
     } else {
-        $sql_newUser = "INSERT INTO tb_user (username, email, phone, password, status, role) VALUES ('$username', '$email', '$phone', '$hashed_password', $status, $role)";
+        $sql_newUser = "INSERT INTO tb_user (username, email, phone, password, status, role,salary) VALUES ('$username', '$email', '$phone', '$hashed_password', $status, $role,$salary)";
         $sql_newUser_run = mysqli_query($conn, $sql_newUser);
         if ($sql_newUser_run) {
             echo 'success';

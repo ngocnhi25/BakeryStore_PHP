@@ -89,7 +89,7 @@ foreach ($sale as $key => $s) {
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-<?php
+  <?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -112,7 +112,8 @@ foreach ($sale as $key => $s) {
             <meta itemprop="position" content="2" />
           </a>
         </li>
-        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope
+          itemtype="https://schema.org/ListItem">
           <a href="#" itemprop="item">
             <span itemprop="name">
               <?php echo $productDetails['product_name']; ?>
@@ -218,15 +219,16 @@ foreach ($sale as $key => $s) {
 
                 <input type="hidden" class="pid" value="<?php echo $id ?>">
                 <input type="hidden" class="name" value="<?php echo $name ?>">
+                <input type="hidden" class="user_id" value="<?php echo $user_id ?>">
                 <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
                 <input type="hidden" class="lastPrice" value="<?php
-                                                              if (isset($discountedPrice)) {
-                                                                echo $discountedPrice;
-                                                              } else {
-                                                                $discountedPrice = $price;
-                                                                echo $discountedPrice;
-                                                              }
-                                                              ?>">
+                if (isset($discountedPrice)) {
+                  echo $discountedPrice;
+                } else {
+                  $discountedPrice = $price;
+                  echo $discountedPrice;
+                }
+                ?>">
 
 
 
@@ -241,7 +243,8 @@ foreach ($sale as $key => $s) {
             <div class="card-content-pro">
               <ul class="nav nav-pills tabs-categories" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Mô
+                  <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
+                    aria-controls="pills-home" aria-selected="true">Mô
                     tả sản phẩm</a>
                 </li>
               </ul>
@@ -279,12 +282,15 @@ foreach ($sale as $key => $s) {
                                   echo ($s["percent_sale"]);
                                   break;
                                 }
-                              } ?> %</span>
+                              } ?> %
+                            </span>
                           </div>
                         <?php } ?>
                         <div class="box-actions-hover">
-                          <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                          <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                          <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span
+                                class="material-symbols-sharp">visibility</span></a></button>
+                          <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span
+                              class="material-symbols-sharp">add_shopping_cart</span></button>
                         </div>
                       </div>
                       <div class="product-info">
@@ -301,10 +307,15 @@ foreach ($sale as $key => $s) {
                                   echo calculatePercentPrice($p["price"], $s["percent_sale"]);
                                   break;
                                 }
-                              } ?> vnđ</span>
-                            <span class="price-del"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                              } ?> vnđ
+                            </span>
+                            <span class="price-del">
+                              <?php echo displayPrice($p["price"]) ?> vnđ
+                            </span>
                           <?php } else { ?>
-                            <span class="price"><?php echo displayPrice($p["price"]) ?> vnđ</span>
+                            <span class="price">
+                              <?php echo displayPrice($p["price"]) ?> vnđ
+                            </span>
                           <?php } ?>
                         </div>
                       </div>
@@ -378,7 +389,7 @@ foreach ($sale as $key => $s) {
     $.ajax({
       type: "GET",
       url: "handles_page/check_login_status.php",
-      success: function(response) {
+      success: function (response) {
         if (response === "loggedin") {
           Swal.fire({
             icon: 'success',
@@ -399,30 +410,30 @@ foreach ($sale as $key => $s) {
     });
   }
   // Call the function when needed, e.g., on a button click
-  $(document).ready(function() {
-    $("#add").click(function() {
+  $(document).ready(function () {
+    $("#add").click(function () {
       checkLoginStatus();
     });
   });
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     let selectedSize = "";
     let selectedFlavor = "";
 
     // Size buttons event listener
-    $(".sizeBtn").on("click", function() {
+    $(".sizeBtn").on("click", function () {
       selectedSize = $(this).val();
       // alert("Selected Size: " + selectedSize);
     });
 
     // Flavor buttons event listener
-    $(".flavorBtn").on("click", function() {
+    $(".flavorBtn").on("click", function () {
       selectedFlavor = $(this).val();
       // alert("Selected Flavor: " + selectedFlavor);
     });
 
     // Add to cart button event listener
-    $(document).on("click", "#add", function(e) {
+    $(document).on("click", "#add", function (e) {
       e.preventDefault();
       if (selectedSize == "") {
         Swal.fire({
@@ -451,6 +462,7 @@ foreach ($sale as $key => $s) {
       const increaseSize = parseFloat(increaseSizeWithoutCommas);
       const quantity = $form.find(".quantity input").val();
       const price = parseInt($form.find(".lastPrice").val());
+      const user_id = $form.find(".user_id").val();
       // alert(price);
       if (parseInt(quantity) > 20) {
         Swal.fire({
@@ -474,10 +486,11 @@ foreach ($sale as $key => $s) {
           flavor: selectedFlavor, // Add selected flavor
           increaseSize: increaseSize,
           quantity: quantity,
-          price: price
+          price: price,
+          user_id: user_id,
         },
-        success: function(response) {
-          // console.log("Selected Size (in AJAX): " + selectedSize);
+        success: function (response) {
+          alert(response);
           // console.log("Selected Flavor (in AJAX): " + selectedFlavor);
           Swal.fire({
             icon: 'success',
@@ -487,7 +500,7 @@ foreach ($sale as $key => $s) {
           });
           // alert(response);
         },
-        error: function() {
+        error: function () {
           alert("Error adding product to cart");
         }
       });
@@ -495,9 +508,9 @@ foreach ($sale as $key => $s) {
   });
 </script>
 <script>
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Add click event listener to the size buttons
-    $(".sizeBtn").on("click", function() {
+    $(".sizeBtn").on("click", function () {
       var selectedSize = $(this).data("size");
       // alert(selectedSize);
       // Make an Ajax request to get the increaseSize based on the selected size
@@ -507,7 +520,7 @@ foreach ($sale as $key => $s) {
         data: {
           size: selectedSize
         },
-        success: function(response) {
+        success: function (response) {
           if (response !== "") {
             var formattedIncreaseSize = parseFloat(response).toFixed(0);
             formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -523,7 +536,7 @@ foreach ($sale as $key => $s) {
             $(".IncreaseSize").val(""); // Reset the hidden input field if needed
           }
         },
-        error: function() {
+        error: function () {
           $("#displayedIncreaseSize").text("Error fetching increaseSize");
           $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
         }
@@ -533,20 +546,20 @@ foreach ($sale as $key => $s) {
 
 
   //chang Big image
-  document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("DOMContentLoaded", function () {
     const mainBigImage = document.getElementById("mainBigImage");
     const originalImage = document.getElementById("originalImage");
     const thumbnailImages = document.querySelectorAll(".thumbnail-img");
 
-    thumbnailImages.forEach(function(thumbnail) {
-      thumbnail.addEventListener("click", function() {
+    thumbnailImages.forEach(function (thumbnail) {
+      thumbnail.addEventListener("click", function () {
         const index = this.getAttribute("data-index");
         const newImageSrc = this.getAttribute("src");
         updateBigImage(newImageSrc);
       });
     });
 
-    originalImage.addEventListener("click", function() {
+    originalImage.addEventListener("click", function () {
       const originalSrc = originalImage.getAttribute("src");
       updateBigImage(originalSrc);
     });

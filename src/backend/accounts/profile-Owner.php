@@ -5,9 +5,10 @@ if(isset($_POST["ajaxSidebar"])) {
     if (isset($_SESSION["auth_user"])) {
         $user_name = $_SESSION["auth_user"]["username"];
         $user_id = $_SESSION["auth_user"]["user_id"];
+        $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
     }
 }
-$user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+
 
 
 ?>
@@ -68,6 +69,7 @@ $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
                 success: function(res) {
                     if (res === 'success') {
                         alert("We sent email to update new password . Please verify !");
+                        location.reload();
                     } else if (res === 'fail') {
                         alert("Incorrect Password . Please input again !");
                     }else if (res === 'error') {

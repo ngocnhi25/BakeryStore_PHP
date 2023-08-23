@@ -64,7 +64,7 @@ if (isset($_SESSION["auth_user"])) {
                             <span class="material-symbols-sharp less">expand_less</span>
                         </div>
                         <ul class="sub-menu">
-                        <li class="menu-item">
+                            <li class="menu-item">
                                 <a href="accounts/profile-Owner.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
                                     <span class="material-symbols-sharp checked">radio_button_checked</span>
@@ -179,13 +179,9 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item logout">
-                        
-                            <a href="../User/logout.php">
+                    <li  onclick="LogOut()" class="menu-item">                       
                             <span class="material-symbols-sharp">logout</span>
                             <h3>Logout</h3>
-                            </a>
-
                     </li>
                 </ul>
             </div>
@@ -231,13 +227,25 @@ if (isset($_SESSION["auth_user"])) {
     <script src="../../public/backend/js/admin.js"></script>
     <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
-<?php if (isset($_SESSION['status'])) { ?>
-        <script>
-            alert('<?php echo $_SESSION['status']; ?>');
-        </script>
-    <?php
-        unset($_SESSION['status']); // Clear the session status after displaying
-    }
-    ?>
 </section>
 </html>
+<script>
+function LogOut() {
+    if (confirm("Are you sure you want to log out?")) {
+        $.ajax({
+            type: "POST",
+            url: '../User/logout2-3.php', // Make sure the URL is correct
+            success: function(res) {
+                if (res === 'success') {
+                    window.location.href = "../User/login.php"; // Redirect to login page
+                } else {
+                    alert("Logout failed.");
+                }
+            },
+            error: function() {
+                alert("An error occurred during logout.");
+            }
+        });
+    }
+}
+</script>

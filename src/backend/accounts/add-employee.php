@@ -1,10 +1,12 @@
 <?php 
+session_start();
 require_once("../../connect/connectDB.php");
 
-$id = '';
+if (isset($_SESSION["auth_user"])) {
+  $user_name = $_SESSION["auth_user"]["username"];
+  $user_id = $_SESSION["auth_user"]["user_id"];
 
-if(isset($_POST["id"]) && !empty($_POST["id"])){
-    $id = $_POST["id"];
+  $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
 }
 ?>
 <head>
@@ -154,17 +156,19 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
                                 </div>
                                 <div class="errorName error" style="color: red;"></div>
                             </div>
-                            <!-- <div class="input-animation">
-                            <div class="input-box">
-                                <input id="status" type="hidden" name="status" value="2" readonly >
-                            </div>
-                        </div> -->
                             <div class="input-animation">
                                 <div class="input-box">
                                     <input id="input-email" type="email" name="email" value="<?php echo (($id != null ? $email : '')) ?>">
                                     <label for="">Email : </label> <br>
                                 </div>
                                 <div class="errorEmail error" style="color: red;"></div>
+                            </div>
+                            <div class="input-animation">
+                                <div class="input-box">
+                                    <input id="input-salary" type="text" name="salary" value="<?php echo (($id != null ? $salary : '')) ?>">
+                                    <label for="">Salary : </label> <br>
+                                </div>
+                                <div class="errorSalary error" style="color: red;"></div>
                             </div>
                             <div class="input-animation">
                                 <div class="input-box">
@@ -191,7 +195,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
 
                     </div>
                 </div>
-                <button id="submitData" class="submit" type="button">Submit</button>
+                <button id="submitData" class="submit" type="button" >Submit</button>
             </form>
         </div>
     </div>
@@ -212,19 +216,20 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
             formData.append("email", $('#input-email').val());
             formData.append("password", $('#input-password').val());
             formData.append("re-password", $('#input-Repassword').val());
+            formData.append("salary", $('#input-salary').val());
+
 
             $.ajax({
                 type: "POST",
-                url: 'handles/creates/addEmp.php',
+                url: 'handles/addEmp.php',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function(res) {
                     if (res === 'success') {
                         alert("Add new employee successfully ! ")
-                    } else if (res === 'exist') {
-                        alert("Email already exist ")
-                    } else {
+                        location.reload();
+                    }else {
                         var errors = JSON.parse(res);
                         for (var key in errors) {
                             if (errors.hasOwnProperty(key)) {
