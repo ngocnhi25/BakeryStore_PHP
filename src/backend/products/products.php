@@ -102,7 +102,7 @@ function minPrice()
         .table_box_product {
             margin-top: 1rem;
             width: 100%;
-            height: 700px;
+            max-height: 700px;
             /* border: 0.15rem solid #657b7f; */
             border-radius: 0.6rem;
             /* background-color: var(--color-background-table); */
@@ -467,7 +467,7 @@ function minPrice()
                 </select>
             </div>
             <div class="select-container">
-                <select name="category" class="select-box">
+                <select name="category" class="select-box" id="arrangeProduct">
                     <option value="new_to_old">New to old</option>
                     <option value="old_to_new">Old to new</option>
                     <option value="view">View</option>
@@ -476,57 +476,7 @@ function minPrice()
             </div>
         </div>
     </div>
-    <div class="">
-        <div class="table_box_product">
-            <table class="table-product">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Image</th>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Category</th>
-                        <th>View</th>
-                        <th>Product Quantity</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($products as $key => $product) { ?>
-                        <tr <?php echo (($product["deleted"] == 1) ? 'style="opacity: 0.5;"' : '') ?>>
-                            <td><?= $key + 1 ?></td>
-                            <td>
-                                <img src="../../<?= $product["image"] ?>" alt="" style="width: 70px; border-radius: 8px;">
-                            </td>
-                            <td><?= $product["product_name"] ?></td>
-                            <td><?php echo displayPrice($product["price"]) ?> VNĐ</td>
-                            <td><?= $product["cate_name"] ?></td>
-                            <td><?= $product["view"] ?></td>
-                            <td><?= $product["qty_warehouse"] ?></td>
-                            <td class="button">
-                                <button onclick='editProduct(<?= $product["product_id"] ?>)' type="button" class="update">Update</button>
-                                <?php if ($product["deleted"] == 0) { ?>
-                                    <button onclick='hideProduct(<?= $product["product_id"] ?>)' type="button" class="hide">Hide</button>
-                                <?php } else { ?>
-                                    <button onclick='recoverProduct(<?= $product["qty_warehouse"] ?>, <?= $product["product_id"] ?>)' type="button" class="recover">Recover</button>
-                                <?php } ?>
-                                <button type="button" onclick='deleteProduct("<?= $product["product_name"] ?>", <?= $product["product_id"] ?>)' class="delete">Delete</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
-        </div>
-        <div class='example'>
-            <div onclick="product_previous(1)" class='text'>previous project</div>
-            <div class='counter'>
-                <span class='number curent_page' data-page="1">1</span>
-                <div class='background'></div>
-                <span class='number total_page'>4</span>
-            </div>
-            <div onclick="next_previous(2)" class='text'>next project</div>
-        </div>
-    </div>
+    <div id="container_table_product"></div>
 </div>
 
 <script src="../../public/backend/js/product.js"></script>

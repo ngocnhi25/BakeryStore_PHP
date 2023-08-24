@@ -110,18 +110,34 @@ function deleteProduct(productName, id) {
     });
 }
 
+function showProducts() {
+    $.ajax({
+        url: "handles/search/filter_search_product.php",
+        method: "POST",
+        data: { 
+            arrangeProduct: $("#arrangeProduct").val() 
+        },
+        success: function (res) {
+            $("#container_table_product").empty().html(res);
+        }
+    });
+}
+
 $(document).ready(function () {
+    showProducts();
+
     $("#filter-search-product").on("input", function () {
-        var search = $(this).val();
+        const search = $(this).val();
         if (search !== "") {
             $.ajax({
                 url: "handles/search/filter_search_product.php",
                 method: "POST",
                 data: {
-                    filter_search: search
+                    filter_search: search,
+                    arrangeProduct: $("#arrangeProduct").val()
                 },
-                success: function (response) {
-                    $("#search-result-product").empty().html(response);
+                success: function (res) {
+                    $("#container_table_product").empty().html(res);
                 }
             });
         } else {
@@ -131,30 +147,78 @@ $(document).ready(function () {
 
     $("#cateSearch").on("change", function () {
         const cateID = $(this).val();
-        alert(cateID);
-    });
-
-    sliderOne.on("input", function () {
-        slideOne();
-    });
-    sliderTwo.on("input", function () {
-        slideTwo();
-    });
-
-    const c = $('.pagination');
-    const indexs = $('.index');
-    let cur = -1;
-
-    indexs.each(function (i) {
-        $(this).on('click', function (e) {
-            // clear
-            c.removeClass().addClass('pagination');
-            c[0].offsetWidth; // Reflow
-            c.addClass('open').addClass(`i${i + 1}`);
-            if (cur > i) {
-                c.addClass('flip');
+        $("#filter-search-product").val("");
+        $.ajax({
+            url: "handles/search/filter_search_product.php",
+            method: "POST",
+            data: {
+                filter_cate: cateID,
+                filter_price: { 
+                    from: sliderOne.val(), 
+                    to: sliderTwo.val() 
+                },
+                arrangeProduct: $("#arrangeProduct").val()
+            },
+            success: function (res) {
+                $("#container_table_product").empty().html(res);
             }
-            cur = i;
+        });
+    });
+
+    $("#arrangeProduct").on("change", function () {
+        const arrangeProduct = $(this).val();
+        $("#filter-search-product").val("");
+        $.ajax({
+            url: "handles/search/filter_search_product.php",
+            method: "POST",
+            data: {
+                filter_cate: $("#cateSearch").val(),
+                filter_price: { 
+                    from: sliderOne.val(), 
+                    to: sliderTwo.val() 
+                },
+                arrangeProduct: arrangeProduct
+            },
+            success: function (res) {
+                $("#container_table_product").empty().html(res);
+            }
+        });
+    });
+
+    sliderOne.on("change", function () {
+        $("#filter-search-product").val("");
+        $.ajax({
+            url: "handles/search/filter_search_product.php",
+            method: "POST",
+            data: {
+                filter_price: { 
+                    from: slideOne(), 
+                    to: sliderTwo.val() 
+                },
+                filter_cate: $("#cateSearch").val(),
+                arrangeProduct: $("#arrangeProduct").val()
+            },
+            success: function (res) {
+                $("#container_table_product").empty().html(res);
+            }
+        });
+    });
+    sliderTwo.on("change", function () {
+        $("#filter-search-product").val("");
+        $.ajax({
+            url: "handles/search/filter_search_product.php",
+            method: "POST",
+            data: {
+                filter_price: { 
+                    from: sliderOne.val(), 
+                    to: slideTwo()
+                },
+                filter_cate: $("#cateSearch").val(),
+                arrangeProduct: $("#arrangeProduct").val()
+            },
+            success: function (res) {
+                $("#container_table_product").empty().html(res);
+            }
         });
     });
 
@@ -173,6 +237,7 @@ function slideOne() {
     }
     displayValOne.text(sliderOne.val() + 'k');
     fillColor();
+    return sliderOne.val();
 }
 
 function slideTwo() {
@@ -181,6 +246,7 @@ function slideTwo() {
     }
     displayValTwo.text(sliderTwo.val() + 'k');
     fillColor();
+    return sliderTwo.val();
 }
 
 function fillColor() {
@@ -190,8 +256,42 @@ function fillColor() {
 }
 
 function product_previous(id) {
-    alert(id);
+    const search = $("#filter-search-product").val();
+    $.ajax({
+        url: "handles/search/filter_search_product.php",
+        method: "POST",
+        data: {
+            page: id - 1,
+            filter_search: search,
+            filter_price: { 
+                from: sliderOne.val(), 
+                to: sliderTwo.val() 
+            },
+            filter_cate: $("#cateSearch").val(),
+            arrangeProduct: $("#arrangeProduct").val()
+        },
+        success: function (res) {
+            $("#container_table_product").empty().html(res);
+        }
+    });
 };
-function next_previous(id) {
-    alert(id);
+function product_next(id) {
+    const search = $("#filter-search-product").val();
+    $.ajax({
+        url: "handles/search/filter_search_product.php",
+        method: "POST",
+        data: {
+            page: (id + 1),
+            filter_search: search,
+            filter_price: { 
+                from: sliderOne.val(), 
+                to: sliderTwo.val() 
+            },
+            filter_cate: $("#cateSearch").val(),
+            arrangeProduct: $("#arrangeProduct").val()
+        },
+        success: function (res) {
+            $("#container_table_product").empty().html(res);
+        }
+    });
 };
