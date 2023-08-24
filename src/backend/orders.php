@@ -8,6 +8,74 @@ $orders = executeResult("SELECT * FROM tb_order");
 
 <head>
     <style>
+        .table-product {
+            width: 100%;
+            border-collapse: collapse;
+            position: relative;
+        }
+
+        .table-product thead th {
+            font-size: 13px;
+            color: #000;
+            padding: 0.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            left: 0;
+            background-color: #e2ebee;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        .table-product thead th:last-child {
+            border: none;
+        }
+
+        .table-product thead th:first-child,
+        .table-product tbody td:first-child {
+            text-align: center;
+            width: 3.7rem;
+        }
+
+        .table-product tbody tr:nth-child(even) {
+            background-color: #0000000b;
+        }
+
+        .table-product tbody tr:hover {
+            background-color: #d7f4f7e3 !important;
+        }
+
+        .table-product td {
+            border-collapse: collapse;
+            padding: 0.6rem;
+            text-align: center;
+            color: #717171;
+        }
+
+        .table_box_product {
+            margin-top: 1rem;
+            width: 100%;
+            max-height: 700px;
+            /* border: 0.15rem solid #657b7f; */
+            border-radius: 0.6rem;
+            /* background-color: var(--color-background-table); */
+            overflow: auto;
+        }
+
+        .table_box_product::-webkit-scrollbar {
+            width: 0.5rem;
+            height: 0.5rem;
+        }
+
+        .table_box_product::-webkit-scrollbar-thumb {
+            border-radius: 0.5rem;
+            background-color: #0004;
+            visibility: hidden;
+        }
+
+        .table_box_product:hover::-webkit-scrollbar-thumb {
+            visibility: visible;
+        }
         .img-box-order {
             width: 100%;
             display: flex;
@@ -59,13 +127,14 @@ $orders = executeResult("SELECT * FROM tb_order");
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
 </head>
 <div style="width: 100%;">
     <div>
         <h1>Order details</h1>
     </div>
     <div style="width: 100%;">
-        <table>
+        <table class="table-product">
             <thead>
                 <tr>
                     <th>Order ID</th>
