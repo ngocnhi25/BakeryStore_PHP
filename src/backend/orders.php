@@ -76,6 +76,7 @@ $orders = executeResult("SELECT * FROM tb_order");
         .table_box_product:hover::-webkit-scrollbar-thumb {
             visibility: visible;
         }
+
         .img-box-order {
             width: 100%;
             display: flex;
@@ -125,15 +126,41 @@ $orders = executeResult("SELECT * FROM tb_order");
             right: 10px;
             cursor: pointer;
         }
+
+        .form-search-header {
+            top: 30%;
+            position: relative;
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        .form-search-header .icon {
+            color: #777e90;
+            position: absolute;
+            top: 9px;
+            left: 10px;
+            font-size: 16px;
+        }
+
+        .form-search-header input {
+            border-radius: 20px;
+            padding-left: 30px;
+            height: 35px;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
 </head>
 <div style="width: 100%;">
     <div>
         <h1>Order details</h1>
     </div>
     <div style="width: 100%;">
+        <div class="form-search-header">
+            <span class="material-symbols-sharp icon">search</span>
+            <input id="filter-search-product" type="text" name="search" placeholder="Search product..."
+                class="form-control">
+        </div>
         <table class="table-product">
             <thead>
                 <tr>
@@ -251,6 +278,44 @@ $orders = executeResult("SELECT * FROM tb_order");
                 });
             });
         });
+
+        $(document).ready(function () {
+            function updateTableContent(content) {
+                $(".table-product").html(content);
+            }
+
+            $('#filter-search-product').keyup(function () {
+                var input = $(this).val();
+                // alert(input);
+
+                if (input != "") {
+                    $.ajax({
+
+                        url: "../handles_page/livesearch.php",
+                        method: "POST",
+                        data: {
+                            input: input
+                        },
+                        success: function (data) {
+                            $(".table-product").html(data);
+                        }
+
+                    })
+                } else {
+                    // Load default table content from a PHP file
+                    $.ajax({
+                        url: "../handles_page/loadDefault.php",
+                        success: function (data) {
+                            updateTableContent(data);
+                        }
+                    });
+                }
+
+
+            });
+
+        });
+
 
         // Close the modal when clicking outside the modal content
         $(window).click(function (event) {
