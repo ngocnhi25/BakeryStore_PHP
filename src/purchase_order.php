@@ -10,9 +10,9 @@ if (isset($_SESSION["auth_user"])) {
 $arrayPrepare = $arrayPending = [];
 
 $orders = executeResult("SELECT * FROM tb_order where user_id = $user_id");
-// $orders_details = executeResult("SELECT * FROM tb_order_detail o 
-//                                     INNER JOIN tb_products p
-//                                     ON o.product_id = p.product_id where user_id = $user_id");
+$orders_details = executeResult("SELECT * FROM tb_order_detail o 
+                                    INNER JOIN tb_products p
+                                    ON o.product_id = p.product_id where user_id = $user_id");
 
 
 function noOrderYet()
@@ -30,7 +30,8 @@ function noOrderYet()
 
 function checkStatus($status)
 {
-    global $orders, $arrayPrepare;
+    global $orders, $arrayPrepare, $arrayPending, $arrayCancelled;
+
     foreach ($orders as $key => $o) {
         if ($o["status"] == $status) {
             if ($status == "prepare") {
@@ -41,9 +42,14 @@ function checkStatus($status)
                 $arrayPending[$key] = $o["status"];
                 return $arrayPending;
             }
+            if ($status == "cancelled") {
+                $arrayCancelled[$key] = $o["status"];
+                return $arrayCancelled;
+            }
         }
     }
 }
+
 
 ?>
 <div class="purchase-order">
@@ -98,13 +104,7 @@ function checkStatus($status)
                                 <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
                             </div>
                             <div class="cal-total">
-                                <?php if ($o["coupon_sale"] != 0) { ?>
-                                    <span>Total Pay:
-                                    </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                    
-                                <?php } else { ?>
-                                    <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                <?php } ?>
+                            <button class="btn btn-danger cancel-btn" data-order-id="<?= $o["order_id"] ?>">Cancel</button>
                             </div>
                         </div>
                     </div>
@@ -147,13 +147,7 @@ function checkStatus($status)
                                     <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
                                 </div>
                                 <div class="cal-total">
-                                    <?php if ($o["sale_coupon"] != 0) { ?>
-                                        <span>Total Pay:
-                                        </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["sale_coupon"]) ?> vnđ</span>
-                                    <?php } else { ?>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                    <?php } ?>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -294,31 +288,47 @@ function checkStatus($status)
             </div>
         </div>
         <div class="content" data-content="cancelled">
-            <div class="item-product-box">
-                <div class="detail-order">
-                    <div class="inf-prd">
-                        <div>
-                            <img src="../public/images/products/z4345108010003_ba6d4066e3d620bce1a65f97a5a55657.jpg" alt="">
+        <?php if (checkStatus("cancelled") != null) {
+                foreach ($orders as $key => $o) {
+                    if ($o["status"] == "cancelled") {
+            ?>
+                        <div class="item-product-box">
+                            <?php foreach ($orders_details as $key => $od) { ?>
+                                <div class="detail-order">
+                                    <div class="inf-prd">
+                                        <div>
+                                            <img src="../<?= $od["image"] ?>" alt="">
+                                        </div>
+                                        <div class="inf-text">
+                                            <div class="prd-name"><?= $od["product_name"] ?></div>
+                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                                            <div>x<?= $od["quantity"] ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <?php if ($od["sale_product"] != 0) { ?>
+                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                        <?php } else { ?>
+                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <div class="status-cal">
+                                <div class="status-ord">
+                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
+                                </div>
+                                <div class="cal-total">
+                                   
+                                </div>
+                            </div>
                         </div>
-                        <div class="inf-text">
-                            <div class="prd-name">Bánh sinh nhật bé gái công chúa</div>
-                            <div class="galary"><span>Size: 12cm</span> <span>Flavor: Việt quất</span></div>
-                            <div>x1</div>
-                        </div>
-                    </div>
-                    <div class="prd-price">
-                        <span class="price-del">9.350.000 vnđ</span> <span class="price-hight-light">9.300.000 vnđ</span>
-                    </div>
-                </div>
-                <div class="status-cal">
-                    <div class="status-ord">
-                        <span>Hoàn Thành</span>
-                    </div>
-                    <div class="cal-total">
-                        <span>Total Pay:</span> <span class="price-total-pay">9.300.000 vnđ</span>
-                    </div>
-                </div>
-            </div>
+            <?php }
+                }
+            } else {
+                noOrderYet();
+            } ?>
         </div>
         <div class="content" data-content="return-refund">
             <div class="item-product-box">
@@ -351,7 +361,7 @@ function checkStatus($status)
 </div>
 
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </div>
 <script>
@@ -363,4 +373,47 @@ function checkStatus($status)
         $('.content').removeClass('active');
         $('.content[data-content="' + selectedTab + '"]').addClass('active');
     });
+
+    $(document).ready(function () {
+        $(".cancel-btn").click(function () {
+            var order_id = $(this).data("order-id");
+            
+            // Prompt the user for the cancellation reason using SweetAlert
+            Swal.fire({
+                title: 'Cancel Order',
+                input: 'text',
+                inputLabel: 'Reason for cancellation',
+                inputPlaceholder: 'Enter reason...',
+                showCancelButton: true,
+                confirmButtonText: 'Cancel Order',
+                cancelButtonText: 'Close',
+                showLoaderOnConfirm: true,
+                preConfirm: (reason) => {
+                    // Send an AJAX request to update the order status to "cancelled" with the reason
+                    return $.ajax({
+                        url: "handles_page/update_order_status.php",
+                        type: "POST",
+                        data: { order_id: order_id, new_status: "cancelled", reason: reason },
+                        error: function () {
+                            // Handle error
+                            Swal.showValidationMessage('Failed to cancel the order.');
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order Cancelled',
+                        text: result.value, // Display the response from the server
+                        timer: 2000, // Automatically close after 2 seconds
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
+    });
+
+
 </script>
