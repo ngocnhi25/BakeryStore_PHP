@@ -179,9 +179,9 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li  onclick="LogOut()" class="menu-item">                       
-                            <span class="material-symbols-sharp">logout</span>
-                            <h3>Logout</h3>
+                    <li  onclick="LogOut()" class="logout">                       
+                        <span class="material-symbols-sharp">logout</span>
+                        <h3>Logout</h3>
                     </li>
                 </ul>
             </div>

@@ -211,7 +211,7 @@ function checkCate($value)
                 </div>
                 <div class="image-box">
                     <label for="">Images: </label>
-                    <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file" multiple="multiple" accept="image/*">
+                    <input id="input-images" name="images[]" type="file" multiple="multiple" accept="image/*">
                     <div id="preview-images"></div>
                     <?php if ($id != null) { ?>
                         <div id="oldThumbnail">
@@ -303,6 +303,7 @@ function checkCate($value)
         $('#input-images').on("change", function() {
             previewFiles(this, "#preview-images", 200);
             $(".errorImages").empty().append('');
+            delete_oldThumbnail("oldThumbnail");
         });
 
         $('#input-name').on("keyup", function() {
