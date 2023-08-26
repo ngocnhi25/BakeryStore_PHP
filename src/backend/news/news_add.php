@@ -256,7 +256,7 @@ function checkCate($value)
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res);
+                    // alert(res);
                     if (res === 'success') {
                         showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {

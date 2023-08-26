@@ -260,6 +260,309 @@ foreach ($sale as $key => $s) {
               </div>
             </div>
           </div>
+          <!-- Thêm form để thêm hoặc cập nhật đánh giá sản phẩm -->
+          <div class="row mt-5">
+            <div class="col-12">
+              <div class="danhgia">
+                <h2>Leave a Review</h2>
+                <form class="review-form" action="" method="POST">
+                  <input type="hidden" name="product_id" value="3"> <!-- Adjust the product ID accordingly -->
+                  <input type="hidden" name="user_id" value="3"> <!-- Adjust the user ID accordingly -->
+                  <label for="name">Name:</label>
+                  <input type="text" name="name" required><br>
+                  <label for="email">Email:</label>
+                  <input type="email" name="email" required><br>
+                  <label for="rating">Rating:</label>
+                  <select name="rating" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select><br>
+                  <label for="comment">Comment:</label>
+                  <textarea name="comment" required></textarea><br>
+                  <button type="submit" name="submit_danhgia">Submit Review</button>
+                </form>
+              </div>
+            </div>
+
+            <?php
+            // Include your danhgia class and other necessary code here
+            class Database
+            {
+              private $hostname;
+              private $usernamedb;
+              private $passworddb;
+              private $database;
+              private $conn;
+
+              public function __construct()
+              {
+                $this->hostname = 'localhost';
+                $this->usernamedb = 'root';
+                $this->passworddb = '';
+                $this->database = 'projecthk2';
+
+                $this->conn = new mysqli($this->hostname, $this->usernamedb, $this->passworddb, $this->database);
+                if ($this->conn->connect_error) {
+                  die("Connection failed: " . $this->conn->connect_error);
+                }
+              }
+
+              public function insert($query)
+              {
+                if ($this->conn->query($query) === TRUE) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
+
+              public function select($query)
+              {
+                $result = $this->conn->query($query);
+                return $result;
+              }
+
+              // You can add other methods for updating, deleting, etc.
+            }
+
+            class danhgia
+            {
+              private $db;
+
+              public function __construct()
+              {
+                $this->db = new Database();
+              }
+
+              public function insert_danhgia($danhgia_id, $product_id, $user_id, $name, $email, $rating, $comment, $created_at)
+              {
+                $query = "INSERT INTO reviews (danhgia_id, product_id, user_id, name, email, rating, comment, created_at) 
+                  VALUES ('$danhgia_id', '$product_id', '$user_id', '$name', '$email', '$rating', '$comment', '$created_at')";
+
+                $result = $this->db->insert($query);
+                return $result;
+              }
+
+              public function show_danhgia()
+              {
+                $query = "SELECT danhgia_id, product_id, name, rating, comment, created_at FROM reviews ORDER BY danhgia_id ASC";
+                $result = $this->db->select($query);
+
+                return $result;
+              }
+              public function isEmailAlreadyReviewed($email, $product_id)
+              {
+                $query = "SELECT COUNT(*) as count FROM reviews WHERE email = '$email' AND product_id = '$product_id'";
+                $result = $this->db->select($query);
+
+                if ($result) {
+                  $row = $result->fetch_assoc();
+                  return intval($row['count']) > 0;
+                }
+
+                return false;
+              }
+
+            }
+
+            $danhgia = new danhgia();
+
+            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_danhgia"])) {
+              require_once 'connect/connectDB.php'; // Adjust the path to the database file
+            
+              $db = new Database();
+              $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+              $user_id = $_POST["user_id"];
+              $name = $_POST["name"];
+              $email = $_POST["email"];
+              $rating = $_POST["rating"];
+              $comment = $_POST["comment"];
+              $created_at = date('Y-m-d H:i:s');
+
+              // Include your review insertion logic here
+              if ($danhgia->isEmailAlreadyReviewed($email, $product_id)) {
+                echo "Địa chỉ email đã được sử dụng để đánh giá sản phẩm này.";
+              } else {
+                if (empty($product_id) || empty($user_id) || empty($name) || empty($email) || empty($rating) || empty($comment)) {
+                  echo "Vui lòng điền đầy đủ thông tin đánh giá.";
+                } else {
+                  $result = $danhgia->insert_danhgia(null, $product_id, $user_id, $name, $email, $rating, $comment, $created_at);
+                  if ($result) {
+                    echo "Đánh giá đã được thêm thành công.";
+                  } else {
+                    echo "Đã xảy ra lỗi khi thêm đánh giá.";
+                  }
+                }
+              }
+              // Redirect to a new page or show a success message
+            }
+
+            $reviews = $danhgia->show_danhgia();
+            $reviewCount = 0;
+            $reviewArray = array();
+
+            // if ($reviews) {
+            //   // Truy vấn thành công
+            //   $reviewArray = array_reverse(mysqli_fetch_all($reviews, MYSQLI_ASSOC));
+            //   foreach ($reviewArray as $review) {
+            //     // Chỉ đếm các đánh giá của sản phẩm có product_id trùng khớp
+            //     if ($review['product_id'] == $product_id) {
+            //       $reviewCount++;
+            //     }
+            //   }
+            // }
+            if ($reviews) {
+              // Truy vấn thành công
+              $reviewArray = array_reverse(mysqli_fetch_all($reviews, MYSQLI_ASSOC));
+
+              // Kiểm tra nếu biến $product_id đã khai báo và có giá trị
+              if (isset($product_id)) {
+                foreach ($reviewArray as $review) {
+                  // Chỉ đếm các đánh giá của sản phẩm có product_id trùng khớp
+                  if ($review['product_id'] == $product_id) {
+                    $reviewCount++;
+                  }
+                }
+              }
+            }
+            ?>
+            <style>
+              .review-section {
+                margin-top: 5rem;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+              }
+
+              .review-form {
+                border: 1px solid #ccc;
+                padding: 1rem;
+                width: 70%;
+                max-width: 600px;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+              }
+
+              .review-form label {
+                display: block;
+                margin-bottom: 0.5rem;
+              }
+
+              .review-form input,
+              .review-form select,
+              .review-form textarea {
+                width: 100%;
+                padding: 0.5rem;
+                margin-bottom: 1rem;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+              }
+
+              .review-form button {
+                padding: 0.5rem 1rem;
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+              }
+
+              .existing-reviews {
+                margin-top: 2rem;
+              }
+
+              .review {
+                border: 1px solid #ccc;
+                padding: 1rem;
+                margin-bottom: 1rem;
+                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+              }
+
+              .star {
+                color: #f39c12;
+              }
+            </style>
+
+            <div class="col-12">
+              <div class="existing-reviews">
+                <h2>
+                  <?php echo $reviewCount; ?> Comment
+                </h2>
+                <?php
+                if ($reviewCount > 0) {
+                  foreach ($reviewArray as $review) {
+                    if ($review['product_id'] == $product_id) {
+                      ?>
+                      <div class="review">
+                        <p><strong>Name:</strong>
+                          <?php echo $review['name']; ?> -
+                          <?php echo date('M d,Y', strtotime($review['created_at'])); ?>
+                        </p>
+                        <p>
+                          <?php
+                          $ratingValue = intval($review['rating']);
+                          for ($i = 1; $i <= 5; $i++) {
+                            if ($i <= $ratingValue) {
+                              echo '<span class="star star-' . $i . '">&#9733;</span>';
+                            } else {
+                              echo '<span class="star star-' . $i . '">&#9734;</span>';
+                            }
+                          }
+                          ?>
+                        </p>
+                        <p>
+                          <?php echo isset($review['comment']) ? $review['comment'] : ''; ?>
+                        </p>
+                      </div>
+                      <?php
+                    }
+                  }
+                } else {
+                  echo "<p>No reviews yet.</p>";
+                }
+                ?>
+              </div>
+            </div>
+          </div>
+          <!-- Hiển thị phần đánh giá sản phẩm -->
+          <!-- <div class="row mt-5">
+            <div class="col-12">
+              <h3>Đánh giá sản phẩm</h3>
+              <?php
+              // Thêm mã PHP để hiển thị danh sách đánh giá
+              // $hostname = "localhost";
+              // $usernamedb = "root";
+              // $passworddb = "";
+              // $database = "projecthk2";
+              
+              // $conn = new mysqli($hostname, $usernamedb, $passworddb, $database);
+              
+              // if ($conn->connect_error) {
+              //   die("Connection failed: " . $conn->connect_error);
+              // }
+              
+              $product_id = 1; // ID của sản phẩm
+              
+              // $sql = "SELECT * FROM reviews WHERE product_id = $product_id";
+              // $result = $conn->query($sql);
+              $reviews = executeResult("SELECT * FROM reviews WHERE product_id = $id");
+              if ($reviews) {
+                foreach ($reviews as $review) {
+                  echo "<p>Người đánh giá: " . $review['name'] . "</p>";
+                  echo "<p>Đánh giá: " . $review['rating'] . "/5</p>";
+                  echo "<p>Bình luận: " . $review['comment'] . "</p>";
+                  echo "<p>Ngày đánh giá: " . $review['created_at'] . "</p>";
+                  echo "<hr>";
+                }
+              } else {
+                echo "Chưa có đánh giá nào cho sản phẩm này.";
+              }
+              ?>
+            </div>
+          </div> -->
           <div class="col-12 mt-5">
             <div class="card-content-pro">
 
