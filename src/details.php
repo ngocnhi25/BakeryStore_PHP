@@ -219,6 +219,7 @@ foreach ($sale as $key => $s) {
 
                 <input type="hidden" class="pid" value="<?php echo $id ?>">
                 <input type="hidden" class="name" value="<?php echo $name ?>">
+                <input type="hidden" class="user_id" value="<?php echo $user_id ?>">
                 <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
                 <input type="hidden" class="lastPrice" value="<?php
                 if (isset($discountedPrice)) {
@@ -461,6 +462,7 @@ foreach ($sale as $key => $s) {
       const increaseSize = parseFloat(increaseSizeWithoutCommas);
       const quantity = $form.find(".quantity input").val();
       const price = parseInt($form.find(".lastPrice").val());
+      const user_id = $form.find(".user_id").val();
       // alert(price);
       if (parseInt(quantity) > 20) {
         Swal.fire({
@@ -484,10 +486,11 @@ foreach ($sale as $key => $s) {
           flavor: selectedFlavor, // Add selected flavor
           increaseSize: increaseSize,
           quantity: quantity,
-          price: price
+          price: price,
+          user_id: user_id,
         },
         success: function (response) {
-          // console.log("Selected Size (in AJAX): " + selectedSize);
+          alert(response);
           // console.log("Selected Flavor (in AJAX): " + selectedFlavor);
           Swal.fire({
             icon: 'success',

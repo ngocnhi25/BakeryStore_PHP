@@ -1,6 +1,12 @@
 <?php
 session_start();
 require_once('../../connect/connectDB.php');
+<<<<<<< HEAD
+=======
+
+
+$users = executeResult("SELECT * FROM tb_user WHERE role = 1")
+>>>>>>> 4dfc41e1a8b36fd603a549b8e51bf31bfc9630ef
 ?>
 
 <div class="customers">

@@ -3,7 +3,9 @@ require_once("../connect/connectDB.php");
 
 $id = '';
 $adsUpdate = [];
-$adsUpdate["type_ads"] = '';
+$adsUpdate["type_ads"] = 
+$adsUpdate["product_id"] = 
+$adsUpdate["cate_id"] = '';
 
 $cates = executeResult("SELECT * FROM tb_category");
 $products = executeResult("SELECT * FROM tb_products WHERE deleted = 0");
@@ -23,125 +25,15 @@ function checkTypeAdsUpdate($value)
 
 function checkTypeProductUpdate($value)
 {
-    global $products;
-    echo $products["product_id"] == $value ? "selected" : "";
+    global $adsUpdate;
+    echo $adsUpdate["product_id"] == $value ? "selected" : "";
 }
 function checkTypeCateUpdate($value)
 {
-    global $cates;
-    echo $cates["cate_id"] == $value ? "selected" : "";
+    global $adsUpdate;
+    echo $adsUpdate["cate_id"] == $value ? "selected" : "";
 }
 ?>
-
-<head>
-    <style>
-        .select-container {
-            display: flex;
-            width: 200px;
-            position: relative;
-            height: 30px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 1px 1px 3px black;
-        }
-
-        .select-box {
-            border: none;
-            width: 100%;
-            padding: 6px 10px 6px 10px;
-            color: #000;
-            background-color: #96dcd57a;
-            font-size: 14px;
-        }
-
-        .ads-page {
-            width: 100%;
-        }
-
-        .ads-page .ads-add {
-            border-radius: 10px;
-            width: 500px;
-            position: relative;
-            margin: auto;
-            padding: 20px;
-        }
-
-        .ads-page .ads-add .ads-event {
-            width: 100%;
-            text-align: center;
-            color: blue;
-            margin-bottom: 20px;
-        }
-
-        .ads-page .ads-add .ads-event button {
-            margin-top: 15px;
-        }
-
-        .ads-page .ads-date {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .ads-page .ads-date input {
-            border-radius: 10px;
-            padding: 5px;
-            gap: 2rem;
-            margin-left: 10px;
-            box-shadow: 1px 1px 3px black;
-        }
-
-        .ads-page .type-ads-box .type-ads {
-            display: flex;
-            gap: 1rem;
-            margin-left: 10px;
-        }
-
-        label {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .image-box {
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        .image-box input[type="file"] {
-            font-size: 14px;
-            border-radius: 50px;
-            box-shadow: 1px 1px 3px black;
-            width: 200px;
-            outline: none;
-            margin-left: 10px;
-        }
-
-        .image-box input[type="file"]::-webkit-file-upload-button {
-            background-color: #96dcd57a;
-            padding: 8px;
-            border: none;
-            border-radius: 50px;
-            outline: none;
-        }
-
-        .image-banner {
-            width: 300px;
-        }
-
-        .image-banner img {
-            width: 100%;
-            vertical-align: middle;
-        }
-
-        .table_ads {
-            width: 800px;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            overflow: auto;
-            height: 600px;
-
-        }
-    </style>
-</head>
 
 <div class="ads-page">
     <h1>Advertising Management</h1>
@@ -149,10 +41,10 @@ function checkTypeCateUpdate($value)
         <div class="ads-event">
             <h2>Create Advertising</h2>
         </div>
-        <div>
-            <input type="text" name="ads_id" value="<?= ($id != null ? $adsUpdate["ads_id"] : '') ?>">
-        </div>
         <form id="adsForm" method="post" enctype="multipart/form-data" action="">
+            <div>
+                <input style="display: none;" type="text" name="ads_id" value="<?= ($id != null ? $adsUpdate["ads_id"] : '') ?>">
+            </div>
             <div class="type-ads-box">
                 <label for="">Type advertisement</label> <br>
                 <div class="type-ads">
@@ -270,7 +162,7 @@ function checkTypeCateUpdate($value)
                         <select name="cateID" class="select-box">
                             <option value="">___Category Name___</option>
                             <?php foreach ($cates as $c) { ?>
-                                <option value="<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></option>
+                                <option value="<?= $c["cate_id"] ?>" <?= checkTypeCateUpdate($c["cate_id"]) ?>><?= $c["cate_name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -282,7 +174,7 @@ function checkTypeCateUpdate($value)
                         <select name="productID" class="select-box">
                             <option value="">___Product Name___</option>
                             <?php foreach ($products as $p) { ?>
-                                <option value="<?= $p["product_id"] ?>"><?= $p["product_name"] ?></option>
+                                <option value="<?= $p["product_id"] ?>" <?= checkTypeProductUpdate($p["product_id"]) ?>><?= $p["product_name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -306,7 +198,6 @@ function checkTypeCateUpdate($value)
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res)
                     if (res === 'success') {
                         showSuccessMessage("ads.php");
                     } else {
@@ -327,6 +218,7 @@ function checkTypeCateUpdate($value)
         $('#imageAds').on("change", function() {
             previewFiles(this, "#preview-images", 400);
             $(".errorImages").empty().append('');
+            delete_oldThumbnail("image-ads");
         });
     });
 

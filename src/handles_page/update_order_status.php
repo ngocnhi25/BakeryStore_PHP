@@ -6,6 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $order_id = $_POST["order_id"];
         $new_status = $_POST["new_status"];
 
+
         // Update the status in the database
         $sql = "UPDATE tb_order SET status = ? WHERE order_id = ?";
         $stmt = $conn->prepare($sql);

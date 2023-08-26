@@ -1,15 +1,12 @@
 <?php
 session_start();
 if (isset($_SESSION["auth_user"])) {
-    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-    if ($user["role"] == 2) { 
-        $user_name = $_SESSION["auth_user"]["username"];
-        $user_id = $_SESSION["auth_user"]["user_id"];
-    } else {
-        header("location: ../User/login.php");
-    }
-} else {
-    header("location: ../User/login.php");
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
+    // if($checkRole != 0 ){
+    //     header("location: ../User/login.php");
+    // }
 }
 ?>
 <!DOCTYPE html>
@@ -201,7 +198,7 @@ if (isset($_SESSION["auth_user"])) {
             </div>
 
             <div id="main-page">
-                <?php include("orders.php"); ?>
+                <?php include("accounts/customer.php"); ?>
             </div>
         </div>
     </div>
