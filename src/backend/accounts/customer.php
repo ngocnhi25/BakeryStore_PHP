@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once('../../connect/connectDB.php');
+
+$users = executeResult("SELECT * FROM tb_user WHERE role = 1");
 ?>
 
 <div class="customers">
@@ -13,46 +15,39 @@ require_once('../../connect/connectDB.php');
         </form>
     </div>
     <div class="table_customer">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Customer</th>
-                    <th>Email</th>
-                    <th>Telephone</th>
-                    <th>Gender</th>
-                    <th>Date of Birth</th>
-                    <th>Create Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="showdata">
-                <?php
-                $sql = "SELECT * FROM tb_user WHERE role = 1";
-                $sql_run = mysqli_query($conn, $sql);
-                while ($row = mysqli_fetch_assoc($sql_run)) {
-                    echo "<tr>
-                    <td>" . $row["user_id"] . "</td>
-                    <td>" . $row["username"] . "</td>
-                    <td>" . $row["email"] . "</td>
-                    <td>" . $row["phone"] . "</td>
-                    <td>" . $row["sex"] . "</td>
-                    <td>" . $row["birthday"] . "</td>
-                    <td>" . $row["create_date"] . "</td>
-                    <td>";
-                    if ($row["role"] == 1 && $row["status"] == 1) {
-                        echo '<button id="deactivateButton' . $row["user_id"] . '" onclick="deactivateUser(' . $row["user_id"] . ')" style="background-color: greenyellow;">Activate</button>';
-                    } else {
-                        echo '<button id="deactivateButton' . $row["user_id"] . '" onclick="activateUser(' . $row["user_id"] . ')" style="background-color: gray;">Deactivate</button>';
-                    }
-                    echo '</td>
-                </tr>';
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Employee</th>
+                        <th>Email</th>
+                        <th>Telephone</th>
+                        <th>Create Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user) {
+                        if ($user["role"] == 1) { ?>
+                            <tr>
+                                <td><?= $user["user_id"] ?></td>
+                                <td><?= $user["username"] ?></td>
+                                <td><?= $user["email"] ?></td>
+                                <td><?= $user["phone"] ?></td>
+                                <td><?= $user["create_date"] ?></td>
+                                <td>
+                                    <?php if ($user["role"] == 1 && $user["status"] == 1) { ?>
+                                        <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;">Activate</button>
+                                    <?php } else { ?>
+                                        <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                    <?php }
+                    } ?>
+                </tbody>
+            </table>
+        </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -61,56 +56,58 @@ require_once('../../connect/connectDB.php');
 <script src="../../public/backend/js/adminJquery.js"></script>
 <script type="text/javascript">
     function deactivateUser(userId) {
-        if (confirm("Are you sure you want to deactivate this user?")) {
-            $.ajax({
-                type: "GET",
-                url: '../User/deactivate.php', // Assuming the correct URL
-                data: {
-                    id: userId
-                },
-                success: function(res) {
-                    if (res === 'success') {
-                        alert("User deactivated successfully!");
-                    } else {
-                        alert("Failed to deactivate user.");
+            if (confirm("Are you sure you want to deactivate this user?")) {
+                // User confirmed, perform the deactivation logic
+                $.ajax({
+                    type: "GET",
+                    url: '../User/deactive.php',
+                    data: {
+                        code: userId
+                    },
+                    success: function(res) {
+                        if (res === 'success') {
+                            alert("User deactivated successfully!");
+                        } else {
+                            alert("Failed to deactivate user.");
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    }
 
-    function activateUser(userId) {
-        if (confirm("Are you sure you want to activate this user?")) {
-            $.ajax({
-                type: "GET",
-                url: '../User/activate.php', // Assuming the correct URL
-                data: {
-                    id: userId
-                },
-                success: function(res) {
-                    if (res === 'success') {
-                        alert("User activated successfully!");
-                    } else {
-                        alert("Failed to activate user.");
+        function ActivateUser(userId) {
+            if (confirm("Are you sure you want to Activate this user?")) {
+                // User confirmed, perform the deactivation logic
+                $.ajax({
+                    type: "GET",
+                    url: '../User/deactive.php',
+                    data: {
+                        id: userId
+                    },
+                    success: function(res) {
+                        if (res === 'success') {
+                            alert("User Activated successfully!");
+                        } else {
+                            alert("Failed to Activate user.");
+                        }
                     }
-                }
-            });
+                });
+            }
         }
-    }
 
-    $(document).ready(function() {
-        $("#getName").on("keyup",function(e) {
-            var getName = $(this).val();
-            $.ajax({
-                type: "POST",
-                url: 'filter-emp.php', // Make sure this URL is correct
-                data: {
-                    name: getName
-                },
-                success: function(res) {
-                    $("#showdata").html(res);
-                }
-            });
-        });
-    });
+    // $(document).ready(function() {
+    //     $("#getName").on("keyup",function(e) {
+    //         var getName = $(this).val();
+    //         $.ajax({
+    //             type: "POST",
+    //             url: 'filter-emp.php', // Make sure this URL is correct
+    //             data: {
+    //                 name: getName
+    //             },
+    //             success: function(res) {
+    //                 $("#showdata").html(res);
+    //             }
+    //         });
+    //     });
+    // });
 </script>

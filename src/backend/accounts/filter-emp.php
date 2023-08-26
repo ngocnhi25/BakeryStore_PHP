@@ -1,31 +1,36 @@
 <?php
-session_start();
-require_once("../../connect/connectDB.php");
-$name = $_POST["query"]; 
+require_once('../../connect/connectDB.php'); // Adjust the path to your connection file
 
-$sql = "SELECT * FROM tb_user WHERE  username LIKE '%$name%'";
-$sql_run = mysqli_query($conn, $sql);
-$data = ""; // Initialize the variable to store data
-while ($row = mysqli_fetch_assoc($sql_run)){
-    $data .= "<tr>
-    <td>" . $row["user_id"] . "</td>
-    <td>" . $row["username"] . "</td>
-    <td>" . $row["email"] . "</td>
-    <td>" . $row["phone"] . "</td>
-    <td>" . $row["sex"] . "</td>
-    <td>" . $row["birthday"] . "</td>
-    <td>" . $row["create_date"] . "</td>
-    <td>";
-    if ($row["role"] == 1 && $row["status"] == 1) {
-        $data .= '<button id="deactivateButton' . $row["user_id"] . '" onclick="deactivateUser(' . $row["user_id"] . ')" style="background-color: greenyellow;">Activate</button>';
+if (isset($_POST['from']) && isset($_POST['to'])) {
+    $from = $_POST['from'];
+    $to = $_POST['to'];
+
+    if ($from === "" && $to === "") {
+        // Show all data if both from and to are empty
+        $sql = "SELECT * FROM tb_user WHERE role = 2";
     } else {
-        $data .= '<button id="deactivateButton' . $row["user_id"] . '" onclick="activateUser(' . $row["user_id"] . ')" style="background-color: gray;">Deactivate</button>';
+        // Filter based on salary range
+        $sql = "SELECT * FROM tb_user WHERE role = 2 AND salary >= $from AND salary <= $to";
     }
-    $data .= '</td>
-    <td> <button>Update</button></td>
-</tr>';
+
+    $users = executeResult($sql);
+
+    foreach ($users as $user) {
+        echo "<tr>
+            <td>{$user['user_id']}</td>
+            <td>{$user['username']}</td>
+            <td>{$user['email']}</td>
+            <td>{$user['phone']}</td>
+            <td>{$user['salary']}</td>
+            <td>{$user['create_date']}</td>
+            <td>";
+        if ($user['role'] == 2 && $user['status'] == 1) {
+            echo "<button id='deactivateButton{$user['user_id']}' onclick='deactivateUser({$user['user_id']})' style='background-color: greenyellow;'>Activate</button>";
+        } else {
+            echo "<button id='deactivateButton{$user['user_id']}' onclick='ActivateUser({$user['user_id']})' style='background-color: gray;'>Deactivate</button>";
+        }
+        echo "</td>
+            </tr>";
+    }
 }
-echo $data; // Output the accumulated data
 ?>
-
-
