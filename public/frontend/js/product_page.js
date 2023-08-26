@@ -174,7 +174,7 @@ function addNewCart(id) {
           setTimeout(function () {
             $("#success-box").fadeIn();
           }, 100);
-          
+
           setTimeout(function () {
             $("#success-box").fadeOut();
           }, 1000);
@@ -188,7 +188,56 @@ function addNewCart(id) {
   })
 }
 
+function getProductAjax() {
+  $.ajax({
+    url: "handles_page/get_products.php",
+    method: "POST",
+    data: { action: 'data' },
+    success: function (res) {
+      $(".get-product-box").empty().html(res);
+    }
+  });
+}
+
+function pageClickPagination(page) {
+  const action = 'data';
+  const cate = getFilterText('filter_cate');
+  const onSale = getFilterText('on_sale');
+  const view = getFilterText('filter_view');
+  const fromPrice = $(".input-from-price").val();
+  const toPrice = $(".input-to-price").val();
+
+  $.ajax({
+    url: "handles_page/get_products.php",
+    method: "POST",
+    data: {
+      action: action,
+      cate: cate,
+      onSale: onSale,
+      view: view,
+      price: {
+        from: fromPrice,
+        to: toPrice
+      },
+      page: page
+    },
+    success: function (res) {
+      $(".get-product-box").empty().html(res);
+    }
+  });
+}
+
+function getFilterText(text_id) {
+  var filterData = [];
+  $('#' + text_id + ':checked').each(function () {
+    filterData.push($(this).val());
+  })
+  return filterData;
+}
+
 $(document).ready(function () {
+  getProductAjax();
+
   $("#search-product").on("input", function () {
     var query = $(this).val();
     if (query !== "") {
@@ -204,4 +253,76 @@ $(document).ready(function () {
       $("#search-results").hide().empty();
     }
   });
+
+  $(".product_check").click(function () {
+    const action = 'data';
+    const cate = getFilterText('filter_cate');
+    const onSale = getFilterText('on_sale');
+    const view = getFilterText('filter_view');
+    const fromPrice = $(".input-from-price").val();
+    const toPrice = $(".input-to-price").val();
+
+    $.ajax({
+      url: "handles_page/get_products.php",
+      method: "POST",
+      data: {
+        action: action,
+        cate: cate,
+        onSale: onSale,
+        view: view,
+        price: {
+          from: fromPrice,
+          to: toPrice
+        }
+      },
+      success: function (res) {
+        $(".get-product-box").empty().html(res);
+      }
+    });
+  })
+
+  $(".apply-price").click(function () {
+    const action = 'data';
+    const cate = getFilterText('filter_cate');
+    const onSale = getFilterText('on_sale');
+    const view = getFilterText('filter_view');
+    const $errorBox = $(".error-input-filter-price-box");
+
+    $errorBox.empty();
+    const fromPrice = $(".input-from-price").val();
+    const toPrice = $(".input-to-price").val();
+
+    if (isNaN(fromPrice) || isNaN(toPrice)) {
+      const errorMessage = `
+            <div class="error-input-filter-price">
+              Please enter valid numeric prices
+            </div>`;
+      $errorBox.html(errorMessage);
+    } else if (fromPrice > toPrice) {
+      const errorMessage = `
+            <div class="error-input-filter-price">
+              Please enter a valid price range
+            </div>`;
+      $errorBox.html(errorMessage);
+    } else {
+      $.ajax({
+        url: "handles_page/get_products.php",
+        method: "POST",
+        data: {
+          action: action,
+          cate: cate,
+          onSale: onSale,
+          view: view,
+          price: {
+            from: fromPrice,
+            to: toPrice
+          }
+        },
+        success: function (res) {
+          $(".get-product-box").empty().html(res);
+        }
+      });
+    }
+  });
+
 });

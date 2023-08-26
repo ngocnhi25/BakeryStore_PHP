@@ -65,7 +65,7 @@ if (isset($_GET['clear'])) {
 	$stmt->execute();
 	$_SESSION['showAlert'] = 'block';
 	$_SESSION['message'] = 'All Item removed from the cart!';
-	header('location:cart.php');
+	header('location:../cart.php');
 }
 
 // Set total price of the product in the cart table

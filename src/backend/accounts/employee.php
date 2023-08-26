@@ -20,7 +20,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
         <input type="text" name="from" id="form">
         <span style="color: green;"> To $</span>
         <input type="text" name="to" id="to">
-        <button class="submit" type="button" id="sb-Search">Search</button>
+        <button class="submit" type="button" id="live-Search">Search</button>
     </p>
 </form>
 
@@ -35,7 +35,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                         <th>Salary</th>
                         <th>Create Date</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +54,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                                         <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
                                     <?php } ?>
                                 </td>
-                                <td> <button> Update </button></td>
                             </tr>
                     <?php }
                     } ?>
@@ -106,9 +104,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
         }
 
     $(document).ready(function() {
-    $("#sb-Search").click(function(e) {
-        e.preventDefault();
-
+    $("#live-Search").keyup(function(e) {
         var formData = new FormData();
         formData.append("from", $('#form').val());
         formData.append("to", $('#to').val());

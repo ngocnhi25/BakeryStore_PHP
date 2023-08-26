@@ -32,8 +32,8 @@ if (isset($_POST["filter_cate"]) && !empty($_POST["filter_cate"])) {
 if(isset($_POST["filter_price"])){
     $from = ($_POST["filter_price"]["from"] * 1000);
     $to = ($_POST["filter_price"]["to"] * 1000);
-    $sql .= "AND price BETWEEN $from AND $to ";
-    $sqlCount .= "AND price BETWEEN $from AND $to ";
+    $sql .= "AND p.price BETWEEN $from AND $to ";
+    $sqlCount .= "AND p.price BETWEEN $from AND $to ";
 }
 
 if (isset($_POST["arrangeProduct"]) && !empty($_POST["arrangeProduct"])) {

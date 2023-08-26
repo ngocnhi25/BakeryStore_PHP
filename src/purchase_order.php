@@ -30,7 +30,7 @@ function noOrderYet()
 
 function checkStatus($status)
 {
-    global $orders, $arrayPrepare, $arrayPending, $arrayCancelled;
+    global $orders, $arrayPrepare, $arrayPending, $arrayCancelled, $arrayCompleted;
 
     foreach ($orders as $key => $o) {
         if ($o["status"] == $status) {
@@ -46,9 +46,14 @@ function checkStatus($status)
                 $arrayCancelled[$key] = $o["status"];
                 return $arrayCancelled;
             }
+            if ($status == "completed") {
+                $arrayCompleted[$key] = $o["status"];
+                return $arrayCompleted;
+            }
         }
     }
 }
+
 
 
 ?>
@@ -57,12 +62,9 @@ function checkStatus($status)
         <div class="tabs">
             <div class="tab-item active" data-tab="all">All</div>
             <div class="tab-item" data-tab="pending">Pending</div>
-            <div class="tab-item" data-tab="prepare">Prepare</div>
-            <div class="tab-item" data-tab="implementation">Implementation</div>
-            <div class="tab-item" data-tab="delivering">Delivered</div>
             <div class="tab-item" data-tab="completed">Completed</div>
             <div class="tab-item" data-tab="cancelled">Cancelled</div>
-            <div class="tab-item" data-tab="return-refund">Return/Refund</div>
+            <div class="tab-item" data-tab="return-refund">Return</div>
         </div>
     </div>
     <div class="po-search">
@@ -90,8 +92,8 @@ function checkStatus($status)
                                     </div>
                                     <div class="prd-price">
                                         <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
                                         <?php } else { ?>
                                             <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
                                         <?php } ?>
@@ -105,6 +107,7 @@ function checkStatus($status)
                             </div>
                             <div class="cal-total">
                             <button class="btn btn-danger cancel-btn" data-order-id="<?= $o["order_id"] ?>">Cancel</button>
+                            <button class="btn btn-warning return-btn" data-order-id="<?= $o["order_id"] ?>">Return</button>
                             </div>
                         </div>
                     </div>
@@ -134,8 +137,8 @@ function checkStatus($status)
                                     </div>
                                     <div class="prd-price">
                                         <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
                                         <?php } else { ?>
                                             <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
                                         <?php } ?>
@@ -177,8 +180,8 @@ function checkStatus($status)
                                     </div>
                                     <div class="prd-price">
                                         <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
                                         <?php } else { ?>
                                             <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
                                         <?php } ?>
@@ -206,86 +209,54 @@ function checkStatus($status)
                 noOrderYet();
             } ?>
         </div>
-        <div class="content" data-content="implementation">
-            <div class="item-product-box">
-                <div class="detail-order">
-                    <div class="inf-prd">
-                        <div>
-                            <img src="../public/images/products/z4345108010003_ba6d4066e3d620bce1a65f97a5a55657.jpg" alt="">
-                        </div>
-                        <div class="inf-text">
-                            <div class="prd-name">Bánh sinh nhật bé gái công chúa</div>
-                            <div class="galary"><span>Size: 12cm</span> <span>Flavor: Việt quất</span></div>
-                            <div>x1</div>
-                        </div>
-                    </div>
-                    <div class="prd-price">
-                        <span class="price-del">9.350.000 vnđ</span> <span class="price-hight-light">9.300.000 vnđ</span>
-                    </div>
-                </div>
-                <div class="status-cal">
-                    <div class="status-ord">
-                        <span>Hoàn Thành</span>
-                    </div>
-                    <div class="cal-total">
-                        <span>Total Pay:</span> <span class="price-total-pay">9.300.000 vnđ</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content" data-content="delivering">
-            <div class="item-product-box">
-                <div class="detail-order">
-                    <div class="inf-prd">
-                        <div>
-                            <img src="../public/images/products/z4345108010003_ba6d4066e3d620bce1a65f97a5a55657.jpg" alt="">
-                        </div>
-                        <div class="inf-text">
-                            <div class="prd-name">Bánh sinh nhật bé gái công chúa</div>
-                            <div class="galary"><span>Size: 12cm</span> <span>Flavor: Việt quất</span></div>
-                            <div>x1</div>
-                        </div>
-                    </div>
-                    <div class="prd-price">
-                        <span class="price-del">9.350.000 vnđ</span> <span class="price-hight-light">9.300.000 vnđ</span>
-                    </div>
-                </div>
-                <div class="status-cal">
-                    <div class="status-ord">
-                        <span>Hoàn Thành</span>
-                    </div>
-                    <div class="cal-total">
-                        <span>Total Pay:</span> <span class="price-total-pay">9.300.000 vnđ</span>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="content" data-content="completed">
-            <div class="item-product-box">
-                <div class="detail-order">
-                    <div class="inf-prd">
-                        <div>
-                            <img src="../public/images/products/z4345108010003_ba6d4066e3d620bce1a65f97a5a55657.jpg" alt="">
+        <?php if (checkStatus("completed") != null) {
+                foreach ($orders as $key => $o) {
+                    if ($o["status"] == "completed") {
+            ?>
+                        <div class="item-product-box">
+                            <?php foreach ($orders_details as $key => $od) { ?>
+                                <div class="detail-order">
+                                    <div class="inf-prd">
+                                        <div>
+                                            <img src="../<?= $od["image"] ?>" alt="">
+                                        </div>
+                                        <div class="inf-text">
+                                            <div class="prd-name"><?= $od["product_name"] ?></div>
+                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                                            <div>x<?= $od["quantity"] ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <?php if ($od["sale_product"] != 0) { ?>
+                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
+                                        <?php } else { ?>
+                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <div class="status-cal">
+                                <div class="status-ord">
+                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
+                                </div>
+                                <div class="cal-total">
+                                    <?php if ($o["coupon_sale"] != 0) { ?>
+                                        <span>Total Pay:
+                                        </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
+                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["coupon_sale"]) ?> vnđ</span>
+                                    <?php } else { ?>
+                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
+                                    <?php } ?>
+                                </div>
+                            </div>
                         </div>
-                        <div class="inf-text">
-                            <div class="prd-name">Bánh sinh nhật bé gái công chúa</div>
-                            <div class="galary"><span>Size: 12cm</span> <span>Flavor: Việt quất</span></div>
-                            <div>x1</div>
-                        </div>
-                    </div>
-                    <div class="prd-price">
-                        <span class="price-del">9.350.000 vnđ</span> <span class="price-hight-light">9.300.000 vnđ</span>
-                    </div>
-                </div>
-                <div class="status-cal">
-                    <div class="status-ord">
-                        <span>Hoàn Thành</span>
-                    </div>
-                    <div class="cal-total">
-                        <span>Total Pay:</span> <span class="price-total-pay">9.300.000 vnđ</span>
-                    </div>
-                </div>
-            </div>
+            <?php }
+                }
+            } else {
+                noOrderYet();
+            } ?>
         </div>
         <div class="content" data-content="cancelled">
         <?php if (checkStatus("cancelled") != null) {
@@ -307,7 +278,7 @@ function checkStatus($status)
                                     </div>
                                     <div class="prd-price">
                                         <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                            <span class="price-del">item price: <?php echo displayPrice($od["price"]) ?> vnđ</span>
                                             <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
                                         <?php } else { ?>
                                             <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
@@ -330,32 +301,48 @@ function checkStatus($status)
                 noOrderYet();
             } ?>
         </div>
-        <div class="content" data-content="return-refund">
-            <div class="item-product-box">
-                <div class="detail-order">
-                    <div class="inf-prd">
-                        <div>
-                            <img src="../public/images/products/z4345108010003_ba6d4066e3d620bce1a65f97a5a55657.jpg" alt="">
+        <div class="content" data-content="return">
+        <?php if (checkStatus("return") != null) {
+                foreach ($orders as $key => $o) {
+                    if ($o["status"] == "return") {
+            ?>
+                        <div class="item-product-box">
+                            <?php foreach ($orders_details as $key => $od) { ?>
+                                <div class="detail-order">
+                                    <div class="inf-prd">
+                                        <div>
+                                            <img src="../<?= $od["image"] ?>" alt="">
+                                        </div>
+                                        <div class="inf-text">
+                                            <div class="prd-name"><?= $od["product_name"] ?></div>
+                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                                            <div>x<?= $od["quantity"] ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <?php if ($od["sale_product"] != 0) { ?>
+                                            <span class="price-del">item price: <?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                        <?php } else { ?>
+                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <div class="status-cal">
+                                <div class="status-ord">
+                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
+                                </div>
+                                <div class="cal-total">
+                                   
+                                </div>
+                            </div>
                         </div>
-                        <div class="inf-text">
-                            <div class="prd-name">Bánh sinh nhật bé gái công chúa</div>
-                            <div class="galary"><span>Size: 12cm</span> <span>Flavor: Việt quất</span></div>
-                            <div>x1</div>
-                        </div>
-                    </div>
-                    <div class="prd-price">
-                        <span class="price-del">9.350.000 vnđ</span> <span class="price-hight-light">9.300.000 vnđ</span>
-                    </div>
-                </div>
-                <div class="status-cal">
-                    <div class="status-ord">
-                        <span>Hoàn Thành</span>
-                    </div>
-                    <div class="cal-total">
-                        <span>Total Pay:</span> <span class="price-total-pay">9.300.000 vnđ</span>
-                    </div>
-                </div>
-            </div>
+            <?php }
+                }
+            } else {
+                noOrderYet();
+            } ?>
         </div>
     </div>
 </div>
@@ -406,6 +393,44 @@ function checkStatus($status)
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Cancelled',
+                        text: result.value, // Display the response from the server
+                        timer: 2000, // Automatically close after 2 seconds
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
+        $(".return-btn").click(function () {
+            var order_id = $(this).data("order-id");
+            alert(order_id);
+            // Prompt the user for the cancellation reason using SweetAlert
+            Swal.fire({
+                title: 'Return Order',
+                input: 'text',
+                inputLabel: 'Reason for return',
+                inputPlaceholder: 'Enter reason...',
+                showCancelButton: true,
+                confirmButtonText: 'Return Order',
+                cancelButtonText: 'Close',
+                showLoaderOnConfirm: true,
+                preConfirm: (reason) => {
+                    // Send an AJAX request to update the order status to "cancelled" with the reason
+                    return $.ajax({
+                        url: "handles_page/update_order_status.php",
+                        type: "POST",
+                        data: { order_id: order_id, new_status: "return", reason: reason },
+                        error: function () {
+                            // Handle error
+                            Swal.showValidationMessage('Failed to return the order.');
+                        }
+                    });
+                },
+                allowOutsideClick: () => !Swal.isLoading()
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order return',
                         text: result.value, // Display the response from the server
                         timer: 2000, // Automatically close after 2 seconds
                         showConfirmButton: false

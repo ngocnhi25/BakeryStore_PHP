@@ -5,7 +5,7 @@ $errors["errorTypeAds"] =
     $errors["errorDate"] =
     $errors["errorImages"] =
     '';
-$errorNum = $eventNum = 0;
+$errorNum = $eventNum = $noUpdateImage = 0;
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
@@ -16,7 +16,6 @@ $size_allow = 3;
 
 if (isset($_POST["ads_id"]) && !empty($_POST["ads_id"])) {
     $id = $_POST["ads_id"];
-    echo $id;
     $eventNum = 1;
 }
 
@@ -97,7 +96,7 @@ if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
     $errorNum = 1;
 }
 
-if (isset($_FILES["imageAds"]["name"])) {
+if (isset($_FILES["imageAds"]["name"]) && !empty($_FILES["imageAds"]["name"])) {
     if ($eventNum == 1) {
         $ads = executeSingleResult("SELECT * FROM tb_ads WHERE ads_id = $id");
         $imagesDelete = $ads["image_ads"];
@@ -161,21 +160,38 @@ if (
         move_uploaded_file($uploads_tmp_name, $uploads_imagesLink);
         echo 'success';
     } else {
-        if ($typeAds == 'category') {
-            execute("UPDATE tb_ads SET 
-            type_ads = '$typeAds', image_ads = '$image', start_date = '$endDate', end_date = '$startDate', cate_id = $cateID
-            where ads_id = $id");
-        } elseif ($typeAds == 'product') {
-            execute("UPDATE tb_ads SET 
-            type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate', product_id = $productID
-            where ads_id = $id");
+        if ($noUpdateImage == 0) {
+            if ($typeAds == 'category') {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', image_ads = '$image', start_date = '$endDate', end_date = '$startDate', cate_id = $cateID
+                where ads_id = $id");
+            } elseif ($typeAds == 'product') {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate', product_id = $productID
+                where ads_id = $id");
+            } else {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate'
+                where ads_id = $id");
+            }
+            move_uploaded_file($uploads_tmp_name, $uploads_imagesLink);
+            echo 'success';
         } else {
-            execute("UPDATE tb_ads SET 
-            type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate'
-            where ads_id = $id");
+            if ($typeAds == 'category') {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', start_date = '$endDate', end_date = '$startDate', cate_id = $cateID
+                where ads_id = $id");
+            } elseif ($typeAds == 'product') {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', start_date = '$startDate', end_date = '$endDate', product_id = $productID
+                where ads_id = $id");
+            } else {
+                execute("UPDATE tb_ads SET 
+                type_ads = '$typeAds', start_date = '$startDate', end_date = '$endDate'
+                where ads_id = $id");
+            }
+            echo 'success';
         }
-        move_uploaded_file($uploads_tmp_name, $uploads_imagesLink);
-        echo 'success';
     }
 } else {
     echo json_encode($errors);

@@ -326,10 +326,6 @@ $conn->close();
     $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
 
     if ($user["role"] == "1") {
-      echo '<button class="shopping-bag js-toggle-cart-sidebar">
-              <img src="../public/images/icon/shopping-bag.svg" alt="">
-              <span class="counter" id="cart-item">' . $cartItemCount . '</span>
-            </button>';
       echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
       echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
       echo '</a>';
