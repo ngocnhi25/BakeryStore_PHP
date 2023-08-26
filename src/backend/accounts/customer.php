@@ -1,17 +1,16 @@
 <?php
+session_start();
 require_once('../../connect/connectDB.php');
-
-$users = executeResult("SELECT * FROM tb_user WHERE role = 1")
 ?>
 
 <div class="customers">
     <h1>Customer Management</h1>
     <div class="disposition">
-        <select name="" id="">
-            <option value="">____Sắp xếp____</option>
-            <option value="">New</option>
-            <option value="">Old</option>
-        </select>
+        <form id="salaryFilterForm" method="post">
+            <p>
+                <input type="text" id="getName" placeholder="Enter.." />Search
+            </p>
+        </form>
     </div>
     <div class="table_customer">
         <table>
@@ -22,48 +21,51 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                     <th>Email</th>
                     <th>Telephone</th>
                     <th>Gender</th>
-                    <th> Date of Birrthday </th>
+                    <th>Date of Birth</th>
                     <th>Create Date</th>
                     <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <?php foreach ($users as $user) {
-                    if ($user["role"] == 1) { ?>
-                        <tr>
-                            <td><?= $user["user_id"] ?></td>
-                            <td><?= $user["username"] ?></td>
-                            <td><?= $user["email"] ?></td>
-                            <td><?= $user["phone"] ?></td>
-                            <td><?= $user["sex"] ?></td>
-                            <td><?= $user["birthday"] ?></td>
-                            <td><?= $user["create_date"] ?></td>
-                            <td>
-                                <?php if ($user["role"] == 1 && $user["status"] == 1) { ?>
-                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;">Activate</button>
-                                <?php } else { ?>
-                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
-                                <?php } ?>
-                            </td>
-                            <td> <button> Update </button></td>
-                        </tr>
-                <?php }
-                } ?>
+            <tbody id="showdata">
+                <?php
+                $sql = "SELECT * FROM tb_user WHERE role = 1";
+                $sql_run = mysqli_query($conn, $sql);
+                while ($row = mysqli_fetch_assoc($sql_run)) {
+                    echo "<tr>
+                    <td>" . $row["user_id"] . "</td>
+                    <td>" . $row["username"] . "</td>
+                    <td>" . $row["email"] . "</td>
+                    <td>" . $row["phone"] . "</td>
+                    <td>" . $row["sex"] . "</td>
+                    <td>" . $row["birthday"] . "</td>
+                    <td>" . $row["create_date"] . "</td>
+                    <td>";
+                    if ($row["role"] == 1 && $row["status"] == 1) {
+                        echo '<button id="deactivateButton' . $row["user_id"] . '" onclick="deactivateUser(' . $row["user_id"] . ')" style="background-color: greenyellow;">Activate</button>';
+                    } else {
+                        echo '<button id="deactivateButton' . $row["user_id"] . '" onclick="activateUser(' . $row["user_id"] . ')" style="background-color: gray;">Deactivate</button>';
+                    }
+                    echo '</td>
+                    <td> <button>Update</button></td>
+                </tr>';
+                }
+                ?>
             </tbody>
         </table>
     </div>
 </div>
-
+<script src="../../public/backend/js/admin.js"></script>
+<script src="../../public/backend/js/adminJquery.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function deactivateUser(userId) {
         if (confirm("Are you sure you want to deactivate this user?")) {
-            // User confirmed, perform the deactivation logic
             $.ajax({
                 type: "GET",
-                url: '../User/deactive.php',
+                url: '../User/deactivate.php', // Assuming the correct URL
                 data: {
-                    code: userId
+                    id: userId
                 },
                 success: function(res) {
                     if (res === 'success') {
@@ -76,23 +78,39 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
         }
     }
 
-    function ActivateUser(userId) {
-        if (confirm("Are you sure you want to Activate this user?")) {
-            // User confirmed, perform the deactivation logic
+    function activateUser(userId) {
+        if (confirm("Are you sure you want to activate this user?")) {
             $.ajax({
                 type: "GET",
-                url: '../User/deactive.php',
+                url: '../User/activate.php', // Assuming the correct URL
                 data: {
                     id: userId
                 },
                 success: function(res) {
                     if (res === 'success') {
-                        alert("User Activated successfully!");
+                        alert("User activated successfully!");
                     } else {
-                        alert("Failed to Activate user.");
+                        alert("Failed to activate user.");
                     }
                 }
             });
         }
     }
+
+    $(document).ready(function() {
+        $("#getName").on("keyup",function(e) {
+            var getName = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: 'filter-emp.php', 
+                    data: {
+                        name: getName
+                    },
+                    success: function(res) {
+                        $("#showdata").html(res);
+                    }
+                });
+            
+        });
+    });
 </script>
