@@ -35,7 +35,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                         <th>Salary</th>
                         <th>Create Date</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +54,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                                         <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
                                     <?php } ?>
                                 </td>
-                                <td> <button> Update </button></td>
                             </tr>
                     <?php }
                     } ?>

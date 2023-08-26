@@ -6,25 +6,25 @@ function editNew(id) {
     ajaxPageData("news/news_add.php", postData);
 }
 
-function deleteNew(id) {
-    $.post(
-        "handles/deletes/news.php", {
-            id: id
-        },
-        function(data) {
-            ajaxPages(data);
-        }
-    )
-}
+// function deleteNew(id) {
+//     $.post(
+//         "handles/deletes/news.php", {
+//             id: id
+//         },
+//         function(data) {
+//             ajaxPages(data);
+//         }
+//     )
+// }
 
-function deleteNew(new_title, id) {
+function deleteNew(newTitle, id) {
     const html = `
         <div class="message-confirm-box">
             <div class="message-confirm">
-                <div>Are you sure to permanently remove the news ${new_title}?</div>
+                <div>Are you sure to permanently remove the news ${newTitle}?</div>
                 <div>
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="delete-product" class="delete" type="button">Delete</button>
+                    <button id="delete-new" class="delete" type="button">Delete</button>
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@ function deleteNew(new_title, id) {
         $(".message-confirm-box").remove();
     });
 
-    $("#delete-product").click(function () {
+    $("#delete-new").click(function () {
         $.post(
             "handles/deletes/news.php", {
             id: id

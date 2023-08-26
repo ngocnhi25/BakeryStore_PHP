@@ -41,7 +41,7 @@ $allProduct = executeSingleResult("select count(*) as total from tb_news");
                         <td class="button">
                             <button id="editNew" onclick='editNew(<?= $product["new_id"] ?>)' type="button" class="update">Update</button>
                             <?php if ($product["deleted"] == 0) { ?>
-                                <button type="button" onclick='deleteNew(<?= $product["new_id"] ?>)' class="delete">Delete</button>
+                                <button type="button" onclick='deleteNew(<?= $product["new_title"],$product["new_id"] ?>)' class="delete">Delete</button>
                             <?php } ?>
                         </td>
                     </tr>

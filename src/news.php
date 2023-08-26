@@ -91,7 +91,7 @@ if ($countResult != null) {
               <div class="col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2">
                 <div class="one-product-container">
                   <div class="product-images">
-                    <a href="details.php?new_id=<?= $p["new_id"] ?>">
+                    <a href="new_details.php?new_id=<?= $p["new_id"] ?>">
                       <div class="product-image hover-animation" href="san-pham/opera-cake-27">
                         <img src="../<?php echo $p["new_image"] ?>" alt="Opera Cake " />
                         <img src="../<?php echo $p["new_image"] ?>" alt="Opera Cake " />
