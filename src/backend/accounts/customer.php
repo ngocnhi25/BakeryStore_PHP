@@ -1,12 +1,6 @@
 <?php
 session_start();
 require_once('../../connect/connectDB.php');
-<<<<<<< HEAD
-=======
-
-
-$users = executeResult("SELECT * FROM tb_user WHERE role = 1")
->>>>>>> 4dfc41e1a8b36fd603a549b8e51bf31bfc9630ef
 ?>
 
 <div class="customers">
@@ -53,7 +47,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
                         echo '<button id="deactivateButton' . $row["user_id"] . '" onclick="activateUser(' . $row["user_id"] . ')" style="background-color: gray;">Deactivate</button>';
                     }
                     echo '</td>
-                    <td> <button>Update</button></td>
                 </tr>';
                 }
                 ?>
@@ -61,9 +54,11 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
         </table>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include other scripts -->
 <script src="../../public/backend/js/admin.js"></script>
 <script src="../../public/backend/js/adminJquery.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script type="text/javascript">
     function deactivateUser(userId) {
         if (confirm("Are you sure you want to deactivate this user?")) {
@@ -106,17 +101,16 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1")
     $(document).ready(function() {
         $("#getName").on("keyup",function(e) {
             var getName = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: 'filter-emp.php', 
-                    data: {
-                        name: getName
-                    },
-                    success: function(res) {
-                        $("#showdata").html(res);
-                    }
-                });
-            
+            $.ajax({
+                type: "POST",
+                url: 'filter-emp.php', // Make sure this URL is correct
+                data: {
+                    name: getName
+                },
+                success: function(res) {
+                    $("#showdata").html(res);
+                }
+            });
         });
     });
 </script>

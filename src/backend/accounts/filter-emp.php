@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once("../../connect/connectDB.php");
-$name = $_POST["query"]; // Assuming your AJAX sends "query" as POST data
+$name = $_POST["query"]; 
 
 $sql = "SELECT * FROM tb_user WHERE  username LIKE '%$name%'";
 $sql_run = mysqli_query($conn, $sql);
