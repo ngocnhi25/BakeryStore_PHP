@@ -289,21 +289,21 @@ $(document).ready(function () {
     const $errorBox = $(".error-input-filter-price-box");
 
     $errorBox.empty();
-    const fromPrice = $(".input-from-price").val();
-    const toPrice = $(".input-to-price").val();
+    const fromPrice = parseFloat($(".input-from-price").val());
+    const toPrice = parseFloat($(".input-to-price").val());
 
     if (isNaN(fromPrice) || isNaN(toPrice)) {
       const errorMessage = `
             <div class="error-input-filter-price">
               Please enter valid numeric prices
             </div>`;
-      $errorBox.html(errorMessage);
+      $errorBox.empty().html(errorMessage);
     } else if (fromPrice > toPrice) {
       const errorMessage = `
             <div class="error-input-filter-price">
               Please enter a valid price range
             </div>`;
-      $errorBox.html(errorMessage);
+      $errorBox.empty().html(errorMessage);
     } else {
       $.ajax({
         url: "handles_page/get_products.php",

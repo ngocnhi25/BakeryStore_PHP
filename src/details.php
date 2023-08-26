@@ -9,24 +9,19 @@ $arraySale = [];
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
-// var_dump($user_id);
-// die();
-
 // get id form web
 if (isset($_GET["product_id"])) {
   $id = $_GET['product_id'];
+  execute("UPDATE tb_products SET view = view + 1 WHERE product_id = $id");
 }
 
 $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeSingleResult("SELECT * from tb_products where product_id = $id");
+$cate_id = $product["cate_id"];
 $flaror = executeResult("select * from tb_flavor");
-$size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id");
+$size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id where cz.cate_id = $cate_id");
 $thumb = executeResult("select * from tb_thumbnail where product_id = $id");
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
-// $imageResult = executeSingleResult("SELECT image FROM tb_products WHERE product_id = $id");
-// $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
-// $productResult = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $id");
-// $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $id");
 $percent_sale = executeSingleResult("SELECT percent_sale FROM tb_sale WHERE product_id = $id");
 
 // Lấy dữ liệu sản phẩm và danh mục tương ứng từ cơ sở dữ liệu

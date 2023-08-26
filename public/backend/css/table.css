@@ -1,5 +1,4 @@
 .page-box {
-  position: relative;
   min-width: 1000px;
   width: 100%;
 }
@@ -62,7 +61,7 @@
   margin-bottom: 10px;
 }
 
-/* table {
+table {
   width: 100%;
 }
 
@@ -115,7 +114,7 @@ tbody tr {
   --delay: 0.1s;
   transition: 0.5s ease-in-out var(--delay), background-color 0s;
   border-bottom: 1px solid black;
-} */
+}
 
 /* //Success Message */
 #success {

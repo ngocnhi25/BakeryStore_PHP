@@ -87,7 +87,7 @@ function getAllProducts($product)
 
 
 if (isset($_POST['action']) && !empty($_POST["action"])) {
-    $limit = 3;
+    $limit = 12;
     $page = 1;
     $number = 0;
     $cate_id = $countResult = '';

@@ -1,11 +1,15 @@
 <?php
 require_once('../connect/connectDB.php');
+require_once('../handles_page/handle_calculate.php');
 
 $countCustomer = executeSingleResult("SELECT count(*) as customer FROM tb_user where role = 1");
 $countEmp = executeSingleResult("SELECT count(*) as emp FROM tb_user where role = 2");
 $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where role = 3");
 $countProduct = executeSingleResult("SELECT count(*) as product FROM tb_products");
 $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
+$fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user u 
+                                INNER JOIN tb_order o ON u.user_id = o.user_id
+                                where o.status = 'completed' GROUP BY u.user_id ORDER BY total DESC limit 2");
 
 ?>
 
@@ -25,45 +29,59 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             width: 70%;
         }
 
-        .dashboad-box .box-left .user-db {
+        .dashboad-box .box-left .statistical-db {
             width: 100%;
             display: flex;
             gap: 1rem;
         }
 
-        .dashboad-box .box-left .user-db .user-db-item {
+        .dashboad-box .box-left .statistical-db .item-statistical {
             width: 180px;
             height: 100px;
-            border: 1px solid black;
             border-radius: 5px;
             padding: 20px;
-            background-color: #fff;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: var(--box-shadow);
+            transition: all 300ms ease
         }
 
-        .dashboad-box .box-left .user-db .user-db-item .middle {
+        .dashboad-box .box-left .statistical-db .item-statistical:hover {
+            box-shadow: none;
+        }
+
+        .dashboad-box .box-left .statistical-db .item-statistical .middle {
             display: flex;
             gap: 1rem;
             align-items: center;
             justify-content: space-between;
         }
 
-        .dashboad-box .box-left .user-db .user-db-item .middle span {
+        .dashboad-box .box-left .statistical-db .item-statistical .middle span {
             width: 38px;
             height: 38px;
             font-size: 38px;
         }
 
-        .customer {
+        .dashboad-box .customer {
             color: blue;
         }
 
-        .employee {
+        .dashboad-box .employee {
             color: orange;
         }
 
-        .dashboad-box .box-left .user-db h3 {
+        .dashboad-box .product {
+            color: #2ed5d8;
+        }
+
+        .dashboad-box .cate {
+            color: #9b00ff;
+        }
+
+        .dashboad-box .box-left .statistical-db h3 {
             font-size: 13px;
-            color: #000;
+            color: #8a8989;
         }
 
         .dashboad-box .box-right {
@@ -82,14 +100,20 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             width: 100%;
             height: 500px;
             justify-content: space-between;
-            background-color: #0683f9;
+            background-color: #fff;
             /* gap: 2rem; */
+        }
+
+        .chart .chart-month-year .revenue-box {
+            display: block;
+            width: 100%;
+            height: 100%;
         }
 
         .chart .chart-month-year .month-chart {
             position: relative;
-            width: 70%;
-            height: 500px;
+            width: 100%;
+            height: 100%;
         }
 
         .chart .chart-month-year .year-chart {
@@ -98,9 +122,9 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             height: 300px;
         }
 
-        .box-right .recent-updates {
-            /* margin-top: 1rem; */
-        }
+        /* .box-right .recent-updates {
+            margin-top: 1rem;
+        } */
 
         .box-right .recent-updates h2 {
             margin-bottom: 0.8rem;
@@ -151,41 +175,32 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             <div class="name-page-db">
                 <h1>Dashboad</h1>
             </div>
-            <div class="user-db">
-                <div class="user-db-item">
+            <div class="statistical-db">
+                <div class="item-statistical">
                     <div class="middle">
                         <h1><?= $countCustomer["customer"] ?></h1>
                         <span class="material-symbols-sharp customer">person</span>
                     </div>
                     <h3>Customers</h3>
                 </div>
-                <div class="user-db-item">
+                <div class="item-statistical">
                     <div class="middle">
                         <h1><?= $countEmp["emp"] ?></h1>
                         <span class="material-symbols-sharp employee">person_apron</span>
                     </div>
                     <h3>Employees</h3>
                 </div>
-                <div class="user-db-item">
-                    <div class="middle">
-                        <h1><?= $countOwner["owner"] ?></h1>
-                        <span class="material-symbols-sharp owner">manage_accounts</span>
-                    </div>
-                    <h3>Owner</h3>
-                </div>
-            </div>
-            <div class="user-db">
-                <div class="user-db-item">
+                <div class="item-statistical">
                     <div class="middle">
                         <h1><?= $countProduct["product"] ?></h1>
-                        <span class="material-symbols-sharp customer">store</span>
+                        <span class="material-symbols-sharp product">store</span>
                     </div>
                     <h3>Product</h3>
                 </div>
-                <div class="user-db-item">
+                <div class="item-statistical">
                     <div class="middle">
                         <h1><?= $countCate["cate"] ?></h1>
-                        <span class="material-symbols-sharp employee">list_alt</span>
+                        <span class="material-symbols-sharp cate">list_alt</span>
                     </div>
                     <h3>Category</h3>
                 </div>
@@ -195,33 +210,17 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             <div class="recent-updates">
                 <h2>Potential Customers</h2>
                 <div class="top-best-order">
-                    <div class="profile-dasboad">
-                        <div class="profile-photo">
-                            <img src="../../public/images/admin1.jpg" alt="admin 1">
+                    <?php foreach ($fourEmperorsBuy as $f) { ?>
+                        <div class="profile-dasboad">
+                            <div class="profile-photo">
+                                <img src="../../public/images/icon/user.png" alt="admin 1">
+                            </div>
+                            <div class="account-top-order">
+                                <p><b><?= $f["username"] ?></b></p>
+                                <small class="text-muted">Total amount ordered: <span class="total-order-price"><?= displayPrice($f["total"]) ?> vnđ</span></small>
+                            </div>
                         </div>
-                        <div class="account-top-order">
-                            <p><b>Truong</b></p>
-                            <small class="text-muted">Total amount ordered: <span class="total-order-price">200.000vnđ</span></small>
-                        </div>
-                    </div>
-                    <div class="profile-dasboad">
-                        <div class="profile-photo">
-                            <img src="../../public/images/admin1.jpg" alt="admin 1">
-                        </div>
-                        <div class="account-top-order">
-                            <p><b>Phi</b></p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
-                    <div class="profile-dasboad">
-                        <div class="profile-photo">
-                            <img src="../../public/images/admin1.jpg" alt="admin 1">
-                        </div>
-                        <div class="account-top-order">
-                            <p><b>Hung</b></p>
-                            <small class="text-muted">2 Minutes Ago</small>
-                        </div>
-                    </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
