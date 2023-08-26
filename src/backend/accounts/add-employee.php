@@ -3,11 +3,18 @@ session_start();
 require_once("../../connect/connectDB.php");
 
 if (isset($_SESSION["auth_user"])) {
-  $user_name = $_SESSION["auth_user"]["username"];
-  $user_id = $_SESSION["auth_user"]["user_id"];
-
-  $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 3) { 
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+        $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+    } else {
+        header("location: ../../User/login.php");
+    }
+} else {
+    header("location: ../../User/login.php");
 }
+
 ?>
 <head>
     <style>

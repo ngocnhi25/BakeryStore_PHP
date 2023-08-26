@@ -1,12 +1,17 @@
 <?php
 session_start();
+require_once("../connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
-    // $checkRole = checkRowTable("SELECT * FROM tb_products WHERE user_id = $user_id and role = 3");
-    // if($checkRole != 0 ){
-    //     header("location: ../User/login.php");
-    // }
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 2) { 
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+        $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
+    } else {
+        header("location: ../User/login.php");
+    }
+} else {
+    header("location: ../User/login.php");
 }
 ?>
 <!DOCTYPE html>

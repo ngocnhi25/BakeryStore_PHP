@@ -284,6 +284,10 @@ aside .sidebar ul .nav-item.active .nav-link a .message-count {
 
 aside .sidebar ul .logout {
   margin-top: 40px;
+  display: flex;
+  gap: 1rem;
+  cursor: pointer;
+  align-items: center;
 }
 
 aside .sidebar .sub-menu {

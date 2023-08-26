@@ -1,16 +1,18 @@
 <?php
 session_start();
+require_once("../connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
-    // $checkRole = checkRowTable("SELECT * FROM tb_user WHERE user_id = $user_id and role = 3");
-    // if($checkRole != 0 ){
-    //     header("location: ../User/login.php");
-    // }
-} 
-// else {
-//     header("location: ../User/login.php");
-// }
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 3) { 
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+        $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
+    } else {
+        header("location: ../User/login.php");
+    }
+} else {
+    header("location: ../User/login.php");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -179,9 +181,9 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li  onclick="LogOut()" class="menu-item">                       
-                            <span class="material-symbols-sharp">logout</span>
-                            <h3>Logout</h3>
+                    <li  onclick="LogOut()" class="logout">                       
+                        <span class="material-symbols-sharp">logout</span>
+                        <h3>Logout</h3>
                     </li>
                 </ul>
             </div>
@@ -229,6 +231,7 @@ if (isset($_SESSION["auth_user"])) {
 </body>
 </section>
 </html>
+
 <script>
 function LogOut() {
     if (confirm("Are you sure you want to log out?")) {

@@ -3,7 +3,9 @@ require_once("../connect/connectDB.php");
 
 $id = '';
 $adsUpdate = [];
-$adsUpdate["type_ads"] = '';
+$adsUpdate["type_ads"] = 
+$adsUpdate["product_id"] = 
+$adsUpdate["cate_id"] = '';
 
 $cates = executeResult("SELECT * FROM tb_category");
 $products = executeResult("SELECT * FROM tb_products WHERE deleted = 0");
@@ -23,13 +25,13 @@ function checkTypeAdsUpdate($value)
 
 function checkTypeProductUpdate($value)
 {
-    global $products;
-    echo $products["product_id"] == $value ? "selected" : "";
+    global $adsUpdate;
+    echo $adsUpdate["product_id"] == $value ? "selected" : "";
 }
 function checkTypeCateUpdate($value)
 {
-    global $cates;
-    echo $cates["cate_id"] == $value ? "selected" : "";
+    global $adsUpdate;
+    echo $adsUpdate["cate_id"] == $value ? "selected" : "";
 }
 ?>
 
@@ -39,10 +41,10 @@ function checkTypeCateUpdate($value)
         <div class="ads-event">
             <h2>Create Advertising</h2>
         </div>
-        <div>
-            <input type="text" name="ads_id" value="<?= ($id != null ? $adsUpdate["ads_id"] : '') ?>">
-        </div>
         <form id="adsForm" method="post" enctype="multipart/form-data" action="">
+            <div>
+                <input style="display: none;" type="text" name="ads_id" value="<?= ($id != null ? $adsUpdate["ads_id"] : '') ?>">
+            </div>
             <div class="type-ads-box">
                 <label for="">Type advertisement</label> <br>
                 <div class="type-ads">
@@ -160,7 +162,7 @@ function checkTypeCateUpdate($value)
                         <select name="cateID" class="select-box">
                             <option value="">___Category Name___</option>
                             <?php foreach ($cates as $c) { ?>
-                                <option value="<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></option>
+                                <option value="<?= $c["cate_id"] ?>" <?= checkTypeCateUpdate($c["cate_id"]) ?>><?= $c["cate_name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -172,7 +174,7 @@ function checkTypeCateUpdate($value)
                         <select name="productID" class="select-box">
                             <option value="">___Product Name___</option>
                             <?php foreach ($products as $p) { ?>
-                                <option value="<?= $p["product_id"] ?>"><?= $p["product_name"] ?></option>
+                                <option value="<?= $p["product_id"] ?>" <?= checkTypeProductUpdate($p["product_id"]) ?>><?= $p["product_name"] ?></option>
                             <?php } ?>
                         </select>
                     </div>
@@ -196,7 +198,6 @@ function checkTypeCateUpdate($value)
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res)
                     if (res === 'success') {
                         showSuccessMessage("ads.php");
                     } else {
@@ -217,6 +218,7 @@ function checkTypeCateUpdate($value)
         $('#imageAds').on("change", function() {
             previewFiles(this, "#preview-images", 400);
             $(".errorImages").empty().append('');
+            delete_oldThumbnail("image-ads");
         });
     });
 

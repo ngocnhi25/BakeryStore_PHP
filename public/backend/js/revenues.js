@@ -1,12 +1,12 @@
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         url: 'handles/revenue/months.php',
         type: 'GET',
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             createChartMonth(data);
         },
-        error: function(xhr, textStatus, errorThrown) {
+        error: function (xhr, textStatus, errorThrown) {
             console.error('Error:', errorThrown);
         }
     });
@@ -14,10 +14,10 @@ $(document).ready(function() {
         url: 'handles/revenue/months.php',
         type: 'GET',
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             createChartYear(data);
         },
-        error: function(xhr, textStatus, errorThrown) {
+        error: function (xhr, textStatus, errorThrown) {
             console.error('Error:', errorThrown);
         }
     });
@@ -42,7 +42,7 @@ function createChartMonth(data) {
                 incomes.push(data[j].income);
                 expenses.push(data[j].expense);
                 found = true;
-                break; 
+                break;
             }
         }
         if (!found) {
@@ -53,29 +53,50 @@ function createChartMonth(data) {
     }
 
     var myChart = new Chart(ctx, {
-        type: "bar",
+        // type: "line",
         data: {
             labels: months,
-            datasets: [{
-                label: "Khoản thu",
-                data: incomes,
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                borderColor: "rgba(75, 192, 192, 1)",
-                borderWidth: 1
-            }, {
-                label: "Chi phí",
-                data: expenses,
-                backgroundColor: "rgba(255, 99, 132, 0.2)",
-                borderColor: "rgba(255, 99, 132, 1)",
-                borderWidth: 1
-            }]
+            datasets: [
+                {
+                    type: 'bar',
+                    label: "Khoản thu",
+                    data: incomes,
+                    backgroundColor: "rgba(75, 192, 192, 1)",
+                    borderColor: "rgba(75, 192, 192, 1)",
+                    order: 2
+                  }, {
+                    type: 'line',
+                    label: "Chi phí",
+                    data: expenses,
+                    backgroundColor: "rgba(255, 99, 132, 1)",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    order: 1,
+                    fill: false,
+                  }
+            ]
         },
         options: {
+            plugins: {
+                legend: {
+                    labels: {
+                        color: '#fff'
+                    }
+                }
+            },
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        color: '#fff'
+                    }
+                },
+                x: {
+                    ticks: {
+                        color: '#fff'
+                    }
                 }
-            }
+            },
+            
         }
     });
 }
@@ -98,7 +119,7 @@ function createChartYear(data) {
                 incomes.push(data[j].income);
                 expenses.push(data[j].expense);
                 found = true;
-                break; 
+                break;
             }
         }
         if (!found) {

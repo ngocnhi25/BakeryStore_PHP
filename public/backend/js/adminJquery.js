@@ -21,8 +21,8 @@ function previewFiles(inputElement, previewElement, witdth) {
         });
     }
 }
-function delete_oldThumbnail() {
-    var oldThumbnail = document.getElementById('oldThumbnail');
+function delete_oldThumbnail(text_id) {
+    var oldThumbnail = document.getElementById(text_id);
     oldThumbnail.remove();
 }
 function ajaxPages(url) {

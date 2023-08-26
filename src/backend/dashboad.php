@@ -82,6 +82,7 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             width: 100%;
             height: 500px;
             justify-content: space-between;
+            background-color: #0683f9;
             /* gap: 2rem; */
         }
 
@@ -98,7 +99,7 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
         }
 
         .box-right .recent-updates {
-            margin-top: 1rem;
+            /* margin-top: 1rem; */
         }
 
         .box-right .recent-updates h2 {
@@ -106,7 +107,7 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
         }
 
         .box-right .recent-updates .top-best-order {
-            background: var(--color-white);
+            background: #fff;
             padding: var(--card-padding);
             border-radius: var(--card-border-radius);
             box-shadow: var(--box-shadow);
@@ -123,18 +124,21 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             gap: 1rem;
             margin-bottom: 1rem;
         }
+
         .box-right .recent-updates .top-best-order .profile-photo img {
             width: 100%;
             height: 100%;
             vertical-align: middle;
             object-fit: contain;
         }
+
         .box-right .recent-updates .top-best-order .profile-photo img {
             width: 100%;
             height: 100%;
             vertical-align: middle;
             object-fit: contain;
         }
+
         .box-right .recent-updates .top-best-order .total-order-price {
             color: red;
             font-size: 13px;
@@ -142,11 +146,11 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
     </style>
 </head>
 <div style="width: 100%;">
-    <div class="name-page-db">
-        <h1>Dashboad</h1>
-    </div>
     <div class="dashboad-box">
         <div class="box-left">
+            <div class="name-page-db">
+                <h1>Dashboad</h1>
+            </div>
             <div class="user-db">
                 <div class="user-db-item">
                     <div class="middle">
@@ -227,9 +231,9 @@ $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
             <div class="revenue-box">
                 <canvas class="month-chart" id="month-chart"></canvas>
             </div>
-            <div class="revenue-box">
+            <!-- <div class="revenue-box">
                 <canvas class="year-chart" id="year-chart"></canvas>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
