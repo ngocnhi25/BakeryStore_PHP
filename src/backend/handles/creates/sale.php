@@ -3,10 +3,10 @@ require_once("../../../connect/connectDB.php");
 
 $errorNum = $eventNum = 0;
 $errors = [];
-$errors["errorProductName"] = 
-$errors["errorPercent"] = 
-$errors["errorStartDateSale"] = 
-$errors["errorEndDateSale"] = $product_id = '';
+$errors["errorProductName"] =
+    $errors["errorPercent"] =
+    $errors["errorStartDateSale"] =
+    $errors["errorEndDateSale"] = $product_id = $product_name = '';
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
@@ -20,22 +20,10 @@ if (isset($_POST["product_name"]) && !empty($_POST["product_name"])) {
     $product_name = trim($_POST["product_name"]);
     $product = executeSingleResult("SELECT * from tb_products where product_name = '$product_name'");
     $product_id = $product["product_id"];
-    if ($eventNum == 0) {
-        $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
-        if ($checkSaleProduct != 0) {
-            $errors["errorProductName"] = 'The product is still on promotion';
-            $errorNum = 1;
-        }
-    } else {
-        $saleUpdate = executeSingleResult("SELECT * from tb_sale s INNER JOIN tb_products p ON s.product_id = p.product_id where s.sale_id = $id");
-        if ($product_name != $saleUpdate["product_name"]) {
-            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and CURDATE() BETWEEN start_date AND end_date");
-            if ($checkSaleProduct != 0) {
-                $errors["errorProductName"] = 'The product is still on promotion';
-                $errorNum = 1;
-            }
-        }
-    }
+    if ($product == null) {
+        $errors["errorProductName"] = 'Please enter the product name';
+        $errorNum = 1;
+    } 
 } else {
     $errors["errorProductName"] = "Product name still on promotion can't be blank";
     $errorNum = 1;
@@ -66,9 +54,6 @@ if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
                 $errorNum = 1;
             }
         }
-    } else {
-        $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE sale_id = $id and '$startDate' BETWEEN start_date AND end_date");
-
     }
 } else {
     $errors["errorStartDateSale"] = "Start date cannot be left blank";
@@ -79,14 +64,36 @@ if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
 if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
     if ($startDate != null) {
         $endDate = $_POST["endDate"];
+
         if ($endDate <= $startDate) {
             $errors["errorEndDateSale"] = "Sale end date must be greater than or equal to sale start date";
             $errorNum = 1;
         } else {
-            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and '$endDate' BETWEEN start_date AND end_date");
-            if ($checkSaleProduct != 0) {
-                $errors["errorEndDateSale"] = date("m/d/Y", strtotime($endDate)) . ' products are on promotion';
-                $errorNum = 1;
+            if ($eventNum == 0) {
+                echo  $endDate;
+                die();
+                $sql = "SELECT * FROM tb_sale WHERE product_id = $product_id and " . $endDate . " BETWEEN start_date AND end_date";
+                $checkSaleProduct = checkRowTable($sql);
+                if ($checkSaleProduct != 0) {
+                    $errors["errorEndDateSale"] = date("m/d/Y", strtotime($endDate)) . ' products are on promotion';
+                    $errorNum = 1;
+                }
+            } else {
+                $saleUpdate = executeSingleResult("SELECT * from tb_sale s INNER JOIN tb_products p ON s.product_id = p.product_id where s.sale_id = $id");
+                if ($product_name != $saleUpdate["product_name"]) {
+                    $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale 
+                                                    WHERE product_id = $product_id 
+                                                    and (end_date BETWEEN '$startDate' AND '$endDate')
+                                                    or (start_date BETWEEN '$startDate' AND '$endDate')");
+                    if ($checkSaleProduct != 0) {
+                        $errors["errorEndDateSale"] = 'Duplicate product discount end date';
+                        $errorNum = 1;
+                    }
+                    if ($checkSaleProduct != 0) {
+                        $errors["errorStartDateSale"] = 'Duplicate product discount start date';
+                        $errorNum = 1;
+                    }
+                }
             }
         }
     }

@@ -4,7 +4,7 @@ require_once('connect/connectDB.php');
 require_once('handles_page/handle_calculate.php');
 
 $arraySale = [];
-
+$saleProductID = '';
 
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
@@ -16,49 +16,20 @@ if (isset($_GET["product_id"])) {
 }
 
 $cartItems = executeResult("SELECT * FROM tb_cart");
-$product = executeSingleResult("SELECT * FROM tb_products where product_id = $id");
+$product = executeSingleResult("SELECT * FROM tb_products p where product_id = $id");
 $cate_id = $product["cate_id"];
+$saleProductID = executeSingleResult("SELECT * FROM tb_sale WHERE product_id = $id and CURDATE() BETWEEN start_date AND end_date");
 $flaror = executeResult("select * from tb_flavor");
 $size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id where cz.cate_id = $cate_id");
-var_dump($size);
 $thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
-$percent_sale = executeSingleResult("SELECT percent_sale FROM tb_sale WHERE product_id = $id");
 
 // Lấy dữ liệu sản phẩm và danh mục tương ứng từ cơ sở dữ liệu
-$cateProduct = $product["cate_id"];
 $products = executeResult("SELECT * FROM tb_products p
                           INNER JOIN tb_category c ON p.cate_id = c.cate_id 
-                          where c.cate_id = $cateProduct and p.deleted = 0");
+                          where c.cate_id = $cate_id and p.deleted = 0");
 
-if ($product) {
-  $image = $product['image'];
-} else {
-  echo "Image not available.";
-}
-if ($product) {
-  $price = $product['price'];
-} else {
-  echo "Price not available.";
-}
-if ($percent_sale) {
-  $percent = intval($percent_sale);
-  $discountedPrice = $price - ($price * $percent / 100);
-}
-
-$idproductResult = executeSingleResult("SELECT product_id FROM tb_products WHERE product_id = $id");
-//get name value
-if ($product) {
-  $name = $product['product_name'];
-} else {
-  echo "Name not available.";
-}
-//get product_id
-if ($product) {
-  $id = $product['product_id'];
-} else {
-  echo "Name not available.";
-}
 //Breadcrumbs setup
 $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
                                       JOIN tb_category c ON p.cate_id = c.cate_id
@@ -66,6 +37,12 @@ $productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM t
 
 foreach ($sale as $key => $s) {
   $arraySale[$key] = $s["product_id"];
+}
+
+function calculateSaleProductDetails()
+{
+  global $saleProductID, $product;
+  return calculatePercentPrice($product["price"], $saleProductID["percent_sale"]);
 }
 
 
@@ -118,7 +95,7 @@ foreach ($sale as $key => $s) {
       <div class="col-12 col-lg-1">
         <div class="proDetails-images">
           <div class="small-img">
-            <img id="originalImage" src="../<?php echo $image ?>">
+            <img id="originalImage" src="../<?= $product["image"] ?>">
           </div>
           <?php foreach ($thumb as $index => $t) { ?>
             <div class="small-img">
@@ -129,27 +106,22 @@ foreach ($sale as $key => $s) {
       </div>
       <div class="col-12 col-lg-6">
         <div class="proDetails-big-img">
-          <img id="mainBigImage" src="../<?php echo $image ?>">
+          <img id="mainBigImage" src="../<?= $product["image"] ?>">
         </div>
       </div>
       <div class="col-12 col-lg-5">
-        <div class="pname"><?php echo $name ?></div>
+        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>" data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
         <p class="pd-view">Views: <span><?= $product["view"] ?></span></p>
         <div class="price-details">Price:
-          <?php if (in_array($product["product_id"], $arraySale)) { ?>
-            <span class="discounted-price">
-              <?php foreach ($sale as $s) {
-                if ($product["product_id"] == $s["product_id"]) {
-                  echo calculatePercentPrice($product["price"], $s["percent_sale"]);
-                  break;
-                }
-              } ?> vnđ
+          <?php if ($saleProductID != null) { ?>
+            <span class="discounted-price" data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>" data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
+              <?= calculateSaleProductDetails() ?> vnđ
             </span>
             <span class="original-price">
-              <?php echo displayPrice($product["price"]) ?> vnđ
+              <?= displayPrice($product["price"]) ?> vnđ
             </span>
           <?php } else { ?>
-            <span class="discounted-price">
+            <span class="discounted-price" data-price="<?= $product['price'] ?>" date-percent="0">
               <?= displayPrice($product["price"]) ?> vnđ
             </span>
           <?php } ?>
@@ -158,7 +130,7 @@ foreach ($sale as $key => $s) {
           <span>Choose cake size:</span>
           <div class="size-btn-items">
             <?php foreach ($size as $key => $s) { ?>
-              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>" data-cate="<?= $s['cate_id'] ?>">
+              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>" data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
                 <?php echo $s["size_name"] ?>cm
               </button>
             <?php } ?>
@@ -176,15 +148,17 @@ foreach ($sale as $key => $s) {
         </div>
 
         <div class="quantity">
-          <p>Quantity:</p>
-          <input type="number" min="1" max="5" value="1">
+          <span>Quantity:</span>
+          <div class="btn-quantity">
+            <button class="qty-btn-reduce">-</button>
+            <input class="qty-product-detail" type="text" value="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
+            <button class="qty-btn-increase">+</button>
+          </div>
         </div>
 
-        <div class="price">
-          <p class="discounted-price" id="price">
-            Cake in warehouse:
-            <?php echo $product['qty_warehouse'] ?> cake
-          </p>
+        <div class="warehouse">
+          <span>Cake in warehouse:</span>
+          <span><?= $product['qty_warehouse'] ?> cake</span>
         </div>
         <form action="" class="form-submit">
           <input type="hidden" class="pid" value="<?php echo $id ?>">
@@ -199,20 +173,18 @@ foreach ($sale as $key => $s) {
                                                           echo $discountedPrice;
                                                         }
                                                         ?>">
-
-
-
         </form>
+
         <div class="btn-box">
           <button class="cart-btn add" id="add">Add to Cart</button>
-          <button class="buy-btn">Buy Now</button>
+          <!-- <button class="buy-btn">Buy Now</button> -->
         </div>
       </div>
     </div>
     <div class="col-12 mt-5">
       <div class="card-content-pro">
         <ul class="nav nav-pills tabs-categories" role="tablist">
-          <li class="nav-item">
+          <li class="nav-item" style="cursor: none;">
             <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
               Mô tả sản phẩm
             </a>
@@ -538,107 +510,74 @@ foreach ($sale as $key => $s) {
           </div> -->
 </section>
 <section class="section-paddingY middle-section product-page">
-  <div class="col-12 mt-5">
-    <div class="card-content-pro">
-
-      <div class="clients-carousel owl-carousel owl-theme">
-        <?php foreach ($products as $p) { ?>
-          <div class='col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2'>
-            <div class='one-product-container product-carousel product_detail_carosel'>
-              <div class="product-images">
-                <a href="details.php?product_id=<?= $p["product_id"] ?>">
-                  <div class="product-image hover-animation">
-                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                    <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                  </div>
-                </a>
-                <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                  <div class="product-discount">
-                    <span class="text">-
-                      <?php foreach ($sale as $s) {
-                        if ($p["product_id"] == $s["product_id"]) {
-                          echo ($s["percent_sale"]);
-                          break;
-                        }
-                      } ?> %
-                    </span>
-                  </div>
-                <?php } ?>
-                <div class="box-actions-hover">
-                  <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                  <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
-                </div>
-              </div>
-              <div class="product-info">
-                <div class="product-name">
-                  <a href="details.php?product_id=<?php $p["product_id"] ?>">
-                    <?php echo $p["product_name"] ?>
+  <div class="container">
+    <div class="section-body">
+      <div class="card-content-pro">
+        <div class="related-text">
+          <img src="../public/images/icon/nhandien.png" alt="Cookies v&agrave; Mini Cake">
+          <span>Related Products</span>
+        </div>
+        <div class="clients-carousel owl-carousel owl-theme">
+          <?php foreach ($products as $p) { ?>
+            <div class='col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2'>
+              <div class='one-product-container product-carousel product_detail_carosel'>
+                <div class="product-images">
+                  <a href="details.php?product_id=<?= $p["product_id"] ?>">
+                    <div class="product-image hover-animation">
+                      <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                      <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
+                    </div>
                   </a>
-                </div>
-                <div class="product-price">
                   <?php if (in_array($p["product_id"], $arraySale)) { ?>
-                    <span class="price">
-                      <?php foreach ($sale as $s) {
-                        if ($p["product_id"] == $s["product_id"]) {
-                          echo calculatePercentPrice($p["price"], $s["percent_sale"]);
-                          break;
-                        }
-                      } ?> vnđ
-                    </span>
-                    <span class="price-del">
-                      <?php echo displayPrice($p["price"]) ?> vnđ
-                    </span>
-                  <?php } else { ?>
-                    <span class="price">
-                      <?php echo displayPrice($p["price"]) ?> vnđ
-                    </span>
+                    <div class="product-discount">
+                      <span class="text">-
+                        <?php foreach ($sale as $s) {
+                          if ($p["product_id"] == $s["product_id"]) {
+                            echo ($s["percent_sale"]);
+                            break;
+                          }
+                        } ?> %
+                      </span>
+                    </div>
                   <?php } ?>
+                  <div class="box-actions-hover">
+                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <div class="product-name">
+                    <a href="details.php?product_id=<?php $p["product_id"] ?>">
+                      <?php echo $p["product_name"] ?>
+                    </a>
+                  </div>
+                  <div class="product-price">
+                    <?php if (in_array($p["product_id"], $arraySale)) { ?>
+                      <span class="price">
+                        <?php foreach ($sale as $s) {
+                          if ($p["product_id"] == $s["product_id"]) {
+                            echo calculatePercentPrice($p["price"], $s["percent_sale"]);
+                            break;
+                          }
+                        } ?> vnđ
+                      </span>
+                      <span class="price-del">
+                        <?php echo displayPrice($p["price"]) ?> vnđ
+                      </span>
+                    <?php } else { ?>
+                      <span class="price">
+                        <?php echo displayPrice($p["price"]) ?> vnđ
+                      </span>
+                    <?php } ?>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        <?php } ?>
+          <?php } ?>
+        </div>
       </div>
-
     </div>
   </div>
-
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js">
-  </script>
-  <script>
-    $('.clients-carousel').owlCarousel({
-      loop: true,
-      nav: false,
-      autoplay: true,
-      autoplayTimeout: 3000,
-      animateOut: 'fadeOut',
-      animateIn: 'fadeIn',
-      smartSpeed: 450,
-      margin: 10,
-      autoplaySpeed: 1000,
-      responsive: {
-        0: {
-          items: 2,
-        },
-        600: {
-          items: 3,
-        },
-        1000: {
-          items: 3,
-        },
-      },
-      navText: [
-        '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
-        '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
-      ],
-    });
-  </script>
 </section>
 
 <?php include("layout/footer.php"); ?>
@@ -669,6 +608,7 @@ foreach ($sale as $key => $s) {
       }
     });
   }
+
   // Call the function when needed, e.g., on a button click
   $(document).ready(function() {
     $("#add").click(function() {
@@ -677,102 +617,40 @@ foreach ($sale as $key => $s) {
   });
 
   $(document).ready(function() {
-    let selectedSize = "";
-    let selectedFlavor = "";
 
     $(".buy-btn").click(function() {
-      const valueSize = $(".sizeBtn.active").data("size");
-      const valueFlavor = $(".flavorBtn.active").data("flavor");
-      alert(valueSize + ", " + valueFlavor);
+      const pid = $("#proDetail-proID").data("id");
+      const pname = $("#proDetail-proID").data("name");
+      const increaseSize = $(".sizeBtn.active").data("increase");
+      const size = $(".sizeBtn.active").data("name");
+      const flavor = $(".flavorBtn.active").data("flavor");
+      const quantity = $(".qty-product-detail").val();
+      const price = $(".discounted-price").data("price");
+      alert("Product_id: " + pid + ", Product_name: " + pname + ", Increase size: " + increaseSize + ", Size name: " + size + ", Flavor: " + flavor + ", Quantity: " + quantity + ", Price: " + price);
     })
 
-    $(".sizeBtn").on("click", function() {
-      $(this).siblings().removeClass("active");
-      $(this).addClass("active");
-      selectedSize = $(this).val();
-      var selectedSize_id = $(this).data("size");
-      // var selectedCateID = $(this).data("cate");
-
-      console.log(selectedSize_id);
-      $.ajax({
-        url: "handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
-        method: "POST",
-        data: {
-          size: selectedSize_id
-        },
-        success: function(res) {
-          alert(res)
-          // if (response !== "") {
-          //   var formattedIncreaseSize = parseFloat(response).toFixed(0);
-          //   formattedIncreaseSize = formattedIncreaseSize.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-          //   formattedIncreaseSize = "+" + formattedIncreaseSize;
-
-          //   // Update the displayed increaseSize
-          //   $("#displayedIncreaseSize").text(formattedIncreaseSize);
-
-          //   // Update the hidden input field
-          //   $(".IncreaseSize").val(formattedIncreaseSize);
-          // } else {
-          //   $("#displayedIncreaseSize").text("N/A");
-          //   $(".IncreaseSize").val(""); // Reset the hidden input field if needed
-          // }
-        },
-        error: function() {
-          $("#displayedIncreaseSize").text("Error fetching increaseSize");
-          $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
-        }
-      });
-    });
-
-    // Flavor buttons event listener
-    $(".flavorBtn").on("click", function() {
-      $(this).siblings().removeClass("active");
-      $(this).addClass("active");
-      selectedFlavor = $(this).val();
-    });
 
     // Add to cart button event listener
     $(document).on("click", "#add", function(e) {
       e.preventDefault();
-      if (selectedSize == "") {
-        Swal.fire({
-          icon: 'error',
-          title: 'Choose your cake size',
-          timer: 2000,
-          showConfirmButton: false
-        });
-        return;
-      }
-      if (selectedFlavor == "") {
-        Swal.fire({
-          icon: 'error',
-          title: 'Choose your cake size',
-          timer: 2000,
-          showConfirmButton: false
-        });
-        return;
-      }
 
       const $form = $(this).closest(".form-submit");
-      const pid = $form.find(".pid").val();
-      const pname = $form.find(".name").val();
-      const increaseSizeText = $("#hiddenIncreaseSize").val();
-      const increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
-      const increaseSize = parseFloat(increaseSizeWithoutCommas);
-      const quantity = $form.find(".quantity input").val();
-      const price = parseInt($form.find(".lastPrice").val());
-      const user_id = $form.find(".user_id").val();
-      // alert(price);
-      if (parseInt(quantity) > 20) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Quantity must be < 20 ',
-          timer: 2000, // Automatically close after 2 seconds
-          showConfirmButton: false
-        });
-        return; // Exit the function to prevent further processing
-      }
-
+      // const pid = $form.find(".pid").val();
+      // const pname = $form.find(".name").val();
+      // const increaseSizeText = $("#hiddenIncreaseSize").val();
+      // const increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
+      // const increaseSize = parseFloat(increaseSizeWithoutCommas);
+      // const quantity = $form.find(".quantity input").val();
+      // const price = parseInt($form.find(".lastPrice").val());
+      // const user_id = $form.find(".user_id").val();
+      const pid = $("#proDetail-proID").data("id");
+      const pname = $("#proDetail-proID").data("name");
+      const increaseSize = $(".sizeBtn.active").data("increase");
+      const size = $(".sizeBtn.active").data("name");
+      const flavor = $(".flavorBtn.active").data("flavor");
+      const quantity = $(".qty-product-detail").val();
+      const price = $(".discounted-price").data("price");
+      const user_id = $(".user_id").val();
 
       // // AJAX request to add product to cart
       $.ajax({
@@ -781,8 +659,8 @@ foreach ($sale as $key => $s) {
         data: {
           pid: pid,
           pname: pname,
-          size: selectedSize, // Add selected size
-          flavor: selectedFlavor, // Add selected flavor
+          size: size, // Add selected size
+          flavor: flavor, // Add selected flavor
           increaseSize: increaseSize,
           quantity: quantity,
           price: price,
@@ -804,31 +682,6 @@ foreach ($sale as $key => $s) {
         }
       });
     });
-  });
-</script>
-<script>
-  //chang Big image
-  document.addEventListener("DOMContentLoaded", function() {
-    const mainBigImage = document.getElementById("mainBigImage");
-    const originalImage = document.getElementById("originalImage");
-    const thumbnailImages = document.querySelectorAll(".thumbnail-img");
-
-    thumbnailImages.forEach(function(thumbnail) {
-      thumbnail.addEventListener("click", function() {
-        const index = this.getAttribute("data-index");
-        const newImageSrc = this.getAttribute("src");
-        updateBigImage(newImageSrc);
-      });
-    });
-
-    originalImage.addEventListener("click", function() {
-      const originalSrc = originalImage.getAttribute("src");
-      updateBigImage(originalSrc);
-    });
-
-    function updateBigImage(newImageSrc) {
-      mainBigImage.src = newImageSrc;
-    }
   });
 </script>
 </body>

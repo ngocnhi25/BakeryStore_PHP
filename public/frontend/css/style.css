@@ -3552,7 +3552,7 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 }
 .product_details .pd-view {
   font-size: 14px;
-  color: #333;
+  color: #777;
   margin-left: 10px;
 }
 .product_details .pd-view span {
@@ -3569,14 +3569,14 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
   color: #777;
 }
 .product_details .discounted-price {
-  font-size: 20px;
+  font-size: 25px;
   color: #f4c522;
   margin-left: 10px;
 }
 .product_details .original-price {
   color: #939393;
   text-decoration: line-through;
-  font-size: 15px;
+  font-size: 18px;
 }
 .product_details .choose-gallery {
   width: 100%;
@@ -3629,40 +3629,52 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
   background-color: #777;
   color: #fff;
 }
-
-
 .product_details .choose-gallery .flavorBtn:hover {
   background-color: #777;
   color: #fff;
 }
-.psize {
-  width: 60px;
-  height: 30px;
-  border: 1px solid #ff5e00;
-  color: #000;
-  text-align: center;
-  margin: 0 10px;
-  cursor: pointer;
+
+.product_details .quantity {
+  display: flex;
+  gap: 1rem;
+  margin-top: 40px;
 }
-.psize.active {
-  border-width: 1.5px;
-  color: #ff5e00;
+.product_details .quantity span {
+  font-size: 14px;
   font-weight: 500;
+  color: #777;
 }
-.quantity {
+.product_details .quantity .btn-quantity {
   display: flex;
 }
-.quantity p {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 0;
-}
-.quantity input {
+.product_details .quantity .qty-product-detail {
   width: 40px;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 500;
+  color: #777;
   text-align: center;
-  margin-left: 15px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+.product_details .quantity button {
+  width: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+  background-color: #a7a7a7;
+  text-align: center;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+.product_details .warehouse {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 20px;
+}
+.product_details .warehouse {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
 }
 .btn-box {
   display: flex;
@@ -3823,4 +3835,10 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 .prod-page-item.active .page-link{
   background-color: #4e16ec;
   color: #fff;
+}
+.related-text {
+  padding: 10px 20px;
+  font-size: 25px;
+  line-height: 1.3;
+  font-weight: 500;
 }
