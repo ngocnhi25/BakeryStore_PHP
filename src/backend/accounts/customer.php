@@ -49,11 +49,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
             </table>
         </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<!-- Include other scripts -->
-<script src="../../public/backend/js/admin.js"></script>
-<script src="../../public/backend/js/adminJquery.js"></script>
 <script type="text/javascript">
     function deactivateUser(userId) {
             if (confirm("Are you sure you want to deactivate this user?")) {

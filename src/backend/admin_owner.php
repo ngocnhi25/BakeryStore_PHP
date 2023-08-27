@@ -2,16 +2,16 @@
 session_start();
 require_once("../connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-    if ($user["role"] == 3) { 
-        $user_name = $_SESSION["auth_user"]["username"];
-        $user_id = $_SESSION["auth_user"]["user_id"];
-        $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
-    } else {
-        header("location: ../User/login.php");
-    }
+    // $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    // if ($user["role"] == 3) { 
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+    //     $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
+    // } else {
+    //     header("location: ../User/login.php");
+    // }
 } else {
-    header("location: ../User/login.php");
+    // header("location: ../User/login.php");
 }
 ?>
 <!DOCTYPE html>
@@ -171,7 +171,7 @@ if (isset($_SESSION["auth_user"])) {
                                     <h4>All News</h4>
                                 </a>
                             </li>
-                            
+
                             <li class="menu-item">
                                 <a href="news/news_add.php">
                                     <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
@@ -181,7 +181,7 @@ if (isset($_SESSION["auth_user"])) {
                             </li>
                         </ul>
                     </li>
-                    <li  onclick="LogOut()" class="logout">                       
+                    <li onclick="LogOut()" class="logout">
                         <span class="material-symbols-sharp">logout</span>
                         <h3>Logout</h3>
                     </li>
@@ -213,7 +213,7 @@ if (isset($_SESSION["auth_user"])) {
                     </div>
                     <div class="profile">
                         <div class="info">
-                            <p>Hey, <b> <?php echo $user_name ?>  </b></p>
+                            <p>Hey, <b> <?php echo $user_name ?> </b></p>
                             <small class="text-muted"> Position : Owner </small>
                         </div>
                     </div>
@@ -228,27 +228,27 @@ if (isset($_SESSION["auth_user"])) {
 
     <script src="../../public/backend/js/admin.js"></script>
     <script src="../../public/backend/js/adminJquery.js"></script>
+    <script>
+        function LogOut() {
+            if (confirm("Are you sure you want to log out?")) {
+                $.ajax({
+                    type: "POST",
+                    url: '../User/logout2-3.php', // Make sure the URL is correct
+                    success: function(res) {
+                        if (res === 'success') {
+                            window.location.href = "../User/login.php"; // Redirect to login page
+                        } else {
+                            alert("Logout failed.");
+                        }
+                    },
+                    error: function() {
+                        alert("An error occurred during logout.");
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </section>
-</html>
 
-<script>
-function LogOut() {
-    if (confirm("Are you sure you want to log out?")) {
-        $.ajax({
-            type: "POST",
-            url: '../User/logout2-3.php', // Make sure the URL is correct
-            success: function(res) {
-                if (res === 'success') {
-                    window.location.href = "../User/login.php"; // Redirect to login page
-                } else {
-                    alert("Logout failed.");
-                }
-            },
-            error: function() {
-                alert("An error occurred during logout.");
-            }
-        });
-    }
-}
-</script>
+</html>

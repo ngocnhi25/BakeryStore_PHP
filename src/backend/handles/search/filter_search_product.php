@@ -2,7 +2,7 @@
 require_once("../../../connect/connectDB.php");
 require_once("../../../handles_page/handle_calculate.php");
 
-$limit = 2;
+$limit = 10;
 $page = 1;
 $number = 0;
 if(isset($_POST["page"])){

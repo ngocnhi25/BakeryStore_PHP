@@ -435,7 +435,7 @@ function minPrice()
     </style>
 </head>
 <div class="products">
-    <h1>Product Page</h1>
+    <h1>Product Management</h1>
     <div class="filter-product">
         <div class="form-search-header">
             <span class="material-symbols-sharp icon">search</span>

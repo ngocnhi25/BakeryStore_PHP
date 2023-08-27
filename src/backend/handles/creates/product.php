@@ -65,8 +65,8 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 // product price
 if (isset($_POST["price"]) && !empty($_POST["price"])) {
     $price = $_POST["price"];
-    if ($price <= 0 || $price > 10000000) {
-        $errors["errorPrice"] = 'The product price is only in the range from 0 to 10000000 VND';
+    if ($price <= 10000 || $price > 10000000) {
+        $errors["errorPrice"] = 'The product price is only in the range from 10.000 to 10.000.000 VND';
         $errorNum = 1;
     }
 } else {

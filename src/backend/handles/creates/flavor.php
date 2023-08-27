@@ -18,7 +18,7 @@ if (isset($_POST["flavor"]) && !empty($_POST["flavor"])) {
             $errors["errorFlavor"] = 'Flavor name already exists';
             $errorNum = 1;
         } else {
-            if ($flavor_name < 3 || $flavor_name > 30) {
+            if (strlen($flavor_name) < 3 || strlen($flavor_name) > 30) {
                 $errors["errorFlavor"] = 'character length greater than 2 is less than 30';
                 $errorNum = 1;
             } 

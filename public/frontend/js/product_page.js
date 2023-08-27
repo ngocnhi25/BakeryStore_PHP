@@ -1,162 +1,3 @@
-$(document).ready(function () {
-
-  // When load page, render price
-  renderPriceWhenLoad();
-
-  // Choosing option(s) (color , size)
-  // => get colorID and sizeID
-  // => check if valid colorID and sizeID
-  // => render new price (price, original price, discount percent)
-  $('.product-page').on('change', '.input-option', function (event) {
-    changeInputOption($(this));
-
-    let colorID = $('.color-option:checked').val();
-    let sizeID = $('.size-option:checked').val();
-
-    if (!check_valid_color_and_size(colorID, sizeID)) {
-      return;
-    }
-
-    renderPriceWithOptions(colorID, sizeID)
-  });
-
-  // Increase or Decrease quantity (before buying)
-  $('.product-page .quantity-zone .quantity-control').click(function (event) {
-    let step = 0;
-    let quantityInput = $(this).parent().find('.quantity-input');
-    let quantity = quantityInput.val();
-    quantity = parseInt(quantity);
-
-    if ($(this).is('.decrease-btn')) {
-      step = -1;
-    } else if ($(this).is('.increase-btn')) {
-      step = 1;
-    }
-
-    quantity += step;
-    quantityInput.val(quantity);
-    quantityInput.trigger('change');
-    // if (isGreaterThan(quantity, 0)) {
-    //   quantityInput.val(quantity);
-    // } else {
-    //   quantityInput.val(1);
-    // }
-  });
-
-  $('.product-page .quantity-zone .quantity-input').change(function (event) {
-    let quantity = $(this).val();
-    quantity = parseInt(quantity);
-
-    if (isGreaterThan(quantity, 0)) {
-      $(this).val(quantity);
-    } else {
-      $(this).val(1);
-    }
-  });
-
-});
-
-function renderPriceWhenLoad() {
-  // if product has detail(s);
-  if (productDetails.length > 0) {
-    let colorID = $('.color-option:checked').val();
-    let sizeID = $('.size-option:checked').val();
-    renderPriceWithOptions(colorID, sizeID);
-  } else {
-    // product has no detail
-    renderPriceWithNoOption();
-  }
-}
-
-// check if colorID in colors array AND sizeID in sizes array
-function check_valid_color_and_size(colorID, sizeID) {
-  let check = false;
-
-  $(colors).each(function (index, color) {
-    if (color.id == colorID) {
-      // console.log(color);
-      check = true;
-      return true;
-    }
-  });
-
-  if (check) {
-    check = false;
-    $(sizes).each(function (index, size) {
-      if (size.id == sizeID) {
-        // console.log(size);
-        check = true;
-        return true;
-      }
-    });
-  }
-
-  if (!check) {
-    return false;
-  }
-  return true;
-}
-
-function renderPriceWithOptions(colorID, sizeID) {
-  let price = 0;
-  let originalPrice = 0;
-  let discountPercent = 0;
-
-  $(productDetails).each(function (index, detail) {
-    if (detail.color == colorID && detail.size == sizeID) {
-      price = detail.price;
-      originalPrice = detail.original_price ? detail.original_price : 0;
-      return true;
-    }
-  });
-  // console.log(price);
-  // return;
-
-  if (price < originalPrice) {
-    discountPercent = calculateDiscountPercent(price, originalPrice);
-  }
-
-  renderPriceHTML(price, originalPrice, discountPercent);
-}
-
-function renderPriceWithNoOption() {
-  let discountPercent = 0;
-  let price = product.price;
-  let originalPrice = product.original_price;
-
-  if (price < originalPrice) {
-    discountPercent = calculateDiscountPercent(price, originalPrice);
-  }
-
-  renderPriceHTML(price, originalPrice, discountPercent);
-
-}
-
-function calculateDiscountPercent(price, originalPrice) {
-  discountPercent = 100 - (price * 100) / originalPrice;
-  return discountPercent = Math.round(discountPercent);
-}
-
-function renderPriceHTML(price, originalPrice, discountPercent) {
-  // format_curency(), VIETNAMDONG in config.js\
-  price = format_curency(price, VIETNAMDONG);
-  originalPrice = format_curency(originalPrice, VIETNAMDONG);
-
-  $('.product-page .product-detail-container .price').html(price);
-  if (discountPercent > 0) {
-    $('.product-page .product-detail-container .discount-percent').html("-" + discountPercent + "%");
-    $('.product-page .product-detail-container .price-del').html(originalPrice);
-  }
-}
-
-
-function changeInputOption(_this) {
-  _this.parents('.option-zone').find('label.active').removeClass('active');
-  _this.parent().addClass('active');
-  let value = _this.data('value');
-  _this.parents('.option-zone').find('.option-result').html(value);
-}
-
 function addNewCart(id) {
   $(document).ready(function () {
     const postData = {
@@ -235,6 +76,22 @@ function getFilterText(text_id) {
   return filterData;
 }
 
+function calculateIncreaseSize(increase, price, quantity) {
+  return ((price + parseFloat(increase)) * quantity);
+}
+
+function calculateIncreaseSizeSale(increase, price, quantity, percent) {
+  return (((price + parseFloat(increase)) * (100 - percent) / 100) * quantity);
+}
+
+function formatPriceVND(price) {
+  const numericPrice = parseFloat(price);
+  const formattedIncreaseSize = numericPrice.toLocaleString('vi-VN', {
+    minimumFractionDigits: 0
+  });
+  return formattedIncreaseSize + " vnđ";
+}
+
 $(document).ready(function () {
   getProductAjax();
 
@@ -289,21 +146,21 @@ $(document).ready(function () {
     const $errorBox = $(".error-input-filter-price-box");
 
     $errorBox.empty();
-    const fromPrice = $(".input-from-price").val();
-    const toPrice = $(".input-to-price").val();
+    const fromPrice = parseFloat($(".input-from-price").val());
+    const toPrice = parseFloat($(".input-to-price").val());
 
     if (isNaN(fromPrice) || isNaN(toPrice)) {
       const errorMessage = `
             <div class="error-input-filter-price">
               Please enter valid numeric prices
             </div>`;
-      $errorBox.html(errorMessage);
+      $errorBox.empty().html(errorMessage);
     } else if (fromPrice > toPrice) {
       const errorMessage = `
             <div class="error-input-filter-price">
               Please enter a valid price range
             </div>`;
-      $errorBox.html(errorMessage);
+      $errorBox.empty().html(errorMessage);
     } else {
       $.ajax({
         url: "handles_page/get_products.php",
@@ -325,4 +182,148 @@ $(document).ready(function () {
     }
   });
 
+  // product details
+  $(".qty-btn-reduce").click(function() {
+    let total = '';
+    let totalOld = '';
+    const increase_size = $(".sizeBtn.active").data("increase");
+    const salePrice = $(".discounted-price").data("price");
+    const percent = $(".discounted-price").data("percent");
+    const qtyProduct = parseInt($(".qty-product-detail").val());
+    if (qtyProduct > 1) {
+      $(".qty-product-detail").val(qtyProduct - 1);
+      const qtyNew = qtyProduct - 1;
+
+      if (percent === undefined) {
+        total = calculateIncreaseSize(increase_size, salePrice, qtyNew);
+      } else {
+        total = calculateIncreaseSizeSale(increase_size, salePrice, qtyNew, percent);
+        totalOld = calculateIncreaseSize(increase_size, salePrice, qtyNew);
+        $(".original-price").empty().text(formatPriceVND(totalOld));
+      }
+
+      $(".discounted-price").data("addCart", total);
+      $(".discounted-price").empty().text(formatPriceVND(total));
+
+    }
+  })
+
+  $(".qty-btn-increase").click(function() {
+    let total = '';
+    let totalOld = '';
+    const increase_size = $(".sizeBtn.active").data("increase");
+    const salePrice = $(".discounted-price").data("price");
+    const percent = $(".discounted-price").data("percent");
+    const qtyProduct = parseInt($(".qty-product-detail").val());
+    if (qtyProduct < 5) {
+      $(".qty-product-detail").val(qtyProduct + 1);
+      const qtyNew = qtyProduct + 1;
+
+      if (percent === undefined) {
+        total = calculateIncreaseSize(increase_size, salePrice, qtyNew);
+      } else {
+        total = calculateIncreaseSizeSale(increase_size, salePrice, qtyNew, percent);
+        totalOld = calculateIncreaseSize(increase_size, salePrice, qtyNew);
+        $(".original-price").empty().text(formatPriceVND(totalOld));
+      }
+
+      $(".discounted-price").data("addCart", total);
+      $(".discounted-price").empty().text(formatPriceVND(total));
+
+    }
+  })
+
+  // Flavor buttons event listener
+  $(".flavorBtn").on("click", function() {
+    $(this).siblings().removeClass("active");
+    $(this).addClass("active");
+    selectedFlavor = $(this).val();
+  });
+
+  $(".sizeBtn").on("click", function() {
+    selectedSize = $(this).val();
+    $(this).siblings().removeClass("active");
+    $(this).addClass("active");
+    const size_id = $(this).data("size");
+    const increase = $(this).data("increase");
+    const salePrice = $(".discounted-price").data("price");
+    const percent = $(".discounted-price").data("percent");
+    const quantity = $(".qty-product-detail").val();
+
+    $.ajax({
+      url: "handles_page/get_increase_size.php", // Replace with the actual URL to fetch the increaseSize
+      method: "POST",
+      data: {
+        size_id: size_id
+      },
+      success: function(res) {
+        let total = '';
+        let totalOld = '';
+        if (percent === undefined) {
+          total = calculateIncreaseSize(res, salePrice, quantity);
+        } else {
+          total = calculateIncreaseSizeSale(res, salePrice, quantity, percent);
+          totalOld = calculateIncreaseSize(res, salePrice, quantity);
+          $(".original-price").empty().text(formatPriceVND(totalOld));
+        }
+
+        $(".discounted-price").data("addCart", total);
+        $(".discounted-price").empty().text(formatPriceVND(total));
+
+      },
+      error: function() {
+        $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
+      }
+    });
+  });
+
+});
+
+$(document).ready(function() {
+  const mainBigImage = $("#mainBigImage");
+  const originalImage = $("#originalImage");
+  const thumbnailImages = $(".thumbnail-img");
+
+  thumbnailImages.each(function() {
+      $(this).on("click", function() {
+          const index = $(this).attr("data-index");
+          const newImageSrc = $(this).attr("src");
+          updateBigImage(newImageSrc);
+      });
+  });
+
+  originalImage.on("click", function() {
+      const originalSrc = originalImage.attr("src");
+      updateBigImage(originalSrc);
+  });
+
+  function updateBigImage(newImageSrc) {
+      mainBigImage.attr("src", newImageSrc);
+  }
+
+  $('.clients-carousel').owlCarousel({
+    loop: true,
+    nav: false,
+    autoplay: true,
+    autoplayTimeout: 3000,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    smartSpeed: 450,
+    autoplaySpeed: 1000,
+    responsive: {
+      0: {
+        items: 2,
+      },
+      600: {
+        items: 3,
+      },
+      1000: {
+        items: 4,
+      },
+    },
+    navText: [
+      '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+      '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
+    ],
+  });
 });

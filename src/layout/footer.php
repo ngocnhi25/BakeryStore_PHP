@@ -187,6 +187,7 @@
 <script src="../public/frontend/js/librarys_js/owl.carousel.min.js"></script>
 <script src="../public/frontend/js/ajax/libs/lightslider/1.1.6/js/lightslider.min.js"></script>
 <script src="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 

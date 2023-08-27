@@ -1,8 +1,8 @@
 <?php
+session_start();
 require_once("../connect/connectDB.php");
 
 if (isset($_POST["product_id"])) {
-    session_start();
     if (isset($_SESSION["auth_user"])) {
         $user_id = $_SESSION["auth_user"]["user_id"]; 
         $product_id = $_POST["product_id"];

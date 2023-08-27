@@ -10,6 +10,12 @@ function calculatePercentPrice($price, $percent)
     return displayPrice($total);
 }
 
+function calculatePercentPriceData($price, $percent)
+{
+    $total = ($price * (100 - $percent) / 100);
+    return $total;
+}
+
 function calculateOldPrice($price, $percent)
 {
     $total = ($price * 100 / (100 - $percent));

@@ -57,19 +57,12 @@ if (isset($_POST["id"])) {
                                     <?php }
                                 }
                             } else {
-                                foreach ($sizes as $s) {
-                                    if ($s["size_name"] == 12) { ?>
-                                        <tr>
-                                            <td><input type="hidden" name="sizeID[]" value="<?= $s["size_id"] ?>"><?= $s["size_name"] ?></td>
-                                            <td><input type="number" name="size_increase[]" value="0" readonly></td>
-                                        </tr>
-                                    <?php } else { ?>
-                                        <tr>
-                                            <td><input type="hidden" name="sizeID[]" value="<?= $s["size_id"] ?>"><?= $s["size_name"] ?></td>
-                                            <td><input type="number" name="size_increase[]"></td>
-                                        </tr>
+                                foreach ($sizes as $s) { ?>
+                                    <tr>
+                                        <td><input type="hidden" name="sizeID[]" value="<?= $s["size_id"] ?>"><?= $s["size_name"] ?></td>
+                                        <td><input type="number" name="size_increase[]" <?= ($s["size_name"] == 12 ? 'value="0" readonly' : '') ?>></td>
+                                    </tr>
                             <?php }
-                                }
                             } ?>
                         </tbody>
                     </table>

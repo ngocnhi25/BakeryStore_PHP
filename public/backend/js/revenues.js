@@ -76,10 +76,12 @@ function createChartMonth(data) {
             ]
         },
         options: {
+            maintainAspectRatio: false,
+            responsive: true,
             plugins: {
                 legend: {
                     labels: {
-                        color: '#fff'
+                        color: '#7d8da1'
                     }
                 }
             },
@@ -87,12 +89,12 @@ function createChartMonth(data) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#fff'
+                        color: '#7d8da1'
                     }
                 },
                 x: {
                     ticks: {
-                        color: '#fff'
+                        color: '#7d8da1'
                     }
                 }
             },

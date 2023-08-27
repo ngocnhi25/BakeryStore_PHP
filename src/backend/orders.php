@@ -1,5 +1,7 @@
 <?php
-require_once("../connect/connectDB.php");
+if (isset($_POST["ajaxSidebar"])) {
+    require_once('../connect/connectDB.php');
+}
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order");
