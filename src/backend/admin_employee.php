@@ -1,20 +1,42 @@
 <?php
 session_start();
 require_once("../connect/connectDB.php");
+
 if (isset($_SESSION["auth_user"])) {
-    // $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-    // if ($user["role"] == 2) { 
-    $user_name = $_SESSION["auth_user"]["username"];
-    $user_id = $_SESSION["auth_user"]["user_id"];
-    //     $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
-    // } else {
-    //     header("location: ../User/login.php");
-    // }
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 2) {
+        $user_name = $_SESSION["auth_user"]["username"];
+        $user_id = $_SESSION["auth_user"]["user_id"];
+        $token_login_stored = $_SESSION["auth_user"]["token_login"];
+
+        // Retrieve the user's stored token from the database
+        $stored_token_query = "SELECT token_login FROM tb_user WHERE user_id = $user_id";
+        $stored_token_result = executeSingleResult($stored_token_query);
+        if ($stored_token_result) {
+            $token_data = $stored_token_result["token_login"];
+        } else {
+            // User's token not found in the database, consider logging out
+            header("location: ../User/login.php");
+            exit();
+        }
+    } else {
+        header("location: ../User/login.php");
+        exit();
+    }
 } else {
-    // header("location: ../User/login.php");
+    header("location: ../User/login.php");
+    exit();
 }
+var_dump($token_login_stored);
+// var_dump($token_data)
+// if ($token_login_stored !== $token_data) {
+//     $_SESSION['status'] = " Invalid token !";
+//     header("location: ../User/login.php");
+//     exit();
+// }
 ?>
-<!DOCTYPE html>
+
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -227,4 +249,13 @@ if (isset($_SESSION["auth_user"])) {
             });
         }
     }
-</script>
+
+</script> -->
+<?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>

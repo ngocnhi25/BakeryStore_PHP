@@ -86,20 +86,15 @@ foreach ($sale as $key => $s) {
     .form .comment-form {
       padding: 20px ;
     }
-    comment-form, .comments {
-    width: 80%;
+    .comment-form.comments {
+    width: 90%;
     margin: 0 auto;
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-input[type="text"], textarea {
+.form .comment-form .commentForm input[type="text"], textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -107,9 +102,9 @@ input[type="text"], textarea {
     border-radius: 4px;
 }
 
-button {
-  margin-top: 20px;
-    padding: 10px 20px;
+.form .comment-form .commentForm button {
+    margin-top: 10px;
+    padding: 10px;
     background-color:darkgray;
     width: 100px;
     color: #fff;
@@ -118,19 +113,24 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.form .comment-form .commentForm  button:hover {
     background-color: #0056b3;
 }
 
-ul {
+.form .comments .commentList ul {
     list-style: none;
     padding: 0;
+    padding-bottom: 30px;
 }
 
-li {
+.form .comments .commentList li {
     margin-bottom: 10px;
-    
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 20px;
     padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
     
 }
 
@@ -294,21 +294,26 @@ li {
 <div class="form">
 <div class="comment-form">
         <h3>Comment</h3>
-        <form id="commentForm">
-            <!-- <label for="name">Name:</label> -->
+        <form class="commentForm" >
             <input type="hidden" id="name" name="name" required>
-            
-            <!-- <label for="comment">Comment:</label> -->
             <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
             <br><br>
-            
             <button type="submit">Submit</button>
         </form>
     </div>
-    
+    <hr>
     <div class="comments">
-        <ul id="commentList">
-            <!-- Comments will be added dynamically here -->
+        <ul class="commentList">
+           <li>
+            <b>  Username : Nhi </b>
+              <div> Hello , my name is Ngoc Nhi </div>     
+              <small> Reply </small>                            
+           </li>
+           <li>
+            <b>  Username : Nhi </b>
+              <div> Hello , my name is Ngoc Nhi </div>     
+              <small> Reply </small>                               
+           </li>
         </ul>
     </div>
 </div>
