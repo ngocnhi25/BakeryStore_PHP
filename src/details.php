@@ -77,6 +77,63 @@ foreach ($sale as $key => $s) {
     .product_detail_carosel {
       width: 250px;
     }
+    .form {
+      margin-left: 200px;
+      margin-right: 200px;
+      margin-top: 50px;
+      background-color:#fff;
+    }
+    .form .comment-form {
+      padding: 20px ;
+    }
+    comment-form, .comments {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+  margin-top: 20px;
+    padding: 10px 20px;
+    background-color:darkgray;
+    width: 100px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+    
+    padding: 10px;
+    
+}
+
   </style>
 </head>
 
@@ -214,7 +271,7 @@ foreach ($sale as $key => $s) {
         <ul class="nav nav-pills tabs-categories" role="tablist">
           <li class="nav-item">
             <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
-              Mô tả sản phẩm
+              Description
             </a>
           </li>
         </ul>
@@ -233,6 +290,31 @@ foreach ($sale as $key => $s) {
   </div>
   </div>
 </section>
+
+<div class="form">
+<div class="comment-form">
+        <h3>Comment</h3>
+        <form id="commentForm">
+            <!-- <label for="name">Name:</label> -->
+            <input type="hidden" id="name" name="name" required>
+            
+            <!-- <label for="comment">Comment:</label> -->
+            <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
+            <br><br>
+            
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    
+    <div class="comments">
+        <ul id="commentList">
+            <!-- Comments will be added dynamically here -->
+        </ul>
+    </div>
+</div>
+
+    
+
 <section class="section-paddingY middle-section product-page">
   <!-- Thêm form để thêm hoặc cập nhật đánh giá sản phẩm -->
   <div class="row mt-5">
@@ -260,6 +342,7 @@ foreach ($sale as $key => $s) {
         </form>
       </div>
     </div>
+
 
     <?php
     // Include your danhgia class and other necessary code here
