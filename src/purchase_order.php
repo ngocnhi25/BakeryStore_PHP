@@ -401,43 +401,69 @@ function checkStatus($status)
             });
         });
         $(".return-btn").click(function () {
-            var order_id = $(this).data("order-id");
-            alert(order_id);
-            // Prompt the user for the cancellation reason using SweetAlert
-            Swal.fire({
-                title: 'Return Order',
-                input: 'text',
-                inputLabel: 'Reason for return',
-                inputPlaceholder: 'Enter reason...',
-                showCancelButton: true,
-                confirmButtonText: 'Return Order',
-                cancelButtonText: 'Close',
-                showLoaderOnConfirm: true,
-                preConfirm: (reason) => {
-                    // Send an AJAX request to update the order status to "cancelled" with the reason
-                    return $.ajax({
-                        url: "handles_page/update_order_status.php",
-                        type: "POST",
-                        data: { order_id: order_id, new_status: "return", reason: reason },
-                        error: function () {
-                            // Handle error
-                            Swal.showValidationMessage('Failed to return the order.');
-                        }
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Order return',
-                        text: result.value, // Display the response from the server
-                        timer: 2000, // Automatically close after 2 seconds
-                        showConfirmButton: false
-                    });
+    var order_id = $(this).data("order-id");
+    // alert(order_id);
+    
+    // Create a file input element
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    
+    // Prompt the user for the return reason and image using SweetAlert
+    Swal.fire({
+        title: 'Return Order',
+        html: `
+            <div>
+                <label for="return-reason">Reason for return:</label>
+                <textarea id="return-reason" placeholder="Enter reason..." class="swal2-input" style="height: 100px;"></textarea>
+            </div>
+            <div>
+                <label for="return-image">Upload an image of the issue:</label>
+                <input id="return-image" type="file" accept="image/*" class="swal2-file">
+            </div>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'Return Order',
+        cancelButtonText: 'Close',
+        showLoaderOnConfirm: true,
+        preConfirm: () => {
+            const reason = document.getElementById('return-reason').value;
+            const imageFile = document.getElementById('return-image').files[0];
+            
+            // Prepare form data
+            const formData = new FormData();
+            formData.append('order_id', order_id);
+            formData.append('new_status', 'return');
+            formData.append('reason', reason);
+            formData.append('image', imageFile);
+            
+            // Send an AJAX request to update the order status to "return" with the reason and image
+            return fetch('handles_page/update_order_status.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to return the order.');
                 }
+                return response.json();
             });
-        });
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Order return',
+                text: result.message, // Display the response from the server
+                timer: 2000, // Automatically close after 2 seconds
+                showConfirmButton: false
+            });
+        }
+    });
+});
+
     });
 
 

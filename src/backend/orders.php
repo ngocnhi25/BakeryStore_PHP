@@ -3,6 +3,13 @@ require_once("../connect/connectDB.php");
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order");
+$returnOrder = executeResult("SELECT
+*
+FROM
+tb_return r
+INNER JOIN
+tb_order_detail od ON r.order_id = od.order_id;
+");
 
 ?>
 
@@ -206,6 +213,54 @@ $orders = executeResult("SELECT * FROM tb_order");
             <!-- <div id="order-details"></div> -->
         </table>
     </div>
+
+    <div>
+        <h1>return request</h1>
+    </div>
+    <div style="width: 100%;">
+        <table class="table-product">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User ID</th>
+                    <th>Reason for Return</th>
+                    <th>Customer Image</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($returnOrder as $r): ?>
+                    <tr>
+                        <td>#
+                            <?php echo $r['order_id']; ?>
+                        </td>
+                        <td>#
+                            <?php echo $r['user_id']; ?>
+                        </td>
+                        <td>
+                            <?php echo $r['reason']; ?>
+                        </td>
+                        <td>
+                            <?php echo $r['customer_image']; ?>
+                        </td>
+
+                        <td>
+                            <div id="confirmation-modal" class="">
+                                <button id="confirm-return-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
+                                <button id="cancel-return-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
+                            </div>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+            <!-- <div id="order-details"></div> -->
+        </table>
+    </div>
+
+    <!-- Add the confirmation modal -->
+
 </div>
 <div id="overlay" class="overlay"></div>
 <div id="modal" class="modal">
@@ -225,14 +280,13 @@ $orders = executeResult("SELECT * FROM tb_order");
     $(document).ready(function () {
         $(".view-btn").click(function () {
             var order_id = $(this).closest("tr").find(".order-id").val();
-            // alert(order_id);
             $.ajax({
                 url: "../handles_page/get_order_details.php",
                 type: "GET",
                 data: { order_id: order_id },
                 success: function (response) {
                     $("#order-details").html(response);
-                    $("#status-editable").val($("#status-display").text()); // Set select value to current status
+                    $("#status-editable").val($("#status-display").text());
                     $("#overlay").css("display", "block");
                     $("#modal").css("display", "block");
                 },
@@ -242,82 +296,118 @@ $orders = executeResult("SELECT * FROM tb_order");
             });
         });
 
-        $(document).ready(function () {
-            var selectedOrderId; // Variable to store the selected order ID
+        var selectedOrderId; // Variable to store the selected order ID
 
-            $(".view-btn").click(function () {
-                selectedOrderId = $(this).closest("tr").find(".order-id").val(); // Store the order ID
-                // ... your existing AJAX code
+        $(".view-btn").click(function () {
+            selectedOrderId = $(this).closest("tr").find(".order-id").val();
+        });
+
+        $("#update-status-btn").click(function () {
+            var newStatus = $("#status-editable").val();
+            $.ajax({
+                url: "../handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: selectedOrderId, new_status: newStatus },
+                success: function (response) {
+                    alert(response);
+                    $("#status-display").text(newStatus);
+                    $("#overlay").css("display", "none");
+                    $("#modal").css("display", "none");
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Status Updated',
+                        text: response,
+                        timer: 2000,
+                        showConfirmButton: false
+                    });
+                },
+                error: function () {
+                    // Handle error
+                }
             });
+        });
 
-            // Update the status using AJAX
-            $("#update-status-btn").click(function () {
-                var newStatus = $("#status-editable").val();
+        // $(".view-btn").click(function () {
+        //     selectedOrderId = $(this).closest("tr").find(".order-id").val();
+        //     $("#confirmation-modal").addClass("show");
+        // });
+
+        $("#confirm-return-btn").click(function () {
+            var order_id = $(this).data("order-id");
+            alert(order_id);
+            $.ajax({
+                url: "../handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: order_id, new_status: "return" },
+                success: function (response) {
+                    alert(response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Order Returned',
+                        text: response,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                },
+                error: function () {
+                    // Handle error
+                }
+            });
+        });
+
+        $("#cancel-return-btn").click(function () {
+            var order_id = $(this).data("order-id");
+            $.ajax({
+                url: "../handles_page/delete_return_request.php",
+                type: "POST",
+                data: { order_id: order_id },
+                success: function (response) {
+                    Swal.fire({
+                        icon: 'info',
+                        title: 'Return Request Cancelled',
+                        text: response,
+                        timer: 2000,
+                        showConfirmButton: false
+                    }).then(function () {
+                        window.location.reload();
+                    });
+                },
+                error: function () {
+                    // Handle error
+                }
+            });
+        });
+
+
+        function updateTableContent(content) {
+            $(".table-product").html(content);
+        }
+
+        $('#filter-search-product').keyup(function () {
+            var input = $(this).val();
+
+            if (input != "") {
                 $.ajax({
-                    url: "../handles_page/update_order_status.php",
-                    type: "POST",
-                    data: { order_id: selectedOrderId, new_status: newStatus },
-                    success: function (response) {
-                        $("#status-display").text(newStatus);
-                        $("#overlay").css("display", "none");
-                        $("#modal").css("display", "none");
-                        // alert(response);
-
-                        // Display a pop-up notification using SweetAlert2
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Status Updated',
-                            text: response,
-                            timer: 2000, // Automatically close after 2 seconds
-                            showConfirmButton: false
-                        });
-                    },
-                    error: function () {
-                        // Handle error
+                    url: "../handles_page/livesearch.php",
+                    method: "POST",
+                    data: { input: input },
+                    success: function (data) {
+                        $(".table-product").html(data);
                     }
                 });
-            });
-        });
-
-        $(document).ready(function () {
-            function updateTableContent(content) {
-                $(".table-product").html(content);
+            } else {
+                $.ajax({
+                    url: "../handles_page/loadDefault.php",
+                    success: function (data) {
+                        updateTableContent(data);
+                    }
+                });
             }
-
-            $('#filter-search-product').keyup(function () {
-                var input = $(this).val();
-                // alert(input);
-
-                if (input != "") {
-                    $.ajax({
-
-                        url: "../handles_page/livesearch.php",
-                        method: "POST",
-                        data: {
-                            input: input
-                        },
-                        success: function (data) {
-                            $(".table-product").html(data);
-                        }
-
-                    })
-                } else {
-                    // Load default table content from a PHP file
-                    $.ajax({
-                        url: "../handles_page/loadDefault.php",
-                        success: function (data) {
-                            updateTableContent(data);
-                        }
-                    });
-                }
-
-
-            });
-
         });
 
-
-        // Close the modal when clicking outside the modal content
         $(window).click(function (event) {
             if (event.target === document.getElementById("overlay")) {
                 $("#overlay").css("display", "none");
@@ -325,4 +415,5 @@ $orders = executeResult("SELECT * FROM tb_order");
             }
         });
     });
+
 </script>
