@@ -77,63 +77,71 @@ foreach ($sale as $key => $s) {
     .product_detail_carosel {
       width: 250px;
     }
+
     .form {
-      margin-left: 200px;
-      margin-right: 200px;
+      margin-left: 400px;
+      margin-right: 400px;
       margin-top: 50px;
-      background-color:#fff;
+      background-color: #fff;
     }
     .form .comment-form {
-      padding: 20px ;
+      padding: 20px;
     }
+
     .comment-form.comments {
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
+      width: 90%;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
 
-.form .comment-form .commentForm input[type="text"], textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
+    .form .comment-form .commentForm input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
 
-.form .comment-form .commentForm button {
-    margin-top: 10px;
-    padding: 10px;
-    background-color:darkgray;
-    width: 100px;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    .form .comment-form .commentForm button {
+      padding: 10px;
+      background-color: darkgray;
+      width: 100px;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
 
-.form .comment-form .commentForm  button:hover {
-    background-color: #0056b3;
-}
+    .form .comment-form .commentForm button:hover {
+      background-color: #0056b3;
+    }
 
-.form .comments .commentList ul {
-    list-style: none;
-    padding: 0;
-    padding-bottom: 30px;
-}
+    .form .commentList {
+      border: none;
+      list-style: none;
+      padding: 0;
+      padding-bottom: 30px;
+    }
 
-.form .comments .commentList li {
-    margin-bottom: 10px;
-    margin-left: 50px;
-    margin-right: 50px;
-    margin-top: 20px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    .form .commentList li {
+      margin-left: 20px;
+      margin-right: 50px;
+      margin-top: 10px;
+      padding: 10px;
+    }
+    .form .commentList .long {
+      width: 90%;
+      background-color: #ccc;
+
+    }
     
-}
-
+    .form .commentList .long small {
+      margin-left: 15px;
+      margin-right: 10px;
+    }
   </style>
 </head>
 
@@ -292,33 +300,55 @@ foreach ($sale as $key => $s) {
 </section>
 
 <div class="form">
-<div class="comment-form">
-        <h3>Comment</h3>
-        <form class="commentForm" >
-            <input type="hidden" id="name" name="name" required>
-            <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
-            <br><br>
-            <button type="submit">Submit</button>
-        </form>
-    </div>
-    <hr>
-    <div class="comments">
-        <ul class="commentList">
-           <li>
-            <b>  Username : Nhi </b>
-              <div> Hello , my name is Ngoc Nhi </div>     
-              <small> Reply </small>                            
-           </li>
-           <li>
-            <b>  Username : Nhi </b>
-              <div> Hello , my name is Ngoc Nhi </div>     
-              <small> Reply </small>                               
-           </li>
+  <div class="comment-form">
+    <h3>Comment</h3>
+    <form class="commentForm">
+      <input type="hidden" id="name" name="name" required>
+      <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
+      <br><br>
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+  <hr>
+  
+  <div class="comments">
+    <ul class="commentList">
+      <li>
+        <h5> Username : Nhi </h5>
+        <div> Hello , my name is Ngoc Nhi </div>
+        <small> Reply </small> <small>  2023-08-25 18:00</small>
+        <ul>
+          <li class="long">
+            <h5> Username : Nhi </h5>
+            <div> Hello , my name is Ngoc Nhi </div>
+            <small> Reply </small> <small>  2023-08-25 18:00</small>
+          </li>
+          <li class="long">
+            <h5> Username : Nhi </h5>
+            <div> Hello , my name is Ngoc Nhi </div>
+            <small> Reply </small> <small>  2023-08-25 18:00</small>
+          </li>
         </ul>
-    </div>
+      </li>
+      <hr>
+      <li>
+        <h5> Username : Nhi </h4>
+        <div> Hello , my name is Ngoc Nhi </div>
+        <small> Reply </small> <small>  2023-08-25 18:00</small>
+        <ul>
+          <li class="long">
+            <h5> Username : Nhi </h5>
+            <div> Hello , my name is Ngoc Nhi </div>
+            <small> Reply </small> <small>  2023-08-25 18:00</small>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
 </div>
 
-    
+
 
 <section class="section-paddingY middle-section product-page">
   <!-- Thêm form để thêm hoặc cập nhật đánh giá sản phẩm -->
