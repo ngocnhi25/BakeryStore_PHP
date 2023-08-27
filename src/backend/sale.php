@@ -128,7 +128,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                             <p>Product name:</p>
                             <div class="search-product">
                                 <div class="box-input">
-                                    <input type="text" id="input-product-name" value="<?= ($idSale != null ? $saleUpdate["product_name"] : '') ?>">
+                                    <input type="text" id="input-product-name" value="<?= ($idSale != null ? $saleUpdate["product_name"] : '') ?>" <?= ($idSale != null ? 'readonly' : '') ?>>
                                 </div>
                                 <div id="search-result-product"></div>
                             </div>
