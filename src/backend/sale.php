@@ -35,7 +35,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     <div class="coupon-input">
                         <p>Reduction amount:</p>
                         <div class="box-input">
-                            <input type="text" id="input-discount" value="<?= ($idCoupon != null ? $couponUpdate["discount_coupon"] : '') ?>">
+                            <input type="text" id="input-discount" value="<?= ($idCoupon != null ? $couponUpdate["discount_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
                         <div class="error errorDiscount"></div>
                     </div>
@@ -58,21 +58,21 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     <div class="coupon-input">
                         <p>Conditions of using the code:</p>
                         <div class="box-input">
-                            <input type="text" id="input-condition" value="<?= ($idCoupon != null ? $couponUpdate["condition_used_coupon"] : '') ?>">
+                            <input type="text" id="input-condition" value="<?= ($idCoupon != null ? $couponUpdate["condition_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
                         <div class="error errorCondition"></div>
                     </div>
                     <div class="coupon-input">
                         <p>Number of times users use:</p>
                         <div class="box-input">
-                            <input type="text" id="input-qti-used" value="<?= ($idCoupon != null ? $couponUpdate["qti_used_coupon"] : '') ?>">
+                            <input type="text" id="input-qti-used" value="<?= ($idCoupon != null ? $couponUpdate["qti_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
                         <div class="error errorQtiUsed"></div>
                     </div>
                     <div class="coupon-input">
                         <p>Number of coupon:</p>
                         <div class="box-input">
-                            <input type="text"  id="input-qti-coupon" value="<?= ($idCoupon != null ? $couponUpdate["qti_coupon"] : '') ?>">
+                            <input type="text"  id="input-qti-coupon" value="<?= ($idCoupon != null ? $couponUpdate["qti_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
                         <div class="error errorQtiCoupon"></div>
                     </div>
@@ -137,7 +137,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                         <div class="coupon-input">
                             <p>Percent sale:</p>
                             <div class="box-input">
-                                <input type="text" id="input-percent" value="<?= ($idSale != null ? $saleUpdate["percent_sale"] : '') ?>">
+                                <input type="text" id="input-percent" value="<?= ($idSale != null ? $saleUpdate["percent_sale"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                             </div>
                             <div class="error errorPercent"></div>
                         </div>

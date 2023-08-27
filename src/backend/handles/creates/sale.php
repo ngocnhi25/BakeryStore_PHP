@@ -6,7 +6,7 @@ $errors = [];
 $errors["errorProductName"] = 
 $errors["errorPercent"] = 
 $errors["errorStartDateSale"] = 
-$errors["errorEndDateSale"] = '';
+$errors["errorEndDateSale"] = $product_id = '';
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
@@ -59,7 +59,16 @@ if (isset($_POST["startDate"]) && !empty($_POST["startDate"])) {
         if ($startDate < $date) {
             $errors["errorStartDateSale"] = "Sale start date must be greater than or equal to current date";
             $errorNum = 1;
+        } else {
+            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and '$startDate' BETWEEN start_date AND end_date");
+            if ($checkSaleProduct != 0) {
+                $errors["errorStartDateSale"] = date("m/d/Y", strtotime($startDate)) . ' products are on promotion';
+                $errorNum = 1;
+            }
         }
+    } else {
+        $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE sale_id = $id and '$startDate' BETWEEN start_date AND end_date");
+
     }
 } else {
     $errors["errorStartDateSale"] = "Start date cannot be left blank";
@@ -73,14 +82,18 @@ if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
         if ($endDate <= $startDate) {
             $errors["errorEndDateSale"] = "Sale end date must be greater than or equal to sale start date";
             $errorNum = 1;
+        } else {
+            $checkSaleProduct = checkRowTable("SELECT * FROM tb_sale WHERE product_id = $product_id and '$endDate' BETWEEN start_date AND end_date");
+            if ($checkSaleProduct != 0) {
+                $errors["errorEndDateSale"] = date("m/d/Y", strtotime($endDate)) . ' products are on promotion';
+                $errorNum = 1;
+            }
         }
     }
 } else {
     $errors["errorEndDateSale"] = "End date cannot be left blank";
     $errorNum = 1;
 }
-
-
 
 if ($errorNum == 0) {
     if ($eventNum == 0) {
@@ -90,10 +103,10 @@ if ($errorNum == 0) {
     } else {
         execute("UPDATE tb_sale SET 
         product_id = '$product_id', 
-        percent_sale = '$percent', 
+        percent_sale = $percent, 
         start_date = '$startDate', 
-        end_date = '$endDate'
-        WHERE flavor_id = $id");
+        end_date = '$endDate' 
+        WHERE sale_id = $id");
         echo 'success';
     }
 } else {

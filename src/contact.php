@@ -2,7 +2,7 @@
 session_start();
 require_once("connect/connectDB.php");
 
-
+$user_id = '';
 
 if (isset($_SESSION["auth_user"])) {
   $user_name = $_SESSION["auth_user"]["username"];
