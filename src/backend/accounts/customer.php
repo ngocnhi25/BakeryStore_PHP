@@ -4,16 +4,63 @@ require_once('../../connect/connectDB.php');
 
 $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
 ?>
+<style>
+     .filter-product .form-search-header {
+            top: 30%;
+            position: relative;
+            width: 300px;
+        }
 
-<div class="customers">
+        .filter-product .form-search-header .icon {
+            color: #777e90;
+            position: absolute;
+            top: 9px;
+            left: 10px;
+            font-size: 16px;
+        }
+
+        .filter-product .form-search-header input {
+            border-radius: 20px;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+
+        .filter-product .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #80bdff;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
+        }
+
+        .filter-product .form-control {
+            display: block;
+            width: 100%;
+            height: calc(2.25rem + 2px);
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #495057;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #ced4da;
+            border-radius: 0.25rem;
+            transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        }
+
+</style>
+<div class="products">
     <h1>Customer Management</h1>
-    <div class="disposition">
-        <form id="salaryFilterForm" method="post">
-            <p>
-                <input type="text" id="getName" placeholder="Enter.." />Search
-            </p>
-        </form>
+    <div class="filter-product">
+        <div class="form-search-header">
+            <span class="material-symbols-sharp icon">search</span>
+            <input id="filter-search-product" type="text" name="search" placeholder="Search ..." class="form-control">
+        </div>
     </div>
+</div>
+
+
     <div class="table_customer">
             <table>
                 <thead>
@@ -91,19 +138,5 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
             }
         }
 
-    // $(document).ready(function() {
-    //     $("#getName").on("keyup",function(e) {
-    //         var getName = $(this).val();
-    //         $.ajax({
-    //             type: "POST",
-    //             url: 'filter-emp.php', // Make sure this URL is correct
-    //             data: {
-    //                 name: getName
-    //             },
-    //             success: function(res) {
-    //                 $("#showdata").html(res);
-    //             }
-    //         });
-    //     });
-    // });
+
 </script>

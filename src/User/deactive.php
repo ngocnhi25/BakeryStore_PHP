@@ -31,4 +31,5 @@ if (isset($_GET['id'])) {
         echo 'fail';
     }
 }
+
 ?>

@@ -1,4 +1,6 @@
-<?php require_once("connect/connectDB.php") ?>
+<?php 
+session_start();
+require_once("connect/connectDB.php") ?>
 <?php include("layout/header.php"); ?>
 
 <div class="breadcrumb">
