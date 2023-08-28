@@ -23,7 +23,7 @@ function addNewCart(id) {
         }
       },
       error: function (xhr, status, error) {
-        console.error("Lỗi: " + error);
+        console.error("error: " + error);
       }
     });
   })
@@ -183,7 +183,7 @@ $(document).ready(function () {
   });
 
   // product details
-  $(".qty-btn-reduce").click(function() {
+  $(".qty-btn-reduce").click(function () {
     let total = '';
     let totalOld = '';
     const increase_size = $(".sizeBtn.active").data("increase");
@@ -208,7 +208,7 @@ $(document).ready(function () {
     }
   })
 
-  $(".qty-btn-increase").click(function() {
+  $(".qty-btn-increase").click(function () {
     let total = '';
     let totalOld = '';
     const increase_size = $(".sizeBtn.active").data("increase");
@@ -234,13 +234,13 @@ $(document).ready(function () {
   })
 
   // Flavor buttons event listener
-  $(".flavorBtn").on("click", function() {
+  $(".flavorBtn").on("click", function () {
     $(this).siblings().removeClass("active");
     $(this).addClass("active");
     selectedFlavor = $(this).val();
   });
 
-  $(".sizeBtn").on("click", function() {
+  $(".sizeBtn").on("click", function () {
     selectedSize = $(this).val();
     $(this).siblings().removeClass("active");
     $(this).addClass("active");
@@ -256,7 +256,7 @@ $(document).ready(function () {
       data: {
         size_id: size_id
       },
-      success: function(res) {
+      success: function (res) {
         let total = '';
         let totalOld = '';
         if (percent === undefined) {
@@ -271,7 +271,7 @@ $(document).ready(function () {
         $(".discounted-price").empty().text(formatPriceVND(total));
 
       },
-      error: function() {
+      error: function () {
         $(".IncreaseSize").val(""); // Reset the hidden input field in case of error
       }
     });
@@ -279,26 +279,26 @@ $(document).ready(function () {
 
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
   const mainBigImage = $("#mainBigImage");
   const originalImage = $("#originalImage");
   const thumbnailImages = $(".thumbnail-img");
 
-  thumbnailImages.each(function() {
-      $(this).on("click", function() {
-          const index = $(this).attr("data-index");
-          const newImageSrc = $(this).attr("src");
-          updateBigImage(newImageSrc);
-      });
+  thumbnailImages.each(function () {
+    $(this).on("click", function () {
+      const index = $(this).attr("data-index");
+      const newImageSrc = $(this).attr("src");
+      updateBigImage(newImageSrc);
+    });
   });
 
-  originalImage.on("click", function() {
-      const originalSrc = originalImage.attr("src");
-      updateBigImage(originalSrc);
+  originalImage.on("click", function () {
+    const originalSrc = originalImage.attr("src");
+    updateBigImage(originalSrc);
   });
 
   function updateBigImage(newImageSrc) {
-      mainBigImage.attr("src", newImageSrc);
+    mainBigImage.attr("src", newImageSrc);
   }
 
   $('.clients-carousel').owlCarousel({
@@ -327,3 +327,62 @@ $(document).ready(function() {
     ],
   });
 });
+$(document).ready(function () {
+  showComment();
+  $(".submit-comment").click(function () {
+    const product_id = $("#proDetail-proID").data("id");
+    const content = $("#comment").val();
+    $.ajax({
+      url: "handles_page/add_comment.php", 
+      method: "POST",
+      data: {
+        content: content,
+        product_id: product_id
+      },
+      success: function (res) {
+        console.log(res);
+      },
+      error: function (xhr, status, error) {
+        console.error("error: " + error);
+      }
+    });
+  })
+  $("#comment").on("click", function () {
+    // $.ajax({
+    //   url: "handles_page/check_login_status.php", 
+    //   method: "POST",
+    //   success: function(res) {
+    //     if(res === "notloggedin"){
+    //       Swal.fire({
+    //         icon: 'info',
+    //         title: 'Not Logged In',
+    //         text: 'You are not logged in.',
+    //         didClose: () => {
+    //           window.location.href = "User/login.php";
+    //         }
+    //       });
+    //     }
+    //   },
+    //   error: function (xhr, status, error) {
+    //     console.error("error: " + error);
+    //   }
+    // });
+  })
+});
+
+function showComment() {
+  const product_id = $("#proDetail-proID").data("id");
+  $.ajax({
+    url: "handles_page/show_comments.php", // Replace with the actual URL to fetch the increaseSize
+    method: "POST",
+    data: {
+      product_id: product_id
+    },
+    success: function (res) {
+      $(".comments").empty().html(res);
+    },
+    error: function (xhr, status, error) {
+      console.error("error: " + error);
+    }
+  });
+}

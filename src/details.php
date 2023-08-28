@@ -51,16 +51,13 @@ function calculateSaleProductDetails()
 
 <head>
   <style>
-    .product_detail_carosel {
-      width: 250px;
-    }
-
     .form {
       margin-left: 400px;
       margin-right: 400px;
       margin-top: 50px;
       background-color: #fff;
     }
+
     .form .comment-form {
       padding: 20px;
     }
@@ -73,8 +70,14 @@ function calculateSaleProductDetails()
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     }
 
+    .form .comment-form .commentForm {
+      display: flex;
+      flex-direction: column;
+    }
+
     .form .comment-form .commentForm input[type="text"],
     textarea {
+      display: block;
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
@@ -82,7 +85,7 @@ function calculateSaleProductDetails()
       border-radius: 4px;
     }
 
-    .form .comment-form .commentForm button {
+    .form .comment-form .commentForm .submit-comment {
       padding: 10px;
       background-color: darkgray;
       width: 100px;
@@ -96,28 +99,43 @@ function calculateSaleProductDetails()
       background-color: #0056b3;
     }
 
-    .form .commentList {
+    .form .commentList-lv1 {
       border: none;
       list-style: none;
       padding: 0;
       padding-bottom: 30px;
+      position: relative;
     }
 
-    .form .commentList li {
-      margin-left: 20px;
-      margin-right: 50px;
+    .form .commentList-lv1 .comment-lv1 {
       margin-top: 10px;
-      padding: 10px;
+      padding: 30px 20px;
+      border-bottom: 1px solid #777;
     }
-    .form .commentList .long {
-      width: 90%;
-      background-color: #ccc;
 
+    .form .commentList-lv2 {
+      margin-top: 20px;
+      width: 93%;
+      margin-left: 7%;
+      position: relative;
     }
-    
-    .form .commentList .long small {
-      margin-left: 15px;
-      margin-right: 10px;
+
+    .form .commentList-lv2 .comment-lv2 {
+      margin-bottom: 20px;
+    }
+
+    .form .comments .feedback-btn {
+      padding: 5px 40px;
+      display: flex;
+      gap: 1.5rem;
+    }
+    .form .comments .reply {
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .form .comments .reply:hover {
+      color: red;
     }
   </style>
 </head>
@@ -270,57 +288,6 @@ function calculateSaleProductDetails()
   </div>
   </div>
 </section>
-
-<div class="form">
-  <div class="comment-form">
-    <h3>Comment</h3>
-    <form class="commentForm">
-      <input type="hidden" id="name" name="name" required>
-      <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
-      <br><br>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-  <hr>
-  
-  <div class="comments">
-    <ul class="commentList">
-      <li>
-        <h5> Username : Nhi </h5>
-        <div> Hello , my name is Ngoc Nhi </div>
-        <small> Reply </small> <small>  2023-08-25 18:00</small>
-        <ul>
-          <li class="long">
-            <h5> Username : Nhi </h5>
-            <div> Hello , my name is Ngoc Nhi </div>
-            <small> Reply </small> <small>  2023-08-25 18:00</small>
-          </li>
-          <li class="long">
-            <h5> Username : Nhi </h5>
-            <div> Hello , my name is Ngoc Nhi </div>
-            <small> Reply </small> <small>  2023-08-25 18:00</small>
-          </li>
-        </ul>
-      </li>
-      <hr>
-      <li>
-        <h5> Username : Nhi </h4>
-        <div> Hello , my name is Ngoc Nhi </div>
-        <small> Reply </small> <small>  2023-08-25 18:00</small>
-        <ul>
-          <li class="long">
-            <h5> Username : Nhi </h5>
-            <div> Hello , my name is Ngoc Nhi </div>
-            <small> Reply </small> <small>  2023-08-25 18:00</small>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-
-</div>
-
-
 
 <section class="section-paddingY middle-section product-page">
   <!-- Thêm form để thêm hoặc cập nhật đánh giá sản phẩm -->
@@ -697,6 +664,24 @@ function calculateSaleProductDetails()
     </div>
   </div>
 </section>
+
+<div class="form">
+  <div class="comment-form">
+    <h3>Comment</h3>
+    <div class="commentForm">
+      <input type="hidden" id="name" name="name" required>
+      <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
+      <br>
+      <button type="button" class="submit-comment">Submit</button>
+    </div>
+  </div>
+  <hr>
+
+  <div class="comments">
+    
+  </div>
+
+</div>
 
 <?php include("layout/footer.php"); ?>
 
