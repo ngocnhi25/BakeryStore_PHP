@@ -375,7 +375,8 @@ $(document).ready(function () {
 });
 
 function showComment() {
-  const product_id = $("#proDetail-proID").data("id");
+  let product_id = '';
+  product_id = $("#proDetail-proID").data("id");
   $.ajax({
     url: "handles_page/show_comments.php", // Replace with the actual URL to fetch the increaseSize
     method: "POST",
