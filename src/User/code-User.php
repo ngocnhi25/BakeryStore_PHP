@@ -189,6 +189,7 @@ if(isset($_POST["submit-login-btn"])){
     if(!empty(trim($_POST["email"])) && !empty(trim($_POST["email"])) ){
         $email = $_POST["email"];
         $password = md5($_POST["password"]);
+        $token_login = md5(rand());
         
         $sql_login = "SELECT * FROM tb_user WHERE email = '$email'  and password = '$password' LIMIT 1" ;
         $sql_login_run = mysqli_query($conn,$sql_login);
@@ -196,50 +197,55 @@ if(isset($_POST["submit-login-btn"])){
         if (mysqli_num_rows($sql_login_run) > 0) {
             $row = mysqli_fetch_array(($sql_login_run));
             if ($row['status'] == "1" && $row['stt_delete'] == "0") {
-
-                $_SESSION['authenticeted'] = TRUE;
-                $_SESSION['auth_user'] = [
-                    'user_id' => $row['user_id'],
-                    'username' => $row['username'],
-                    'role' => $row['role'],
-                ];
-                $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() WHERE email = '$email' LIMIT 1";
-                $sql_update_login_recent_day_run = mysqli_query($conn, $sql_update_login_recent_day);
+                $sql_update_login_recent_day =  "UPDATE tb_user SET recent_day_login = NOW() , token_login = '$token_login' WHERE email = '$email' LIMIT 1";
+                $sql_update_login_recent_day_run = mysqli_query($conn, $sql_update_login_recent_day);               
                 if ($sql_update_login_recent_day_run) {
-                    if ($_SESSION["auth_user"]["role"] == 3) {
-                        $_SESSION['status'] = " You logged in successfully !";
-                        header("Location: ../backend/admin_owner.php");
-                        exit();
-                    } elseif ($_SESSION["auth_user"]["role"] == 2) {
-                        $_SESSION['status'] = " You logged in successfully !";
-                        header("Location: ../backend/admin_employee.php");
-                        exit();
-                    } else {
-                        $_SESSION['status'] = " You logged in successfully !";
-                        header("Location: ../home.php");
-                        exit();
-                    }
+                    $sql = "SELECT * FROM tb_user WHERE token_login = '$token_login'" ;
+                    $sql_run = mysqli_query($conn,$sql);
+                    if (mysqli_num_rows($sql_run) > 0) {
+                        $rows = mysqli_fetch_array(($sql_run));
+                        $_SESSION['authenticeted'] = TRUE;
+                         $_SESSION['auth_user'] = [
+                        'user_id' => $rows['user_id'],
+                        'username' => $rows['username'],
+                        'role' => $rows['role'],
+                        'token_login' => $rows['token_login'],
+                    ];
+                        if ($_SESSION["auth_user"]["role"] == 3) {
+                            header("Location: ../backend/admin_owner.php");
+                            exit();
+                        } elseif ($_SESSION["auth_user"]["role"] == 2) {
+                            header("Location: ../backend/admin_employee.php");
+                            exit();
+                        } else {
+                            $_SESSION['status'] = " You logged in successfully !";
+                            header("Location: ../home.php");
+                            exit();
+                        }
                 } else {
-                    $_SESSION['status'] = "Failed to update recent day login!";
+                    $_SESSION['status'] = "Failed to update token login  login!";
                     header("Location: ../home.php");
                     exit();
                 }
             }else{
-                $_SESSION['status'] = "Email is not verified or can be deleted !";
-                header("Location: login.php");
-                exit();
+                $_SESSION['status'] = "Failed to update recent day login!";
+                    header("Location: ../home.php");
+                    exit();
+               
             }
 
         }else{
-            $_SESSION['status'] = "Invalid Email or Password !";
+           
+            $_SESSION['status'] =  "Your account is not verified or can be deleted !";
             header("Location: login.php");
             exit();
         }
     }else{
-        $_SESSION['status'] = "All filed are mandetory !";
-        header("Location: login.php");
-        exit();
+        $_SESSION['status'] = "Invalid Email or Password !";
+                header("Location: login.php");
+                exit();
     }
+}
 }
 
 // 3. forgot-inputEmail.php

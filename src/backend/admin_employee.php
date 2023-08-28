@@ -2,21 +2,22 @@
 session_start();
 require_once("../connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
-    // $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-    // if ($user["role"] == 2) { 
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+    if ($user["role"] == 2) { 
     $user_name = $_SESSION["auth_user"]["username"];
     $user_id = $_SESSION["auth_user"]["user_id"];
-    //     $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
-    // } else {
-    //     header("location: ../User/login.php");
-    // }
+        // $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
+    } else {
+        header("location: ../User/login.php");
+    }
 } else {
-    // header("location: ../User/login.php");
+    header("location: ../User/login.php");
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +31,6 @@ if (isset($_SESSION["auth_user"])) {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 </head>
-
 <body>
     <div class="container">
         <aside>
@@ -206,8 +206,8 @@ if (isset($_SESSION["auth_user"])) {
     <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
 </section>
-
 </html>
+
 <script>
     function LogOut() {
         if (confirm("Are you sure you want to log out?")) {
@@ -227,4 +227,47 @@ if (isset($_SESSION["auth_user"])) {
             });
         }
     }
+
+    function checkUserStatus() {
+    $.ajax({
+        type: "POST",
+        url: 'accounts/check_user_status.php', // Replace with the actual path to your status-checking script
+        success: function(response) {
+                    if (response === 'inactive' || response === 'failstatus') {
+                        alert("Your account is deactivated!");
+                        window.location.href = "../User/login.php";
+                    } else if (response === 'failtoken'){
+                        alert("Your account is other page login !");
+                        window.location.href = "../User/login.php";
+                    }
+                    else if (response === 'success') {
+                        // User is active and token is valid, continue with normal flow
+                    }
+                },
+        error: function() {
+            alert("An error occurred while checking user status.");
+        }
+    });
+}
+
+// Attach the click event listener to the document
+$(document).on('click', function() {
+    checkUserStatus(); // Check user status on every click
+});
+
+// Initial check when the page loads
+$(document).ready(function() {
+    checkUserStatus();
+});
+
+
+
 </script>
+<?php if(isset($_SESSION['status'])) { ?>
+        <script>
+            alert('<?php echo $_SESSION['status']; ?>');
+        </script>
+    <?php
+        unset($_SESSION['status']); // Clear the session status after displaying
+    }
+    ?>

@@ -3,6 +3,8 @@ session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_calculate.php');
 
+var_dump($_SESSION["auth_user"]);
+
 $arraySale = [];
 $maxAdsSmall = 2;
 $maxProductsToShow = 6;
@@ -490,6 +492,8 @@ function showProductCarosel($p)
     </div>
   </div>
 </section>
+<script src="../../public/backend/js/admin.js"></script>
+<script src="../../public/backend/js/adminJquery.js"></script>
 
 
 <?php require "layout/footer.php" ?>

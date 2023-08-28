@@ -84,12 +84,12 @@ if (isset($_SESSION["auth_user"])) {
                 <label for="">Phone number : </label>
                 <input type="text" class="form-control" name="phone" required="required"
                   placeholder="Your Phone Number " value="<?= ($user_id != null ? $user["phone"] : '') ?>"
-                  pattern="[0][1-9][0-9]{7,9}" readonly />
+                  pattern="[0][1-9][0-9]{7,9}"  />
               </div>
               <div class="form-group">
                 <label for="">Email Address : </label>
                 <input type="email" class="form-control" name="email" required="required"
-                  value="<?= ($user_id != null ? $user["email"] : '') ?>" placeholder=" Your Email Address" readonly>
+                  value="<?= ($user_id != null ? $user["email"] : '') ?>" placeholder=" Your Email Address" >
               </div>
               <div class="form-group">
                 <label for="">Comment : </label>
