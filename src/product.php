@@ -7,6 +7,16 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
                         ON c.cate_id = p.cate_id 
                         GROUP BY c.cate_name
                         ORDER BY total_views DESC");
+        
+if(isset($_GET["cate_id"])){
+  $cate_id_filter = $_GET["cate_id"];
+}
+
+function checkedFilter($value)
+{
+    global $cate_id_filter;
+    echo $cate_id_filter == $value ? "checked" : "";
+}
 
 ?>
 <?php include("layout/header.php"); ?>
@@ -51,7 +61,7 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
           <?php foreach ($cates as $c) { ?>
             <div class="item-nav">
               <div>
-                <input type="checkbox" value="<?= $c["cate_id"] ?>" class="product_check" id="filter_cate">
+                <input type="checkbox" value="<?= $c["cate_id"] ?>" class="product_check" id="filter_cate" <?php checkedFilter($c["cate_id"]) ?>>
               </div>
               <div>
                 <?= $c["cate_name"] ?>

@@ -30,10 +30,14 @@ function addNewCart(id) {
 }
 
 function getProductAjax() {
+  const cate_id = $(".product_check:checked").val();
   $.ajax({
     url: "handles_page/get_products.php",
     method: "POST",
-    data: { action: 'data' },
+    data: { 
+      action: 'data',
+      cate_id: cate_id
+    },
     success: function (res) {
       $(".get-product-box").empty().html(res);
     }
@@ -348,25 +352,25 @@ $(document).ready(function () {
     });
   })
   $("#comment").on("click", function () {
-    // $.ajax({
-    //   url: "handles_page/check_login_status.php", 
-    //   method: "POST",
-    //   success: function(res) {
-    //     if(res === "notloggedin"){
-    //       Swal.fire({
-    //         icon: 'info',
-    //         title: 'Not Logged In',
-    //         text: 'You are not logged in.',
-    //         didClose: () => {
-    //           window.location.href = "User/login.php";
-    //         }
-    //       });
-    //     }
-    //   },
-    //   error: function (xhr, status, error) {
-    //     console.error("error: " + error);
-    //   }
-    // });
+    $.ajax({
+      url: "handles_page/check_login_status.php", 
+      method: "POST",
+      success: function(res) {
+        if(res === "notloggedin"){
+          Swal.fire({
+            icon: 'info',
+            title: 'Not Logged In',
+            text: 'You are not logged in.',
+            didClose: () => {
+              window.location.href = "User/login.php";
+            }
+          });
+        }
+      },
+      error: function (xhr, status, error) {
+        console.error("error: " + error);
+      }
+    });
   })
 });
 

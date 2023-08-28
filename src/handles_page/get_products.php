@@ -111,6 +111,12 @@ if (isset($_POST['action']) && !empty($_POST["action"])) {
         $sqlCount .= "AND p.cate_id IN(" . $cate . ") ";
     }
 
+    if (isset($_POST["cate_id"]) && !empty($_POST["cate_id"])) {
+        $cate_id = $_POST["cate_id"];
+        $sql .= "AND p.cate_id = " . $cate_id . " ";
+        $sqlCount .= "AND p.cate_id = " . $cate_id . " ";
+    }
+
     if (isset($_POST["onSale"]) && !empty($_POST["onSale"])) {
         $onSale = $_POST["onSale"][0];
         if ($onSale == "on_sale") {
