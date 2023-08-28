@@ -6,79 +6,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $order_id = $_POST["order_id"];
         $new_status = $_POST["new_status"];
 
-        // Update the status in the database
-        $sql = "UPDATE tb_order SET status = ? WHERE order_id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $new_status, $order_id);
-
-        if ($stmt->execute()) {
-            if ($new_status === "completed") {
-                // Delete the order from the database
-                $delete_sql = "DELETE FROM tb_order WHERE order_id = ?";
-                $delete_stmt = $conn->prepare($delete_sql);
-                $delete_stmt->bind_param("i", $order_id);
-                if ($delete_stmt->execute()) {
-                    echo "Status updated to completed. Order deleted successfully.";
-                } else {
-                    echo "Error deleting order after status update.";
-                }
-                $delete_stmt->close();
-            } elseif ($new_status === "cancelled") {
-                // Get order details from tb_order_detail
-                $order_detail_sql = "SELECT product_id, quantity FROM tb_order_detail WHERE order_id = ?";
-                $order_detail_stmt = $conn->prepare($order_detail_sql);
-                $order_detail_stmt->bind_param("i", $order_id);
-                $order_detail_stmt->execute();
-                $order_detail_result = $order_detail_stmt->get_result();
-
-                // Update product quantities in tb_products
-                while ($row = $order_detail_result->fetch_assoc()) {
-                    $product_id = $row['product_id'];
-                    $quantity = $row['quantity'];
-
-                    // Update the quantity in tb_products
-                    $update_product_sql = "UPDATE tb_products SET qty_warehouse = qty_warehouse + ? WHERE product_id = ?";
-                    $update_product_stmt = $conn->prepare($update_product_sql);
-                    $update_product_stmt->bind_param("ii", $quantity, $product_id);
-                    $update_product_stmt->execute();
-                }
-
-                $update_product_stmt->close();
-                $order_detail_stmt->close();
-
-                echo "Status updated to cancelled. Product quantities updated.";
-            } elseif ($new_status === "return") {
-                // Get order details from tb_order_detail
-                $order_detail_sql = "SELECT product_id, quantity FROM tb_order_detail WHERE order_id = ?";
-                $order_detail_stmt = $conn->prepare($order_detail_sql);
-                $order_detail_stmt->bind_param("i", $order_id);
-                $order_detail_stmt->execute();
-                $order_detail_result = $order_detail_stmt->get_result();
-
-                // Update product quantities in tb_products
-                while ($row = $order_detail_result->fetch_assoc()) {
-                    $product_id = $row['product_id'];
-                    $quantity = $row['quantity'];
-
-                    // Update the quantity in tb_products
-                    $update_product_sql = "UPDATE tb_products SET qty_warehouse = qty_warehouse + ? WHERE product_id = ?";
-                    $update_product_stmt = $conn->prepare($update_product_sql);
-                    $update_product_stmt->bind_param("ii", $quantity, $product_id);
-                    $update_product_stmt->execute();
-                }
-
-                $update_product_stmt->close();
-                $order_detail_stmt->close();
-
-                echo "Status updated to cancelled. Product quantities updated.";
-            } else {
-                echo "Status updated successfully.";
-            }
+       
+        if ($new_status === "completed") {
+            $message = updateStatusToCompleted($order_id);
+        } elseif ($new_status === "cancelled" || $new_status === "return") {
+            $message = updateStatusToCancelledOrReturned($order_id, $new_status);
+        } elseif ($new_status === "pending") {
+            $message = updateStatusToPending($order_id);
         } else {
-            echo "Error updating status.";
+            $message = "Invalid status update.";
         }
 
-        $stmt->close();
+        echo $message;
     } else {
         echo "Invalid input data.";
     }
@@ -86,4 +25,75 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     echo "Invalid request method.";
 }
 
+function updateStatusToCompleted($order_id)
+{
+    $sql = "DELETE FROM tb_order WHERE order_id = $order_id";
+    if (execute($sql)) {
+        $message = "Status updated to completed. Order deleted successfully.";
+    } else {
+        $message = "Error deleting order after status update.";
+    }
+    return $message;
+}
+
+function updateStatusToCancelledOrReturned($order_id, $new_status)
+{
+    $order_detail_sql = "SELECT product_id, quantity FROM tb_order_detail WHERE order_id = $order_id";
+    $order_details = executeResult($order_detail_sql);
+
+    foreach ($order_details as $order_detail) {
+        $product_id = $order_detail['product_id'];
+        $quantity = $order_detail['quantity'];
+
+        $update_product_sql = "UPDATE tb_products SET qty_warehouse = qty_warehouse + $quantity WHERE product_id = $product_id";
+        execute($update_product_sql);
+    }
+
+    if ($new_status === "return" && isset($_POST["reason"]) && isset($_FILES["image"])) {
+        $message = processReturnRequest($order_id);
+    } else {
+        $message = "Status updated to cancelled. Product quantities updated.";
+    }
+
+    return $message;
+}
+
+function updateStatusToPending($order_id)
+{
+    $sql = "UPDATE tb_order SET status = 'pending' WHERE order_id = $order_id";
+    if (execute($sql)) {
+        $message = "Status updated to pending.";
+    } else {
+        $message = "Error updating order status to pending.";
+    }
+    return $message;
+}
+
+function processReturnRequest($order_id)
+{
+    $reason = $_POST["reason"];
+    $image = "public/images/returnImg/" . $_FILES["image"]["name"];
+
+    $update_order_sql = "UPDATE tb_order SET status = 'return' WHERE order_id = $order_id";
+    if (execute($update_order_sql)) {
+        $order_detail_sql = "SELECT product_id FROM tb_order_detail WHERE order_id = $order_id";
+        $order_details = executeResult($order_detail_sql);
+
+        foreach ($order_details as $order_detail) {
+            $product_id = $order_detail['product_id'];
+
+            $insert_return_sql = "INSERT INTO tb_return (order_id, reason, customer_image, product_id) VALUES ($order_id, '$reason', '$image', $product_id)";
+            if (!execute($insert_return_sql)) {
+                $message = "Error inserting return data.";
+                break;
+            }
+        }
+
+        $message = "Order returned successfully.";
+    } else {
+        $message = "Error updating order status.";
+    }
+
+    return $message;
+}
 ?>

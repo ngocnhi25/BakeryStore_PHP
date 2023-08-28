@@ -98,7 +98,6 @@ if (isset($_POST["salary"])) {
 
 
 if ($errorNum === 0) {
-
     // Hash the password before storing it in the database
     $hashed_password = md5($password);
 

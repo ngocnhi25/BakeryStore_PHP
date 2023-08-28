@@ -51,6 +51,10 @@ function calculateSaleProductDetails()
 
 <head>
   <style>
+    .product_detail_carosel {
+      width: 250px;
+    }
+
     .form {
       margin-left: 400px;
       margin-right: 400px;
@@ -146,7 +150,7 @@ function calculateSaleProductDetails()
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-<?php
+  <?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -194,11 +198,16 @@ function calculateSaleProductDetails()
         </div>
       </div>
       <div class="col-12 col-lg-5">
-        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>" data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
-        <p class="pd-view">Views: <span><?= $product["view"] ?></span></p>
+        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>"
+          data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
+        <p class="pd-view">Views: <span>
+            <?= $product["view"] ?>
+          </span></p>
         <div class="price-details">Price:
           <?php if ($saleProductID != null) { ?>
-            <span class="discounted-price" data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>" data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
+            <span class="discounted-price"
+              data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>"
+              data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
               <?= calculateSaleProductDetails() ?> vnđ
             </span>
             <span class="original-price">
@@ -214,7 +223,8 @@ function calculateSaleProductDetails()
           <span>Choose cake size:</span>
           <div class="size-btn-items">
             <?php foreach ($size as $key => $s) { ?>
-              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>" data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
+              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>"
+                data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
                 <?php echo $s["size_name"] ?>cm
               </button>
             <?php } ?>
@@ -224,7 +234,8 @@ function calculateSaleProductDetails()
           <span>Choose cake flavor:</span>
           <div class="flavor-btn-items">
             <?php foreach ($flaror as $key => $f) { ?>
-              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>" value="<?= $f['flavor_name'] ?>">
+              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>"
+                value="<?= $f['flavor_name'] ?>">
                 <?php echo $f["flavor_name"] ?>
               </button>
             <?php } ?>
@@ -235,14 +246,17 @@ function calculateSaleProductDetails()
           <span>Quantity:</span>
           <div class="btn-quantity">
             <button class="qty-btn-reduce">-</button>
-            <input class="qty-product-detail" type="text" value="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
+            <input class="qty-product-detail" type="text" value="1"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
             <button class="qty-btn-increase">+</button>
           </div>
         </div>
 
         <div class="warehouse">
           <span>Cake in warehouse:</span>
-          <span><?= $product['qty_warehouse'] ?> cake</span>
+          <span>
+            <?= $product['qty_warehouse'] ?> cake
+          </span>
         </div>
         <form action="" class="form-submit">
           <input type="hidden" class="pid" value="<?php echo $id ?>">
@@ -250,13 +264,13 @@ function calculateSaleProductDetails()
           <input type="hidden" class="user_id" value="<?php echo $user_id ?>">
           <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
           <input type="hidden" class="lastPrice" value="<?php
-                                                        if (isset($discountedPrice)) {
-                                                          echo $discountedPrice;
-                                                        } else {
-                                                          $discountedPrice = $price;
-                                                          echo $discountedPrice;
-                                                        }
-                                                        ?>">
+          if (isset($discountedPrice)) {
+            echo $discountedPrice;
+          } else {
+            $discountedPrice = $price;
+            echo $discountedPrice;
+          }
+          ?>">
         </form>
 
         <div class="btn-box">
@@ -269,7 +283,8 @@ function calculateSaleProductDetails()
       <div class="card-content-pro">
         <ul class="nav nav-pills tabs-categories" role="tablist">
           <li class="nav-item" style="cursor: none;">
-            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
+              aria-controls="pills-home" aria-selected="true">
               Description
             </a>
           </li>
@@ -570,15 +585,15 @@ function calculateSaleProductDetails()
               // $usernamedb = "root";
               // $passworddb = "";
               // $database = "projecthk2";
-
+              
               // $conn = new mysqli($hostname, $usernamedb, $passworddb, $database);
-
+              
               // if ($conn->connect_error) {
               //   die("Connection failed: " . $conn->connect_error);
               // }
-
+              
               $product_id = 1; // ID của sản phẩm
-
+              
               // $sql = "SELECT * FROM reviews WHERE product_id = $product_id";
               // $result = $conn->query($sql);
               $reviews = executeResult("SELECT * FROM reviews WHERE product_id = $id");
@@ -631,8 +646,10 @@ function calculateSaleProductDetails()
                     </div>
                   <?php } ?>
                   <div class="box-actions-hover">
-                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span
+                          class="material-symbols-sharp">visibility</span></a></button>
+                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span
+                        class="material-symbols-sharp">add_shopping_cart</span></button>
                   </div>
                 </div>
                 <div class="product-info">
@@ -694,13 +711,9 @@ function calculateSaleProductDetails()
     $.ajax({
       type: "GET",
       url: "handles_page/check_login_status.php",
-      success: function(response) {
+      success: function (response) {
         if (response === "loggedin") {
-          Swal.fire({
-            icon: 'success',
-            title: 'Logged In',
-            text: 'You are currently logged in.',
-          });
+          addToCart(); // Call the addToCart function if logged in
         } else {
           Swal.fire({
             icon: 'info',
@@ -715,81 +728,63 @@ function calculateSaleProductDetails()
     });
   }
 
-  // Call the function when needed, e.g., on a button click
-  $(document).ready(function() {
-    $("#add").click(function() {
+  function addToCart() {
+    const $form = $("#add").closest(".form-submit");
+    const pid = $("#proDetail-proID").data("id");
+    const pname = $("#proDetail-proID").data("name");
+    const increaseSize = $(".sizeBtn.active").data("increase");
+    const size = $(".sizeBtn.active").data("name");
+    const flavor = $(".flavorBtn.active").data("flavor");
+    const quantity = $(".qty-product-detail").val();
+    const price = $(".discounted-price").data("price");
+    const user_id = $(".user_id").val();
+
+    if (!size || !flavor) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Missing Selection',
+        text: 'Please select both size and flavor before adding to cart.',
+      });
+      return;
+    }
+
+    // AJAX request to add product to cart
+    $.ajax({
+      url: "handles_page/add_to_cart.php",
+      method: "POST",
+      data: {
+        pid: pid,
+        pname: pname,
+        size: size,
+        flavor: flavor,
+        increaseSize: increaseSize,
+        quantity: quantity,
+        price: price,
+        user_id: user_id,
+      },
+      success: function (response) {
+        Swal.fire({
+          icon: 'success',
+          title: 'Add to cart success',
+          timer: 2000,
+          showConfirmButton: false
+        });
+      },
+      error: function () {
+        alert("Error adding product to cart");
+      }
+    });
+  }
+
+  $(document).ready(function () {
+    // Add to cart button event listener
+    $(document).on("click", "#add", function (e) {
+      e.preventDefault();
       checkLoginStatus();
     });
   });
-
-  $(document).ready(function() {
-
-    $(".buy-btn").click(function() {
-      const pid = $("#proDetail-proID").data("id");
-      const pname = $("#proDetail-proID").data("name");
-      const increaseSize = $(".sizeBtn.active").data("increase");
-      const size = $(".sizeBtn.active").data("name");
-      const flavor = $(".flavorBtn.active").data("flavor");
-      const quantity = $(".qty-product-detail").val();
-      const price = $(".discounted-price").data("price");
-      alert("Product_id: " + pid + ", Product_name: " + pname + ", Increase size: " + increaseSize + ", Size name: " + size + ", Flavor: " + flavor + ", Quantity: " + quantity + ", Price: " + price);
-    })
-
-
-    // Add to cart button event listener
-    $(document).on("click", "#add", function(e) {
-      e.preventDefault();
-
-      const $form = $(this).closest(".form-submit");
-      // const pid = $form.find(".pid").val();
-      // const pname = $form.find(".name").val();
-      // const increaseSizeText = $("#hiddenIncreaseSize").val();
-      // const increaseSizeWithoutCommas = increaseSizeText.replace(/,/g, '');
-      // const increaseSize = parseFloat(increaseSizeWithoutCommas);
-      // const quantity = $form.find(".quantity input").val();
-      // const price = parseInt($form.find(".lastPrice").val());
-      // const user_id = $form.find(".user_id").val();
-      const pid = $("#proDetail-proID").data("id");
-      const pname = $("#proDetail-proID").data("name");
-      const increaseSize = $(".sizeBtn.active").data("increase");
-      const size = $(".sizeBtn.active").data("name");
-      const flavor = $(".flavorBtn.active").data("flavor");
-      const quantity = $(".qty-product-detail").val();
-      const price = $(".discounted-price").data("price");
-      const user_id = $(".user_id").val();
-
-      // // AJAX request to add product to cart
-      $.ajax({
-        url: "handles_page/add_to_cart.php",
-        method: "POST",
-        data: {
-          pid: pid,
-          pname: pname,
-          size: size, // Add selected size
-          flavor: flavor, // Add selected flavor
-          increaseSize: increaseSize,
-          quantity: quantity,
-          price: price,
-          user_id: user_id,
-        },
-        success: function(response) {
-          alert(response);
-          // console.log("Selected Flavor (in AJAX): " + selectedFlavor);
-          Swal.fire({
-            icon: 'success',
-            title: 'Add to cart success',
-            timer: 2000, // Automatically close after 2 seconds
-            showConfirmButton: false
-          });
-          // alert(response);
-        },
-        error: function() {
-          alert("Error adding product to cart");
-        }
-      });
-    });
-  });
 </script>
+
 </body>
 
 </html>

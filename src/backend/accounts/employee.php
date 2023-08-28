@@ -99,30 +99,5 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
         }
     }
 
-    $(document).ready(function() {
-        $("#live-Search").keyup(function(e) {
-            var formData = new FormData();
-            formData.append("from", $('#form').val());
-            formData.append("to", $('#to').val());
-
-            $.ajax({
-                type: "POST",
-                url: '../handles/filter-emp.php',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(res) {
-                    if (res === 'success') {
-                        alert("Filter applied successfully!");
-                        // Do something after successful filtering
-                    } else {
-                        alert("Error: " + res);
-                    }
-                },
-                error: function() {
-                    alert("An error occurred during filtering.");
-                }
-            });
-        });
-    });
+    
 </script>
