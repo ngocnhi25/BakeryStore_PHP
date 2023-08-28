@@ -712,6 +712,41 @@ if (isset($_SESSION["auth_user"])) {
             <?php include("my_profile.php"); ?>
         </div>
     </div>
+
+
+    <script>
+        function checkUserStatus() {
+    $.ajax({
+        type: "POST",
+        url: 'backend/accounts/check_user_status.php', // Replace with the actual path to your status-checking script
+        success: function(response) {
+                    if (response === 'inactive' || response === 'failstatus') {
+                        alert("Your account is deactivated!");
+                        window.location.href = "User/logout.php";
+                    } else if (response === 'failtoken'){
+                        alert("Your account is other page login !");
+                        window.location.href = "User/logout.php";
+                    }
+                    else if (response === 'success') {
+                        // User is active and token is valid, continue with normal flow
+                    }
+                },
+        error: function() {
+            alert("An error occurred while checking user status.");
+        }
+    });
+}
+
+// Attach the click event listener to the document
+$(document).on('click', function() {
+    checkUserStatus(); // Check user status on every click
+});
+
+// Initial check when the page loads
+$(document).ready(function() {
+    checkUserStatus();
+});
+    </script>
     <?php if (isset($_SESSION['status'])) { ?>
         <script>
             alert('<?php echo $_SESSION['status']; ?>');
@@ -721,5 +756,4 @@ if (isset($_SESSION["auth_user"])) {
     }
     ?>
 </section>
-
 <?php include("layout/footer.php"); ?>
