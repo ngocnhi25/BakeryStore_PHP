@@ -1,5 +1,9 @@
 <?php
-require_once('../../../connect/connectDB.php');
+session_start();
+require_once("../../../connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
 
 $errors = [];
 $uploads_imagesLink = $uploads_tmp_name = [];
@@ -136,6 +140,11 @@ if (
         for ($i = 0; $i < count($images); $i++) {
             move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
         }
+        
+        
+        $content = 'has added a news ' . $name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
@@ -160,6 +169,10 @@ if (
                 new_description = '$description'
             WHERE new_id = $id");
         }
+        
+        $content = 'has updated to flavor ' . $name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     }
 } else {

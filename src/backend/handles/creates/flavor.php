@@ -1,5 +1,12 @@
 <?php
+session_start();
 require_once("../../../connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
+
+date_default_timezone_set('Asia/Bangkok');
+$dateAction = date('Y-m-d H:i:s');
 
 $errorNum = $eventNum = 0;
 $errors = [];
@@ -56,11 +63,17 @@ if (isset($_POST["flavorInStock"]) && !empty($_POST["flavorInStock"])) {
 
 if ($errorNum == 0) {
     if ($eventNum == 0) {
+        $content = 'has added a new flavor ' . $flavor_name;
         execute("INSERT INTO tb_flavor (flavor_name, qti_flavor, deleted_flavor) VALUES ('$flavor_name', $flavorInStock, 0)");
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
         echo 'success';
     } else {
+        $content = 'has updated to flavor ' . $flavor_name;
         execute("UPDATE tb_flavor SET flavor_name = '$flavor_name', qti_flavor = $flavorInStock WHERE flavor_id = $id");
         echo 'success';
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
     }
 } else {
     echo json_encode($errors);

@@ -1,5 +1,12 @@
 <?php
+session_start();
 require_once("../../../connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
+
+date_default_timezone_set('Asia/Bangkok');
+$date = date('Y-m-d H:i:s');
 
 $errorNum = $eventNum = 0;
 $errors = [];
@@ -52,9 +59,17 @@ if(isset($_POST["qtiBoxSize"]) && !empty($_POST["qtiBoxSize"])){
 if ($errorNum == 0) {
     if ($eventNum == 0) {
         execute("INSERT INTO tb_size (size_name, qti_boxes_size, deleted_size) VALUES ($size_name, $qtiBoxSize, 0)");
+
+        $content = 'has added a new size ' . $size_name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     } else {
         execute("UPDATE tb_size SET size_name = $size_name, qti_boxes_size = $qtiBoxSize WHERE size_id = $id");
+
+        $content = 'has updated to size ' . $size_name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     }
 } else {

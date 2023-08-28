@@ -1,5 +1,9 @@
 <?php
-require_once('../../../connect/connectDB.php');
+session_start();
+require_once("../../../connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
 
 $errors = [];
 $uploads_imagesLink = $uploads_tmp_name = [];
@@ -59,8 +63,6 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $errors["errorName"] = 'Product name cannot be blank';
     $errorNum = 1;
 }
-
-
 
 // product price
 if (isset($_POST["price"]) && !empty($_POST["price"])) {
@@ -178,6 +180,10 @@ if (
         for ($i = 0; $i < count($images); $i++) {
             move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
         }
+
+        $content = 'has added a new product ' . $name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
@@ -204,6 +210,9 @@ if (
                 update_date = '$date'
             WHERE product_id = $id");
         }
+        $content = 'has updated to product ' . $name;
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$date')");
         echo 'success';
     }
 } else {

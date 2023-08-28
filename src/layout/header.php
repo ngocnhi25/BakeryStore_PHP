@@ -55,57 +55,7 @@ $conn->close();
 
   <link href="../public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
   <link href="../public/frontend/css/product.css" rel="stylesheet">
-  <!-- Meta Pixel Code -->
-  <script>
-    ! function (f, b, e, v, n, t, s) {
-      if (f.fbq) return;
-      n = f.fbq = function () {
-        n.callMethod ?
-          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
-      };
-      if (!f._fbq) f._fbq = n;
-      n.push = n;
-      n.loaded = !0;
-      n.version = '2.0';
-      n.queue = [];
-      t = b.createElement(e);
-      t.async = !0;
-      t.src = v;
-      s = b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t, s)
-    }(window, document, 'script',
-      'en_US/fbevents.js');
-    fbq('init', '1913464958707044');
-    fbq('track', 'PageView');
-  </script>
-  <noscript><img height="1" width="1" style="display:none"
-      src="tr?id=1913464958707044&ev=PageView&noscript=1" /></noscript>
-  <!-- End Meta Pixel Code -->
-
-  <!-- Google tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-232235704-1">
-  </script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'UA-232235704-1');
-  </script><!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QERL8JJ8K1"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-
-    gtag('config', 'G-QERL8JJ8K1');
-  </script>
+  
 
 </head>
 
@@ -198,7 +148,7 @@ $conn->close();
     <div class="mobile-menu-container">
       <div class="header">
         <p class="title">
-          <img src="../../public/images/logo/logo.jpg" alt="" srcset="">
+          <img src="../public/images/logo/logo.jpg" alt="" srcset="">
         </p><span class="toggle-mobile-menu js-toggle-mobile-menu"><i class="fas fa-times fa-2x"></i></span>
       </div>
       <div class="body">

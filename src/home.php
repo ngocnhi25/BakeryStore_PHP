@@ -3,8 +3,6 @@ session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_calculate.php');
 
-var_dump($_SESSION["auth_user"]);
-
 $arraySale = [];
 $maxAdsSmall = 2;
 $maxProductsToShow = 6;
@@ -288,7 +286,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
+            <a href="product.php?cate_id=<?= $cate[$countCate - 4]["cate_id"] ?>">Xem thêm</a>
           </div>
         </div>
       </div>
@@ -322,7 +320,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
+            <a href="product.php?cate_id=<?= $cate[$countCate - 3]["cate_id"] ?>">Xem thêm</a>
           </div>
         </div>
         <div class="col-md-3 pl-1 pr-1">
@@ -366,7 +364,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
+            <a href="product.php?cate_id=<?= $cate[$countCate - 2]["cate_id"] ?>">Xem thêm</a>
           </div>
         </div>
       </div>
@@ -400,7 +398,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
+            <a href="product.php?cate_id=<?= $cate[$countCate - 1]["cate_id"] ?>">Xem thêm</a>
           </div>
         </div>
         <div class="col-md-3 pl-1 pr-1">
@@ -417,11 +415,11 @@ function showProductCarosel($p)
 <section class="section-paddingY middle-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <p class="section-title">Tin tức sự kiện</p>
+      <p class="section-title">Birthday Cake News</p>
     </div>
     <div class="section-body">
       <div class="owl-carousel-news owl-carousel owl-theme">
-        <div class="article-column-container">
+        <!-- <div class="article-column-container">
           <div class="article-image">
             <a class="product-image hover-animation" href="tin-tuc/banh-giang-sinh-banh-noel-2022-giang-sinh-ngot-ngao-9">
               <img src="source/banh noel 2022/tin 1a.jpg" alt="">
@@ -487,13 +485,10 @@ function showProductCarosel($p)
               Tết Trung Thu l&agrave; một trong những ng&agrave;y tết trọng đại của d&acirc;n tộc Việt Nam v&agrave;
               l&agrave; dịp gia đ&igrave;nh qu&acirc;y quần đo&agrave;n tụ c&ugrave;ng&#8230;</p>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
 </section>
-<script src="../../public/backend/js/admin.js"></script>
-<script src="../../public/backend/js/adminJquery.js"></script>
-
 
 <?php require "layout/footer.php" ?>

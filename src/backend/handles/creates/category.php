@@ -1,11 +1,17 @@
 <?php
+session_start();
 require_once("../../../connect/connectDB.php");
-
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
 $errorNum = $eventNum = 0;
 $errors = $sizesInsert = [];
 $errors["errorCateName"] =
     $errors["errorSizes"] =
     '';
+date_default_timezone_set('Asia/Bangkok');
+$date = date('Y-m-d');
+$dateAction = date('Y-m-d H:i:s');
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
@@ -67,6 +73,7 @@ if (isset($_POST["sizeID"])) {
 
 if ($errorNum == 0) {
     if($eventNum == 0) {
+        $content = 'has added a new product category ' . $name;
         execute("INSERT INTO tb_category (cate_name) VALUES ('$name')");
         $new_cateID = executeSingleResult("SELECT MAX(cate_id) as new_cateID FROM tb_category");
         $id = $new_cateID["new_cateID"];
@@ -77,14 +84,19 @@ if ($errorNum == 0) {
             execute("INSERT INTO tb_cate_size (cate_id, size_id, increase_size) VALUES
                     ($id, $sizeID, $size_increase)");
         }
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
         echo 'success';
     } else {
+        $content = 'has updated to product category ' . $name;
         execute("UPDATE tb_category SET cate_name = '$name' WHERE cate_id = $id");
         foreach ($sizesInsert as $key => $valSize) {
             $sizeID = $valSize["size"];
             $size_increase = $valSize["increase"];
             execute("UPDATE tb_cate_size SET increase_size = $size_increase WHERE cate_size_id = $sizeID");
         }
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
         echo 'success';
     }
 } else {

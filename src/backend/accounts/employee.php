@@ -34,10 +34,10 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user) {
+                <?php foreach ($users as $key => $user) {
                     if ($user["role"] == 2) { ?>
                         <tr>
-                            <td><?= $user["user_id"] ?></td>
+                            <td><?= $key + 1 ?></td>
                             <td><?= $user["username"] ?></td>
                             <td><?= $user["email"] ?></td>
                             <td><?= $user["phone"] ?></td>

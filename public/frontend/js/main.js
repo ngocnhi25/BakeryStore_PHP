@@ -233,12 +233,15 @@ $(document).ready(function () {
   });
 
   $(".owl-carousel-products").owlCarousel({
-    margin: 10,
     loop: true,
+    nav: false,
     autoplay: true,
+    autoplayTimeout: 3000,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    smartSpeed: 450,
+    margin: 10,
     autoplaySpeed: 1000,
-    autoplayHoverPause: true,
-    nav: true,
     responsive: {
       0: {
         items: 2,
