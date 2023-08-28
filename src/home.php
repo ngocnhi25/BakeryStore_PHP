@@ -3,7 +3,7 @@ session_start();
 require_once('connect/connectDB.php');
 require_once('handles_page/handle_calculate.php');
 
-// var_dump($_SESSION["auth_user"]);
+var_dump($_SESSION["auth_user"]);
 
 $arraySale = [];
 $maxAdsSmall = 2;
@@ -154,7 +154,7 @@ function showProductCarosel($p)
         <a href="<?php if ($a["type_ads"] == 'category') {
                     echo 'product.php?cate_id=' . $a["cate_id"];
                   } elseif ($a["type_ads"] == 'product') {
-                    echo 'details.php?product_id=' . $a["product_id"];
+                    echo 'details.php?id=' . $a["product_id"];
                   } elseif ($a["type_ads"] == 'sale') {
                     echo 'sale.php';
                   } else {
@@ -174,7 +174,7 @@ function showProductCarosel($p)
             <a href="<?php if ($a["type_ads"] == 'category') {
                         echo 'product.php?cate_id=' . $a["cate_id"];
                       } elseif ($a["type_ads"] == 'product') {
-                        echo 'details.php?product_id=' . $a["product_id"];
+                        echo 'details.php?id=' . $a["product_id"];
                       } elseif ($a["type_ads"] == 'sale') {
                         echo 'sale.php';
                       } else {
@@ -188,7 +188,7 @@ function showProductCarosel($p)
     </div>
   </div>
 </section>
-<section class="section-paddingY middle-section home-latest-products mt-3">
+<section class="section-paddingY middle-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
       <div class="hover-yellow">
@@ -210,7 +210,7 @@ function showProductCarosel($p)
   </div>
 </section>
 
-<section class="section-paddingY middlw-section home-latest-products mt-3">
+<section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
       <div class="hover-yellow">
@@ -231,7 +231,7 @@ function showProductCarosel($p)
     </div>
   </div>
 </section>
-<section class="section-paddingY middlw-section home-latest-products mt-3">
+<section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
       <div class="hover-yellow">
@@ -288,7 +288,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="product.php?cate_id=<?= $cate[$countCate - 4]["cate_id"] ?>">Xem thêm</a>
+            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
           </div>
         </div>
       </div>
@@ -322,7 +322,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="product.php?cate_id=<?= $cate[$countCate - 3]["cate_id"] ?>">Xem thêm</a>
+            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
           </div>
         </div>
         <div class="col-md-3 pl-1 pr-1">
@@ -366,7 +366,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="product.php?cate_id=<?= $cate[$countCate - 2]["cate_id"] ?>">Xem thêm</a>
+            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
           </div>
         </div>
       </div>
@@ -400,7 +400,7 @@ function showProductCarosel($p)
 
           </div>
           <div class="see-more">
-            <a href="product.php?cate_id=<?= $cate[$countCate - 1]["cate_id"] ?>">Xem thêm</a>
+            <a href="danh-muc/banh-sinh-nhat">Xem thêm</a>
           </div>
         </div>
         <div class="col-md-3 pl-1 pr-1">
@@ -493,7 +493,7 @@ function showProductCarosel($p)
   </div>
 </section>
 <script src="../../public/backend/js/admin.js"></script>
-    <script src="../../public/backend/js/adminJquery.js"></script>
+<script src="../../public/backend/js/adminJquery.js"></script>
 
 
 <?php require "layout/footer.php" ?>

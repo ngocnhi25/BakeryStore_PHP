@@ -30,8 +30,9 @@ if (isset($_SESSION["auth_user"])) {
     } else {
         echo "inactive"; // Return "inactive" if user role is not 2
     }
-} else {
-    echo "inactive"; // Return "inactive" if user is not authenticated
 }
+// } else {
+//     echo "inactive"; // Return "inactive" if user is not authenticated
+// }
 
 ?>
