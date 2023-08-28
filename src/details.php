@@ -341,41 +341,35 @@ function calculateSaleProductDetails()
   // ... (Phần code khác của bạn)
   
   // Kiểm tra xem người dùng đã mua hàng hay chưa
-  $user_has_purchased = true; // Thay thế bằng logic kiểm tra cơ sở dữ liệu
+  // $user_has_purchased = true; // Thay thế bằng logic kiểm tra cơ sở dữ liệu
   
   ?>
   <div class="row mt-5">
     <div class="col-12">
-      <?php
-      if (!$user_has_purchased) {
-        ?>
-        <div class="danhgia">
-          <h2>Leave a Review</h2>
-          <form class="review-form" action="" method="POST">
-            <input type="hidden" name="product_id" value="3"> <!-- Adjust the product ID accordingly -->
-            <input type="hidden" name="user_id" value="3"> <!-- Adjust the user ID accordingly -->
-            <label for="name">Name:</label>
-            <input type="text" name="name" required><br>
-            <label for="email">Email:</label>
-            <input type="email" name="email" required><br>
-            <label for="rating">Rating:</label>
-            <select name="rating" required>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </select><br>
-            <label for="comment">Comment:</label>
-            <textarea name="comment" required></textarea><br>
-            <button type="submit" name="submit_danhgia">Submit Review</button>
-          </form>
-        </div>
-        <?php
-      } else {
-        echo "<p>Bạn cần mua hàng trước khi được đánh giá.</p>";
-      }
-      ?>
+
+      <div class="danhgia">
+        <h2>Leave a Review</h2>
+        <form class="review-form" action="" method="POST">
+          <input type="hidden" name="product_id" value="3"><!-- Adjust the product ID accordingly -->
+          <input type="hidden" name="user_id" value="3"> <!-- Adjust the user ID accordingly -->
+          <label for="name">Name:</label>
+          <input type="text" name="name" required><br>
+          <label for="email">Email:</label>
+          <input type="email" name="email" required><br>
+          <label for="rating">Rating:</label>
+          <select name="rating" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select><br>
+          <label for="comment">Comment:</label>
+          <textarea name="comment" required></textarea><br>
+          <button type="submit" name="submit_danhgia">Submit Review</button>
+        </form>
+      </div>
+
     </div>
 
 
@@ -457,6 +451,13 @@ function calculateSaleProductDetails()
 
         return false;
       }
+      // public function show_danhgia_by_product($product_id)
+      // {
+      //   $query = "SELECT danhgia_id, name, rating, comment, created_at FROM reviews WHERE product_id = '$product_id' ORDER BY danhgia_id ASC";
+      //   $result = $this->db->select($query);
+    
+      //   return $result;
+      // }
     }
 
     $danhgia = new danhgia();
@@ -466,11 +467,13 @@ function calculateSaleProductDetails()
     
       $db = new Database();
       $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+      // $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
       $user_id = $_POST["user_id"];
       $name = $_POST["name"];
       $email = $_POST["email"];
       $rating = $_POST["rating"];
       $comment = $_POST["comment"];
+      date_default_timezone_set('Asia/Ho_Chi_Minh');
       $created_at = date('Y-m-d H:i:s');
 
       // Include your review insertion logic here
@@ -490,7 +493,7 @@ function calculateSaleProductDetails()
       }
       // Redirect to a new page or show a success message
     }
-
+    // $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
     $reviews = $danhgia->show_danhgia();
     $reviewCount = 0;
     $reviewArray = array();
@@ -508,7 +511,7 @@ function calculateSaleProductDetails()
     if ($reviews) {
       // Truy vấn thành công
       $reviewArray = array_reverse(mysqli_fetch_all($reviews, MYSQLI_ASSOC));
-
+      // $reviewCount = count($reviewArray);
       // Kiểm tra nếu biến $product_id đã khai báo và có giá trị
       if (isset($product_id)) {
         foreach ($reviewArray as $review) {
@@ -618,42 +621,7 @@ function calculateSaleProductDetails()
       </div>
     </div>
   </div>
-  <!-- Hiển thị phần đánh giá sản phẩm -->
-  <!-- <div class="row mt-5">
-            <div class="col-12">
-              <h3>Đánh giá sản phẩm</h3>
-              <?php
-              // Thêm mã PHP để hiển thị danh sách đánh giá
-              // $hostname = "localhost";
-              // $usernamedb = "root";
-              // $passworddb = "";
-              // $database = "projecthk2";
-              
-              // $conn = new mysqli($hostname, $usernamedb, $passworddb, $database);
-              
-              // if ($conn->connect_error) {
-              //   die("Connection failed: " . $conn->connect_error);
-              // }
-              
-              $product_id = 1; // ID của sản phẩm
-              
-              // $sql = "SELECT * FROM reviews WHERE product_id = $product_id";
-              // $result = $conn->query($sql);
-              $reviews = executeResult("SELECT * FROM reviews WHERE product_id = $id");
-              if ($reviews) {
-                foreach ($reviews as $review) {
-                  echo "<p>Người đánh giá: " . $review['name'] . "</p>";
-                  echo "<p>Đánh giá: " . $review['rating'] . "/5</p>";
-                  echo "<p>Bình luận: " . $review['comment'] . "</p>";
-                  echo "<p>Ngày đánh giá: " . $review['created_at'] . "</p>";
-                  echo "<hr>";
-                }
-              } else {
-                echo "Chưa có đánh giá nào cho sản phẩm này.";
-              }
-              ?>
-            </div>
-          </div> -->
+
 </section>
 <section class="section-paddingY middle-section product-page">
   <div class="container">

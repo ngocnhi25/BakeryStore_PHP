@@ -69,8 +69,8 @@ if (isset($_GET["new_id"])) {
 </div>
 <section class="section-paddingY middle-section product-page">
   <div class="container">
-    <div class="row">
-      <!-- <div class="col-md-3">
+
+    <!-- <div class="col-md-3">
         <ul class="menu-category">
           <li><span class="title-category">Danh mục Tin Tức</span></li>
           <hr>
@@ -83,42 +83,42 @@ if (isset($_GET["new_id"])) {
           <?php } ?>
         </ul>
       </div> -->
-      <div class="col-md-9">
-        <div class="row">
-          <div class="col-12 col-lg-7">
-            <div class="detail-header show-mobile">
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-12 col-lg-7">
+          <div class="detail-header show-mobile">
 
-              <h5 class="product-name">
-                <?php echo $product["new_title"] ?>
-              </h5>
+            <h5 class="product-name">
+              <?php echo $product["new_title"] ?>
+            </h5>
 
-            </div>
-            <div class="product-imgs">
-              <div class="big-img">
-                <img id="mainBigImage" src="../<?php echo $image ?>">
-              </div>
-              
-            </div>
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-
-                  <p><span style="font-size: 12px;">
-                      <?php echo $product["new_description"] ?>
-                    </span></p>
-
-                </div>
-              </div>
           </div>
+          <div class="product-imgs">
+            <div class="big-img">
+              <img id="mainBigImage" src="../<?php echo $image ?>">
+            </div>
+
+          </div>
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+
+              <p><span style="font-size: 12px;">
+                  <?php echo $product["new_description"] ?>
+                </span></p>
+
+            </div>
+          </div>
+        </div>
 
 
-          <!-- <div class="col-12 mt-5">
+        <!-- <div class="col-12 mt-5">
             <div class="card-content-pro">
 
               <div class="clients-carousel owl-carousel">
-                <?php foreach ($products as $carou) { ?>
+                <?php foreach ($product as $carou) { ?>
                   <div class="single-box">
                     <div class="content">
-                      <img src="<?php echo $carou['image']; ?>" alt="<?php echo $carou['new_title']; ?>">
+                      <img src="<?php echo $carou['new_image']; ?>" alt="<?php echo $carou['new_title']; ?>">
                       <h4>
                         <?php echo $carou['new_title']; ?>
                       </h4>
@@ -130,7 +130,7 @@ if (isset($_GET["new_id"])) {
 
             </div>
           </div> -->
-          <div class="col-12 mt-5">
+        <!-- <div class="col-12 mt-5">
             <div class="card-content-pro">
 
               <div class="clients-carousel owl-carousel owl-theme">
@@ -160,49 +160,49 @@ if (isset($_GET["new_id"])) {
               </div>
 
             </div>
-          </div>
+          </div> -->
 
 
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-          </script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
-          </script>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js">
-          </script>
-          <script>
-            $('.clients-carousel').owlCarousel({
-              loop: true,
-              nav: false,
-              autoplay: true,
-              autoplayTimeout: 5000,
-              animateOut: 'fadeOut',
-              animateIn: 'fadeIn',
-              smartSpeed: 450,
-              margin: 30,
-              responsive: {
-                0: {
-                  items: 1
-                },
-                768: {
-                  items: 2
-                },
-                991: {
-                  items: 2
-                },
-                1200: {
-                  items: 2
-                },
-                1920: {
-                  items: 2
-                }
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
+        </script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js">
+        </script>
+        <script>
+          $('.clients-carousel').owlCarousel({
+            loop: true,
+            nav: false,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn',
+            smartSpeed: 450,
+            margin: 30,
+            responsive: {
+              0: {
+                items: 1
+              },
+              768: {
+                items: 2
+              },
+              991: {
+                items: 2
+              },
+              1200: {
+                items: 2
+              },
+              1920: {
+                items: 2
               }
-            });
-          </script>
+            }
+          });
+        </script>
 
 
-        </div>
       </div>
     </div>
+
   </div>
 </section>
 
