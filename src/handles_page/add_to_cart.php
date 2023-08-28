@@ -16,20 +16,18 @@ if (isset($_POST['pid'])) {
 	$pprice = $_POST['price'];
 	$pqty = $_POST['quantity'];
 	$flavor = $_POST['flavor'];
-	$increaseSize = isset($_POST['increaseSize']) ? $_POST['increaseSize'] : 0; // Default value is 0
+	$increaseSize = isset($_POST['increaseSize']) ? $_POST['increaseSize'] : 0;
 	$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
 	$size = $_POST['size'];
 
-	$getResultOfCart = executeSingleResult("SELECT product_id, size, quantity, total_price FROM tb_cart WHERE user_id = $user_id");
-	$recentSize = $getResultOfCart['size'];
-	$recentQty = $getResultOfCart['quantity'];
-	$total = ($pprice + $increaseSize) * $pqty;
+	$checkExistingItemQuery = "SELECT product_id, size, quantity, total_price, flavor FROM tb_cart WHERE user_id = $user_id AND product_id = $pid AND flavor = '$flavor'";
+	$existingItem = executeSingleResult($checkExistingItemQuery);
 
-	if ($recentSize == $size && $recentQty > 0) {
-		// Update logic for updating quantity and total price of an existing item
-		$updateQty = $recentQty + $pqty;
+	if ($existingItem && $existingItem['size'] == $size) {
+		// Đã tồn tại sản phẩm cùng flavor và size, thực hiện logic cập nhật
+		$updateQty = $existingItem['quantity'] + $pqty;
 		$totalUpdate = ($pprice + $increaseSize) * $updateQty;
-		$updateQuery = "UPDATE tb_cart SET quantity = $updateQty, total_price = $totalUpdate WHERE user_id = $user_id AND product_id = $pid";
+		$updateQuery = "UPDATE tb_cart SET quantity = $updateQty, total_price = $totalUpdate WHERE user_id = $user_id AND product_id = $pid AND flavor = '$flavor'";
 		$updateQtyResult = execute($updateQuery);
 
 		if ($updateQtyResult) {
@@ -37,8 +35,9 @@ if (isset($_POST['pid'])) {
 		} else {
 			echo "Failed to update quantity.";
 		}
-	} else if ($recentSize != $size) {
-		// Insert logic for adding new items to the cart
+	} else {
+		// Không có sản phẩm tương tự trong giỏ hàng hoặc có flavor khác hoặc size khác, thực hiện logic thêm mới
+		$total = ($pprice + $increaseSize) * $pqty;
 		$insertQuery = "INSERT INTO tb_cart (user_id, product_id, quantity, total_price, product_name, price, flavor, size) VALUES ($user_id, $pid, $pqty, $total, '$pname', $pprice, '$flavor', $size)";
 		$insertItems = execute($insertQuery);
 
@@ -47,16 +46,10 @@ if (isset($_POST['pid'])) {
 		} else {
 			echo "Failed to add item to the cart.";
 		}
-	} else {
-		//insert Cart
-		$insertItems = execute("INSERT INTO tb_cart (user_id, product_id, quantity, total_price, product_name, price, flavor, size) VALUES ($user_id, $pid, $pqty, $total, '$pname', $pprice, '$flavor', $size)");
-		if ($insertItems) {
-			echo "Item added to the cart.";
-		} else {
-			echo "Failed to add item to the cart.";
-		}
 	}
 }
+
+
 
 
 // Remove single items from cart
@@ -215,7 +208,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	// die();
 	// Insert order details into tb_order table
 	$sql_insert = "INSERT INTO tb_order (order_id, user_id, receiver_name, receiver_email, receiver_phone, receiver_address, order_date, deposit,coupon_used, status) 
-                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'pending')";
+                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'prepare')";
 	$insert_result = execute($sql_insert);
 	// var_dump($insert_result);
 	// die();

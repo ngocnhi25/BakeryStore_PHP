@@ -6,8 +6,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $order_id = $_POST["order_id"];
         $new_status = $_POST["new_status"];
 
-        var_dump($order_id);
-        die();
+       
         if ($new_status === "completed") {
             $message = updateStatusToCompleted($order_id);
         } elseif ($new_status === "cancelled" || $new_status === "return") {

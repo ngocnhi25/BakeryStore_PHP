@@ -5,6 +5,8 @@ if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
   $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
   $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
+  $bodyCart = executeResult("SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart");
+  $footerCart = executeResult("SELECT SUM(total_price) as totalPrice FROM tb_cart");
 }
 $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
                         FROM tb_category c
@@ -129,21 +131,8 @@ $conn->close();
       <div class="body">
         <ul class="cart-list">
           <?php
-          // Connect to the database
-          $conn = new mysqli("localhost", "root", "", "projecthk2");
-
-          // Check connection
-          if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-          }
-
-          // Query to get cart items from tb_cart table
-          $query = "SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart";
-          $result = $conn->query($query);
-
-          // Display cart items
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
+          if (!empty($bodyCart)) {
+            foreach ($bodyCart as $row) {
               $getPrice = $row['price'];
               $priceFormat = number_format($getPrice, 0);
 
@@ -158,37 +147,34 @@ $conn->close();
           } else {
             echo '<li>No items in the cart.</li>';
           }
-
-          // Close the connection
-          $conn->close();
           ?>
         </ul>
+
       </div>
       <div class="footer">
         <div class="total">
           <span class="text">Tổng tiền</span>
           <?php
-          // Connect to the database
-          $conn = new mysqli("localhost", "root", "", "projecthk2");
-
-          $query = "SELECT SUM(total_price) as totalPrice FROM tb_cart";
-          $result = $conn->query($query);
-
-          // Display cart items
-          if ($result->num_rows > 0) {
-            while ($row = $result->fetch_assoc()) {
-              $totalPrice = $row['totalPrice'];
-              echo '<li>';
-              echo "" . number_format($totalPrice, 0) . " vnđ";
-              echo '</li>';
+          // Calculate the total price from the footerCart array
+          $totalPrice = 0; // Initialize total price
+          
+          if (!empty($footerCart)) {
+            foreach ($footerCart as $item) {
+              $totalPrice += $item['price']; // Assuming the price is present in each cart item
             }
+
+            // Display the calculated total price
+            echo '<ul>'; // Start a list for cart items
+            echo '<li>';
+            echo "Total Price: " . number_format($totalPrice, 0) . " vnđ";
+            echo '</li>';
+            echo '</ul>'; // Close the list
           } else {
-            echo '<li>No items in the cart.</li>';
+            echo '<p>No items in the cart.</p>';
           }
-          // Close the connection
-          $conn->close();
           ?>
         </div>
+
         <div class="action-btns">
           <a class="action-btn goto-cart" href="carts.php">View cart</a>
         </div>
@@ -317,37 +303,39 @@ $conn->close();
 
               <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
-                <span class="counter" id="cart-item"><?= ($itemCart != null ? $itemCart["total"] : 0) ?></span>
+                <span class="counter" id="cart-item">
+                  <?= ($itemCart != null ? $itemCart["total"] : 0) ?>
+                </span>
               </button>
 
               <div class="user-header d-none d-lg-block">
-  <?php
-  if (isset($_SESSION["auth_user"])) {
-    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-
-    if ($user["role"] == "1") {
-      echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
-      echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
-      echo '</a>';
-      echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
-    } else {
-      echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
-      echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
-      echo '</a>';
-      echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
-      echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
-      echo '</a>';
-    }
-  } else {
-    echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
-    echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
-    echo '</a>';
-    echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
-    echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
-    echo '</a>';
-  }
-  ?>
-</div>
+                <?php
+                if (isset($_SESSION["auth_user"])) {
+                  $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+                
+                  if ($user["role"] == "1") {
+                    echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
+                    echo '</a>';
+                    echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+                  } else {
+                    echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+                    echo '</a>';
+                    echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+                    echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+                    echo '</a>';
+                  }
+                } else {
+                  echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+                  echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+                  echo '</a>';
+                  echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+                  echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+                  echo '</a>';
+                }
+                ?>
+              </div>
 
             </div>
           </div>

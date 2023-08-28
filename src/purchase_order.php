@@ -61,6 +61,7 @@ function checkStatus($status)
     <div class="po-tab-ui">
         <div class="tabs">
             <div class="tab-item active" data-tab="all">All</div>
+            <div class="tab-item" data-tab="pending">Prepare</div>
             <div class="tab-item" data-tab="pending">Pending</div>
             <div class="tab-item" data-tab="completed">Completed</div>
             <div class="tab-item" data-tab="cancelled">Cancelled</div>
@@ -107,7 +108,7 @@ function checkStatus($status)
                             </div>
                             <div class="cal-total">
                             <button class="btn btn-danger cancel-btn" data-order-id="<?= $o["order_id"] ?>">Cancel</button>
-                            <button class="btn btn-warning return-btn" data-order-id="<?= $o["order_id"] ?>">Return</button>
+                            
                             </div>
                         </div>
                     </div>
@@ -116,49 +117,6 @@ function checkStatus($status)
             } ?>
 
 
-        </div>
-        <div class="content" data-content="pending">
-            <?php if (checkStatus("pending") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "pending") {
-            ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                    
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
         </div>
         <div class="content" data-content="prepare">
             <?php if (checkStatus("prepare") != null) {
@@ -209,6 +167,51 @@ function checkStatus($status)
                 noOrderYet();
             } ?>
         </div>
+
+        <div class="content" data-content="pending">
+            <?php if (checkStatus("pending") != null) {
+                foreach ($orders as $key => $o) {
+                    if ($o["status"] == "pending") {
+            ?>
+                        <div class="item-product-box">
+                            <?php foreach ($orders_details as $key => $od) { ?>
+                                <div class="detail-order">
+                                    <div class="inf-prd">
+                                        <div>
+                                            <img src="../<?= $od["image"] ?>" alt="">
+                                        </div>
+                                        <div class="inf-text">
+                                            <div class="prd-name"><?= $od["product_name"] ?></div>
+                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                                            <div>x<?= $od["quantity"] ?></div>
+                                        </div>
+                                    </div>
+                                    <div class="prd-price">
+                                        <?php if ($od["sale_product"] != 0) { ?>
+                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
+                                        <?php } else { ?>
+                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                        <?php } ?>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            <div class="status-cal">
+                                <div class="status-ord">
+                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
+                                </div>
+                                <div class="cal-total">
+                                    
+                                </div>
+                            </div>
+                        </div>
+            <?php }
+                }
+            } else {
+                noOrderYet();
+            } ?>
+        </div>
+        
         <div class="content" data-content="completed">
         <?php if (checkStatus("completed") != null) {
                 foreach ($orders as $key => $o) {
@@ -249,6 +252,7 @@ function checkStatus($status)
                                     <?php } else { ?>
                                         <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
                                     <?php } ?>
+                                    <button class="btn btn-warning return-btn" data-order-id="<?= $o["order_id"] ?>">Return</button>
                                 </div>
                             </div>
                         </div>
