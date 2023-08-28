@@ -1,44 +1,23 @@
 <?php
 session_start();
 require_once("../connect/connectDB.php");
-
 if (isset($_SESSION["auth_user"])) {
     $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-    if ($user["role"] == 2) {
-        $user_name = $_SESSION["auth_user"]["username"];
-        $user_id = $_SESSION["auth_user"]["user_id"];
-        $token_login_stored = $_SESSION["auth_user"]["token_login"];
-
-        // Retrieve the user's stored token from the database
-        $stored_token_query = "SELECT token_login FROM tb_user WHERE user_id = $user_id";
-        $stored_token_result = executeSingleResult($stored_token_query);
-        if ($stored_token_result) {
-            $token_data = $stored_token_result["token_login"];
-        } else {
-            // User's token not found in the database, consider logging out
-            header("location: ../User/login.php");
-            exit();
-        }
+    if ($user["role"] == 2) { 
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+        // $users = executeResult("SELECT * FROM tb_user WHERE role = 2 ");
     } else {
         header("location: ../User/login.php");
-        exit();
     }
 } else {
     header("location: ../User/login.php");
-    exit();
 }
-var_dump($token_login_stored);
-// var_dump($token_data)
-// if ($token_login_stored !== $token_data) {
-//     $_SESSION['status'] = " Invalid token !";
-//     header("location: ../User/login.php");
-//     exit();
-// }
 ?>
 
-<!-- <!DOCTYPE html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +31,6 @@ var_dump($token_login_stored);
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js"></script>
 </head>
-
 <body>
     <div class="container">
         <aside>
@@ -228,8 +206,8 @@ var_dump($token_login_stored);
     <script src="../../public/backend/js/adminJquery.js"></script>
 </body>
 </section>
-
 </html>
+
 <script>
     function LogOut() {
         if (confirm("Are you sure you want to log out?")) {
@@ -250,7 +228,41 @@ var_dump($token_login_stored);
         }
     }
 
-</script> -->
+    function checkUserStatus() {
+    $.ajax({
+        type: "POST",
+        url: 'accounts/check_user_status.php', // Replace with the actual path to your status-checking script
+        success: function(response) {
+                    if (response === 'inactive' || response === 'failstatus') {
+                        alert("Your account is deactivated!");
+                        window.location.href = "../User/login.php";
+                    } else if (response === 'failtoken'){
+                        alert("Your account is other page login !");
+                        window.location.href = "../User/login.php";
+                    }
+                    else if (response === 'success') {
+                        // User is active and token is valid, continue with normal flow
+                    }
+                },
+        error: function() {
+            alert("An error occurred while checking user status.");
+        }
+    });
+}
+
+// Attach the click event listener to the document
+$(document).on('click', function() {
+    checkUserStatus(); // Check user status on every click
+});
+
+// Initial check when the page loads
+$(document).ready(function() {
+    checkUserStatus();
+});
+
+
+
+</script>
 <?php if(isset($_SESSION['status'])) { ?>
         <script>
             alert('<?php echo $_SESSION['status']; ?>');

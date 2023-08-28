@@ -3515,6 +3515,9 @@ lSSlideOuter .lSPager.lSGallery li.active:hover,
 .left {
   width: 40%;
 }
+.product_detail_carosel {
+  width: 260px;
+}
 .proDetails-big-img {
   width: 100%;
   height: 540px;
