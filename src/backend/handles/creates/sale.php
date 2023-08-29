@@ -14,7 +14,6 @@ $errors["errorProductName"] =
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
-$dateAction = date('Y-m-d H:i:s');
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
@@ -68,7 +67,7 @@ if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
             $errors["errorEndDateSale"] = "Sale end date must be greater than or equal to sale start date";
             $errorNum = 1;
         } else {
-            if($eventNum == 0){
+            if ($eventNum == 0) {
                 $sqlNotContain = "SELECT * FROM tb_sale 
                                     WHERE product_id = $product_id
                                     AND ((end_date BETWEEN '$startDate' AND '$endDate')
@@ -98,22 +97,26 @@ if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
 
 if ($errorNum == 0) {
     if ($eventNum == 0) {
-        $content = 'has applied a discount to product'.$product_name;
-        execute("INSERT INTO tb_sale (product_id, percent_sale, start_date, end_date) 
+        $success = execute("INSERT INTO tb_sale (product_id, percent_sale, start_date, end_date) 
         VALUES ($product_id, $percent, '$startDate', '$endDate')");
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$dateAction')");
+
+        if($success){
+            $content = 'has applied a discount to product' . $product_name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     } else {
-        $content = 'has updated the discount for product '.$product_name;
-        execute("UPDATE tb_sale SET 
+        $success = execute("UPDATE tb_sale SET 
         product_id = '$product_id', 
         percent_sale = $percent, 
         start_date = '$startDate', 
         end_date = '$endDate' 
         WHERE sale_id = $id");
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$dateAction')");
+
+        if($success){
+            $content = 'has updated t he discount for product ' . $product_name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     }
 } else {

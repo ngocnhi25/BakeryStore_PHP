@@ -73,30 +73,34 @@ if (isset($_POST["sizeID"])) {
 
 if ($errorNum == 0) {
     if($eventNum == 0) {
-        $content = 'has added a new product category ' . $name;
-        execute("INSERT INTO tb_category (cate_name) VALUES ('$name')");
+        $success = execute("INSERT INTO tb_category (cate_name) VALUES ('$name')");
         $new_cateID = executeSingleResult("SELECT MAX(cate_id) as new_cateID FROM tb_category");
         $id = $new_cateID["new_cateID"];
-    
+        
         foreach ($sizesInsert as $key => $valSize) {
             $sizeID = $valSize["size"];
             $size_increase = $valSize["increase"];
             execute("INSERT INTO tb_cate_size (cate_id, size_id, increase_size) VALUES
                     ($id, $sizeID, $size_increase)");
         }
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$dateAction')");
+
+        if($success){
+            $content = 'has added a new product category ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     } else {
-        $content = 'has updated to product category ' . $name;
-        execute("UPDATE tb_category SET cate_name = '$name' WHERE cate_id = $id");
+        $success = execute("UPDATE tb_category SET cate_name = '$name' WHERE cate_id = $id");
         foreach ($sizesInsert as $key => $valSize) {
             $sizeID = $valSize["size"];
             $size_increase = $valSize["increase"];
             execute("UPDATE tb_cate_size SET increase_size = $size_increase WHERE cate_size_id = $sizeID");
         }
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$dateAction')");
+
+        if($success){
+            $content = 'has updated to product category ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     }
 } else {

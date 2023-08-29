@@ -228,8 +228,7 @@ if (isset($_SESSION["auth_user"])) {
             </div>
 
             <div id="main-page">
-                <!-- // khi commit thêm cái dòng nãy xóa vào lại, tạm thoi dung v đi, xem lại vesion php -->
-                
+                <?php include("dashboad.php") ?>
             </div>
         </div>
     </div>

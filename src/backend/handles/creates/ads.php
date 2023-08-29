@@ -23,7 +23,6 @@ $errorNum = $eventNum = $noUpdateImage = 0;
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
-$dateAction = date('Y-m-d H:i:s'); 
 
 $target_dir = "public/images/banners/";
 $type_allow = ['image/png', 'image/jpeg', 'image/gif', 'image/jpg'];
@@ -170,69 +169,75 @@ if (
 ) {
     if ($eventNum == 0) {
         if ($typeAds == 'category') {
-            execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date, cate_id) 
+            $success = execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date, cate_id) 
             VALUES ('$typeAds', '$image', '$startDate', '$endDate', $cateID)");
             $cate_name = executeSingleResult("SELECT cate_name FROM tb_category WHERE cate_id = $cateID");
             $content = 'has added advertisements to category ' . $cate_name["cate_name"];
         } elseif ($typeAds == 'product') {
-            execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date, product_id) 
+            $success = execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date, product_id) 
             VALUES ('$typeAds', '$image', '$startDate', '$endDate', $productID)");
             $product_name = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $productID");
             $content = 'has added advertisements to product ' . $product_name["product_name"];
         } else {
-            execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date) 
+            $success = execute("INSERT INTO tb_ads (type_ads, image_ads, start_date, end_date) 
             VALUES ('$typeAds', '$image', '$startDate', '$endDate')");
             $content = 'has added advertisements to ' . $typeAds;
         }
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$dateAction')");
+
+        if($success){
+            historyOperation($user_id, $content);
+        }
         move_uploaded_file($uploads_tmp_name, $uploads_imagesLink);
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
             if ($typeAds == 'category') {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate', cate_id = $cateID
                 where ads_id = $id");
                 $cate_name = executeSingleResult("SELECT cate_name FROM tb_category WHERE cate_id = $cateID");
                 $content = 'has updated advertisements to category ' . $cate_name["cate_name"];
             } elseif ($typeAds == 'product') {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate', product_id = $productID
                 where ads_id = $id");
                 $product_name = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $productID");
                 $content = 'has updated advertisements to product ' . $product_name["product_name"];
             } else {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', image_ads = '$image', start_date = '$startDate', end_date = '$endDate'
                 where ads_id = $id");
                 $content = 'has updated advertisements to ' . $typeAds;
             }
-            execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-            VALUES ($user_id, '$content', '$dateAction')");
             move_uploaded_file($uploads_tmp_name, $uploads_imagesLink);
+
+            if($success){
+                historyOperation($user_id, $content);
+            }
             echo 'success';
         } else {
             if ($typeAds == 'category') {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', start_date = '$startDate', end_date = '$endDate', cate_id = $cateID
                 where ads_id = $id");
                 $cate_name = executeSingleResult("SELECT cate_name FROM tb_category WHERE cate_id = $cateID");
                 $content = 'has updated advertisements to category ' . $cate_name["cate_name"];
             } elseif ($typeAds == 'product') {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', start_date = '$startDate', end_date = '$endDate', product_id = $productID
                 where ads_id = $id");
                 $product_name = executeSingleResult("SELECT product_name FROM tb_products WHERE product_id = $productID");
                 $content = 'has updated advertisements to product ' . $product_name["product_name"];
             } else {
-                execute("UPDATE tb_ads SET 
+                $success = execute("UPDATE tb_ads SET 
                 type_ads = '$typeAds', start_date = '$startDate', end_date = '$endDate'
                 where ads_id = $id");
                 $content = 'has updated advertisements to ' . $typeAds;
             }
-            execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-            VALUES ($user_id, '$content', '$dateAction')");
+
+            if($success){
+                historyOperation($user_id, $content);
+            }
             echo 'success';
         }
     }

@@ -127,7 +127,7 @@ if (
         $sql = "INSERT INTO tb_news 
         (new_cate_id, new_title, new_description, new_image) VALUES
         ($cateID, '$name', '$description', '$imageInsert')";
-        execute($sql);
+        $success = execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(new_id) as new_id_product FROM tb_news");
         $new_id = $new_id_product["new_id_product"];
         // tb_thumnail chỉ chứa ảnh của product thôi. Tạo bảng khác
@@ -141,15 +141,15 @@ if (
             move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
         }
         
-        
-        $content = 'has added a news ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+        if($success){
+            $content = 'has added a news ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
             $imageUpdate = $images[0];
-            execute("UPDATE tb_news SET 
+            $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
                 new_image = '$imageUpdate', 
                 new_description = '$description'
@@ -164,15 +164,16 @@ if (
                 move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
             }
         } else {
-            execute("UPDATE tb_news SET 
+            $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
                 new_description = '$description'
             WHERE new_id = $id");
         }
         
-        $content = 'has updated to flavor ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+        if($success){
+            $content = 'has updated to flavor ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     }
 } else {

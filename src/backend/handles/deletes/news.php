@@ -12,7 +12,12 @@ if (isset($_POST['id'])) {
     foreach ($imagesDelete as $key => $imgDelete) {
         unlink('../../../../' . $imgDelete);
     }
-    execute("DELETE FROM tb_news WHERE new_id = $id");
+    $success = execute("DELETE FROM tb_news WHERE new_id = $id");
+
+    if ($success) {
+        $content = 'has deleted a news ';
+        historyOperation($user_id, $content);
+    }
 }
 
 echo 'news/news.php';

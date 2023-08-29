@@ -186,27 +186,29 @@ function showProductCarosel($p)
     </div>
   </div>
 </section>
-<section class="section-paddingY middle-section home-latest-products mt-5">
-  <div class="container">
-    <div class="section-header">
-      <div class="hover-yellow">
-        <span class="section-title">
-          <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
-          Best Seller in <?php echo getMonthNow() ?>
-        </span>
+<?php if ($productBestSeller != null) { ?>
+  <section class="section-paddingY middle-section home-latest-products mt-5">
+    <div class="container">
+      <div class="section-header">
+        <div class="hover-yellow">
+          <span class="section-title">
+            <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
+            Best Seller in <?php echo getMonthNow() ?>
+          </span>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="owl-carousel-products owl-carousel owl-theme">
+          <?php foreach ($productBestSeller as $key => $p) {
+            if ($key < $maxProductsToShowCarosel) {
+              showProductCarosel($p);
+            }
+          } ?>
+        </div>
       </div>
     </div>
-    <div class="section-body">
-      <div class="owl-carousel-products owl-carousel owl-theme">
-        <?php foreach ($productBestSeller as $key => $p) {
-          if ($key < $maxProductsToShowCarosel) {
-            showProductCarosel($p);
-          }
-        } ?>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+<?php } ?>
 
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
@@ -403,7 +405,7 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-              <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
