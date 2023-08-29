@@ -1,5 +1,9 @@
 <?php
-require_once('../../../connect/connectDB.php');
+session_start();
+require_once("../../../connect/connectDB.php");
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
 
 $errorNum = $eventNum = 0;
 $errors = [];
@@ -13,6 +17,7 @@ $errors["errorCouponName"] =
 
 date_default_timezone_set('Asia/Bangkok');
 $date = date('Y-m-d');
+$dateAction = date('Y-m-d H:i:s');
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
@@ -155,11 +160,15 @@ if (isset($_POST["endDate"]) && !empty($_POST["endDate"])) {
 
 if ($errorNum == 0) {
     if ($eventNum == 0) {
+        $content = 'has added a new voucher ' . $coupon_name;
         execute("INSERT INTO tb_coupon 
         (coupon_name, discount_coupon, condition_used_coupon, qti_used_coupon, qti_coupon, start_date, end_date) 
         VALUES ('$coupon_name', $discount, $condition, $qtiUsed, $qtiCoupon, '$startDate', '$endDate') ");
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
         echo "success";
     } else {
+        $content = 'has updated to voucher ' . $coupon_name;
         execute("UPDATE tb_coupon SET 
         coupon_name = '$coupon_name', 
         discount_coupon = $discount, 
@@ -169,6 +178,8 @@ if ($errorNum == 0) {
         start_date = '$startDate', 
         end_date = '$endDate'
         WHERE coupon_id = $id");
+        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+        VALUES ($user_id, '$content', '$dateAction')");
         echo "success";
     }
 } else {

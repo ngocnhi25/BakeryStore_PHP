@@ -28,11 +28,13 @@ if (isset($_POST["id"])) {
                 <?php if ($id != null) { ?>
                     <input id="idUpdate" type="text" name="id" value="<?= $id ?>" style="display: none;">
                 <?php } ?>
-                <label for="">Category name</label> <br>
-                <input id="input-name" type="text" name="name" value="<?= ($id != null ? $cate["cate_name"] : '') ?>">
+                <label for="">Category name:</label> <br>
+                <div class="box-input">
+                    <input id="input-name" type="text" name="name" value="<?= ($id != null ? $cate["cate_name"] : '') ?>">
+                </div>
                 <p class="errorCateName" style="color: red;"></p>
             </div>
-            <div style="display: flex; gap: 1rem;">
+            <div style="display: flex; gap: 1rem; margin-top: 20px;">
                 <div>
                     <table>
                         <thead>
@@ -47,12 +49,12 @@ if (isset($_POST["id"])) {
                                     if ($s["size_name"] == 12) { ?>
                                         <tr>
                                             <td><input type="hidden" name="sizeID[]" value="<?= $s["cate_size_id"] ?>"><?= $s["size_name"] ?></td>
-                                            <td><input type="number" name="size_increase[]" value="<?= $s["increase_size"] ?>" readonly></td>
+                                            <td class="box-input"><input type="number" name="size_increase[]" value="<?= $s["increase_size"] ?>" readonly></td>
                                         </tr>
                                     <?php } else { ?>
                                         <tr>
                                             <td><input type="hidden" name="sizeID[]" value="<?= $s["cate_size_id"] ?>"><?= $s["size_name"] ?></td>
-                                            <td><input type="number" name="size_increase[]" value="<?= $s["increase_size"] ?>"></td>
+                                            <td class="box-input"><input type="number" name="size_increase[]" value="<?= $s["increase_size"] ?>"></td>
                                         </tr>
                                     <?php }
                                 }
@@ -60,7 +62,7 @@ if (isset($_POST["id"])) {
                                 foreach ($sizes as $s) { ?>
                                     <tr>
                                         <td><input type="hidden" name="sizeID[]" value="<?= $s["size_id"] ?>"><?= $s["size_name"] ?></td>
-                                        <td><input type="number" name="size_increase[]" <?= ($s["size_name"] == 12 ? 'value="0" readonly' : '') ?>></td>
+                                        <td class="box-input"><input type="number" name="size_increase[]" <?= ($s["size_name"] == 12 ? 'value="0" readonly' : '') ?>></td>
                                     </tr>
                             <?php }
                             } ?>

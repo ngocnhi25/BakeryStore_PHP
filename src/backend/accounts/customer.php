@@ -118,7 +118,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
             }
         }
 
-        function ActivateUser(userId) {
+    function ActivateUser(userId) {
             if (confirm("Are you sure you want to Activate this user?")) {
                 // User confirmed, perform the deactivation logic
                 $.ajax({
@@ -138,5 +138,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
             }
         }
 
+        
 
 </script>

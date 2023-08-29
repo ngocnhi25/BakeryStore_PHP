@@ -10,6 +10,7 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
         
 if(isset($_GET["cate_id"])){
   $cate_id_filter = $_GET["cate_id"];
+  $cateFilter = executeSingleResult("SELECT cate_name FROM tb_category WHERE cate_id = $cate_id_filter");
 }
 
 function checkedFilter($value)
@@ -31,12 +32,12 @@ function checkedFilter($value)
             <meta itemprop="position" content="1" />
           </a>
         </li>
-        <!-- <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="#" itemprop="item">
-            <span itemprop="name"><?= ($cate_id != null ? $cate["cate_name"] : "All Product") ?></span>
+        <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+          <div itemprop="item">
+            <span itemprop="name">Show products all</span>
             <meta itemprop="position" content="2" />
-          </a>
-        </li> -->
+          </div>
+        </li>
       </ol>
     </nav>
   </div>

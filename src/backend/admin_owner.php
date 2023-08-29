@@ -179,6 +179,13 @@ if (isset($_SESSION["auth_user"])) {
                                     <h4>Add News</h4>
                                 </a>
                             </li>
+                            <li class="menu-item">
+                                <a href="news/news_gallery.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>News Category</h4>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li onclick="LogOut()" class="logout">
@@ -221,7 +228,8 @@ if (isset($_SESSION["auth_user"])) {
             </div>
 
             <div id="main-page">
-                <?php include("dashboad.php"); ?>
+                <!-- // khi commit thêm cái dòng nãy xóa vào lại, tạm thoi dung v đi, xem lại vesion php -->
+                
             </div>
         </div>
     </div>

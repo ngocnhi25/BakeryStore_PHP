@@ -84,11 +84,15 @@ if (isset($_POST["idSize"])) {
                                 <?php } ?>
                             </td>
                             <td>
-                                <input id="flavorInsert" type="text" name="flavor" value="<?php echo (($idFlavor != null) ? $nameFlavor["flavor_name"] : '') ?>">
+                                <div class="box-input">
+                                    <input id="flavorInsert" type="text" name="flavor" value="<?php echo (($idFlavor != null) ? $nameFlavor["flavor_name"] : '') ?>">
+                                </div>
                                 <p class="errorFlavor" style="color: red;"></p>
                             </td>
                             <td>
-                                <input id="flavorInStockInsert" type="text" name="flavorInStock" value="<?php echo (($idFlavor != null) ? $nameFlavor["qti_flavor"] : '') ?>">
+                                <div class="box-input">
+                                    <input id="flavorInStockInsert" type="text" name="flavorInStock" value="<?php echo (($idFlavor != null) ? $nameFlavor["qti_flavor"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                </div>
                                 <p class="errorFlavorInStock" style="color: red;"></p>
                             </td>
                             <td><button id="submitFlavor" class="create" type="button"><?php echo ($idFlavor != null ? "Save" : "Create") ?></button></td>
@@ -144,11 +148,15 @@ if (isset($_POST["idSize"])) {
                                 <?php } ?>
                             </td>
                             <td>
-                                <input id="sizeInsert" type="text" name="size" value="<?php echo (($idSize != null) ? $nameSize["size_name"] : '') ?>">
+                                <div class="box-input">
+                                    <input id="sizeInsert" type="text" name="size" value="<?php echo (($idSize != null) ? $nameSize["size_name"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                </div>
                                 <p class="errorSize" style="color: red;"></p>
                             </td>
                             <td>
-                                <input id="qtiBoxSizeInsert" type="text" name="qtiBoxSize" value="<?php echo (($idSize != null) ? $nameSize["qti_boxes_size"] : '') ?>">
+                                <div class="box-input">
+                                    <input id="qtiBoxSizeInsert" type="text" name="qtiBoxSize" value="<?php echo (($idSize != null) ? $nameSize["qti_boxes_size"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                </div>
                                 <p class="errorqtiBoxSize" style="color: red;"></p>
                             </td>
                             <td><button id="submitSize" class="create" type="button">Create</button></td>

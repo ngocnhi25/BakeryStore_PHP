@@ -9,7 +9,11 @@ $countProduct = executeSingleResult("SELECT count(*) as product FROM tb_products
 $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
 $fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user u 
                                 INNER JOIN tb_order o ON u.user_id = o.user_id
-                                where o.status = 'completed' GROUP BY u.user_id ORDER BY total DESC limit 2");
+                                where o.status = 'completed' GROUP BY u.user_id ORDER BY total DESC limit 3");
+$historyOperationStore = executeResult("SELECT * FROM tb_shop_history sh
+                                        INNER JOIN tb_user u ON sh.user_id = u.user_id
+                                        where (role = 2 or role = 3) 
+                                        ORDER BY sh.shop_history_id DESC limit 6");
 
 ?>
 
@@ -122,9 +126,9 @@ $fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user
             height: 300px;
         }
 
-        /* .box-right .recent-updates {
-            margin-top: 1rem;
-        } */
+        .box-right .recent-updates {
+            margin-bottom: 1rem;
+        }
 
         .box-right .recent-updates h2 {
             margin-bottom: 0.8rem;
@@ -166,6 +170,10 @@ $fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user
         .box-right .recent-updates .top-best-order .total-order-price {
             color: red;
             font-size: 13px;
+        }
+
+        small.date-ago {
+            color: red;
         }
     </style>
 </head>
@@ -218,6 +226,25 @@ $fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user
                             <div class="account-top-order">
                                 <p><b><?= $f["username"] ?></b></p>
                                 <small class="text-muted">Total amount ordered: <span class="total-order-price"><?= displayPrice($f["total"]) ?> vnđ</span></small>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="recent-updates">
+                <h2>History of store operations</h2>
+                <div class="top-best-order">
+                    <?php foreach ($historyOperationStore as $h) { ?>
+                        <div class="profile-dasboad">
+                            <div class="profile-photo">
+                                <img src="../../public/images/icon/user.png" alt="admin 1">
+                            </div>
+                            <div class="account-top-order">
+                                <p>
+                                    <b><?= $h["username"] ?></b>
+                                    <small class="text-muted"><?= $h["action"] ?></small>
+                                </p>
+                                <p><small class="date-ago"><?= formatElapsedTime($h["action_time"]) ?></small></p>
                             </div>
                         </div>
                     <?php } ?>

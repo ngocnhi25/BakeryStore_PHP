@@ -4,96 +4,56 @@
       <div class="col-12 col-xl-3">
         <div class="body-column">
           <div class="img-footer">
-            <img src="source/hinh-anh/logo/logo.png" alt="Logo" class="img-fluid" />
+            <img src="../public/images/logo/logo.jpg" alt="Logo" class="img-fluid" />
           </div>
           <p class="text">
-            <img src="public/frontend/assets/img/icons/location.png" alt="" class="img-fluid">
-            Số 32A, ng&otilde; chợ Nguyễn C&ocirc;ng Trứ &ndash; Phường Phố Huế &ndash; Quận Hai B&agrave;
-            Trưng
-            &ndash; H&agrave; Nội
+            <img src="../public/images/icon/location.png" alt="" class="img-fluid">
+            242/20 Le Dinh Can, Tan Tao Ward, Binh Tan District , Ho Chi Minh City
           </p>
           <p class="text">
-            <img src="public/frontend/assets/img/icons/phone.png" alt="" class="img-fluid">
-            090 754 6668 | 096 938 6611
+            <img src="../public/images/icon/phone.png" alt="" class="img-fluid">
+            0707364628 | 0907733229
           </p>
           <p class="text">
             <i class="fa fa-link" aria-hidden="true" style="color: #F4C522;transform: rotateY(180deg); font-size: 17px;"></i>
             <a href="" style="font-size: 16px">https://thuhuongbakery.com.vn/</a>
           </p>
           <a href="http://online.gov.vn/Home/WebDetails/631" target="blank">
-            <img src="public/frontend/assets/img/icons/bocongthuong.png" alt="Bộ công thương">
+            <img src="../public/images/icon/bocongthuong.png" alt="Bộ công thương">
           </a>
         </div>
       </div>
       <div class="col-6 col-xl-3">
         <div class="body-column">
-          <p class="title text-yellow">Danh mục sản phẩm</p>
+          <p class="title text-yellow">Product Portfolio</p>
           <ul>
-            <li>
-              <a href="danh-muc/banh-sinh-nhat">
-                B&aacute;nh sinh nhật
-              </a>
-            </li>
-            <li>
-              <a href="danh-muc/banh-sinh-nhat-cho-be">
-                B&aacute;nh Sinh Nhật Cho B&eacute;
-              </a>
-            </li>
-            <li>
-              <a href="">
-                Chocolate
-              </a>
-            </li>
-            <li>
-              <a href="danh-muc/cookies-va-mini-cake">
-                Cookies v&agrave; Mini Cake
-              </a>
-            </li>
-            <li>
-              <a href="danh-muc/banh-trung-thu">
-                B&aacute;nh trung thu
-              </a>
-            </li>
+            <?php foreach ($cates as $c) { ?>
+              <li>
+                <a href="product.php?cate_id=<?= $c["cate_id"] ?>">
+                  <?= $c["cate_name"] ?>
+                </a>
+              </li>
+            <?php } ?>
           </ul>
         </div>
       </div>
       <div class="col-6 col-xl-2">
         <div class="body-column">
-          <p class="title text-yellow">Trợ giúp</p>
+          <p class="title text-yellow">Cater</p>
           <ul>
             <li>
-              <a href="">
-                C&acirc;u hỏi thường gặp
+              <a href="shopping_guide.php">
+                Shopping Guide
               </a>
             </li>
             <li>
-              <a href="huong-dan-mua-hang">
-                Hướng dẫn đặt h&agrave;ng
+              <a href="contact.php">
+                Contact
               </a>
             </li>
             <li>
-              <a href="">
-                Ch&iacute;nh s&aacute;ch vận chuyển
-              </a>
-            </li>
-            <li>
-              <a href="">
-                Phương thức thanh to&aacute;n
-              </a>
-            </li>
-            <li>
-              <a href="">
-                Quy tr&igrave;nh đổi trả h&agrave;ng
-              </a>
-            </li>
-            <li>
-              <a href="">
-                Điều khoản bảo mật
-              </a>
-            </li>
-            <li>
-              <a href="">
-                Quy định chung
+              <a href="news.php">
+                News
               </a>
             </li>
           </ul>
@@ -109,7 +69,7 @@
 </footer>
 
 
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="T1W405h4"></script>
+<!-- <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0" nonce="T1W405h4"></script>
 <div class='zalome'>
   <a href='#' target='_blank'>
     <img alt='icon zalo' src='../public/images/icon/icon-zalo.png' />
@@ -125,9 +85,9 @@
       'vi_VN/sdk.js#xfbml=1&version=v3.2&appId=1378687992242263&autoLogAppEvents=1';
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-</script>
+</script> -->
 <!-- Messenger Plugin chat Code -->
-<div id="fb-root"></div>
+<!-- <div id="fb-root"></div> -->
 
 <!-- Your Plugin chat code -->
 <div id="fb-customer-chat" class="fb-customerchat">
@@ -140,7 +100,7 @@
 </script>
 
 <!-- Your SDK code -->
-<script>
+<!-- <script>
   window.fbAsyncInit = function() {
     FB.init({
       xfbml: true,
@@ -156,18 +116,12 @@
     js.src = 'vi_VN/sdk/xfbml.customerchat.js';
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
-</script>
+</script> -->
 <script>
-  // When the user scrolls the page, execute myFunction
-  // window.onscroll = function () { myFunction() };
-
-  // Get the header
   var header = document.getElementById("HeaderTop");
 
-  // Get the offset position of the navbar
   var sticky = header.offsetTop;
 
-  // Add the sticky class to the header when you reach its scroll position. Remove "sticky" when you leave the scroll position
   function myFunction() {
     if (window.pageYOffset > sticky) {
       header.classList.add("fixed");
@@ -181,7 +135,6 @@
 </button>
 
 <script src="../public/frontend/js/librarys_js/jquery3.3.1.min.js"></script>
-<script async defer crossorigin="anonymous" src="vi_VN/sdk.js#xfbml=1&version=v3.3&appId=799750433706362&autoLogAppEvents=1"></script>
 
 <script src="../public/frontend/js/librarys_js/bootstrap4.min.js"></script>
 <script src="../public/frontend/js/librarys_js/owl.carousel.min.js"></script>
@@ -189,11 +142,8 @@
 <script src="../public/frontend/js/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-
 <script src="../public/frontend/js/config.js"></script>
 <script src="../public/frontend/js/main.js"></script>
-<script src="public/myplugins/js/messagebox.js"></script>
 
 <script src="../public/frontend/js/product_page.js"></script>
 <script src="../public/frontend/js/my_account.js"></script>

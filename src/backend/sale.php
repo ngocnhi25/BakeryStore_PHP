@@ -21,12 +21,12 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
 
 <div style=" width: 100%; padding-bottom: 30px;">
     <div>
-        <h1>Add new coupon</h1>
+        <h1>Voucher management</h1>
         <form action="">
             <div class="add-coupon">
                 <div class="coupon-left">
                     <div class="coupon-input">
-                        <p>Coupon code:</p>
+                        <p>Voucher code:</p>
                         <div class="box-input">
                             <input type="text" id="input-coupon-name" value="<?= ($idCoupon != null ? $couponUpdate["coupon_name"] : '') ?>">
                         </div>
@@ -70,7 +70,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                         <div class="error errorQtiUsed"></div>
                     </div>
                     <div class="coupon-input">
-                        <p>Number of coupon:</p>
+                        <p>Number of voucher:</p>
                         <div class="box-input">
                             <input type="text"  id="input-qti-coupon" value="<?= ($idCoupon != null ? $couponUpdate["qti_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
                         </div>
@@ -79,7 +79,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                 </div>
             </div>
             <div>
-                <button id="addCoupon" type="button" class="create"><?= ($idCoupon != null ? 'Save update' : 'Save') ?></button>
+                <button id="addCoupon" type="button" class="submit"><?= ($idCoupon != null ? 'Save update' : 'Save') ?></button>
             </div>
         </form>
         <div>
@@ -158,7 +158,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     </div>
                 </div>
                 <div>
-                    <button id="addSaleProduct" type="button" class="create"><?= ($idSale != null ? 'Save update' : 'Save') ?></button>
+                    <button id="addSaleProduct" type="button" class="submit"><?= ($idSale != null ? 'Save update' : 'Save') ?></button>
                 </div>
             </form>
         </div>

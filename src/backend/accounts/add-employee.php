@@ -1,7 +1,7 @@
 <?php 
 session_start();
 require_once("../../connect/connectDB.php");
-
+$id = '';
 if (isset($_SESSION["auth_user"])) {
     $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
     if ($user["role"] == 3) { 
@@ -158,28 +158,28 @@ if (isset($_SESSION["auth_user"])) {
                         <div class="product-input">
                             <div class="input-animation">
                                 <div class="input-box">
-                                    <input id="input-name" type="text" name="username" value="<?php echo (($id != null ? $name : '')) ?>">
+                                    <input id="input-name" type="text" name="username" >
                                     <label for="">Username : </label> <br>
                                 </div>
                                 <div class="errorName error" style="color: red;"></div>
                             </div>
                             <div class="input-animation">
                                 <div class="input-box">
-                                    <input id="input-email" type="email" name="email" value="<?php echo (($id != null ? $email : '')) ?>">
+                                    <input id="input-email" type="email" name="email" >
                                     <label for="">Email : </label> <br>
                                 </div>
                                 <div class="errorEmail error" style="color: red;"></div>
                             </div>
                             <div class="input-animation">
                                 <div class="input-box">
-                                    <input id="input-salary" type="text" name="salary" value="<?php echo (($id != null ? $salary : '')) ?>">
+                                    <input id="input-salary" type="text" name="salary" >
                                     <label for="">Salary : </label> <br>
                                 </div>
                                 <div class="errorSalary error" style="color: red;"></div>
                             </div>
                             <div class="input-animation">
                                 <div class="input-box">
-                                    <input id="input-phone" type="text" name="phone" value="<?php echo (($id != null ? $phone : '')) ?>">
+                                    <input id="input-phone" type="text" name="phone"  >
                                     <label for="">Phone : </label> <br>
                                 </div>
                                 <div class="errorPhone error" style="color: red;"></div>
@@ -187,14 +187,14 @@ if (isset($_SESSION["auth_user"])) {
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-password" type="password" name="password" value="<?php echo (($id != null ? $password : '')) ?>">
+                                <input id="input-password" type="password" name="password" >
                                 <label for="">Password</label> <br>
                             </div>
                             <div class="errorPassword error" style="color: red;"></div>
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-Repassword" type="password" name="re-password" value="<?php echo (($id != null ? $re_password : '')) ?>">
+                                <input id="input-Repassword" type="password" name="re-password" >
                                 <label for="">Repeat Password</label> <br>
                             </div>
                             <div class="errorRePassword error" style="color: red;"></div>
@@ -224,7 +224,6 @@ if (isset($_SESSION["auth_user"])) {
             formData.append("password", $('#input-password').val());
             formData.append("re-password", $('#input-Repassword').val());
             formData.append("salary", $('#input-salary').val());
-
 
             $.ajax({
                 type: "POST",

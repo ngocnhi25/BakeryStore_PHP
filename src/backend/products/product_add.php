@@ -195,14 +195,14 @@ function checkCate($value)
                     <div class="product-input">
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-price" type="number" name="price" value="<?php echo (($id != null ? $price : '')) ?>" required>
+                                <input id="input-price" type="text" name="price" value="<?php echo (($id != null ? $price : '')) ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                 <label for="">Price</label> <br>
                             </div>
                             <div class="errorPrice error" style="color: red;"></div>
                         </div>
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-qty" type="number" name="qtyProduct" value="<?php echo (($id != null ? $quantity : '')) ?>" required>
+                                <input id="input-qty" type="text" name="qtyProduct" value="<?php echo (($id != null ? $quantity : '')) ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required>
                                 <label for="">Product quantity</label> <br>
                             </div>
                             <div class="errorQty error" style="color: red;"></div>

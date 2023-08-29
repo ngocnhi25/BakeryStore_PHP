@@ -40,7 +40,8 @@ function deleteNew(newTitle, id) {
             "handles/deletes/news.php", {
             id: id
         },
-            function (res) {
+            function (res) { 
+                // alert(res)               
                 $(".message-confirm-box").remove();
                 ajaxPages(res);
             }

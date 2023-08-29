@@ -38,11 +38,11 @@ function recoverFlavor(qtiFlavor, id) {
         <div class="message-confirm-box">
             <div class="message-confirm">
                 <div>Update the number of flavors in stock</div>
-                <div>
+                <div class="box-input">
                     <input id="flavorInStockUpdate" type="text" name="flavorInStock" value="${qtiFlavor}">
-                    <p class="errorFlavorInStockUpdate" style="color: red;"></p>
                 </div>
-                <div>
+                <p class="errorFlavorInStockUpdate" style="color: red;"></p>
+                <div class"btn-message">
                     <button class="cancel" type="button">Cancal</button>
                     <button id="update-qti-flavor" class="update" type="button">Update</button>
                 </div>
@@ -135,11 +135,11 @@ function recoverSize(qtiBoxSize, id) {
         <div class="message-confirm-box">
             <div class="message-confirm">
                 <div>Update the number of boxes in stock</div>
-                <div>
+                <div class="box-input">
                     <input id="qtiBoxSizeUpdate" type="text" name="qtiBoxSize" value="${qtiBoxSize}">
-                    <p class="errorqtiBoxSize" style="color: red;"></p>
                 </div>
-                <div>
+                <p class="errorqtiBoxSize" style="color: red;"></p>
+                <div class"btn-message">
                     <button class="cancel" type="button">Cancal</button>
                     <button id="update-qti-size" class="update" type="button">Update</button>
                 </div>

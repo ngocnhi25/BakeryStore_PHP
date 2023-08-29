@@ -233,12 +233,15 @@ $(document).ready(function () {
   });
 
   $(".owl-carousel-products").owlCarousel({
-    margin: 10,
     loop: true,
+    nav: false,
     autoplay: true,
+    autoplayTimeout: 3000,
+    animateOut: 'fadeOut',
+    animateIn: 'fadeIn',
+    smartSpeed: 450,
+    margin: 10,
     autoplaySpeed: 1000,
-    autoplayHoverPause: true,
-    nav: true,
     responsive: {
       0: {
         items: 2,
@@ -730,28 +733,6 @@ $(".open-submenu").click(function (e) {
   $(this).parent().find(".submenu-category").toggleClass("show");
 });
 
-const imgs = document.querySelectorAll(".img-select a");
-const imgBtns = [...imgs];
-let imgId = 1;
-
-imgBtns.forEach((imgItem) => {
-  imgItem.addEventListener("click", (event) => {
-    event.preventDefault();
-    imgId = imgItem.dataset.id;
-    slideImage();
-  });
-});
-
-function slideImage() {
-  const displayWidth = document.querySelector(
-    ".img-showcase img:first-child"
-  ).clientWidth;
-
-  document.querySelector(".img-showcase").style.transform = `translateX(${-(imgId - 1) * displayWidth
-    }px)`;
-}
-
-window.addEventListener("resize", slideImage);
 // ========================================================== //
 // =================== END NEWSLETTER POPUP ================ //
 $(document).ready(function () {
@@ -809,14 +790,6 @@ $(document).ready(function () {
       "close",
     ],
   });
-});
-
-// #RESIZE BUG FIXING
-// # if slider have height in % or vh,
-// # on resize rebuild
-$(window).resize(function () {
-  // slider.destroy();
-  h_slider = $("#ocassions-slider").lightSlider(h_slider_options);
 });
 
 const section = document.querySelector("section"),

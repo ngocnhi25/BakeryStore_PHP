@@ -34,10 +34,10 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($users as $user) {
+                <?php foreach ($users as $key => $user) {
                     if ($user["role"] == 2) { ?>
                         <tr>
-                            <td><?= $user["user_id"] ?></td>
+                            <td><?= $key + 1 ?></td>
                             <td><?= $user["username"] ?></td>
                             <td><?= $user["email"] ?></td>
                             <td><?= $user["phone"] ?></td>
@@ -99,30 +99,5 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
         }
     }
 
-    $(document).ready(function() {
-        $("#live-Search").keyup(function(e) {
-            var formData = new FormData();
-            formData.append("from", $('#form').val());
-            formData.append("to", $('#to').val());
-
-            $.ajax({
-                type: "POST",
-                url: '../handles/filter-emp.php',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(res) {
-                    if (res === 'success') {
-                        alert("Filter applied successfully!");
-                        // Do something after successful filtering
-                    } else {
-                        alert("Error: " + res);
-                    }
-                },
-                error: function() {
-                    alert("An error occurred during filtering.");
-                }
-            });
-        });
-    });
+    
 </script>
