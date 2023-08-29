@@ -4,6 +4,17 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require '../connect/connection.php';
 require '../connect/connectDB.php';
+
+require APPPATH . "User/vendor/phpmailer/src/PHPMailer.php";
+require APPPATH . "User/vendor/phpmailer/src/Exception.php";
+require APPPATH . "User/vendor/phpmailer/src/OAuth.php";
+require APPPATH . "User/vendor/phpmailer/src/POP3.php";
+require APPPATH . "User/vendor/phpmailer/src/SMTP.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
+
 if (isset($_POST['flavor'])) {
 	$selectedFlavor = $_POST['flavor'];
 	// echo "Received flavor: " . $selectedFlavor;
@@ -214,30 +225,66 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	// die();
 	if ($insert_result) {
 		// Delete cart items after successful order
-		$sql_delete_cart = "DELETE FROM tb_cart";
-		execute($sql_delete_cart);
+		execute("DELETE FROM tb_cart WHERE user_id = '$user_id'");
 
 		// Display order success message
 		$data = '
-        <div class="order-success">
-            <h1 class="order-title">Thank You!</h1>
-            <h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
-            <div class="order-details">
-                <p><strong>Order ID:</strong> ' . $order_id . '</p>
-                <p><strong>Items Purchased:</strong> ' . $products_string . '</p>
-                <p><strong>Your Name:</strong> ' . $name . '</p>
-                <p><strong>Your E-mail:</strong> ' . $email . '</p>
-                <p><strong>Your Phone:</strong> ' . $phone . '</p>
-                <p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
-                <p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
-                <p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
-                <p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
-                <p><strong>Payment Mode:</strong> ' . $pmode . '</p>
-            </div>
-        </div>';
+		<div class="order-success">
+			<h1 class="order-title">Thank You!</h1>
+			<h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
+			<div class="order-details">
+				<p><strong>Order ID:</strong> ' . $order_id . '</p>
+				<p><strong>Items Purchased:</strong> ' . $products_string . '</p>
+				<p><strong>Your Name:</strong> ' . $name . '</p>
+				<p><strong>Your E-mail:</strong> ' . $email . '</p>
+				<p><strong>Your Phone:</strong> ' . $phone . '</p>
+				<p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
+				<p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
+				<p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
+				<p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
+				<p><strong>Payment Mode:</strong> ' . $pmode . '</p>
+			</div>
+		</div>';
+
+		$getEmail = executeSingleResult("SELECT tb_user.email FROM tb_order JOIN tb_user ON tb_order.user_id = tb_user.user_id WHERE tb_order.user_id = '$user_id'");
+		$sendEmail = $getEmail['email'];
+
+		$to = $sendEmail;
+		$subject = "Order Confirmation - Order ID: $order_id";
+		$message = "Thank you for your order!\n\n";
+		$message .= "Order ID: $order_id\n";
+		$message .= "Items Purchased:\n" . $products_string . "\n";
+		$message .= "Your Name: $name\n";
+		$message .= "Your E-mail: $email\n";
+		$message .= "Your Phone: $phone\n";
+		$message .= "Total Amount Paid: " . number_format($grand_total, 0) . "\n";
+		$message .= "Discount Amount: " . number_format($discount_amount, 0) . "\n";
+		$message .= "Deposit Amount: " . number_format($deposit, 0) . "\n";
+		$message .= "Total Pay: " . number_format($total_pay, 0) . "\n";
+		$message .= "Payment Mode: $pmode\n";
+		$message .= "Your order has been prepared";
+
+
+		$mail = new PHPMailer();
+		$mail->isSMTP();
+		$mail->SMTPDebug = SMTP::DEBUG_OFF;
+		$mail->Host = 'smtp.gmail.com';
+		$mail->Port = 587;
+		$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+		$mail->SMTPAuth = true;
+		$mail->Username = 'nhilnts2210037@fpt.edu.vn';
+		$mail->Password = 'rzushtjlbjnppcft';
+		$mail->FromName = "truong";
+
+		$mail->setFrom('truongdqvts2210038@fpt.edu.vn');
+		$mail->addAddress($to);
+		$mail->Subject = $subject;
+		$mail->msgHTML($message);
+
 
 		echo $data;
 	}
+
 }
 
 ?>
