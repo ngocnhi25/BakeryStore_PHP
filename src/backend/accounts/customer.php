@@ -50,6 +50,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
         }
 
 </style>
+
 <div class="products">
     <h1>Customer Management</h1>
     <div class="filter-product">
@@ -66,7 +67,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Employee</th>
+                        <th>Customer</th>
                         <th>Email</th>
                         <th>Telephone</th>
                         <th>Create Date</th>
@@ -74,10 +75,10 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 1");
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($users as $user) {
-                        if ($user["role"] == 1) { ?>
-                            <tr>
-                                <td><?= $user["user_id"] ?></td>
+                <?php foreach ($users as $key => $user) {
+                    if ($user["role"] == 1) { ?>
+                        <tr>
+                            <td><?= $key + 1 ?></td>
                                 <td><?= $user["username"] ?></td>
                                 <td><?= $user["email"] ?></td>
                                 <td><?= $user["phone"] ?></td>

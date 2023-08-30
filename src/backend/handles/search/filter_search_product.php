@@ -25,8 +25,10 @@ if (isset($_POST["filter_search"]) && !empty($_POST["filter_search"])) {
 
 if (isset($_POST["filter_cate"]) && !empty($_POST["filter_cate"])) {
     $cateID = $_POST["filter_cate"];
-    $sql .= "AND p.cate_id = $cateID ";
-    $sqlCount .= "AND p.cate_id = $cateID ";
+    if($cateID != "all") {
+        $sql .= "AND p.cate_id = $cateID ";
+        $sqlCount .= "AND p.cate_id = $cateID ";
+    }
 }
 
 if(isset($_POST["filter_price"])){
@@ -103,7 +105,7 @@ function paginationProduct()
     echo "<span class='number total_page'>" . $number . "</span>";
     echo "</div>";
     if($page < $number){
-        echo "<div onclick='product_next(" . $page . ")'' class='text'>next project</div>";
+        echo "<div onclick='product_next(" . $page . ")' class='text'>next project</div>";
     }
     echo "</div>";
 }

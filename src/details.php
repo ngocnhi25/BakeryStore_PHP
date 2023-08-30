@@ -5,7 +5,7 @@ require_once('handles_page/handle_calculate.php');
 
 $arraySale = [];
 $saleProductID = '';
-
+$product_id_from_url = isset($_GET['product_id']) ? $_GET['product_id'] : null;
 if (isset($_SESSION["auth_user"])) {
   $user_id = $_SESSION["auth_user"]["user_id"];
 }
@@ -19,9 +19,12 @@ $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeSingleResult("SELECT * FROM tb_products p where product_id = $id");
 $cate_id = $product["cate_id"];
 $saleProductID = executeSingleResult("SELECT * FROM tb_sale WHERE product_id = $id and CURDATE() BETWEEN start_date AND end_date");
-$flaror = executeResult("select * from tb_flavor");
-$size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id where cz.cate_id = $cate_id");
-$thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+$flaror = executeResult("SELECT * from tb_flavor WHERE deleted_flavor = 0 and qti_flavor > 0");
+$size = executeResult("SELECT * from tb_size z 
+                        INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id 
+                        where cz.cate_id = $cate_id and z.deleted_size = 0 and z.qti_boxes_size > 0 
+                        ORDER BY z.size_name ASC");
+$thumb = executeResult("SELECT * from tb_thumbnail where product_id = $id");
 
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
 
@@ -334,8 +337,6 @@ function calculateSaleProductDetails()
             </form>
           </div>
         </div>
-
-
         <?php
         // Include your danhgia class and other necessary code here
         class Database
@@ -420,7 +421,7 @@ function calculateSaleProductDetails()
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["submit_danhgia"])) {
           require_once 'connect/connectDB.php'; // Adjust the path to the database file
-
+        
           $db = new Database();
           $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
           $user_id = $_POST["user_id"];
@@ -543,7 +544,7 @@ function calculateSaleProductDetails()
             if ($reviewCount > 0) {
               foreach ($reviewArray as $review) {
                 if ($review['product_id'] == $product_id) {
-            ?>
+                  ?>
                   <div class="review">
                     <p><strong>Name:</strong>
                       <?php echo $review['name']; ?> -
@@ -565,7 +566,7 @@ function calculateSaleProductDetails()
                       <?php echo isset($review['comment']) ? $review['comment'] : ''; ?>
                     </p>
                   </div>
-            <?php
+                  <?php
                 }
               }
             } else {
@@ -575,45 +576,11 @@ function calculateSaleProductDetails()
           </div>
         </div>
       </div>
-      <!-- Hiển thị phần đánh giá sản phẩm -->
-      <!-- <div class="row mt-5">
-            <div class="col-12">
-              <h3>Đánh giá sản phẩm</h3>
-              <?php
-              // Thêm mã PHP để hiển thị danh sách đánh giá
-              // $hostname = "localhost";
-              // $usernamedb = "root";
-              // $passworddb = "";
-              // $database = "projecthk2";
-              
-              // $conn = new mysqli($hostname, $usernamedb, $passworddb, $database);
-              
-              // if ($conn->connect_error) {
-              //   die("Connection failed: " . $conn->connect_error);
-              // }
-              
-              $product_id = 1; // ID của sản phẩm
-              
-              // $sql = "SELECT * FROM reviews WHERE product_id = $product_id";
-              // $result = $conn->query($sql);
-              $reviews = executeResult("SELECT * FROM reviews WHERE product_id = $id");
-              if ($reviews) {
-                foreach ($reviews as $review) {
-                  echo "<p>Người đánh giá: " . $review['name'] . "</p>";
-                  echo "<p>Đánh giá: " . $review['rating'] . "/5</p>";
-                  echo "<p>Bình luận: " . $review['comment'] . "</p>";
-                  echo "<p>Ngày đánh giá: " . $review['created_at'] . "</p>";
-                  echo "<hr>";
-                }
-              } else {
-                echo "Chưa có đánh giá nào cho sản phẩm này.";
-              }
-              ?>
-            </div>
-          </div> -->
+
     </div>
   </div>
 </section>
+
 <section class="section-paddingY middle-section product-page">
   <div class="container">
     <div class="section-body">

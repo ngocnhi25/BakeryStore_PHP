@@ -60,7 +60,7 @@ function minPrice()
             </div>
             <div class="select-container">
                 <select name="category" class="select-box" id="cateSearch">
-                    <option value="">__All Category__</option>
+                    <option value="all">__All Category__</option>
                     <?php foreach ($cates as $key => $c) { ?>
                         <option value="<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></option>
                     <?php } ?>

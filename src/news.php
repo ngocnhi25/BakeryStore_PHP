@@ -2,13 +2,13 @@
 require_once("connect/connectDB.php");
 
 
-$cate = executeResult("SELECT c.cate_id, c.cate_name 
-                        FROM tb_category c
+$cate = executeResult("SELECT c.new_cate_id, c.new_cate_name 
+                        FROM tb_news_cate c
                         INNER JOIN tb_news p 
-                        ON c.cate_id = p.new_cate_id 
-                        GROUP BY c.cate_name DESC");
+                        ON c.new_cate_id = p.new_cate_id 
+                        GROUP BY c.new_cate_name DESC");
 
-$limit = 1;
+$limit = 3;
 $page = 1;
 $number = 0;
 $cate_id = $countResult = '';
@@ -73,8 +73,8 @@ if ($countResult != null) {
           <hr>
           <?php foreach ($cate as $c) { ?>
             <li class="item-nav">
-              <a href="?cate_id=<?= $c["cate_id"] ?>">
-                <?php echo $c["cate_name"] ?>
+              <a href="?new_cate_id=<?= $c["new_cate_id"] ?>">
+                <?php echo $c["new_cate_name"] ?>
               </a>
             </li>
           <?php } ?>

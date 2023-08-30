@@ -1,11 +1,19 @@
 <?php
+session_start();
 require_once("../../../connect/connectDB.php");
 
 $errorNum = 0;
-$errors = '';
+$errors = $product_name = $qty_warehouse = $user_id = $qtyProduct = $content = '';
+
+if (isset($_SESSION["auth_user"])) {
+    $user_id = $_SESSION["auth_user"]["user_id"];
+}
 
 if(isset($_POST["id"])){
     $id = $_POST["id"];
+    $product = executeSingleResult("SELECT product_name, qty_warehouse FROM tb_products where product_id = $id");
+    $product_name = $size["product_name"];
+    $qty_warehouse = $size["qty_warehouse"];
 }
 
 if(isset($_POST["qtyProduct"]) && !empty($_POST["qtyProduct"])){
@@ -20,7 +28,15 @@ if(isset($_POST["qtyProduct"]) && !empty($_POST["qtyProduct"])){
 }
 
 if($errorNum == 0){
-    execute("UPDATE tb_products SET deleted = 0, qty_warehouse = $qtyProduct WHERE product_id = $id");
+    $success = execute("UPDATE tb_products SET deleted = 0, qty_warehouse = $qtyProduct WHERE product_id = $id");
+    if($qty_warehouse == $qtyProduct) {
+        $content = 'has updated the status for product ' . $product_name . ' to display';
+    } else {
+        $content = 'has updated the quantity to ' . $qtiBoxSize .' for product' . $size_name;
+    }
+    if($success){
+        historyOperation($user_id, $content);
+    }
     echo 'success';
 } else {
     echo $errors;

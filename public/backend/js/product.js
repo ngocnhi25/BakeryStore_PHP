@@ -115,6 +115,7 @@ function showProducts() {
         url: "handles/search/filter_search_product.php",
         method: "POST",
         data: { 
+            filter_cate: $("#cateSearch").val(),
             arrangeProduct: $("#arrangeProduct").val() 
         },
         success: function (res) {
@@ -133,6 +134,10 @@ $(document).ready(function () {
                 url: "handles/search/filter_search_product.php",
                 method: "POST",
                 data: {
+                    filter_price: { 
+                        from: sliderOne.val(), 
+                        to: sliderTwo.val() 
+                    },
                     filter_search: search,
                     arrangeProduct: $("#arrangeProduct").val()
                 },
@@ -141,17 +146,17 @@ $(document).ready(function () {
                 }
             });
         } else {
-            $("#search-result-product").hide().empty();
+            showProducts();
         }
     });
 
     $("#cateSearch").on("change", function () {
         const cateID = $(this).val();
-        $("#filter-search-product").val("");
         $.ajax({
             url: "handles/search/filter_search_product.php",
             method: "POST",
             data: {
+                filter_search: $("#filter-search-product").val(),
                 filter_cate: cateID,
                 filter_price: { 
                     from: sliderOne.val(), 
@@ -167,11 +172,11 @@ $(document).ready(function () {
 
     $("#arrangeProduct").on("change", function () {
         const arrangeProduct = $(this).val();
-        $("#filter-search-product").val("");
         $.ajax({
             url: "handles/search/filter_search_product.php",
             method: "POST",
             data: {
+                filter_search: $("#filter-search-product").val(),
                 filter_cate: $("#cateSearch").val(),
                 filter_price: { 
                     from: sliderOne.val(), 
@@ -186,11 +191,11 @@ $(document).ready(function () {
     });
 
     sliderOne.on("change", function () {
-        $("#filter-search-product").val("");
         $.ajax({
             url: "handles/search/filter_search_product.php",
             method: "POST",
             data: {
+                filter_search: $("#filter-search-product").val(),
                 filter_price: { 
                     from: slideOne(), 
                     to: sliderTwo.val() 
@@ -204,11 +209,11 @@ $(document).ready(function () {
         });
     });
     sliderTwo.on("change", function () {
-        $("#filter-search-product").val("");
         $.ajax({
             url: "handles/search/filter_search_product.php",
             method: "POST",
             data: {
+                filter_search: $("#filter-search-product").val(),
                 filter_price: { 
                     from: sliderOne.val(), 
                     to: slideTwo()
@@ -256,13 +261,12 @@ function fillColor() {
 }
 
 function product_previous(id) {
-    const search = $("#filter-search-product").val();
     $.ajax({
         url: "handles/search/filter_search_product.php",
         method: "POST",
         data: {
             page: id - 1,
-            filter_search: search,
+            filter_search: $("#filter-search-product").val(),
             filter_price: { 
                 from: sliderOne.val(), 
                 to: sliderTwo.val() 
@@ -276,13 +280,12 @@ function product_previous(id) {
     });
 };
 function product_next(id) {
-    const search = $("#filter-search-product").val();
     $.ajax({
         url: "handles/search/filter_search_product.php",
         method: "POST",
         data: {
             page: (id + 1),
-            filter_search: search,
+            filter_search: $("#filter-search-product").val(),
             filter_price: { 
                 from: sliderOne.val(), 
                 to: sliderTwo.val() 

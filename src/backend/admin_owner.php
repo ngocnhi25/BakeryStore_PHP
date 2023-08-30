@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 session_start();
 require_once("../connect/connectDB.php");
 if (isset($_SESSION["auth_user"])) {
@@ -133,13 +135,6 @@ if (isset($_SESSION["auth_user"])) {
                         <a href="orders.php" class="nav-link">
                             <span class="material-symbols-sharp">receipt_long</span>
                             <h3>Orders</h3>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
-                            <span class="material-symbols-sharp">mail</span>
-                            <h3>Feedbacks</h3>
-                            <span class="message-count">27</span>
                         </a>
                     </li>
                     <li class="nav-item">

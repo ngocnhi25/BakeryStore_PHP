@@ -28,7 +28,7 @@ function checkedFilter($value)
       <ol class="breadcrumb">
         <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="home.php" itemprop="item">
-            <span itemprop="name">Trang chủ</span>
+            <span itemprop="name">Home page</span>
             <meta itemprop="position" content="1" />
           </a>
         </li>
