@@ -152,15 +152,15 @@ if (
             move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
         }
         
-        
-        $content = 'has added a news ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+        if($success){
+            $content = 'has added a news ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
             $imageUpdate = $images[0];
-            execute("UPDATE tb_news SET 
+            $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
                 new_image = '$imageUpdate', 
                 new_description = '$description'
@@ -175,15 +175,16 @@ if (
                 move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
             }
         } else {
-            execute("UPDATE tb_news SET 
+            $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
                 new_description = '$description'
             WHERE new_id = $id");
         }
         
-        $content = 'has updated to flavor ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+        if($success){
+            $content = 'has updated to flavor ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     }
 } else {

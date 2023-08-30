@@ -62,3 +62,14 @@ function checkRowTable($sql)
     mysqli_close($con);
     return $row;
 }
+
+function historyOperation($user_id, $content)
+{
+    date_default_timezone_set('Asia/Bangkok');
+    $date = date('Y-m-d H:i:s');
+
+    execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
+    VALUES ($user_id, '$content', '$date')");
+
+    return false;
+}

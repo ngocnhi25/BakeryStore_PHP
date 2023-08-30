@@ -168,7 +168,7 @@ if (
         $sql = "INSERT INTO tb_products 
         (cate_id, product_name, image, price, description, create_date, view, qty_warehouse, deleted) VALUES
         ($cateID, '$name', '$imageInsert', $price, '$description', '$date', 0, $qtyProduct, 0)";
-        execute($sql);
+        $success = execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(product_id) as new_id_product FROM tb_products");
         $new_id = $new_id_product["new_id_product"];
         for ($i = 1; $i < count($images); $i++) {
@@ -181,14 +181,15 @@ if (
             move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
         }
 
-        $content = 'has added a new product ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+        if($success){
+            $content = 'has added a new product ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     } else {
         if ($noUpdateImage == 0) {
             $imageUpdate = $images[0];
-            execute("UPDATE tb_products SET 
+            $success = execute("UPDATE tb_products SET 
                 cate_id = '$cateID', product_name = '$name', 
                 image = '$imageUpdate', price = '$price', 
                 description = '$description', update_date = '$date',
@@ -204,15 +205,17 @@ if (
                 move_uploaded_file($uploads_tmp_name[$i], $uploads_imagesLink[$i]);
             }
         } else {
-            execute("UPDATE tb_products SET 
+            $success = execute("UPDATE tb_products SET 
                 cate_id = '$cateID', product_name = '$name', 
                 price = '$price', description = '$description', 
                 update_date = '$date'
             WHERE product_id = $id");
         }
-        $content = 'has updated to product ' . $name;
-        execute("INSERT INTO tb_shop_history (user_id, action, action_time) 
-        VALUES ($user_id, '$content', '$date')");
+
+        if($success){
+            $content = 'has updated to product ' . $name;
+            historyOperation($user_id, $content);
+        }
         echo 'success';
     }
 } else {
