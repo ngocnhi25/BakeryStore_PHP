@@ -136,13 +136,6 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="./signIn.php" class="nav-link">
-                            <span class="material-symbols-sharp">mail</span>
-                            <h3>Feedbacks</h3>
-                            <span class="message-count">27</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a href="sale.php" class="nav-link">
                             <span class="material-symbols-sharp">shopping_cart_checkout</span>
                             <h3>Sale</h3>

@@ -2,7 +2,7 @@
 session_start();
 require_once("connect/connectDB.php");
 
-$user_id = '';
+$user_id = $phone = $email = '';
 $user = [];
 
 if (isset($_SESSION["auth_user"])) {
