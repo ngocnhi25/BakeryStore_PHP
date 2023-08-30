@@ -5,8 +5,11 @@ require_once('connect/connectDB.php');
 if (isset($_GET["new_id"])) {
   $id = $_GET['new_id'];
   $product = executeSingleResult("SELECT * FROM tb_news WHERE new_id = $id");
-  $cate = executeSingleResult("SELECT * FROM tb_category ");
+  $cate = executeSingleResult("SELECT * FROM tb_news_cate ");
+  $news = executeResult("SELECT * FROM tb_news");
 }
+// $maxProductsToShowCarosel = 10;
+
 
 // Lấy dữ liệu sản phẩm và danh mục tương ứng từ cơ sở dữ liệu
 // $cateProduct = $product["cate_id"];
@@ -15,17 +18,79 @@ if (isset($_GET["new_id"])) {
 //                           where c.cate_id = $cate and p.deleted = 0");
 //Breadcrumbs setup
 
-?>
+// function productItemDisplay($p)
+// {
+//   return "
+//   <div class='product-images'>
+//       <a href='new_details.php?product_id=" . $p['new_title'] . "'>
+//         <div class='product-image hover-animation'>
+//           <img src='../" . $p['new_image'] . "' alt='Opera Cake ' />
+//           <img src='../" . $p['new_image'] . "' alt='Opera Cake ' />
+//         </div>
+//       </a>
 
 
+//     </div>
+//     <div class='product-info'>
+//       <p class='product-name'>
+//         <a href='new_details.php?new__id=" . $p['new_id'] . "'>
+//           " . $p['new_title'] . "
+//         </a>
+//       </p>
+
+//     </div>
+//   ";
+// }
+// function showProductCarosel($p)
+// {
+//   echo "
+//   <div class='one-product-container product-carousel'>
+//     " . productItemDisplay($p) . "
+//   </div>
+//   ";
+// }
+// ?>
 
 <head>
   <style>
     .product_detail_carosel {
       width: 250px;
     }
+
+    .product-page {
+      text-align: center;
+      /* Để căn giữa tất cả nội dung trong phần product-page */
+    }
+
+    .product-name {
+      margin-bottom: 20px;
+      /* Khoảng cách dưới tiêu đề */
+    }
+
+    .product-imgs {
+      margin-bottom: 20px;
+      /* Khoảng cách dưới hình ảnh */
+    }
+
+    .big-img {
+      display: inline-block;
+      /* Để hình ảnh hiển thị bên cạnh mô tả */
+    }
+
+    #mainBigImage {
+      max-width: 100%;
+      /* Đảm bảo hình ảnh không vượt quá kích thước của phần tử chứa */
+    }
+
+    .tab-content {
+      text-align: left;
+      /* Căn lề trái cho nội dung mô tả */
+    }
   </style>
+
 </head>
+
+
 <?php include("layout/header.php") ?>
 <?php if (isset($_SESSION['status'])) { ?>
   <script>
@@ -49,7 +114,7 @@ if (isset($_GET["new_id"])) {
         <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
           <a href="#" itemprop="item">
             <span itemprop="name">
-              <?php echo $cate['cate_name']; ?>
+              <?php echo $cate['new_cate_name']; ?>
             </span>
             <meta itemprop="position" content="2" />
           </a>
@@ -70,139 +135,68 @@ if (isset($_GET["new_id"])) {
 <section class="section-paddingY middle-section product-page">
   <div class="container">
 
-    <!-- <div class="col-md-3">
-        <ul class="menu-category">
-          <li><span class="title-category">Danh mục Tin Tức</span></li>
-          <hr>
-          <?php foreach ($cate as $c) { ?>
-            <li class="item-nav">
-              <a href="?cate_id=<?= $c["cate_id"] ?>">
-                <?php echo $c["cate_name"] ?>
-              </a>
-            </li>
-          <?php } ?>
-        </ul>
-      </div> -->
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-12 col-lg-7">
-          <div class="detail-header show-mobile">
-
-            <h5 class="product-name">
-              <?php echo $product["new_title"] ?>
-            </h5>
-
-          </div>
-          <div class="product-imgs">
-            <div class="big-img">
-              <img id="mainBigImage" src="../<?php echo $image ?>">
-            </div>
-
-          </div>
-          <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-
-              <p><span style="font-size: 12px;">
-                  <?php echo $product["new_description"] ?>
-                </span></p>
-
-            </div>
-          </div>
-        </div>
+    <h5 class="product-name">
+      <?php echo $product["new_title"] ?>
+    </h5>
 
 
-        <!-- <div class="col-12 mt-5">
-            <div class="card-content-pro">
+    <div class="product-imgs">
+      <div class="big-img">
+        <img id="mainBigImage" src="../<?php echo $product["new_image"] ?>">
+      </div>
 
-              <div class="clients-carousel owl-carousel">
-                <?php foreach ($product as $carou) { ?>
-                  <div class="single-box">
-                    <div class="content">
-                      <img src="<?php echo $carou['new_image']; ?>" alt="<?php echo $carou['new_title']; ?>">
-                      <h4>
-                        <?php echo $carou['new_title']; ?>
-                      </h4>
+    </div>
+    <!-- <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-                    </div>
-                  </div>
-                <?php } ?>
-              </div>
-
-            </div>
-          </div> -->
-        <!-- <div class="col-12 mt-5">
-            <div class="card-content-pro">
-
-              <div class="clients-carousel owl-carousel owl-theme">
-                <?php foreach ($product as $p) { ?>
-                  <div class='col-6 col-sm-6 col-lg-4 col-xl-4 pl-1 pr-1 my-2'>
-                    <div class='one-product-container product-carousel product_detail_carosel'>
-                      <div class="product-images">
-                        <a href="new_details.php?new_id=<?= $p["new_id"] ?>">
-                          <div class="product-image hover-animation">
-                            <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                            <img src="../<?php echo $p["image"] ?>" alt="Opera Cake " />
-                          </div>
-                        </a>
-                        
-                      </div>
-                      <div class="product-info">
-                        <div class="product-name">
-                          <a href="new_details.php?new_id=<?php $p["new_id"] ?>">
-                            <?php echo $p["new_title"] ?>
-                          </a>
-                        </div>
-                        
-                      </div>
-                    </div>
-                  </div>
-                <?php } ?>
-              </div>
-
-            </div>
-          </div> -->
-
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.2.1/owl.carousel.min.js">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js">
-        </script>
-        <script>
-          $('.clients-carousel').owlCarousel({
-            loop: true,
-            nav: false,
-            autoplay: true,
-            autoplayTimeout: 5000,
-            animateOut: 'fadeOut',
-            animateIn: 'fadeIn',
-            smartSpeed: 450,
-            margin: 30,
-            responsive: {
-              0: {
-                items: 1
-              },
-              768: {
-                items: 2
-              },
-              991: {
-                items: 2
-              },
-              1200: {
-                items: 2
-              },
-              1920: {
-                items: 2
-              }
-            }
-          });
-        </script>
 
 
       </div>
-    </div>
+    </div> -->
+    <p>
+      <span style="font-size: 12px;">
+        <?php echo $product["new_description"] ?>
+      </span>
+    </p>
 
+  </div>
+</section>
+<section class="section-paddingY middle-section home-latest-products mt-5">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-title">Related News</p>
+    </div>
+    <div class="section-body">
+      <div class="owl-carousel-news owl-carousel owl-theme">
+        <?php
+        foreach ($news as $key => $n) {
+          if ($key > 5) {
+            break;
+          } else {
+            ?>
+            <div class="article-column-container">
+              <div class="article-image">
+                <a class="product-image hover-animation" href="new_details.php?new_id=<?= $n["new_id"] ?>">
+                  <img src="../<?= $n["new_image"] ?>" alt="">
+                </a>
+                <span class="name-category">Tin tức</span>
+              </div>
+              <div class="article-info">
+                <p class="article-title">
+                  <a href="new_details.php?new_id=<?= $n["new_id"] ?>">
+                    <?= $n["new_title"] ?>
+                  </a>
+                </p>
+                <p class="article-description">
+                  <?= $n["new_description	"] ?>
+                </p>
+              </div>
+            </div>
+          <?php }
+        }
+        ?>
+      </div>
+    </div>
   </div>
 </section>
 

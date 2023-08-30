@@ -6,10 +6,10 @@ $user_id = $phone = $email = '';
 $user = [];
 
 if (isset($_SESSION["auth_user"])) {
-  $user_name = $_SESSION["auth_user"]["username"];
   $user_id = $_SESSION["auth_user"]["user_id"];
 
   $user = executeSingleResult("SELECT * FROM tb_user where user_id = $user_id");
+  $username = $user["username"];
   $phone = $user["phone"];
   $email = $user["email"];
 }
@@ -73,7 +73,7 @@ if (isset($_SESSION["auth_user"])) {
               <div class="form-group">
                 <label for="">Fullname : </label>
                 <input type="hidden" name="link" value="lien-he">
-                <input type="text" class="form-control" name="fullname" required="required" value="<?= ($user_id != null ? $user["username"] : '') ?>" placeholder="Your fullname " />
+                <input type="text" class="form-control" name="fullname" required="required" value="<?= ($user_id != null ? $username : '') ?>" placeholder="Your fullname " />
               </div>
               <div class="form-group">
                 <label for="">Phone number : </label>

@@ -1,9 +1,9 @@
 <?php
 require_once('../../connect/connectDB.php');
 
-$category = executeResult("SELECT * FROM tb_category");
+$category = executeResult("SELECT * FROM tb_news_cate");
 
-$name = $thumbnails = $cateID = $price = $description = $id = $title = '';
+$name = $thumbnails = $cateID = $price = $description = $id = $title = $summary = '';
 $images = [];
 
 if (isset($_POST["id"])) {
@@ -16,6 +16,7 @@ if (isset($_POST["id"])) {
 
     $name = $product["new_title"];
     $cateID = $product["new_cate_id"];
+    $summary = $product["new_summary"];
     $description = $product['new_description'];
     $images[0] = $product['new_image'];
 
@@ -161,32 +162,38 @@ function checkCate($value)
     </style>
 </head>
 <div class="page-box">
-    <h1 class="title-page"><?php echo (($title != null ? $title : 'Add new News')) ?></h1>
+    <h1 class="title-page">
+        <?php echo (($title != null ? $title : 'Add new News')) ?>
+    </h1>
     <div>
         <form method="post" enctype="multipart/form-data" action="">
             <div class="addPro-wapper">
                 <?php if ($id != null) { ?>
                     <div>
-                        <p>ID: <span><?php echo $id ?></span></p>
+                        <p>ID: <span>
+                                <?php echo $id ?>
+                            </span></p>
                     </div>
                 <?php } ?>
                 <div class="product-input-box">
                     <div class="product-input">
                         <div class="input-animation">
                             <div class="input-box">
-                                <input id="input-name" type="text" name="name" value="<?php echo (($name != null ? $name : '')) ?>" required>
+                                <input id="input-name" type="text" name="name"
+                                    value="<?php echo (($name != null ? $name : '')) ?>" required>
                                 <label for="">News Title</label> <br>
                             </div>
                             <div class="errorName error" style="color: red;"></div>
                         </div>
-                        
+
                     </div>
                     <div class="input-animation">
                         <div class="select-container">
                             <select id="input-cateID" name="cateID" class="select-box">
                                 <option value="">___Category___</option>
                                 <?php foreach ($category as $cate) { ?>
-                                    <option value="<?= $cate["cate_id"] ?>" <?php checkCate($cate["cate_id"]); ?>><?= $cate["cate_name"] ?></option>
+                                    <option value="<?= $cate["new_cate_id"] ?>" <?php checkCate($cate["new_cate_id"]); ?>>
+                                        <?= $cate["new_cate_name"] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
@@ -195,7 +202,8 @@ function checkCate($value)
                 </div>
                 <div class="image-box">
                     <label for="">Images: </label>
-                    <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file" multiple="multiple" accept="image/*">
+                    <input id="input-images" name="images[]" onchange="delete_oldThumbnail()" type="file"
+                        multiple="multiple" accept="image/*">
                     <div id="preview-images"></div>
                     <?php if ($images != null) { ?>
                         <div id="oldThumbnail">
@@ -208,17 +216,33 @@ function checkCate($value)
                 </div>
             </div>
             <div class="ckeditor-box">
-                <textarea id="description" name="new_description">
-                    <?php echo (($description != null ? $description : '')) ?>
-                </textarea>
-                <div class="errorDescription" style="color: red;"></div>
+            <div>
+                    <label for="">Summary:</label>
+                    <textarea id="summary" name="new_summary">
+                        <?php echo (($summary != null ? $summary : '')) ?>
+                    </textarea>
+                    <div class="errorSummary" style="color: red;"></div>
+                </div>
+            </div>
+            <div class="ckeditor-box">
+                
+                <div>
+                    <label for="">Description:</label>
+                    <textarea id="description" name="new_description">
+                        <?php echo (($description != null ? $description : '')) ?>
+                    </textarea>
+                    <div class="errorDescription" style="color: red;"></div>
+                </div>
+
             </div>
             <button id="submitData" class="submit" type="button">Submit</button>
         </form>
     </div>
     <div id="success">
         <div class="message">
-            <p><?php echo (($id == null ? 'News successfully added to the data!' : 'Successfully fixed the product in the data!')) ?></p>
+            <p>
+                <?php echo (($id == null ? 'News successfully added to the data!' : 'Successfully fixed the product in the data!')) ?>
+            </p>
             <div class="button-success">
                 <button id="okButton">Ok</button>
             </div>
@@ -227,21 +251,24 @@ function checkCate($value)
 </div>
 
 <script>
+    CKEDITOR.replace('summary');
     CKEDITOR.replace('description');
 </script>
 <script type="text/javascript">
     $("#success").hide();
-    $("#submitData").click(function(e) {
+    $("#submitData").click(function (e) {
         e.preventDefault();
-        $(document).ready(function() {
+        
+        $(document).ready(function () {
             var formData = new FormData();
-
+            
             <?php if ($id != null) { ?>
                 formData.append("id", <?php echo $id ?>);
             <?php } ?>
-
+            
             formData.append("name", $('#input-name').val());
             formData.append("cateID", $('#input-cateID').val());
+            formData.append("new_summary", CKEDITOR.instances.summary.getData());
             formData.append("new_description", CKEDITOR.instances.description.getData());
 
             var totalFiles = $('#input-images').get(0).files.length;
@@ -255,8 +282,8 @@ function checkCate($value)
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(res) {
-                    // alert(res);
+                success: function (res) {
+                    
                     if (res === 'success') {
                         showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {
@@ -281,20 +308,23 @@ function checkCate($value)
         })
     })
 
-    $(document).ready(function() {
-        $('#input-images').on("change", function() {
+    $(document).ready(function () {
+        $('#input-images').on("change", function () {
             previewFiles(this, "#preview-images", 200);
             $(".errorImages").empty().append('');
         });
 
-        $('#input-name').on("keyup", function() {
+        $('#input-name').on("keyup", function () {
             $(".errorName").empty().append('');
         });
 
-        $('#input-cateID').on("change", function() {
+        $('#input-cateID').on("change", function () {
             $(".errorCateID").empty().append('');
         });
-        $('#description').on("change", function() {
+        $('#new_summary').on("change", function () {
+            $(".errorSummary").empty().append('');
+        });
+        $('#description').on("change", function () {
             $(".errorDescription").empty().append('');
         });
     });
