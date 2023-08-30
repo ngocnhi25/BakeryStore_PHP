@@ -70,6 +70,13 @@ if (isset($_POST["email"])) {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors["errorEmail"] = "Invalid email format.";
         $errorNum = 1;
+    } else{
+        $sql_checkmail = "SELECT * FROM tb_user WHERE email = '$email'";
+        $sql_checkmail_run = mysqli_query($conn,  $sql_checkmail);
+        if (mysqli_num_rows($sql_checkmail_run) > 0) {
+            $errors["errorEmail"] = "Email does exist ";
+            $errorNum = 1;
+        }
     }
 }
 
@@ -97,27 +104,20 @@ if (isset($_POST["salary"])) {
 
 
 
+
+
 if ($errorNum === 0) {
     // Hash the password before storing it in the database
     $hashed_password = md5($password);
-
-    $sql_checkmail = "SELECT * FROM tb_user WHERE email = '$email'";
-    $sql_checkmail_run = mysqli_query($conn,  $sql_checkmail);
-
-    if (mysqli_num_rows($sql_checkmail_run) > 0) {
-        echo 'exist';
+    $sql_newUser = "INSERT INTO tb_user (username, email, phone, password, status, role,salary) VALUES ('$username', '$email', '$phone', '$hashed_password', $status, $role,$salary)";
+    $sql_newUser_run = mysqli_query($conn, $sql_newUser);
+    if ($sql_newUser_run) {
+        echo 'success';
     } else {
-        $sql_newUser = "INSERT INTO tb_user (username, email, phone, password, status, role,salary) VALUES ('$username', '$email', '$phone', '$hashed_password', $status, $role,$salary)";
-        $sql_newUser_run = mysqli_query($conn, $sql_newUser);
-        if ($sql_newUser_run) {
-            echo 'success';
-        } else {
-            echo 'fail';
-        }
+        echo 'fail';
     }
-
 } else {
-// Validation failed, send error messages back to frontend
-echo json_encode($errors);
+    // Validation failed, send error messages back to frontend
+    echo json_encode($errors);
 }
 
