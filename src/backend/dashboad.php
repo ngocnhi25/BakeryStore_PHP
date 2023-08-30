@@ -7,7 +7,7 @@ $countEmp = executeSingleResult("SELECT count(*) as emp FROM tb_user where role 
 $countOwner = executeSingleResult("SELECT count(*) as owner FROM tb_user where role = 3");
 $countProduct = executeSingleResult("SELECT count(*) as product FROM tb_products");
 $countCate = executeSingleResult("SELECT count(*) as cate FROM tb_category");
-$fourEmperorsBuy = executeResult("SELECT *, SUM(total_pay) as total FROM tb_user u 
+$fourEmperorsBuy = executeResult("SELECT *, SUM(deposit) as total FROM tb_user u 
                                 INNER JOIN tb_order o ON u.user_id = o.user_id
                                 where o.status = 'completed' GROUP BY u.user_id ORDER BY total DESC limit 3");
 $historyOperationStore = executeResult("SELECT * FROM tb_shop_history sh

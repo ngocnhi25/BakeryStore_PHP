@@ -19,9 +19,12 @@ $cartItems = executeResult("SELECT * FROM tb_cart");
 $product = executeSingleResult("SELECT * FROM tb_products p where product_id = $id");
 $cate_id = $product["cate_id"];
 $saleProductID = executeSingleResult("SELECT * FROM tb_sale WHERE product_id = $id and CURDATE() BETWEEN start_date AND end_date");
-$flaror = executeResult("select * from tb_flavor");
-$size = executeResult("SELECT * from tb_size z INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id where cz.cate_id = $cate_id");
-$thumb = executeResult("select * from tb_thumbnail where product_id = $id");
+$flaror = executeResult("SELECT * from tb_flavor WHERE deleted_flavor = 0 and qti_flavor > 0");
+$size = executeResult("SELECT * from tb_size z 
+                        INNER JOIN tb_cate_size cz ON z.size_id = cz.size_id 
+                        where cz.cate_id = $cate_id and z.deleted_size = 0 and z.qti_boxes_size > 0 
+                        ORDER BY z.size_name ASC");
+$thumb = executeResult("SELECT * from tb_thumbnail where product_id = $id");
 
 $sale = executeResult("SELECT * FROM tb_sale WHERE CURDATE() BETWEEN start_date AND end_date");
 
@@ -577,6 +580,7 @@ function calculateSaleProductDetails()
     </div>
   </div>
 </section>
+
 <section class="section-paddingY middle-section product-page">
   <div class="container">
     <div class="section-body">

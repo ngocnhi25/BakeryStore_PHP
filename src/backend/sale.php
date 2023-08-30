@@ -19,183 +19,258 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
 
 ?>
 
-<div style=" width: 100%; padding-bottom: 30px;">
+<head>
+    <style>
+        .container-filter-table-coupon {
+            position: relative;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .table-coupon {
+            width: 100%;
+            border-collapse: collapse;
+            position: relative;
+        }
+
+        .table-coupon thead th {
+            font-size: 13px;
+            color: #000;
+            padding: 0.5rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            left: 0;
+            background-color: #e2ebee;
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        .table-coupon thead th:last-child {
+            border: none;
+        }
+
+        .table-coupon thead th:first-child,
+        .table-coupon tbody td:first-child {
+            text-align: center;
+            width: 3.7rem;
+        }
+
+        .table-coupon tbody tr:nth-child(even) {
+            background-color: #0000000b;
+        }
+
+        .table-coupon tbody tr:hover {
+            background-color: #d7f4f7e3 !important;
+        }
+
+        .table-coupon td {
+            border-collapse: collapse;
+            padding: 0.6rem;
+            text-align: center;
+            color: #717171;
+        }
+
+        .table-coupon-box,
+        .table-sale-box {
+            margin-top: 1rem;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 0.6rem;
+            box-shadow: 0 0 3px #d2d2d2;
+            overflow: auto;
+        }
+
+        .container-filter-table-sale {
+            position: relative;
+            width: 100%;
+        }
+
+        .sale-box-temp {
+            margin-top: 30px;
+        }
+
+        .sale-box-temp .sale-box {
+            display: flex;
+            gap: 2rem;
+            margin-top: 20px;
+        }
+
+        .sale-box-temp .sale-box .pagination-sale,
+        .container-filter-table-coupon .pagination-coupon {
+            position: absolute;
+            display: flex;
+            gap: 0.5rem;
+            font-size: 16px;
+            top: 0;
+            right: 20px;
+        }
+
+        .sale-box-temp .sale-box .pagination-sale button,
+        .container-filter-table-coupon .pagination-coupon button {
+            box-shadow: none;
+            padding: 0.2rem 0.5rem;
+        }
+
+        .sale-box-temp .sale-box .pagination-sale button:hover,
+        .container-filter-table-coupon .pagination-coupon button:hover {
+            background-color: #57b3ff;
+        }
+
+        .sale-box-temp .sale-box .pagination-sale button span,
+        .container-filter-table-coupon .pagination-coupon button span {
+            font-size: 12px;
+        }
+
+        .sale-page .filter-action {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<div class="sale-page">
     <div>
         <h1>Voucher management</h1>
-        <form action="">
-            <div class="add-coupon">
-                <div class="coupon-left">
-                    <div class="coupon-input">
-                        <p>Voucher code:</p>
-                        <div class="box-input">
-                            <input type="text" id="input-coupon-name" value="<?= ($idCoupon != null ? $couponUpdate["coupon_name"] : '') ?>">
-                        </div>
-                        <div class="error errorCouponName"></div>
+        <div class="add-coupon">
+            <div class="coupon-left">
+                <div class="input-container">
+                    <p>Voucher code:</p>
+                    <div class="box-input">
+                        <input type="text" id="input-coupon-name" value="<?= ($idCoupon != null ? $couponUpdate["coupon_name"] : '') ?>">
                     </div>
-                    <div class="coupon-input">
-                        <p>Reduction amount:</p>
-                        <div class="box-input">
-                            <input type="text" id="input-discount" value="<?= ($idCoupon != null ? $couponUpdate["discount_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                        </div>
-                        <div class="error errorDiscount"></div>
-                    </div>
-                    <div class="coupon-input">
-                        <p>Start date:</p>
-                        <div class="box-input">
-                            <input type="date" id="input-start-date-coupon" value="<?= ($idCoupon != null ? $couponUpdate["start_date"] : '') ?>">
-                        </div>
-                        <div class="error errorStartDate"></div>
-                    </div>
-                    <div class="coupon-input">
-                        <p>End date:</p>
-                        <div class="box-input">
-                            <input type="date" id="input-end-date-coupon" value="<?= ($idCoupon != null ? $couponUpdate["end_date"] : '') ?>">
-                        </div>
-                        <div class="error errorEndDate"></div>
-                    </div>
+                    <div class="error errorCouponName"></div>
                 </div>
-                <div class="coupon-right">
-                    <div class="coupon-input">
-                        <p>Conditions of using the code:</p>
-                        <div class="box-input">
-                            <input type="text" id="input-condition" value="<?= ($idCoupon != null ? $couponUpdate["condition_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                        </div>
-                        <div class="error errorCondition"></div>
+                <div class="input-container">
+                    <p>Start date:</p>
+                    <div class="box-input">
+                        <input type="date" id="input-start-date-coupon" value="<?= ($idCoupon != null ? $couponUpdate["start_date"] : '') ?>">
                     </div>
-                    <div class="coupon-input">
-                        <p>Number of times users use:</p>
-                        <div class="box-input">
-                            <input type="text" id="input-qti-used" value="<?= ($idCoupon != null ? $couponUpdate["qti_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                        </div>
-                        <div class="error errorQtiUsed"></div>
+                    <div class="error errorStartDate"></div>
+                </div>
+                <div class="input-container">
+                    <p>End date:</p>
+                    <div class="box-input">
+                        <input type="date" id="input-end-date-coupon" value="<?= ($idCoupon != null ? $couponUpdate["end_date"] : '') ?>">
                     </div>
-                    <div class="coupon-input">
-                        <p>Number of voucher:</p>
-                        <div class="box-input">
-                            <input type="text"  id="input-qti-coupon" value="<?= ($idCoupon != null ? $couponUpdate["qti_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-                        </div>
-                        <div class="error errorQtiCoupon"></div>
-                    </div>
+                    <div class="error errorEndDate"></div>
                 </div>
             </div>
-            <div>
-                <button id="addCoupon" type="button" class="submit"><?= ($idCoupon != null ? 'Save update' : 'Save') ?></button>
+            <div class="coupon-right">
+                <div class="input-container">
+                    <p>Reduction amount:</p>
+                    <div class="box-input">
+                        <input type="text" id="input-discount" value="<?= ($idCoupon != null ? $couponUpdate["discount_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+                    <div class="error errorDiscount"></div>
+                </div>
+                <div class="input-container">
+                    <p>Conditions of using the code:</p>
+                    <div class="box-input">
+                        <input type="text" id="input-condition" value="<?= ($idCoupon != null ? $couponUpdate["condition_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+                    <div class="error errorCondition"></div>
+                </div>
+                <div class="input-container">
+                    <p>Number of times users use:</p>
+                    <div class="box-input">
+                        <input type="text" id="input-qti-used" value="<?= ($idCoupon != null ? $couponUpdate["qti_used_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+                    <div class="error errorQtiUsed"></div>
+                </div>
+                <div class="input-container">
+                    <p>Number of voucher:</p>
+                    <div class="box-input">
+                        <input type="text" id="input-qti-coupon" value="<?= ($idCoupon != null ? $couponUpdate["qti_coupon"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                    </div>
+                    <div class="error errorQtiCoupon"></div>
+                </div>
             </div>
-        </form>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Code</th>
-                        <th>Reduction amount</th>
-                        <th>Conditions of use</th>
-                        <th>Users use</th>
-                        <th>Quantity coupon</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($coupons as $key => $c) { ?>
-                        <tr>
-                            <td><?= $key + 1 ?></td>
-                            <td><?= $c["coupon_name"] ?></td>
-                            <td><?= displayPrice($c["discount_coupon"]) ?> vnđ</td>
-                            <td><?= displayPrice($c["condition_used_coupon"]) ?> vnđ</td>
-                            <td><?= $c["qti_used_coupon"] ?></td>
-                            <td><?= $c["qti_coupon"] ?></td>
-                            <td><?= $c["start_date"] ?></td>
-                            <td><?= $c["end_date"] ?></td>
-                            <td>
-                                <button onclick="updateCoupon(<?= $c['coupon_id'] ?>)" class="update">Update</button>
-                                <button onclick="deleteCoupon('<?= $c['coupon_name'] ?>', <?= $c['coupon_id'] ?>)" class="delete">Delete</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+            <button id="addCoupon" type="button" class="submit addCoupon"><?= ($idCoupon != null ? 'Save update' : 'Save') ?></button>
+        </div>
+        <div class="container-filter-table-coupon">
+            <div class="filter-action">
+                <div class="select-container">
+                    <select name="category" class="select-box" id="arrangeCoupon">
+                        <option value="new_to_old">new - old</option>
+                        <option value="old_to_new">old - new</option>
+                        <option value="a_z">a - z</option>
+                        <option value="z_a">z - a</option>
+                    </select>
+                </div>
+                <div class="form-search-header">
+                    <span class="material-symbols-sharp icon">search</span>
+                    <input id="filter-search-coupon" type="text" name="search" placeholder="Search product..." class="form-control">
+                </div>
+            </div>
+            <div class="table-coupon-box"></div>
         </div>
     </div>
-    <div>
+    <div class="sale-box-temp">
         <h1>Sale product management</h1>
-        <div>
-            <form action="">
-                <div class="add-coupon">
-                    <div class="coupon-left">
-                        <div class="coupon-input">
-                            <p>Product name:</p>
-                            <div class="search-product">
-                                <div class="box-input">
-                                    <input type="text" id="input-product-name" value="<?= ($idSale != null ? $saleUpdate["product_name"] : '') ?>" <?= ($idSale != null ? 'readonly' : '') ?>>
-                                </div>
-                                <div id="search-result-product"></div>
-                            </div>
-                            <div class="error errorProductName"></div>
-                        </div>
-                        <div class="coupon-input">
-                            <p>Percent sale:</p>
+        <div class="sale-box">
+            <div class="add-sale">
+                <div class="sale-left">
+                    <div class="input-container">
+                        <p>Product name:</p>
+                        <div class="search-product">
                             <div class="box-input">
-                                <input type="text" id="input-percent" value="<?= ($idSale != null ? $saleUpdate["percent_sale"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                                <input type="text" id="input-product-name" value="<?= ($idSale != null ? $saleUpdate["product_name"] : '') ?>" <?= ($idSale != null ? 'readonly' : '') ?>>
                             </div>
-                            <div class="error errorPercent"></div>
+                            <div id="search-result-product"></div>
                         </div>
-                        <div class="coupon-input">
-                            <p>Start date:</p>
-                            <div class="box-input">
-                                <input type="date" id="input-start-date-sale" value="<?= ($idSale != null ? $saleUpdate["start_date"] : '') ?>">
-                            </div>
-                            <div class="error errorStartDateSale"></div>
-                        </div>
-                        <div class="coupon-input">
-                            <p>End date:</p>
-                            <div class="box-input">
-                                <input type="date" id="input-end-date-sale" value="<?= ($idSale != null ? $saleUpdate["end_date"] : '') ?>">
-                            </div>
-                            <div class="error errorEndDateSale"></div>
-                        </div>
+                        <div class="error errorProductName"></div>
                     </div>
-                </div>
-                <div>
+                    <div class="input-container">
+                        <p>Percent sale:</p>
+                        <div class="box-input">
+                            <input type="text" id="input-percent" value="<?= ($idSale != null ? $saleUpdate["percent_sale"] : '') ?>" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+                        </div>
+                        <div class="error errorPercent"></div>
+                    </div>
+                    <div class="input-container">
+                        <p>Start date:</p>
+                        <div class="box-input">
+                            <input type="date" id="input-start-date-sale" value="<?= ($idSale != null ? $saleUpdate["start_date"] : '') ?>">
+                        </div>
+                        <div class="error errorStartDateSale"></div>
+                    </div>
+                    <div class="input-container">
+                        <p>End date:</p>
+                        <div class="box-input">
+                            <input type="date" id="input-end-date-sale" value="<?= ($idSale != null ? $saleUpdate["end_date"] : '') ?>">
+                        </div>
+                        <div class="error errorEndDateSale"></div>
+                    </div>
                     <button id="addSaleProduct" type="button" class="submit"><?= ($idSale != null ? 'Save update' : 'Save') ?></button>
                 </div>
-            </form>
-        </div>
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Product name</th>
-                        <th>Percent sale</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($sale as $key => $s) { ?>
-                        <tr>
-                            <td><?= $key + 1 ?></td>
-                            <td><?= $s["product_name"] ?></td>
-                            <td><?= $s["percent_sale"] ?>%</td>
-                            <td><?= $s["start_date"] ?></td>
-                            <td><?= $s["end_date"] ?></td>
-                            <td>
-                                <button onclick="updateSale(<?= $s['sale_id'] ?>)" type="button" class="update">Update</button>
-                                <button onclick="deleteSale('<?= $s['product_name'] ?>', <?= $s['sale_id'] ?>)" type="button" class="delete">Delete</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+            </div>
+            <div class="container-filter-table-sale">
+                <div class="filter-action">
+                    <div class="select-container">
+                        <select name="category" class="select-box" id="arrangeSale">
+                            <option value="new_to_old">new - old</option>
+                            <option value="old_to_new">old - new</option>
+                            <option value="a_z">a - z</option>
+                            <option value="z_a">z - a</option>
+                            <option value="ascending_percent">ascending percentage</option>
+                            <option value="decreasing_percent">decreasing percentage</option>
+                        </select>
+                    </div>
+                    <div class="form-search-header">
+                        <span class="material-symbols-sharp icon">search</span>
+                        <input id="filter-search-sale" type="text" name="search" placeholder="Search product..." class="form-control">
+                    </div>
+                </div>
+                <div class="table-sale-box"></div>
+            </div>
         </div>
     </div>
     <div id="success">
         <div class="message">
             <p>
-                <?php if($idCoupon != null) {
+                <?php if ($idCoupon != null) {
                     echo 'Coupon has been successfully updated!';
                 } elseif ($idSale != null) {
                     echo 'Successfully updated promotional products!';
@@ -210,9 +285,8 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
     </div>
 </div>
 <script type="text/javascript">
-    
     $("#success").hide();
-    
+
     $("#addCoupon").click(function(e) {
         e.preventDefault();
         $(document).ready(function() {
@@ -274,7 +348,6 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res)
                     if (res === 'success') {
                         showSuccessMessage("sale.php");
                     } else {
@@ -290,105 +363,5 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
             })
         })
     });
-
-    function updateCoupon(id) {
-        var postData = {
-            idCoupon: id
-        }
-        ajaxPageData("sale.php", postData);
-    }
-
-    function deleteCoupon(couponName, id) {
-        const html = `
-            <div class="message-confirm-box">
-                <div class="message-confirm">
-                    <div>Are you sure to permanently delete coupon ${couponName}?</div>
-                    <div>
-                        <button class="cancel" type="button">Cancal</button>
-                        <button id="delete-coupon" class="delete" type="button">Delete</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        $("body").append(html);
-
-        $(".cancel").click(function() {
-            $(".message-confirm-box").remove();
-        });
-
-        $("#delete-coupon").click(function() {
-            $.post(
-                "handles/deletes/coupon.php", {
-                    id: id
-                },
-                function(res) {
-                    $(".message-confirm-box").remove();
-                    ajaxPages(res);
-                }
-            )
-        });
-    }
-
-    $(document).ready(function() {
-        $("#input-product-name").on("input", function() {
-            var search = $(this).val();
-            if (search !== "") {
-                $.ajax({
-                    url: "handles/search/search_product.php",
-                    method: "POST",
-                    data: {
-                        product_name: search
-                    },
-                    success: function(response) {
-                        $("#search-result-product").show().html(response);
-                        $(".product-name").click(function() {
-                            var productName = $(this).text();
-                            $("#input-product-name").val(productName);
-                            $("#search-result-product").hide().empty();
-                        })
-                    }
-                });
-            } else {
-                $("#search-result-product").hide().empty();
-            }
-        });
-    });
-
-    function updateSale(id) {
-        var postData = {
-            idSale: id
-        }
-        ajaxPageData("sale.php", postData);
-    }
-
-    function deleteSale(productName, id) {
-        const html = `
-            <div class="message-confirm-box">
-                <div class="message-confirm">
-                    <div>Are you sure to permanently delete the promotional product ${productName}?</div>
-                    <div>
-                        <button class="cancel" type="button">Cancal</button>
-                        <button id="delete-sale" class="delete" type="button">Delete</button>
-                    </div>
-                </div>
-            </div>
-        `;
-        $("body").append(html);
-
-        $(".cancel").click(function() {
-            $(".message-confirm-box").remove();
-        });
-
-        $("#delete-sale").click(function() {
-            $.post(
-                "handles/deletes/sale.php", {
-                    id: id
-                },
-                function(res) {
-                    $(".message-confirm-box").remove();
-                    ajaxPages(res);
-                }
-            )
-        });
-    }
 </script>
+<script src="../../public/backend/js/sale.js"></script>
