@@ -141,7 +141,7 @@ function showProductCarosel($p)
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-  <?php
+<?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -151,14 +151,14 @@ function showProductCarosel($p)
     <?php foreach ($ads as $key => $a) { ?>
       <div class="image_banner">
         <a href="<?php if ($a["type_ads"] == 'category') {
-          echo 'product.php?cate_id=' . $a["cate_id"];
-        } elseif ($a["type_ads"] == 'product') {
-          echo 'details.php?id=' . $a["product_id"];
-        } elseif ($a["type_ads"] == 'sale') {
-          echo 'sale.php';
-        } else {
-          echo 'news.php';
-        } ?>">
+                    echo 'product.php?cate_id=' . $a["cate_id"];
+                  } elseif ($a["type_ads"] == 'product') {
+                    echo 'details.php?id=' . $a["product_id"];
+                  } elseif ($a["type_ads"] == 'sale') {
+                    echo 'sale.php';
+                  } else {
+                    echo 'news.php';
+                  } ?>">
           <img src="../<?= $a["image_ads"] ?>" alt="" style="object-fit: cover;">
         </a>
       </div>
@@ -168,47 +168,50 @@ function showProductCarosel($p)
     <div class="banner-wapper">
       <?php foreach ($ads as $key => $a) {
         if ($key < $maxAdsSmall) {
-          ?>
+      ?>
           <div class="banner-item">
             <a href="<?php if ($a["type_ads"] == 'category') {
-              echo 'product.php?cate_id=' . $a["cate_id"];
-            } elseif ($a["type_ads"] == 'product') {
-              echo 'details.php?id=' . $a["product_id"];
-            } elseif ($a["type_ads"] == 'sale') {
-              echo 'sale.php';
-            } else {
-              echo 'news.php';
-            } ?>">
+                        echo 'product.php?cate_id=' . $a["cate_id"];
+                      } elseif ($a["type_ads"] == 'product') {
+                        echo 'details.php?id=' . $a["product_id"];
+                      } elseif ($a["type_ads"] == 'sale') {
+                        echo 'sale.php';
+                      } else {
+                        echo 'news.php';
+                      } ?>">
               <img src="../<?= $a["image_ads"] ?>" alt="">
             </a>
           </div>
-        <?php }
+      <?php }
       } ?>
     </div>
   </div>
 </section>
-<section class="section-paddingY middle-section home-latest-products mt-5">
-  <div class="container">
-    <div class="section-header">
-      <div class="hover-yellow">
-        <span class="section-title">
-          <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
-          Best Seller in
-          <?php echo getMonthNow() ?>
-        </span>
+
+<?php if ($productBestSeller) { ?>
+  <section class="section-paddingY middle-section home-latest-products mt-5">
+    <div class="container">
+      <div class="section-header">
+        <div class="hover-yellow">
+          <span class="section-title">
+            <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
+            Best Seller in
+            <?php echo getMonthNow() ?>
+          </span>
+        </div>
+      </div>
+      <div class="section-body">
+        <div class="owl-carousel-products owl-carousel owl-theme">
+          <?php foreach ($productBestSeller as $key => $p) {
+            if ($key < $maxProductsToShowCarosel) {
+              showProductCarosel($p);
+            }
+          } ?>
+        </div>
       </div>
     </div>
-    <div class="section-body">
-      <div class="owl-carousel-products owl-carousel owl-theme">
-        <?php foreach ($productBestSeller as $key => $p) {
-          if ($key < $maxProductsToShowCarosel) {
-            showProductCarosel($p);
-          }
-        } ?>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+<?php } ?>
 
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
@@ -259,7 +262,7 @@ function showProductCarosel($p)
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <a class="hover-yellow" href="danh-muc/banh-sinh-nhat-cho-be">
+      <a class="hover-yellow" href="product.php?cate_id=<?= $cate[$countCate - 4]["cate_id"] ?>">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật Cho B&eacute;">
           <?= mb_strtoupper($cate[$countCate - 4]["cate_name"], 'UTF-8') ?>
@@ -270,12 +273,10 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
-              alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
-          aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -300,7 +301,7 @@ function showProductCarosel($p)
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <a class="hover-yellow" href="danh-muc/cookies-va-mini-cake">
+      <a class="hover-yellow" href="product.php?cate_id=<?= $cate[$countCate - 3]["cate_id"] ?>">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="Cookies v&agrave; Mini Cake">
           <?= mb_strtoupper($cate[$countCate - 3]["cate_name"], 'UTF-8') ?>
@@ -309,8 +310,7 @@ function showProductCarosel($p)
     </div>
     <div class="section-body">
       <div class="tab-content row" id="pills-tabContent">
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
-          aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -330,8 +330,7 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
-              alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
@@ -341,7 +340,7 @@ function showProductCarosel($p)
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <a class="hover-yellow" href="danh-muc/banh-trung-thu">
+      <a class="hover-yellow" href="product.php?cate_id=<?= $cate[$countCate - 2]["cate_id"] ?>">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh trung thu">
           <?= mb_strtoupper($cate[$countCate - 2]["cate_name"], 'UTF-8') ?>
@@ -352,12 +351,10 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
-              alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
-          aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -382,7 +379,7 @@ function showProductCarosel($p)
 <section class="section-paddingY middlw-section home-latest-products mt-5">
   <div class="container">
     <div class="section-header">
-      <a class="hover-yellow" href="danh-muc/cookies-va-mini-cake">
+      <a class="hover-yellow" href="product.php?cate_id=<?= $cate[$countCate - 1]["cate_id"] ?>">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="Cookies v&agrave; Mini Cake">
           <?= mb_strtoupper($cate[$countCate - 1]["cate_name"], 'UTF-8') ?>
@@ -391,8 +388,7 @@ function showProductCarosel($p)
     </div>
     <div class="section-body">
       <div class="tab-content row" id="pills-tabContent">
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
-          aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -412,8 +408,7 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
-              alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
@@ -434,17 +429,17 @@ function showProductCarosel($p)
           if ($key > 5) {
             break;
           } else {
-            ?>
+        ?>
             <div class="article-column-container">
               <div class="article-image">
-                <a class="product-image hover-animation" href="new_details.php?new_id=<?= $n["new_id"]?>">
+                <a class="product-image hover-animation" href="new_details.php?new_id=<?= $n["new_id"] ?>">
                   <img src="../<?= $n["new_image"] ?>" alt="">
                 </a>
                 <span class="name-category">Tin tức</span>
               </div>
               <div class="article-info">
                 <p class="article-title">
-                  <a href="new_details.php?new_id=<?= $n["new_id"]?>">
+                  <a href="new_details.php?new_id=<?= $n["new_id"] ?>">
                     <?= $n["new_title"] ?>
                   </a>
                 </p>
@@ -453,7 +448,7 @@ function showProductCarosel($p)
                 </p>
               </div>
             </div>
-          <?php }
+        <?php }
         }
         ?>
       </div>

@@ -17,7 +17,8 @@ $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_view
 
 
 // Close the connection
-$conn->close();
+$conn->close();  
+      
 ?>
 
 <!DOCTYPE html>
@@ -304,7 +305,7 @@ $conn->close();
               <ul class="main-menu">
                 <li class="li-menu">
                   <a href="#">
-                    Danh Muc San Pham
+                    Product category
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                   </a>
                   <ul class="submenu">

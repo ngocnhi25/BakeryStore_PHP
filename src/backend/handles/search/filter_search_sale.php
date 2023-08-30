@@ -82,7 +82,7 @@ function paginationSale()
 }
 
 if ($sales) {
-    echo "<table class='table-coupon'>";
+    echo "<table class='table-admin'>";
     echo "<thead>";
     echo "<tr>";
     echo "<th></th>";

@@ -64,15 +64,15 @@ function createChartMonth(data) {
                     backgroundColor: "rgba(75, 192, 192, 1)",
                     borderColor: "rgba(75, 192, 192, 1)",
                     order: 2
-                  }, {
-                    type: 'line',
+                }, {
+                    type: 'bar',
                     label: "Chi phí",
                     data: expenses,
                     backgroundColor: "rgba(255, 99, 132, 1)",
                     borderColor: "rgba(255, 99, 132, 1)",
                     order: 1,
                     fill: false,
-                  }
+                }
             ]
         },
         options: {
@@ -81,7 +81,7 @@ function createChartMonth(data) {
             plugins: {
                 legend: {
                     labels: {
-                        color: '#7d8da1'
+                        color: '#7d8da1',
                     }
                 }
             },
@@ -89,16 +89,23 @@ function createChartMonth(data) {
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        color: '#7d8da1'
+                        color: '#7d8da1',
+                        font: {
+                            size: 10
+                        }
                     }
+                    
                 },
                 x: {
                     ticks: {
-                        color: '#7d8da1'
+                        color: '#7d8da1',
+                        font: {
+                            size: 10
+                        }
                     }
                 }
             },
-            
+
         }
     });
 }
