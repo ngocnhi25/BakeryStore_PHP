@@ -4,12 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 require '../connect/connection.php';
 require '../connect/connectDB.php';
-
-require APPPATH . "User/vendor/phpmailer/src/PHPMailer.php";
-require APPPATH . "User/vendor/phpmailer/src/Exception.php";
-require APPPATH . "User/vendor/phpmailer/src/OAuth.php";
-require APPPATH . "User/vendor/phpmailer/src/POP3.php";
-require APPPATH . "User/vendor/phpmailer/src/SMTP.php";
+require_once("../User/vendor/autoload.php");
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -116,6 +111,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$coupon_name = isset($_POST['coupon_name']) ? $_POST['coupon_name'] : null;
 	$deposit = $grand_total * 0.3; // Calculate deposit as 30% of grand_total
 
+
 	if (!empty($coupon_name)) {
 		// Get discount and condition_used_coupon from tb_coupon based on the coupon name
 		$sql_coupon = "SELECT discount_coupon, condition_used_coupon, qti_coupon, qti_used_coupon FROM tb_coupon WHERE coupon_name = '$coupon_name'";
@@ -161,7 +157,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 	$order_date = date('Y-m-d');
 
 	// Fetch items from the tb_cart table
-	$sql_items = "SELECT product_id, product_name, flavor, quantity FROM tb_cart";
+	$sql_items = "SELECT product_id, product_name, flavor, quantity, size FROM tb_cart";
 	$items = executeResult($sql_items);
 
 	$products_array = array();
@@ -170,25 +166,13 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$product_name = $item['product_name'];
 		$flavor = $item['flavor'];
 		$quantity = $item['quantity'];
+		$size = $item['size'];
 
-		$products_array[] = "Product: {$product_name}, Quantity: {$quantity}, Flavor: {$flavor}<br>";
-	}
+		$products_array[] = "Product: {$product_name}, Quantity: {$quantity}, Flavor: {$flavor}, Size: {$size}<br>";
 
-	$products_string = implode('', $products_array);
-	// echo $products_string;
-	// die();	
-	// Display the product details
-	// var_dump($user_id);
-	// print_r($items);
-	// die();
-
-	// Fetch items from the tb_cart table
-	$sql_items = "SELECT product_id, quantity FROM tb_cart";
-	$items = executeResult($sql_items);
-
-	foreach ($items as $item) {
-		$product_id = $item['product_id'];
-		$quantity = $item['quantity'];
+		// Calculate the total money for the product
+		$product_price = executeSingleResult("SELECT price FROM tb_products WHERE product_id = $product_id")['price'];
+		$total_money = $product_price * $quantity;
 
 		// Fetch the current product quantity from tb_warehouse
 		$sql_current_qty = "SELECT qty_warehouse FROM tb_products WHERE product_id = '$product_id'";
@@ -202,28 +186,29 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 			$sql_update_qty = "UPDATE tb_products SET qty_warehouse = $updated_product_qty WHERE product_id = '$product_id'";
 			execute($sql_update_qty);
 		}
+
+		// Insert the order detail for each product
+		$intUser_id = intval($user_id);
+		$intpid = intval($product_id);
+		$intQty = intval($quantity);
+
+		$insertDetails = execute("INSERT INTO tb_order_detail (user_id, order_id, product_id, size, flavor, quantity, sale_product, total_money) 
+        VALUES ($intUser_id, $order_id, $intpid, '$size', '$flavor', $intQty, $product_price, $total_money)");
 	}
 
-	global $pid;
-	global $quantity;
-	//rever 
-	$intUser_id = intval($user_id);
-	$intpid = intval($pid);
-	$intQty = intval($quantity);
-
-	global $coupon_name;
-
-	$insertDetails = execute("INSERT INTO tb_order_detail (user_id, order_id, product_id, size, flavor, quantity, sale_product, total_money) 
-	VAlUES ($intUser_id, $order_id,$intpid, '$size', '$flavor', $intQty, $total_pay, $grand_total)");
+	$products_string = implode('', $products_array);
 	// var_dump($insertDetails);
 	// die();
 	// Insert order details into tb_order table
+	global $coupon_name;
 	$sql_insert = "INSERT INTO tb_order (order_id, user_id, receiver_name, receiver_email, receiver_phone, receiver_address, order_date, deposit,coupon_used, status) 
                     VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'prepare')";
 	$insert_result = execute($sql_insert);
 	// var_dump($insert_result);
 	// die();
+
 	if ($insert_result) {
+		global $user_id;
 		// Delete cart items after successful order
 		execute("DELETE FROM tb_cart WHERE user_id = '$user_id'");
 
@@ -249,11 +234,16 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$getEmail = executeSingleResult("SELECT tb_user.email FROM tb_order JOIN tb_user ON tb_order.user_id = tb_user.user_id WHERE tb_order.user_id = '$user_id'");
 		$sendEmail = $getEmail['email'];
 
+		// var_dump($sendEmail);
+		// die();
+
+		// Assuming you've already required the necessary PHPMailer files
+
 		$to = $sendEmail;
 		$subject = "Order Confirmation - Order ID: $order_id";
 		$message = "Thank you for your order!\n\n";
 		$message .= "Order ID: $order_id\n";
-		$message .= "Items Purchased:\n" . $products_string . "\n";
+		$message .= "Items Purchased:\n$products_string\n";
 		$message .= "Your Name: $name\n";
 		$message .= "Your E-mail: $email\n";
 		$message .= "Your Phone: $phone\n";
@@ -264,8 +254,10 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$message .= "Payment Mode: $pmode\n";
 		$message .= "Your order has been prepared";
 
+		$mail = new PHPMailer(true);
 
-		$mail = new PHPMailer();
+
+		// SMTP configuration
 		$mail->isSMTP();
 		$mail->SMTPDebug = SMTP::DEBUG_OFF;
 		$mail->Host = 'smtp.gmail.com';
@@ -276,10 +268,18 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$mail->Password = 'rzushtjlbjnppcft';
 		$mail->FromName = "truong";
 
-		$mail->setFrom('truongdqvts2210038@fpt.edu.vn');
+		// Sender and recipient
+		$mail->setFrom('nhilnts2210037@fpt.edu.vn');
 		$mail->addAddress($to);
+
+		// Email content
 		$mail->Subject = $subject;
-		$mail->msgHTML($message);
+		$mail->Body = nl2br($message); // Convert newlines to <br> tags for HTML output
+		$mail->AltBody = strip_tags($message); // Plain text version of the message
+
+		// Send email
+		$mail->send();
+
 
 
 		echo $data;
