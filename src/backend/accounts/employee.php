@@ -10,16 +10,14 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
 
 <div class="customers">
     <h1>Employee Management</h1>
-    <form id="salaryFilterForm" method="post">
-        <p>
-            Salary <span style="color: green;"> From $</span>
-            <input type="text" name="from" id="form">
-            <span style="color: green;"> To $</span>
-            <input type="text" name="to" id="to">
-            <button class="submit" type="button" id="live-Search">Search</button>
-        </p>
-    </form>
-
+    <div class="products">
+    <div class="filter-product">
+        <div class="form-search-header">
+            <span class="material-symbols-sharp icon">search</span>
+            <input id="filter-search-product" type="text" name="search" placeholder="Search ..." class="form-control">
+        </div>
+    </div>
+</div>
     <div class="table_customer">
         <table>
             <thead>

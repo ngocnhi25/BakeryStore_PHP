@@ -170,7 +170,7 @@ tb_order_detail od ON r.order_id = od.order_id;
             <input id="filter-search-product" type="text" name="search" placeholder="Search product..."
                 class="form-control">
         </div>
-        <table class="table-product">
+        <table class="table-product" id="table-product">
             <thead>
                 <tr>
                     <th>Order ID</th>
@@ -311,7 +311,7 @@ tb_order_detail od ON r.order_id = od.order_id;
                 type: "POST",
                 data: { order_id: selectedOrderId, new_status: newStatus },
                 success: function (response) {
-                    alert(response);
+                    // alert(response);
                     $("#status-display").text(newStatus);
                     $("#overlay").css("display", "none");
                     $("#modal").css("display", "none");
@@ -385,7 +385,7 @@ tb_order_detail od ON r.order_id = od.order_id;
 
 
         function updateTableContent(content) {
-            $(".table-product").html(content);
+            $("#table-product").html(content);
         }
 
         $('#filter-search-product').keyup(function () {
@@ -397,7 +397,7 @@ tb_order_detail od ON r.order_id = od.order_id;
                     method: "POST",
                     data: { input: input },
                     success: function (data) {
-                        $(".table-product").html(data);
+                        $("#table-product").html(data);
                     }
                 });
             } else {

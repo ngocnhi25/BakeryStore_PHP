@@ -51,20 +51,19 @@ require_once("../src/connect/connectDB.php");
               <?php
               require '../src/connect/connection.php';
 
-              $stmt = $conn->prepare('SELECT * FROM tb_cart');
+              $stmt = $conn->prepare('SELECT c.*, p.price, p.image AS product_image FROM tb_cart c
+                        JOIN tb_products p ON c.product_id = p.product_id');
               $stmt->execute();
               $result = $stmt->get_result();
               $grand_total = 0;
 
               while ($row = $result->fetch_assoc()) {
-                $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = " . $row['product_id']);
-                $price = $priceResult['price'];
                 ?>
                 <tr>
                   <td>
                     <?= $row['product_id'] ?>
                   </td>
-                  <td><img src="<?= $row['image'] ?>" width="50"></td>
+                  <td><img src="../<?= $row['product_image'] ?>" width="100"></td>
                   <td>
                     <?= $row['product_name'] ?>
                   </td>
@@ -72,13 +71,13 @@ require_once("../src/connect/connectDB.php");
                     <?= $row['flavor'] ?>
                   </td>
                   <td>
-                    <?= number_format($price, 0); ?>
+                    <?= number_format($row['price'], 0); ?>
                   </td>
                   <td>
                     <input type="number" class="form-control itemQty" value="<?= $row['quantity'] ?>"
                       style="width: 75px;">
                     <input type="hidden" class="pid" value="<?= $row['product_id'] ?>">
-                    <input type="hidden" class="pprice" value="<?= $price ?>">
+                    <input type="hidden" class="pprice" value="<?= $row['price'] ?>">
                   </td>
                   <td class="total_price">
                     <?= number_format($row['total_price'], 0); ?>
@@ -154,7 +153,7 @@ require_once("../src/connect/connectDB.php");
               // console.log(pid);
 
               // Update the displayed total price
-              $el.find(".total_price").html( + tprice.toFixed(2));
+              $el.find(".total_price").html(+ tprice.toFixed(2));
             }
           });
         });
