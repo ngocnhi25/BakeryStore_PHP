@@ -2,53 +2,43 @@
 require_once('../../connect/connectDB.php');
 require_once('../../handles_page/handle_calculate.php');
 
-$products = executeResult("select * from tb_news p
-                            inner join tb_category c 
-                            on p.new_cate_id = c.cate_id
+$products = executeResult("SELECT * from tb_news p
+                            inner join tb_news_cate c 
+                            on p.new_cate_id = c.new_cate_id
                             ORDER BY new_id DESC");
-$allProduct = executeSingleResult("select count(*) as total from tb_news");
+// $allProduct = executeSingleResult("select count(*) as total from tb_news");
+$cates = executeResult("SELECT * FROM tb_news_cate c INNER JOIN tb_news p ON c.new_cate_id = p.new_cate_id GROUP BY c.new_cate_id");
 
 ?>
 
 <div class="products">
-    <h1>News Page</h1>
-    <div>
-        <div class="total-items">
-            <p>News All: <span><?= $allProduct["total"] ?></span></p>
-            <p>News Delete: <span>25</span></p>
+    <h1>News Management</h1>
+    <div class="filter-product">
+        <div class="form-search-header">
+            <span class="material-symbols-sharp icon">search</span>
+            <input id="filter-search-product" type="text" name="search" placeholder="Search news..." class="form-control">
+        </div>
+        <div class="filter-product-box">
+            
+            <div class="select-container">
+                <select name="category" class="select-box" id="cateSearch">
+                    <option value="">__All Category__</option>
+                    <?php foreach ($cates as $key => $c) { ?>
+                        <option value="<?= $c["new_cate_id"] ?>"><?= $c["new_cate_name"] ?></option>
+                    <?php } ?>
+                </select>
+            </div>
+            <div class="select-container">
+                <select name="category" class="select-box" id="arrangeProduct">
+                    <option value="new_to_old">New to old</option>
+                    <option value="old_to_new">Old to new</option>
+                    
+                    <!-- <option value="product_qty">News quantity</option> -->
+                </select>
+            </div>
         </div>
     </div>
-    <div class="table_box">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>News Title</th>
-                    <th>Image</th>
-                    <th>Category</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($products as $key => $product) { ?>
-                    <tr <?php echo (($product["deleted"] == 1) ? 'style="opacity: 0.5;"' : '') ?>>
-                        <td><?= $key + 1 ?></td>
-                        <td><?= $product["new_title"] ?></td>
-                        <td>
-                            <img src="../../<?= $product["new_image"] ?>" alt="" style="width: 130px; border-radius: 8px;">
-                        </td>
-                        <td><?= $product["cate_name"] ?></td>
-                        <td class="button">
-                            <button id="editNew" onclick='editNew(<?= $product["new_id"] ?>)' type="button" class="update">Update</button>
-                            <?php if ($product["deleted"] == 0) { ?> 
-                                <button type="button" onclick='deleteNew("<?= $product["new_title"] ?>", <?= $product["new_id"] ?>)' class="delete">Delete</button>
-                            <?php } ?>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-    </div>
+    <div id="container_table_product"></div>
 </div>
 
 <script src="../../public/backend/js/news.js"></script>

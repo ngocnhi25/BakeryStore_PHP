@@ -31,6 +31,7 @@ $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views
                         ORDER BY total_views DESC,
                         RAND() LIMIT 4
                         ");
+$news = executeResult("SELECT * FROM tb_news ");
 $countCate = count($cate);
 
 foreach ($sale as $key => $s) {
@@ -140,7 +141,7 @@ function showProductCarosel($p)
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-<?php
+  <?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -150,14 +151,14 @@ function showProductCarosel($p)
     <?php foreach ($ads as $key => $a) { ?>
       <div class="image_banner">
         <a href="<?php if ($a["type_ads"] == 'category') {
-                    echo 'product.php?cate_id=' . $a["cate_id"];
-                  } elseif ($a["type_ads"] == 'product') {
-                    echo 'details.php?id=' . $a["product_id"];
-                  } elseif ($a["type_ads"] == 'sale') {
-                    echo 'sale.php';
-                  } else {
-                    echo 'news.php';
-                  } ?>">
+          echo 'product.php?cate_id=' . $a["cate_id"];
+        } elseif ($a["type_ads"] == 'product') {
+          echo 'details.php?id=' . $a["product_id"];
+        } elseif ($a["type_ads"] == 'sale') {
+          echo 'sale.php';
+        } else {
+          echo 'news.php';
+        } ?>">
           <img src="../<?= $a["image_ads"] ?>" alt="" style="object-fit: cover;">
         </a>
       </div>
@@ -167,21 +168,21 @@ function showProductCarosel($p)
     <div class="banner-wapper">
       <?php foreach ($ads as $key => $a) {
         if ($key < $maxAdsSmall) {
-      ?>
+          ?>
           <div class="banner-item">
             <a href="<?php if ($a["type_ads"] == 'category') {
-                        echo 'product.php?cate_id=' . $a["cate_id"];
-                      } elseif ($a["type_ads"] == 'product') {
-                        echo 'details.php?id=' . $a["product_id"];
-                      } elseif ($a["type_ads"] == 'sale') {
-                        echo 'sale.php';
-                      } else {
-                        echo 'news.php';
-                      } ?>">
+              echo 'product.php?cate_id=' . $a["cate_id"];
+            } elseif ($a["type_ads"] == 'product') {
+              echo 'details.php?id=' . $a["product_id"];
+            } elseif ($a["type_ads"] == 'sale') {
+              echo 'sale.php';
+            } else {
+              echo 'news.php';
+            } ?>">
               <img src="../<?= $a["image_ads"] ?>" alt="">
             </a>
           </div>
-      <?php }
+        <?php }
       } ?>
     </div>
   </div>
@@ -192,7 +193,8 @@ function showProductCarosel($p)
       <div class="hover-yellow">
         <span class="section-title">
           <img src="../public/images/icon/nhandien.png" alt="B&aacute;nh Sinh Nhật">
-          Best Seller in <?php echo getMonthNow() ?>
+          Best Seller in
+          <?php echo getMonthNow() ?>
         </span>
       </div>
     </div>
@@ -268,10 +270,12 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
+              alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
+          aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -305,7 +309,8 @@ function showProductCarosel($p)
     </div>
     <div class="section-body">
       <div class="tab-content row" id="pills-tabContent">
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
+          aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -325,7 +330,8 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
+              alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
@@ -346,10 +352,12 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
+              alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
+          aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -383,7 +391,8 @@ function showProductCarosel($p)
     </div>
     <div class="section-body">
       <div class="tab-content row" id="pills-tabContent">
-        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel"
+          aria-labelledby="pills-home-tab">
           <div class="row">
 
             <?php $count = 0;
@@ -403,7 +412,8 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-              <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg"
+              alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
@@ -419,73 +429,33 @@ function showProductCarosel($p)
     </div>
     <div class="section-body">
       <div class="owl-carousel-news owl-carousel owl-theme">
-        <!-- <div class="article-column-container">
-          <div class="article-image">
-            <a class="product-image hover-animation" href="tin-tuc/banh-giang-sinh-banh-noel-2022-giang-sinh-ngot-ngao-9">
-              <img src="source/banh noel 2022/tin 1a.jpg" alt="">
-            </a>
-            <span class="name-category">Tin tức</span>
-          </div>
-          <div class="article-info">
-            <p class="article-title">
-              <a href="tin-tuc/banh-giang-sinh-banh-noel-2022-giang-sinh-ngot-ngao-9">B&aacute;nh Gi&aacute;ng Sinh
-                (B&aacute;nh Noel) 2022, Gi&aacute;ng Sinh Ngọt Ng&agrave;o</a>
-            </p>
-            <p class="article-description">Gi&aacute;ng Sinh đang về&hellip; Merry Christmas ❤️❤️
-              Gi&aacute;ng sinh l&agrave; thời gian để d&agrave;nh cho gia đ&igrave;nh, bạn b&egrave; v&agrave;
-              những Người y&ecirc;u thương... </p>
-          </div>
-        </div>
-        <div class="article-column-container">
-          <div class="article-image">
-            <a class="product-image hover-animation" href="tin-tuc/banh-kem-2010-top-nhung-mau-banh-duoc-ua-thich-nhat-2022-8">
-              <img src="source/TinTuc/1ahoa.png" alt="">
-            </a>
-            <span class="name-category">Tin tức</span>
-          </div>
-          <div class="article-info">
-            <p class="article-title">
-              <a href="tin-tuc/banh-kem-2010-top-nhung-mau-banh-duoc-ua-thich-nhat-2022-8">B&aacute;nh Kem 20/10 top
-                những mẫu b&aacute;nh được ưa th&iacute;ch nhất 2022</a>
-            </p>
-            <p class="article-description">Những mẫu b&aacute;nh kem 20/10 với những điểm nhấn ấn tượng sẽ l&agrave;
-              m&oacute;n qu&agrave; v&ocirc; c&ugrave;ng &yacute; nghĩa để d&agrave;nh tặng cho những người phụ nữ
-              Việt Nam nh&acirc;n ng&agrave;y lễ đặc biệt&#8230;</p>
-          </div>
-        </div>
-        <div class="article-column-container">
-          <div class="article-image">
-            <a class="product-image hover-animation" href="tin-tuc/banh-trung-thu-thu-huong-bakery-since-1996-7">
-              <img src="source/TinTuc/B&aacute;nh Trung Thu tin.jpg" alt="">
-            </a>
-            <span class="name-category">Tin tức</span>
-          </div>
-          <div class="article-info">
-            <p class="article-title">
-              <a href="tin-tuc/banh-trung-thu-thu-huong-bakery-since-1996-7">B&aacute;nh Trung Thu Thu Hương Bakery
-                Since 1996</a>
-            </p>
-            <p class="article-description">Gia đ&igrave;nh ch&iacute;nh l&agrave; nguồn cảm hứng s&aacute;ng tạo
-              v&agrave; phục vụ lớn nhất m&agrave; to&agrave;n thể c&aacute;c thợ b&aacute;nh, phụ bếp, hậu cần
-              c&ugrave;ng l&atilde;nh đạo của thương hiệu được hữu duy&ecirc;n&#8230;</p>
-          </div>
-        </div>
-        <div class="article-column-container">
-          <div class="article-image">
-            <a class="product-image hover-animation" href="tin-tuc/bo-suu-tap-banh-trung-thu-2022-6">
-              <img src="../public/images/icon/puppets-1.jpg" alt="">
-            </a>
-            <span class="name-category">Tin tức</span>
-          </div>
-          <div class="article-info">
-            <p class="article-title">
-              <a href="tin-tuc/bo-suu-tap-banh-trung-thu-2022-6">bộ sưu tập b&aacute;nh trung thu 2022</a>
-            </p>
-            <p class="article-description">K&Yacute; ỨC TRĂNG TR&Ograve;N &ndash; MONG ƯỚC ĐO&Agrave;N VI&Ecirc;N
-              Tết Trung Thu l&agrave; một trong những ng&agrave;y tết trọng đại của d&acirc;n tộc Việt Nam v&agrave;
-              l&agrave; dịp gia đ&igrave;nh qu&acirc;y quần đo&agrave;n tụ c&ugrave;ng&#8230;</p>
-          </div>
-        </div> -->
+        <?php
+        foreach ($news as $key => $n) {
+          if ($key > 5) {
+            break;
+          } else {
+            ?>
+            <div class="article-column-container">
+              <div class="article-image">
+                <a class="product-image hover-animation" href="new_details.php?new_id=<?= $n["new_id"]?>">
+                  <img src="../<?= $n["new_image"] ?>" alt="">
+                </a>
+                <span class="name-category">Tin tức</span>
+              </div>
+              <div class="article-info">
+                <p class="article-title">
+                  <a href="new_details.php?new_id=<?= $n["new_id"]?>">
+                    <?= $n["new_title"] ?>
+                  </a>
+                </p>
+                <p class="article-description">
+                  <?= $n["new_summary	"] ?>
+                </p>
+              </div>
+            </div>
+          <?php }
+        }
+        ?>
       </div>
     </div>
   </div>

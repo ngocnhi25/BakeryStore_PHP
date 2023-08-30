@@ -12,6 +12,7 @@ $errors["errorImages"] = [];
 
 $errors["errorName"] =
     $errors["errorCateID"] =
+    $errors["errorSummary"] =
     $errors["errorDescription"] = $image = '';
 $errorNum = $eventNum = $noUpdateImage = 0;
 
@@ -58,8 +59,18 @@ if (isset($_POST["cateID"]) && !empty($_POST["cateID"])) {
     $errors["errorCateID"] = 'News category cannot be blank';
     $errorNum = 1;
 }
+// summary
+if (isset($_POST["new_summary"]) && !empty($_POST["new_summary"])) {
+    // biến trùng nhau kh sai là gì
+    // $description =  $_POST["new_summary"];
+    $summary =  $_POST["new_summary"];
+} else {
+    $errors["errorSummary"] = 'Summary cannot be blank';
+    $errorNum = 1;
+}
 // description
 if (isset($_POST["new_description"]) && !empty($_POST["new_description"])) {
+     // biến trùng nhau kh sai là gì
     $description =  $_POST["new_description"];
 } else {
     $errors["errorDescription"] = 'Description cannot be blank';
@@ -125,8 +136,8 @@ if (
         $imageInsert = $images[0];
         
         $sql = "INSERT INTO tb_news 
-        (new_cate_id, new_title, new_description, new_image) VALUES
-        ($cateID, '$name', '$description', '$imageInsert')";
+        (new_cate_id, new_title, new_description, new_summary, new_image) VALUES
+        ($cateID, '$name', '$description', '$summary', '$imageInsert')";
         execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(new_id) as new_id_product FROM tb_news");
         $new_id = $new_id_product["new_id_product"];
