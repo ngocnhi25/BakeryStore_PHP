@@ -138,7 +138,7 @@ if (
         $sql = "INSERT INTO tb_news 
         (new_cate_id, new_title, new_description, new_summary, new_image) VALUES
         ($cateID, '$name', '$description', '$summary', '$imageInsert')";
-        execute($sql);
+        $success = execute($sql);
         $new_id_product = executeSingleResult("SELECT MAX(new_id) as new_id_product FROM tb_news");
         $new_id = $new_id_product["new_id_product"];
         // tb_thumnail chỉ chứa ảnh của product thôi. Tạo bảng khác
@@ -162,7 +162,7 @@ if (
             $imageUpdate = $images[0];
             $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
-                new_image = '$imageUpdate', 
+                new_image = '$imageUpdate', new_summary = '$summary',
                 new_description = '$description'
             WHERE new_id = $id");
             for ($i = 1; $i < count($images); $i++) {
@@ -177,6 +177,7 @@ if (
         } else {
             $success = execute("UPDATE tb_news SET 
                 new_cate_id = '$cateID', new_title = '$name', 
+                new_summary = '$summary',  
                 new_description = '$description'
             WHERE new_id = $id");
         }

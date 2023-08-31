@@ -18,6 +18,7 @@ $cates = executeResult("SELECT * FROM tb_news_cate c INNER JOIN tb_news p ON c.n
             <span class="material-symbols-sharp icon">search</span>
             <input id="filter-search-product" type="text" name="search" placeholder="Search news..." class="form-control">
         </div>
+        
         <div class="filter-product-box">
             
             <div class="select-container">
@@ -28,14 +29,14 @@ $cates = executeResult("SELECT * FROM tb_news_cate c INNER JOIN tb_news p ON c.n
                     <?php } ?>
                 </select>
             </div>
-            <div class="select-container">
+            <!-- <div class="select-container">
                 <select name="category" class="select-box" id="arrangeProduct">
                     <option value="new_to_old">New to old</option>
                     <option value="old_to_new">Old to new</option>
                     
-                    <!-- <option value="product_qty">News quantity</option> -->
+                    <option value="product_qty">News quantity</option>
                 </select>
-            </div>
+            </div> -->
         </div>
     </div>
     <div id="container_table_product"></div>

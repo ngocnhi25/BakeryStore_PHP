@@ -36,6 +36,7 @@ $cate = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views
 $news = executeResult("SELECT * FROM tb_news ");
 $countCate = count($cate);
 
+
 foreach ($sale as $key => $s) {
   $arraySale[$key] = $s["product_id"];
 }
@@ -446,8 +447,9 @@ function showProductCarosel($p)
                   </a>
                 </p>
                 <p class="article-description">
-                  <?= $n["new_summary	"] ?>
+                  <div ><?= $n["new_summary"] ?></div>
                 </p>
+                
               </div>
             </div>
         <?php }
