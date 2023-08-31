@@ -269,7 +269,7 @@ tb_order_detail od ON r.order_id = od.order_id;
     <!-- <div class="close-btn" id="close-btn">X</div> -->
     <div id="order-details"></div>
     <select id="status-editable">
-        <option value="pending">Pending</option>
+        <option value="Shipping">Shipping</option>
         <option value="processing">Processing</option>
         <option value="completed">Completed</option>
         <option value="cancelled">Cancelled</option>

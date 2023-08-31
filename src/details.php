@@ -438,7 +438,7 @@ function calculateSaleProductDetails()
         $rating = $_POST["rating"];
         $comment = $_POST["comment"];
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $created_at = date('Y-m-d H:i:s');
+$created_at = date('Y-m-d H:i:s');
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
 
         $user_id = $_SESSION["auth_user"]["user_id"];
@@ -547,7 +547,7 @@ function calculateSaleProductDetails()
         }
 
         .send:hover {
-          background-color: #0056b3;
+background-color: #0056b3;
         }
 
         .star {
@@ -651,7 +651,7 @@ function calculateSaleProductDetails()
             <h2>Leave a comment</h2>
             <?php
             if (!isset($_SESSION["auth_user"])) {
-              echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a comment.</p>";
+echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a comment.</p>";
             } else {
               // Check if user has purchased the product
               $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
@@ -700,7 +700,7 @@ function calculateSaleProductDetails()
                     <br>
                     <button class="send" type="submit" name="submit_danhgia"
                       onclick="return validateSurveyForm();">Send</button>
-                  </form>
+</form>
                   <?php
                 } else {
                   echo "<p>You can only leave a review for products that have been prepare.</p>";
