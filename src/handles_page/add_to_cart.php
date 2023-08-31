@@ -148,6 +148,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 			}
 		}
 	}
+	global $discount_amount;
 	// Calculate total_pay
 	$total_pay = $grand_total - $discount_amount;
 	// var_dump($total_pay);

@@ -1,6 +1,6 @@
 <?php
-require_once("connect/connectDB.php");
-require_once("handles_page/handle_calculate.php");
+require_once "connect/connectDB.php";
+require_once "handles_page/handle_calculate.php";
 session_start();
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
@@ -10,10 +10,21 @@ if (isset($_SESSION["auth_user"])) {
 $arrayPrepare = $arrayPending = [];
 
 $orders = executeResult("SELECT * FROM tb_order where user_id = $user_id");
-$orders_details = executeResult("SELECT * FROM tb_order_detail o 
+$orders_details = executeResult("SELECT * FROM tb_order_detail o
                                     INNER JOIN tb_products p
                                     ON o.product_id = p.product_id where user_id = $user_id");
-
+$orders_details_completed = executeResult("
+SELECT od.*, p.product_name, p.image, p.price
+FROM tb_order_detail od
+INNER JOIN tb_products p ON od.product_id = p.product_id
+WHERE od.user_id = $user_id
+AND EXISTS (
+    SELECT 1
+    FROM tb_order o
+    WHERE o.order_id = od.order_id
+    AND o.status = 'completed'
+)
+");
 
 function noOrderYet()
 {
@@ -26,7 +37,6 @@ function noOrderYet()
     </div>
     ';
 }
-
 
 function checkStatus($status)
 {
@@ -54,8 +64,6 @@ function checkStatus($status)
     }
 }
 
-
-
 ?>
 <div class="purchase-order">
     <div class="po-tab-ui">
@@ -75,278 +83,295 @@ function checkStatus($status)
     <div class="po-content-box">
         <div class="content active" data-content="all">
             <?php if ($orders != null) {
-                foreach ($orders as $key => $o) {
-            ?>
-                    <div class="item-product-box">
-                        <?php foreach ($orders_details as $key => $od) {
-                            if ($od["order_id"] == $o["order_id"]) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                        <?php }
-                        } ?>
-                        <div class="status-cal">
-                            <div class="status-ord">
-                                <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                            </div>
-                            <div class="cal-total">
-                            <button class="btn btn-danger cancel-btn" data-order-id="<?= $o["order_id"] ?>">Cancel</button>
-                            
-                            </div>
-                        </div>
-                    </div>
-            <?php }
-            } else {
-            } ?>
+    foreach ($orders as $key => $o) {
+        ?>
+                                                                                                                    <div class="item-product-box">
+                                                                                                                        <?php foreach ($orders_details as $key => $od) {
+            if ($od["order_id"] == $o["order_id"]) {?>
+                                                                                                                                                                                                                                <div class="detail-order">
+                                                                                                                                                                                                                                    <div class="inf-prd">
+                                                                                                                                                                                                                                        <div>
+                                                                                                                                                                                                                                            <img src="../<?=$od["image"]?>" alt="">
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                        <div class="inf-text">
+                                                                                                                                                                                                                                            <div class="prd-name"><?=$od["product_name"]?></div>
+                                                                                                                                                                                                                                            <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
+                                                                                                                                                                                                                                            <div>x<?=$od["quantity"]?></div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                    <div class="prd-price">
+                                                                                                                                                                                                                                        <?php if ($od["sale_product"] != 0) {?>
+                                                                                                                                                                                                                                                                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php } else {?>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php }?>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                        <?php }
+        }?>
+                                                                                                                        <div class="status-cal">
+                                                                                                                            <div class="status-ord">
+                                                                                                                                <span class="<?=$o["status"]?>"><?=$o["status"]?></span>
+                                                                                                                            </div>
+                                                                                                                            <div class="cal-total">
+                                                                                                                            <button class="btn btn-danger cancel-btn" data-order-id="<?=$o["order_id"]?>">Cancel</button>
+
+                                                                                                                            </div>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                            <?php }
+} else {
+}?>
 
 
         </div>
         <div class="content" data-content="prepare">
-            <?php if (checkStatus("prepare") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "prepare") {
-            ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                    <?php if ($o["coupon_sale"] != 0) { ?>
-                                        <span>Total Pay:
-                                        </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["coupon_sale"]) ?> vnđ</span>
-                                    <?php } else { ?>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                    <?php } ?>
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
+        <?php
+$orders_details_prepare = executeResult("
+    SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
+    FROM tb_order_detail od
+    INNER JOIN tb_products p ON od.product_id = p.product_id
+    INNER JOIN tb_order o ON od.order_id = o.order_id
+    WHERE od.user_id = $user_id
+    AND o.status = 'prepare'
+");
+
+if (!empty($orders_details_prepare)) {
+    foreach ($orders_details_prepare as $od) {
+        ?>
+        <div class="item-product-box">
+            <div class="detail-order">
+                <div class="inf-prd">
+                    <div>
+                        <img src="../<?= $od["image"] ?>" alt="">
+                    </div>
+                    <div class="inf-text">
+                        <div class="prd-name"><?= $od["product_name"] ?></div>
+                        <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
+                        <div>x<?= $od["quantity"] ?></div>
+                    </div>
+                </div>
+                <div class="prd-price">
+                    <?php if ($od["sale_product"] != 0) { ?>
+                        <span class="price-del"><?= $od["total_money"] ?> vnđ</span>
+                        <span class="price-hight-light"><?= $od["sale_product"] ?> vnđ</span>
+                    <?php } else { ?>
+                        <span class="price-hight-light"><?= displayPrice($od["price"]) ?> vnđ</span>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="status-cal">
+                <div class="status-ord">
+                    <span class="<?= $od["order_status"] ?>"><?= $od["order_status"] ?></span>
+                </div>
+                <div class="cal-total">
+                    
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+} else {
+    noOrderYet();
+}
+?>
+
+
         </div>
 
         <div class="content" data-content="pending">
             <?php if (checkStatus("pending") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "pending") {
+    $prepare = executeResult("SELECT ");
+    foreach ($orders as $key => $o) {
+        if ($o["status"] == "pending") {
             ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                    
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
+                                                                                                                                                                        <div class="item-product-box">
+                                                                                                                                                                            <?php foreach ($orders_details as $key => $od) {?>
+                                                                                                                                                                                                                                <div class="detail-order">
+                                                                                                                                                                                                                                    <div class="inf-prd">
+                                                                                                                                                                                                                                        <div>
+                                                                                                                                                                                                                                            <img src="../<?=$od["image"]?>" alt="">
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                        <div class="inf-text">
+                                                                                                                                                                                                                                            <div class="prd-name"><?=$od["product_name"]?></div>
+                                                                                                                                                                                                                                            <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
+                                                                                                                                                                                                                                            <div>x<?=$od["quantity"]?></div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                    <div class="prd-price">
+                                                                                                                                                                                                                                        <?php if ($od["sale_product"] != 0) {?>
+                                                                                                                                                                                                                                                                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php } else {?>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php }?>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                            <?php }?>
+                                                                                                                                                                            <div class="status-cal">
+                                                                                                                                                                                <div class="status-ord">
+                                                                                                                                                                                    <span class="<?=$o["status"]?>"><?=$o["status"]?></span>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="cal-total">
+
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div>
+                                                                                                            <?php }
+    }
+} else {
+    noOrderYet();
+}?>
         </div>
-        
+
         <div class="content" data-content="completed">
-        <?php if (checkStatus("completed") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "completed") {
-            ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del"><?php echo $od["total_money"] ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo $od["sale_product"] ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                    <?php if ($o["coupon_sale"] != 0) { ?>
-                                        <span>Total Pay:
-                                        </span><span class="price-del"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"] - $o["coupon_sale"]) ?> vnđ</span>
-                                    <?php } else { ?>
-                                        <span class="price-total-pay"><?php echo displayPrice($o["total_pay"]) ?> vnđ</span>
-                                    <?php } ?>
-                                    <button class="btn btn-warning return-btn" data-order-id="<?= $o["order_id"] ?>">Return</button>
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
+        <?php
+$orders_details_completed = executeResult("
+    SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
+    FROM tb_order_detail od
+    INNER JOIN tb_products p ON od.product_id = p.product_id
+    INNER JOIN tb_order o ON od.order_id = o.order_id
+    WHERE od.user_id = $user_id
+    AND o.status = 'completed'
+");
+
+if (!empty($orders_details_completed)) {
+    foreach ($orders_details_completed as $od) {
+        ?>
+                                                                                            <div class="item-product-box">
+                                                                                                <div class="detail-order">
+                                                                                                    <div class="inf-prd">
+                                                                                                        <div>
+                                                                                                            <img src="../<?=$od["image"]?>" alt="">
+                                                                                                        </div>
+                                                                                                        <div class="inf-text">
+                                                                                                            <div class="prd-name"><?=$od["product_name"]?></div>
+                                                                                                            <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
+                                                                                                            <div>x<?=$od["quantity"]?></div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="prd-price">
+                                                                                                        <?php if ($od["sale_product"] != 0) {?>
+                                                                                                                                                        <span class="price-del"><?=$od["total_money"]?> vnđ</span>
+                                                                                                                                                        <span class="price-hight-light"><?=$od["sale_product"]?> vnđ</span>
+                                                                                                        <?php } else {?>
+                                                                                                                                                        <span class="price-hight-light"><?=displayPrice($od["price"])?> vnđ</span>
+                                                                                                        <?php }?>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="status-cal">
+                                                                                                    <div class="status-ord">
+                                                                                                        <span class="<?=$od["order_status"]?>"><?=$od["order_status"]?></span>
+                                                                                                    </div>
+                                                                                                    <div class="cal-total">
+                                                                            <button class="btn btn-warning return-btn" data-order-id="<?=$od["order_id"]?>" data-product-id="<?=$od["product_id"]?>">Return</button>
+                                                                        </div>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        <?php
+}
+} else {
+    noOrderYet();
+}
+?>
+
         </div>
         <div class="content" data-content="cancelled">
-        <?php if (checkStatus("cancelled") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "cancelled") {
-            ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del">item price: <?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                   
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
+        <?php
+$cancelled_orders = executeResult("
+    SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
+    FROM tb_order_detail od
+    INNER JOIN tb_products p ON od.product_id = p.product_id
+    INNER JOIN tb_order o ON od.order_id = o.order_id
+    WHERE o.status = 'cancelled' AND od.user_id = $user_id
+");
+
+if (!empty($cancelled_orders)) {
+    foreach ($cancelled_orders as $order) {
+        ?>
+        <div class="item-product-box">
+            <div class="detail-order">
+                <div class="inf-prd">
+                    <div>
+                        <img src="../<?= $order["image"] ?>" alt="">
+                    </div>
+                    <div class="inf-text">
+                        <div class="prd-name"><?= $order["product_name"] ?></div>
+                        <div class="galary"><span>Size: <?= $order["size"] ?>cm</span> <span>Flavor: <?= $order["flavor"] ?></span></div>
+                        <div>x<?= $order["quantity"] ?></div>
+                    </div>
+                </div>
+                <div class="prd-price">
+                    <?php if ($order["sale_product"] != 0) { ?>
+                        <span class="price-del">item price: <?= displayPrice($order["price"]) ?> vnđ</span>
+                        <span class="price-hight-light"><?= calculateOldPrice($order["price"], $order["sale_product"]) ?> vnđ</span>
+                    <?php } else { ?>
+                        <span class="price-hight-light"><?= displayPrice($order["price"]) ?> vnđ</span>
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="status-cal">
+                <div class="status-ord">
+                    <span class="<?= $order["order_status"] ?>"><?= $order["order_status"] ?></span>
+                </div>
+                <div class="cal-total">
+                    <!-- Your action buttons here -->
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+} else {
+    noOrderYet();
+}
+?>
+
+
         </div>
         <div class="content" data-content="return">
         <?php if (checkStatus("return") != null) {
-                foreach ($orders as $key => $o) {
-                    if ($o["status"] == "return") {
+    foreach ($orders as $key => $o) {
+        if ($o["status"] == "return") {
             ?>
-                        <div class="item-product-box">
-                            <?php foreach ($orders_details as $key => $od) { ?>
-                                <div class="detail-order">
-                                    <div class="inf-prd">
-                                        <div>
-                                            <img src="../<?= $od["image"] ?>" alt="">
-                                        </div>
-                                        <div class="inf-text">
-                                            <div class="prd-name"><?= $od["product_name"] ?></div>
-                                            <div class="galary"><span>Size: <?= $od["size"] ?>cm</span> <span>Flavor: <?= $od["flavor"] ?></span></div>
-                                            <div>x<?= $od["quantity"] ?></div>
-                                        </div>
-                                    </div>
-                                    <div class="prd-price">
-                                        <?php if ($od["sale_product"] != 0) { ?>
-                                            <span class="price-del">item price: <?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
-                                        <?php } else { ?>
-                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            <?php } ?>
-                            <div class="status-cal">
-                                <div class="status-ord">
-                                    <span class="<?= $o["status"] ?>"><?= $o["status"] ?></span>
-                                </div>
-                                <div class="cal-total">
-                                   
-                                </div>
-                            </div>
-                        </div>
-            <?php }
-                }
-            } else {
-                noOrderYet();
-            } ?>
+                                                                                                                                                                        <div class="item-product-box">
+                                                                                                                                                                            <?php foreach ($orders_details as $key => $od) {?>
+                                                                                                                                                                                                                                <div class="detail-order">
+                                                                                                                                                                                                                                    <div class="inf-prd">
+                                                                                                                                                                                                                                        <div>
+                                                                                                                                                                                                                                            <img src="../<?=$od["image"]?>" alt="">
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                        <div class="inf-text">
+                                                                                                                                                                                                                                            <div class="prd-name"><?=$od["product_name"]?></div>
+                                                                                                                                                                                                                                            <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
+                                                                                                                                                                                                                                            <div>x<?=$od["quantity"]?></div>
+                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                    <div class="prd-price">
+                                                                                                                                                                                                                                        <?php if ($od["sale_product"] != 0) {?>
+                                                                                                                                                                                                                                                                                            <span class="price-del">item price: <?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo calculateOldPrice($od["price"], $od["sale_product"]) ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php } else {?>
+                                                                                                                                                                                                                                                                                            <span class="price-hight-light"><?php echo displayPrice($od["price"]) ?> vnđ</span>
+                                                                                                                                                                                                                                        <?php }?>
+                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                            <?php }?>
+                                                                                                                                                                            <div class="status-cal">
+                                                                                                                                                                                <div class="status-ord">
+                                                                                                                                                                                    <span class="<?=$o["status"]?>"><?=$o["status"]?></span>
+                                                                                                                                                                                </div>
+                                                                                                                                                                                <div class="cal-total">
+
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                        </div>
+                                                                                                            <?php }
+    }
+} else {
+    noOrderYet();
+}?>
         </div>
     </div>
 </div>
@@ -366,83 +391,71 @@ function checkStatus($status)
     });
 
     $(document).ready(function () {
-        $(".cancel-btn").click(function () {
-            var order_id = $(this).data("order-id");
-            
-            // Prompt the user for the cancellation reason using SweetAlert
-            Swal.fire({
-                title: 'Cancel Order',
-                input: 'text',
-                inputLabel: 'Reason for cancellation',
-                inputPlaceholder: 'Enter reason...',
-                showCancelButton: true,
-                confirmButtonText: 'Cancel Order',
-                cancelButtonText: 'Close',
-                showLoaderOnConfirm: true,
-                preConfirm: (reason) => {
-                    // Send an AJAX request to update the order status to "cancelled" with the reason
-                    return $.ajax({
-                        url: "handles_page/update_order_status.php",
-                        type: "POST",
-                        data: { order_id: order_id, new_status: "cancelled", reason: reason },
-                        error: function () {
-                            // Handle error
-                            Swal.showValidationMessage('Failed to cancel the order.');
-                        }
-                    });
-                },
-                allowOutsideClick: () => !Swal.isLoading()
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Order Cancelled',
-                        text: result.value, // Display the response from the server
-                        timer: 2000, // Automatically close after 2 seconds
-                        showConfirmButton: false
-                    });
+    $(".cancel-btn").click(function () {
+        const order_id = $(this).data("order-id");
+        handleCancellation(order_id);
+    });
+
+    $(".return-btn").click(function () {
+        const order_id = $(this).data("order-id");
+        const product_id = $(this).data("product-id");
+        handleReturn(order_id, product_id);
+    });
+});
+
+function handleCancellation(order_id) {
+    Swal.fire({
+        title: 'Cancel Order',
+        input: 'text',
+        inputLabel: 'Reason for cancellation',
+        inputPlaceholder: 'Enter reason...',
+        showCancelButton: true,
+        confirmButtonText: 'Cancel Order',
+        cancelButtonText: 'Close',
+        showLoaderOnConfirm: true,
+        preConfirm: (reason) => {
+            return $.ajax({
+                url: "handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: order_id, new_status: "cancelled", reason: reason },
+                error: function () {
+                    Swal.showValidationMessage('Failed to cancel the order.');
                 }
             });
-        });
-        $(".return-btn").click(function () {
-    var order_id = $(this).data("order-id");
-    // alert(order_id);
-    
-    // Create a file input element
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    
-    // Prompt the user for the return reason and image using SweetAlert
+        },
+        allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+        if (result.isConfirmed) {
+            handleSuccessPopup('Order Cancelled', result.value);
+        }
+    });
+}
+
+function handleReturn(order_id, product_id) {
     Swal.fire({
         title: 'Return Order',
         html: `
-            <div>
-                <label for="return-reason">Reason for return:</label>
-                <textarea id="return-reason" placeholder="Enter reason..." class="swal2-input" style="height: 100px;"></textarea>
-            </div>
-            <div>
-                <label for="return-image">Upload an image of the issue:</label>
-                <input id="return-image" type="file" accept="image/*" class="swal2-file">
-            </div>
+            <label for="return-reason">Reason for return:</label>
+            <textarea id="return-reason" class="swal2-input" style="height: 100px;"></textarea>
+            <label for="return-image">Upload an image of the issue:</label>
+            <input id="return-image" type="file" accept="image/*" class="swal2-file">
         `,
-        focusConfirm: false,
+        icon: 'info',
         showCancelButton: true,
         confirmButtonText: 'Return Order',
-        cancelButtonText: 'Close',
-        showLoaderOnConfirm: true,
+        cancelButtonText: 'Cancel',
+        focusConfirm: false,
         preConfirm: () => {
             const reason = document.getElementById('return-reason').value;
             const imageFile = document.getElementById('return-image').files[0];
-            
-            // Prepare form data
+
             const formData = new FormData();
             formData.append('order_id', order_id);
+            formData.append('product_id', product_id);
             formData.append('new_status', 'return');
             formData.append('reason', reason);
             formData.append('image', imageFile);
-            
-            // Send an AJAX request to update the order status to "return" with the reason and image
+
             return fetch('handles_page/update_order_status.php', {
                 method: 'POST',
                 body: formData
@@ -457,18 +470,24 @@ function checkStatus($status)
         allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Order return',
-                text: result.message, // Display the response from the server
-                timer: 2000, // Automatically close after 2 seconds
-                showConfirmButton: false
-            });
+            handleSuccessPopup('Order Returned', 'Your return request has been submitted.');
         }
     });
-});
+}
 
+
+function handleSuccessPopup(title, text) {
+    Swal.fire({
+        icon: 'success',
+        title: title,
+        text: text,
+        timer: 2000,
+        showConfirmButton: false
     });
+}
+
+
+
 
 
 </script>
