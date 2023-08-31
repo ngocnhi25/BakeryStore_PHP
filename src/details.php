@@ -783,7 +783,7 @@ function calculateSaleProductDetails()
           Swal.fire({
             icon: 'info',
             title: 'Not Logged In',
-            text: 'You are not logged in.',
+            text: 'Please login your account before buying items.',
             didClose: () => {
               window.location.href = "User/login.php";
             }

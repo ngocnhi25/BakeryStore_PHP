@@ -120,10 +120,6 @@ function checkedFilter($value)
         </div>
       </div>
       <div class="col-md-9">
-        <div class="section-header">
-          <p class="section-title"></p>
-          <input type="hidden" name="cate_id" value="1">
-        </div>
         <!-- products -->
         <div class="section-body get-product-box"></div>
       </div>

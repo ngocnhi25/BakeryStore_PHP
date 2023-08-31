@@ -112,7 +112,7 @@ function paginationProduct()
 
 if ($products) {
     echo "<div class='table_box_product'>";
-    echo "<table class='table-product'>";
+    echo "<table class='table-admin'>";
     echo "<thead>";
     echo "<tr>";
     echo "<th>ID</th>";

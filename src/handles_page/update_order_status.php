@@ -98,37 +98,32 @@ function updateStatusToCancelledOrReturned($order_id, $new_status)
         execute($update_product_sql);
     }
 
-    if ($new_status === "return" && isset($_POST["reason"]) && isset($_FILES["image"])) {
+    if ($new_status === "return" && isset($_POST["product_id"]) && isset($_POST["reason"]) && isset($_FILES["image"])) {
+        $product_id = $_POST["product_id"];
         $reason = $_POST["reason"];
         $image = "public/images/returnImg/" . $_FILES["image"]["name"];
 
-        $update_order_sql = "UPDATE tb_order SET status = 'return' WHERE order_id = $order_id";
+        // Kiểm tra xem product_id có hợp lệ không
+        if ($new_status === "return" && isset($_POST["product_id"]) && isset($_POST["reason"]) && isset($_FILES["image"])) {
+            $product_id = $_POST["product_id"];
+            $reason = $_POST["reason"];
+            $image = "public/images/returnImg/" . $_FILES["image"]["name"];
 
-        // Gọi hàm execute để thực hiện truy vấn
-        if (execute($update_order_sql)) {
-            $order_detail_sql = "SELECT product_id FROM tb_order_detail WHERE order_id = $order_id";
-            $order_details = executeResult($order_detail_sql);
-
-            foreach ($order_details as $order_detail) {
-                $product_id = $order_detail['product_id'];
-
+            // Kiểm tra xem product_id có hợp lệ không
+            if ($product_id) {
+                // Gọi hàm execute để thực hiện truy vấn
                 $insert_return_sql = "INSERT INTO tb_return (order_id, reason, customer_image, product_id) VALUES ($order_id, '$reason', '$image', $product_id)";
-                if (!execute($insert_return_sql)) {
-                    // Nếu có lỗi trong quá trình thực hiện truy vấn
-                    $message = "Error inserting return data.";
-                    break;
+
+                if (execute($insert_return_sql)) {
+                    echo json_encode("success"); // Return success as JSON
+                } else {
+                    echo json_encode("error");
                 }
+            } else {
+                echo json_encode("invalid_product_id");
             }
-
-            // Gửi email thông báo
-            $user_email = getUserEmailForOrder($order_id);
-            sendReturnEmail($user_email);
-
-            $message = "Order returned successfully.";
-        } else {
-            // Nếu có lỗi trong quá trình thực hiện truy vấn
-            $message = "Error updating order status.";
         }
+
     } else {
         // Thực hiện truy vấn để cập nhật trạng thái đơn hàng thành 'cancelled'
         $updateCancelled = execute("UPDATE tb_order SET status = 'cancelled' WHERE order_id = '$order_id'");

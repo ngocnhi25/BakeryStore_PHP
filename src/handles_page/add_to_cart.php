@@ -128,6 +128,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 			if ($grand_total < $intcondition_used_coupon) {
 				$discount_amount = $discount_percent;
 			} else {
+				$discount_amount = 0;
 				echo "Discount Amount Need To be < " . $intcondition_used_coupon;
 				// exit();
 			}
@@ -147,6 +148,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 			}
 		}
 	}
+	global $discount_amount;
 	// Calculate total_pay
 	$total_pay = $grand_total - $discount_amount;
 	// var_dump($total_pay);
@@ -193,7 +195,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$intQty = intval($quantity);
 
 		$insertDetails = execute("INSERT INTO tb_order_detail (user_id, order_id, product_id, size, flavor, quantity, sale_product, total_money) 
-        VALUES ($intUser_id, $order_id, $intpid, '$size', '$flavor', $intQty, $product_price, $total_money)");
+        VALUES ($intUser_id, $order_id, $intpid, '$size', '$flavor', $intQty, $total_pay, $total_money)");
 	}
 
 	$products_string = implode('', $products_array);
