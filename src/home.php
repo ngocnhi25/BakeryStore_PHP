@@ -155,9 +155,7 @@ function showProductCarosel($p)
         <a href="<?php if ($a["type_ads"] == 'category') {
                     echo 'product.php?cate_id=' . $a["cate_id"];
                   } elseif ($a["type_ads"] == 'product') {
-                    echo 'details.php?id=' . $a["product_id"];
-                  } elseif ($a["type_ads"] == 'sale') {
-                    echo 'sale.php';
+                    echo 'details.php?product_id=' . $a["product_id"];
                   } else {
                     echo 'news.php';
                   } ?>">
@@ -175,9 +173,7 @@ function showProductCarosel($p)
             <a href="<?php if ($a["type_ads"] == 'category') {
                         echo 'product.php?cate_id=' . $a["cate_id"];
                       } elseif ($a["type_ads"] == 'product') {
-                        echo 'details.php?id=' . $a["product_id"];
-                      } elseif ($a["type_ads"] == 'sale') {
-                        echo 'sale.php';
+                        echo 'details.php?product_id=' . $a["product_id"];
                       } else {
                         echo 'news.php';
                       } ?>">

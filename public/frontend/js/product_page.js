@@ -34,7 +34,7 @@ function getProductAjax() {
   $.ajax({
     url: "handles_page/get_products.php",
     method: "POST",
-    data: { 
+    data: {
       action: 'data',
       cate_id: cate_id
     },
@@ -333,18 +333,21 @@ $(document).ready(function () {
 });
 $(document).ready(function () {
   showComment();
+
   $(".submit-comment").click(function () {
     const product_id = $("#proDetail-proID").data("id");
     const content = $("#comment").val();
     $.ajax({
-      url: "handles_page/add_comment.php", 
+      url: "handles_page/add_comment.php",
       method: "POST",
       data: {
         content: content,
         product_id: product_id
       },
       success: function (res) {
-        console.log(res);
+        if(res === "success"){
+          showComment();
+        }
       },
       error: function (xhr, status, error) {
         console.error("error: " + error);
@@ -353,14 +356,14 @@ $(document).ready(function () {
   })
   $("#comment").on("click", function () {
     $.ajax({
-      url: "handles_page/check_login_status.php", 
+      url: "handles_page/check_login_status.php",
       method: "POST",
-      success: function(res) {
-        if(res === "notloggedin"){
+      success: function (res) {
+        if (res === "notloggedin") {
           Swal.fire({
             icon: 'info',
             title: 'Not Logged In',
-            text: 'You are not logged in.',
+            text: 'Please login your account.',
             didClose: () => {
               window.location.href = "User/login.php";
             }
@@ -391,3 +394,4 @@ function showComment() {
     }
   });
 }
+
