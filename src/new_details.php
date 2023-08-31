@@ -188,7 +188,7 @@ if (isset($_GET["new_id"])) {
                   </a>
                 </p>
                 <p class="article-description">
-                  <?= $n["new_description	"] ?>
+                  <?= $n["new_summary	"] ?>
                 </p>
               </div>
             </div>

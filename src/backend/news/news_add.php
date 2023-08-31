@@ -160,6 +160,7 @@ function checkCate($value)
             margin-left: 20px;
         }
     </style>
+    
 </head>
 <div class="page-box">
     <h1 class="title-page">
@@ -216,7 +217,7 @@ function checkCate($value)
                 </div>
             </div>
             <div class="ckeditor-box">
-            <div>
+                <div>
                     <label for="">Summary:</label>
                     <textarea id="summary" name="new_summary">
                         <?php echo (($summary != null ? $summary : '')) ?>
@@ -225,7 +226,7 @@ function checkCate($value)
                 </div>
             </div>
             <div class="ckeditor-box">
-                
+
                 <div>
                     <label for="">Description:</label>
                     <textarea id="description" name="new_description">
@@ -258,14 +259,14 @@ function checkCate($value)
     $("#success").hide();
     $("#submitData").click(function (e) {
         e.preventDefault();
-        
+
         $(document).ready(function () {
             var formData = new FormData();
-            
+
             <?php if ($id != null) { ?>
                 formData.append("id", <?php echo $id ?>);
             <?php } ?>
-            
+
             formData.append("name", $('#input-name').val());
             formData.append("cateID", $('#input-cateID').val());
             formData.append("new_summary", CKEDITOR.instances.summary.getData());
@@ -283,7 +284,7 @@ function checkCate($value)
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    
+
                     if (res === 'success') {
                         showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {
