@@ -14,7 +14,7 @@ if (isset($_POST["content"])) {
 
         execute("INSERT INTO tb_comments 
         (user_id, product_id, content, inbox_date) VALUES 
-        ($user_id, $product_id, '$filteredText', $date)");
+        ($user_id, $product_id, '$filteredText', '$date')");
 
         echo "success";
     } else {

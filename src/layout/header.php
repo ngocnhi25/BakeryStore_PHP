@@ -1,24 +1,23 @@
 <?php
 $itemCart = '';
 if (isset($_SESSION["auth_user"])) {
-  $user_name = $_SESSION["auth_user"]["username"];
-  $user_id = $_SESSION["auth_user"]["user_id"];
-  $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
-  $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
-  $bodyCart = executeResult("SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart");
-  $footerCart = executeResult("SELECT SUM(total_price) as totalPrice FROM tb_cart");
+    $user_name = $_SESSION["auth_user"]["username"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
+    $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
+    $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
+    $bodyCart = executeResult("SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart");
+    $footerCart = executeResult("SELECT SUM(total_price) as totalPrice FROM tb_cart");
 }
-$cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views 
+$cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views
                         FROM tb_category c
-                        INNER JOIN tb_products p 
-                        ON c.cate_id = p.cate_id 
+                        INNER JOIN tb_products p
+                        ON c.cate_id = p.cate_id
                         GROUP BY c.cate_name
                         ORDER BY total_views DESC");
 
-
 // Close the connection
-$conn->close();  
-      
+$conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +57,7 @@ $conn->close();
 
   <link href="../public/frontend/css/style.css?v=0.0.7" rel="stylesheet">
   <link href="../public/frontend/css/product.css" rel="stylesheet">
-  
+
 
 </head>
 
@@ -82,23 +81,23 @@ $conn->close();
       <div class="body">
         <ul class="cart-list">
           <?php
-          if (!empty($bodyCart)) {
-            foreach ($bodyCart as $row) {
-              $getPrice = $row['price'];
-              $priceFormat = number_format($getPrice, 0);
+if (!empty($bodyCart)) {
+    foreach ($bodyCart as $row) {
+        $getPrice = $row['price'];
+        $priceFormat = number_format($getPrice, 0);
 
-              echo '<li>';
-              echo '<p class="product-name">' . "Product: " . $row['product_name'] . '</p>';
-              echo '<p class="subtotal">' . "Flavor: " . $row['flavor'] . '</p>';
-              echo '<p class="subtotal"><span class="multi">' . "Price: " . $priceFormat . '$' . '</span></p>';
-              echo '<p class="subtotal"><span class="multi">' . "Quantity: " . $row['quantity'] . '</span></p>';
-              echo '<p class="subtotal"><span class="multi">' . "Size: " . $row['size'] . '</span></p>';
-              echo '</li>';
-            }
-          } else {
-            echo '<li>No items in the cart.</li>';
-          }
-          ?>
+        echo '<li>';
+        echo '<p class="product-name">' . "Product: " . $row['product_name'] . '</p>';
+        echo '<p class="subtotal">' . "Flavor: " . $row['flavor'] . '</p>';
+        echo '<p class="subtotal"><span class="multi">' . "Price: " . $priceFormat . '$' . '</span></p>';
+        echo '<p class="subtotal"><span class="multi">' . "Quantity: " . $row['quantity'] . '</span></p>';
+        echo '<p class="subtotal"><span class="multi">' . "Size: " . $row['size'] . '</span></p>';
+        echo '</li>';
+    }
+} else {
+    echo '<li>No items in the cart.</li>';
+}
+?>
         </ul>
 
       </div>
@@ -106,24 +105,22 @@ $conn->close();
         <div class="total">
           <span class="text">Tổng tiền</span>
           <?php
-          // Calculate the total price from the footerCart array
-          $totalPrice = 0; // Initialize total price
-          
-          if (!empty($footerCart)) {
-            foreach ($footerCart as $item) {
-              $totalPrice += $item['price']; // Assuming the price is present in each cart item
-            }
+// Calculate the total price from the footerCart array
+$totalPrice = 0; // Initialize total price
 
-            // Display the calculated total price
-            echo '<ul>'; // Start a list for cart items
-            echo '<li>';
-            echo "Total Price: " . number_format($totalPrice, 0) . " vnđ";
-            echo '</li>';
-            echo '</ul>'; // Close the list
-          } else {
-            echo '<p>No items in the cart.</p>';
-          }
-          ?>
+if (!empty($footerCart) && isset($footerCart[0]['totalPrice'])) {
+    $totalPrice = $footerCart[0]['totalPrice'];
+
+    echo '<ul>'; // Start a list for cart items
+    echo '<li>';
+    echo "Total Price: " . number_format($totalPrice, 0) . " vnđ";
+    echo '</li>';
+    echo '</ul>'; // Close the list
+} else {
+    echo '<p>No items in the cart.</p>';
+}
+
+?>
         </div>
 
         <div class="action-btns">
@@ -157,11 +154,11 @@ $conn->close();
                   <i class="fa fa-angle-down" aria-hidden="true"></i>
                 </a>
                 <ul class="submenu">
-                  <?php foreach ($cates as $key => $c) { ?>
+                  <?php foreach ($cates as $key => $c) {?>
                     <li>
-                      <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                      <a href="product.php?cate_id=<?=$c["cate_id"]?>"><?=$c["cate_name"]?></a>
                     </li>
-                  <?php } ?>
+                  <?php }?>
                 </ul>
               </li>
               <li class="li-menu">
@@ -198,11 +195,11 @@ $conn->close();
           </div>
           <div class="tab-pane fade  pt-3" id="nav-category" role="tabpanel" aria-labelledby="nav-profile-tab">
             <ul class="mobile-menu-list">
-              <?php foreach ($cates as $key => $c) { ?>
+              <?php foreach ($cates as $key => $c) {?>
                 <li>
-                  <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                  <a href="product.php?cate_id=<?=$c["cate_id"]?>"><?=$c["cate_name"]?></a>
                 </li>
-              <?php } ?>
+              <?php }?>
             </ul>
           </div>
         </div>
@@ -255,37 +252,37 @@ $conn->close();
               <button class="shopping-bag js-toggle-cart-sidebar">
                 <img src="../public/images/icon/shopping-bag.svg" alt="">
                 <span class="counter" id="cart-item">
-                  <?= ($itemCart != null ? $itemCart["total"] : 0) ?>
+                  <?=($itemCart != null ? $itemCart["total"] : 0)?>
                 </span>
               </button>
 
               <div class="user-header d-none d-lg-block">
                 <?php
-                if (isset($_SESSION["auth_user"])) {
-                  $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-                
-                  if ($user["role"] == "1") {
-                    echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
-                    echo '</a>';
-                    echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
-                  } else {
-                    echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
-                    echo '</a>';
-                    echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
-                    echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
-                    echo '</a>';
-                  }
-                } else {
-                  echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
-                  echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
-                  echo '</a>';
-                  echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
-                  echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
-                  echo '</a>';
-                }
-                ?>
+if (isset($_SESSION["auth_user"])) {
+    $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
+
+    if ($user["role"] == "1") {
+        echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
+        echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
+        echo '</a>';
+        echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
+    } else {
+        echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+        echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+        echo '</a>';
+        echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+        echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+        echo '</a>';
+    }
+} else {
+    echo '<a href="User/login.php" class="user-header-button js-toggle-user-nav">';
+    echo '<i class="fa fa-user" aria-hidden="true"></i> Log In';
+    echo '</a>';
+    echo '<a href="User/register.php" class="user-header-button js-toggle-user-nav">';
+    echo '<i class="fa fa-user" aria-hidden="true"></i> Sign Up';
+    echo '</a>';
+}
+?>
               </div>
 
             </div>
@@ -309,11 +306,11 @@ $conn->close();
                     <i class="fa fa-angle-down" aria-hidden="true"></i>
                   </a>
                   <ul class="submenu">
-                    <?php foreach ($cates as $key => $c) { ?>
+                    <?php foreach ($cates as $key => $c) {?>
                       <li>
-                        <a href="product.php?cate_id=<?= $c["cate_id"] ?>"><?= $c["cate_name"] ?></a>
+                        <a href="product.php?cate_id=<?=$c["cate_id"]?>"><?=$c["cate_name"]?></a>
                       </li>
-                    <?php } ?>
+                    <?php }?>
                   </ul>
                 </li>
                 <li class="li-menu">

@@ -34,7 +34,7 @@ $products = executeResult("SELECT * FROM tb_products p
                           where c.cate_id = $cate_id and p.deleted = 0");
 
 //Breadcrumbs setup
-$productDetails = executeSingleResult("SELECT p.product_name, c.cate_name FROM tb_products p
+$productDetails = executeSingleResult("SELECT p.product_name, c.cate_name, p.cate_id FROM tb_products p
                                       JOIN tb_category c ON p.cate_id = c.cate_id
                                       WHERE p.product_id = $id");
 
@@ -59,8 +59,6 @@ function calculateSaleProductDetails()
     }
 
     .form {
-      margin-left: 400px;
-      margin-right: 400px;
       margin-top: 50px;
       background-color: #fff;
     }
@@ -106,15 +104,63 @@ function calculateSaleProductDetails()
       background-color: #0056b3;
     }
 
-    .form .commentList-lv1 {
-      border: none;
-      list-style: none;
-      padding: 0;
-      padding-bottom: 30px;
+    .form .comment {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+    .form .comment .input-reply{
+      width: 90%;
+      margin-left: 10%;
+      margin-top: 15px;
+    }
+    .form .comment .input-reply textarea{
+      width: 100%;
+      height: 100px;
+      margin-bottom: 10px;
+    }
+    .form .comment .input-reply .send-reply-comment{
+      border-radius: 3px;
+      padding: 8px;
+      background-color: #007bff;
+    }
+    .form .commentList {
+      padding: 20px;
       position: relative;
+      border-radius: 10px;
+      background-color: #7b8c9f38;
     }
 
-    .form .commentList-lv1 .comment-lv1 {
+    .form .commentList .reply-comment {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+
+    }
+
+    .form .commentList .reply-comment .btn-reply {
+      font-size: 14px;
+      color: blue;
+      cursor: pointer;
+    }
+
+    .form .commentList .reply-comment .btn-reply:hover {
+      color: red;
+    }
+
+    .form .commentList .reply-comment .date-comment {
+      font-size: 14px;
+    }
+
+    .form .commentList .user-comment {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .form .commentList .user-comment .content-comment {
+      font-size: 14px;
+    }
+
+    .form .commentList .comment-lv1 {
       margin-top: 10px;
       padding: 30px 20px;
       border-bottom: 1px solid #777;
@@ -153,7 +199,7 @@ function calculateSaleProductDetails()
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-  <?php
+<?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -169,7 +215,7 @@ function calculateSaleProductDetails()
           </a>
         </li>
         <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
-          <a href="#" itemprop="item">
+          <a href="product.php?cate_id=<?= $productDetails["cate_id"] ?>" itemprop="item">
             <span itemprop="name">
               <?php echo $productDetails['cate_name']; ?>
             </span>
@@ -201,16 +247,13 @@ function calculateSaleProductDetails()
         </div>
       </div>
       <div class="col-12 col-lg-5">
-        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>"
-          data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
+        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>" data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
         <p class="pd-view">Views: <span>
             <?= $product["view"] ?>
           </span></p>
         <div class="price-details">Price:
           <?php if ($saleProductID != null) { ?>
-            <span class="discounted-price"
-              data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>"
-              data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
+            <span class="discounted-price" data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>" data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
               <?= calculateSaleProductDetails() ?> vnđ
             </span>
             <span class="original-price">
@@ -226,8 +269,7 @@ function calculateSaleProductDetails()
           <span>Choose cake size:</span>
           <div class="size-btn-items">
             <?php foreach ($size as $key => $s) { ?>
-              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>"
-                data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
+              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>" data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
                 <?php echo $s["size_name"] ?>cm
               </button>
             <?php } ?>
@@ -237,8 +279,7 @@ function calculateSaleProductDetails()
           <span>Choose cake flavor:</span>
           <div class="flavor-btn-items">
             <?php foreach ($flaror as $key => $f) { ?>
-              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>"
-                value="<?= $f['flavor_name'] ?>">
+              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>" value="<?= $f['flavor_name'] ?>">
                 <?php echo $f["flavor_name"] ?>
               </button>
             <?php } ?>
@@ -249,8 +290,7 @@ function calculateSaleProductDetails()
           <span>Quantity:</span>
           <div class="btn-quantity">
             <button class="qty-btn-reduce">-</button>
-            <input class="qty-product-detail" type="text" value="1"
-              oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
+            <input class="qty-product-detail" type="text" value="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
             <button class="qty-btn-increase">+</button>
           </div>
         </div>
@@ -267,13 +307,13 @@ function calculateSaleProductDetails()
           <input type="hidden" class="user_id" value="<?php echo $user_id ?>">
           <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
           <input type="hidden" class="lastPrice" value="<?php
-          if (isset($discountedPrice)) {
-            echo $discountedPrice;
-          } else {
-            $discountedPrice = $price;
-            echo $discountedPrice;
-          }
-          ?>">
+                                                        if (isset($discountedPrice)) {
+                                                          echo $discountedPrice;
+                                                        } else {
+                                                          $discountedPrice = $price;
+                                                          echo $discountedPrice;
+                                                        }
+                                                        ?>">
         </form>
 
         <div class="btn-box">
@@ -286,8 +326,7 @@ function calculateSaleProductDetails()
       <div class="card-content-pro">
         <ul class="nav nav-pills tabs-categories" role="tablist">
           <li class="nav-item" style="cursor: none;">
-            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
-              aria-controls="pills-home" aria-selected="true">
+            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
               Description
             </a>
           </li>
@@ -399,7 +438,7 @@ function calculateSaleProductDetails()
         $rating = $_POST["rating"];
         $comment = $_POST["comment"];
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $created_at = date('Y-m-d H:i:s');
+$created_at = date('Y-m-d H:i:s');
         $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
 
         $user_id = $_SESSION["auth_user"]["user_id"];
@@ -508,7 +547,7 @@ function calculateSaleProductDetails()
         }
 
         .send:hover {
-          background-color: #0056b3;
+background-color: #0056b3;
         }
 
         .star {
@@ -612,7 +651,7 @@ function calculateSaleProductDetails()
             <h2>Leave a comment</h2>
             <?php
             if (!isset($_SESSION["auth_user"])) {
-              echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a comment.</p>";
+echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a comment.</p>";
             } else {
               // Check if user has purchased the product
               $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
@@ -661,7 +700,7 @@ function calculateSaleProductDetails()
                     <br>
                     <button class="send" type="submit" name="submit_danhgia"
                       onclick="return validateSurveyForm();">Send</button>
-                  </form>
+</form>
                   <?php
                 } else {
                   echo "<p>You can only leave a review for products that have been prepare.</p>";
@@ -711,10 +750,8 @@ function calculateSaleProductDetails()
                     </div>
                   <?php } ?>
                   <div class="box-actions-hover">
-                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span
-                          class="material-symbols-sharp">visibility</span></a></button>
-                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span
-                        class="material-symbols-sharp">add_shopping_cart</span></button>
+                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
+                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
                   </div>
                 </div>
                 <div class="product-info">
@@ -752,21 +789,26 @@ function calculateSaleProductDetails()
   </div>
 </section>
 
-<div class="form">
-  <div class="comment-form">
-    <h3>Comment</h3>
-    <div class="commentForm">
-      <input type="hidden" id="name" name="name" required>
-      <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
-      <br>
-      <button type="button" class="submit-comment">Submit</button>
+
+<section class="section-paddingY middle-section product-page">
+  <div class="container">
+    <div class="section-body">
+      <div class="form col-12 col-lg-12">
+        <div class="comment-form">
+          <h3>Comment</h3>
+          <div class="commentForm">
+            <input type="hidden" id="name" name="name" required>
+            <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
+            <br>
+            <button type="button" class="submit-comment">Submit</button>
+          </div>
+        </div>
+        <hr>
+
+        <div class="comments"></div>
     </div>
   </div>
-  <hr>
-
-  <div class="comments"><!-- show comment --></div>
-
-</div>
+</section>
 
 <?php include("layout/footer.php"); ?>
 
@@ -776,7 +818,7 @@ function calculateSaleProductDetails()
     $.ajax({
       type: "GET",
       url: "handles_page/check_login_status.php",
-      success: function (response) {
+      success: function(response) {
         if (response === "loggedin") {
           addToCart(); // Call the addToCart function if logged in
         } else {
@@ -827,7 +869,7 @@ function calculateSaleProductDetails()
         price: price,
         user_id: user_id,
       },
-      success: function (response) {
+      success: function(response) {
         Swal.fire({
           icon: 'success',
           title: 'Add to cart success',
@@ -835,15 +877,15 @@ function calculateSaleProductDetails()
           showConfirmButton: false
         });
       },
-      error: function () {
+      error: function() {
         alert("Error adding product to cart");
       }
     });
   }
 
-  $(document).ready(function () {
+  $(document).ready(function() {
     // Add to cart button event listener
-    $(document).on("click", "#add", function (e) {
+    $(document).on("click", "#add", function(e) {
       e.preventDefault();
       checkLoginStatus();
     });

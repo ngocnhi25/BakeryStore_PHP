@@ -146,7 +146,6 @@ function checkTypeCateUpdate($value)
                         <div class="select-container">
                             <select name="typeAds" id="typeAds" class="select-box" onchange="checkTypeAds()">
                                 <option value="">______Option______</option>
-                                <option value="sale" <?php checkTypeAdsUpdate('sale') ?>>Sale</option>
                                 <option value="category" <?php checkTypeAdsUpdate('category') ?>>Category</option>
                                 <option value="product" <?php checkTypeAdsUpdate('product') ?>>Product</option>
                                 <option value="news" <?php checkTypeAdsUpdate('news') ?>>News</option>

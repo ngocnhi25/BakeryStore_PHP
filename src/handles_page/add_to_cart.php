@@ -226,7 +226,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 				<p><strong>Your E-mail:</strong> ' . $email . '</p>
 				<p><strong>Your Phone:</strong> ' . $phone . '</p>
 				<p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
-				<p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
+				<p><strong>Discount Amount:</strong> ' . $discount_amount . '</p>
 				<p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
 				<p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
 				<p><strong>Payment Mode:</strong> ' . $pmode . '</p>
@@ -250,7 +250,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$message .= "Your E-mail: $email\n";
 		$message .= "Your Phone: $phone\n";
 		$message .= "Total Amount Paid: " . number_format($grand_total, 0) . "\n";
-		$message .= "Discount Amount: " . number_format($discount_amount, 0) . "\n";
+		$message .= "Discount Amount: " . $discount_amount . "\n";
 		$message .= "Deposit Amount: " . number_format($deposit, 0) . "\n";
 		$message .= "Total Pay: " . number_format($total_pay, 0) . "\n";
 		$message .= "Payment Mode: $pmode\n";
