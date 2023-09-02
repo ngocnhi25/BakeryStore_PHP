@@ -8,17 +8,34 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
 
 ?>
 
-<div class="customers">
+<div class="products">
     <h1>Employee Management</h1>
-    <div class="products">
     <div class="filter-product">
         <div class="form-search-header">
             <span class="material-symbols-sharp icon">search</span>
-            <input id="filter-search-product" type="text" name="search" placeholder="Search ..." class="form-control">
+            <input id="filter-search-Cus" type="text" name="search" placeholder="Search ..." class="form-control">
         </div>
     </div>
 </div>
-    <div class="table_customer">
+
+<div class="container-filter-table-sale">
+    <div class="filter-action">
+        <div class="select-container">
+            <select name="category" class="select-box" id="arrangeCus">
+                <option value="all">__All Employee__ </option>
+                <option value="new_to_old">New to Old </option>
+                <option value="old_to_new">Old to New</option>
+                <option value="Active">Active</option>
+                <option value="Deactive">Deactive</option>
+            </select>
+        </div>
+    </div>
+    <div class="table-sale-box"></div>
+</div>
+</div>
+</div>
+
+    <!-- <div class="table_customer">
         <table>
             <thead>
                 <tr>
@@ -53,7 +70,7 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
                 } ?>
             </tbody>
         </table>
-    </div>
+    </div> -->
 </div>
 
 <script type="text/javascript">
@@ -97,5 +114,88 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
         }
     }
 
+
+    function showCus() {
+        $.ajax({
+            url: "handles/search/filter_search_employee.php",
+            method: "POST",
+            data: {
+                arrangeCustomer: $("#arrangeCus").val()
+            },
+            success: function(res) {
+                $(".table-sale-box").empty().html(res);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        showCus();
+
+        $("#filter-search-Cus").on("input", function() {
+            const search = $(this).val();
+            if (search !== "") {
+                $.ajax({
+                    url: "handles/search/filter_search_employee.php",
+                    method: "POST",
+                    data: {
+                        filter_search: search,
+                        arrangeCustomer: $("#arrangeCus").val()
+                    },
+                    success: function(res) {
+                        $(".table-sale-box").empty().html(res);
+                    }
+                });
+            } else {
+                showCus();
+            }
+        });
+
+        $("#arrangeCus").on("change", function() {
+            const arrangeCus = $(this).val();
+            $.ajax({
+                url: "handles/search/filter_search_employee.php",
+                method: "POST",
+                data: {
+                    filter_search: $("#filter-search-Cus").val(),
+                    arrangeCustomer: arrangeCus
+                },
+                success: function(res) {
+                    $(".table-sale-box").empty().html(res);
+                }
+            });
+        });
+    })
+
+
+
+    function product_previous(id) {
+        $.ajax({
+            url: "handles/search/filter_search_employee.php",
+            method: "POST",
+            data: {
+                page: id - 1,
+                filter_search: $("#filter-search-Cus").val(),
+                arrangeCustomer: $("#arrangeCus").val()
+            },
+            success: function(res) {
+                $(".table-sale-box").empty().html(res);
+            }
+        });
+    };
+
+    function product_next(id) {
+        $.ajax({
+            url: "handles/search/filter_search_employee.php",
+            method: "POST",
+            data: {
+                page: (id + 1),
+                filter_search: $("#filter-search-Cus").val(),
+                arrangeCustomer: $("#arrangeCus").val()
+            },
+            success: function(res) {
+                $(".table-sale-box").empty().html(res);
+            }
+        });
+    };
     
 </script>

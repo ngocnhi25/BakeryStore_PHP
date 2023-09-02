@@ -279,6 +279,7 @@ function product_previous(id) {
         }
     });
 };
+
 function product_next(id) {
     $.ajax({
         url: "handles/search/filter_search_product.php",

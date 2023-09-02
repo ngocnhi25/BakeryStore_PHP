@@ -228,10 +228,10 @@ if (isset($_SESSION["auth_user"])) {
         success: function(response) {
                     if (response === 'inactive' || response === 'failstatus') {
                         alert("Your account is deactivated!");
-                        window.location.href = "../User/login.php";
+                        window.location.href = "../User/out.php";
                     } else if (response === 'failtoken'){
                         alert("Your account is other page login !");
-                        window.location.href = "../User/login.php";
+                        window.location.href = "../User/out.php";
                     }
                     else if (response === 'success') {
                         // User is active and token is valid, continue with normal flow
