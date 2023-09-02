@@ -155,7 +155,7 @@ if (isset($_POST['action']) && !empty($_POST["action"])) {
         getAllProducts($product);
         echo "</div>";
         echo "<div class='pagination-prod'>";
-        Pagination($number, $page);
+        PaginationProduct($number, $page);
         echo "</div>";
     } else {
         echo "<p>No data</p>";

@@ -45,20 +45,65 @@ function formatElapsedTime($time)
     $elapsedTime = $currentTimestamp - $userActivityTimestamp;
 
     if ($elapsedTime < 60) {
-        return "$elapsedTime elapsedTime ago";
+        return "just finished";
     } elseif ($elapsedTime < 3600) {
         $minutes = floor($elapsedTime / 60);
-        return "$minutes minutes ago";
+        return "$minutes minutes";
     } elseif ($elapsedTime < 86400) {
         $hours = floor($elapsedTime / 3600);
         $minutes = floor(($elapsedTime % 3600) / 60);
-        return "$hours h $minutes m ago";
+        return "$hours hours";
     } else {
         $days = floor($elapsedTime / 86400);
         if($days > 10){
             return $time;
         } else {
-            return "$days days ago";
+            return "$days days";
+        }
+    }
+}
+
+function countLikeComments($comment_id) {
+    $count = executeSingleResult("SELECT count(*) as count FROM tb_like_comments where comment_id = $comment_id and vote = 1");
+    if($count){
+        return $count["count"];
+    } else {
+        return 0;
+    }
+}
+
+function countUnlikeComments($comment_id) {
+    $count = executeSingleResult("SELECT count(*) as count FROM tb_like_comments where comment_id = $comment_id and vote = 0");
+    if($count){
+        return $count["count"];
+    } else {
+        return 0;
+    }
+}
+
+function checkVotedLike($user_id, $comment_id){
+    if($user_id == ''){
+        return false;
+    } else {
+        $checkVoted = checkRowTable("SELECT * FROM tb_like_comments 
+        WHERE user_id = $user_id and comment_id = $comment_id and vote = 1");
+        if($checkVoted != null){
+            return "active";
+        } else {
+            return false;
+        }
+    }
+}
+function checkVotedUnlike($user_id, $comment_id){
+    if($user_id == ''){
+        return false;
+    } else {
+        $checkVoted = checkRowTable("SELECT * FROM tb_like_comments 
+        WHERE user_id = $user_id and comment_id = $comment_id and vote = 0");
+        if($checkVoted != null){
+            return "active";
+        } else {
+            return false;
         }
     }
 }

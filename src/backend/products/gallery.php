@@ -28,7 +28,7 @@ if (isset($_POST["idSize"])) {
 
 <div class="table_category">
     <div>
-        <h1>Category</h1>
+        <h1>Category Management</h1>
         <button onclick="createCate()" class="create" type="button">Add new category</button>
         <div>
             <table>
@@ -50,7 +50,7 @@ if (isset($_POST["idSize"])) {
                             <td><?= $cate["cate_name"] ?></td>
                             <td><?php echo $row["total"] ?></td>
                             <td class="button">
-                                <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button">Update</button>
+                                <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button">Edit</button>
                                 <?php if ($row["total"] > 0) { ?>
                                     <button class="notDelete delete">Delete</button>
                                 <?php  } else { ?>
@@ -64,7 +64,7 @@ if (isset($_POST["idSize"])) {
         </div>
     </div>
     <div>
-        <h1>Flavor</h1>
+        <h1>Flavor Management</h1>
         <div>
             <table>
                 <thead>
@@ -105,7 +105,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $f["flavor_name"] ?></td>
                                 <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Update</button>
+                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Edit</button>
                                     <button class="hide" onclick="hideFlavor(<?= $f['flavor_id'] ?>)">Hide</button>
                                     <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
@@ -116,7 +116,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $f["flavor_name"] ?></td>
                                 <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Update</button>
+                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Edit</button>
                                     <button class="recover" onclick="recoverFlavor(<?= $f['qti_flavor'] ?>, <?= $f['flavor_id'] ?>)">Recover</button>
                                     <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
@@ -128,7 +128,7 @@ if (isset($_POST["idSize"])) {
         </div>
     </div>
     <div>
-        <h1>Size</h1>
+        <h1>Size Management</h1>
         <div>
             <table>
                 <thead>
@@ -169,7 +169,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $s["size_name"] ?></td>
                                 <td><?= $s["qti_boxes_size"] ?> boxes</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Update</button>
+                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Edit</button>
                                     <button class="hide" onclick="hideSize(<?= $s['size_id'] ?>)">Hide</button>
                                     <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
                                 </td>
@@ -180,7 +180,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $s["size_name"] ?></td>
                                 <td><?= $s["qti_boxes_size"] ?> boxes</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Update</button>
+                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Edit</button>
                                     <button class="recover" onclick="recoverSize(<?= $s['qti_boxes_size'] ?>, <?= $s['size_id'] ?>)">Recover</button>
                                     <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
                                 </td>

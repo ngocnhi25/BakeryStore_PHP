@@ -2,7 +2,7 @@
 require_once("../../../connect/connectDB.php");
 require_once("../../../handles_page/handle_calculate.php");
 
-$limit = 10;
+$limit = 4;
 $page = 1;
 $number = 0;
 if(isset($_POST["page"])){
@@ -56,7 +56,7 @@ function showSale()
         echo "<td>". $s["start_date"] ."</td>";
         echo "<td>". $s["end_date"] ."</td>";
         echo "<td>";
-        echo "<button onclick='updateSale(". $s['sale_id'] .")' type='button' class='update'>Update</button>";
+        echo "<button onclick='updateSale(". $s['sale_id'] .")' type='button' class='update'>Edit</button>";
         echo "<button onclick='deleteSale('". $s['product_name'] ."', ". $s['sale_id'] .")' type='button' class='delete'>Delete</button>";
         echo "</td>";
         echo "</tr>";
