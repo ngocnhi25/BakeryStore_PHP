@@ -11,12 +11,13 @@ if (isset($_SESSION["auth_user"])) {
         $parent_id = $_POST["parent_id"];
         $product_id = $_POST["product_id"];
         $reply_id = $_POST["reply_id"];
+        $reply_username = isset($_POST["reply_username"]) ? $_POST["reply_username"] : '';
 
         $filteredText = replaceProfanity($content);
 
         $success = execute("INSERT INTO tb_comments 
-        (product_id, user_id, content, parent_id, reply_id, inbox_date) VALUES 
-        ($product_id, $user_id, '$filteredText', $parent_id, $reply_id,'$date')");
+        (product_id, user_id, content, parent_id, reply_id, reply_username, inbox_date) VALUES 
+        ($product_id, $user_id, '$filteredText', $parent_id, $reply_id, '$reply_username','$date')");
 
         if($success){
             echo "success";
