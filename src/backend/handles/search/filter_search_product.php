@@ -75,9 +75,17 @@ function showProduct()
         echo "<td>" . $product["view"] . "</td>";
         echo "<td>" . $product["qty_warehouse"] . "</td>";
         echo "<td class='button'>";
-        echo "<button onclick='editProduct(" . $product["product_id"] . ")' type='button' class='update'>Edit</button>";
+        echo "<button onclick='editProduct(" . $product["product_id"] . ")' type='button' class='update'><span class='material-symbols-sharp icon'>edit_square</span></button>";
+        echo "</td>";
+        echo "<td>";
+        echo "<div class='menu-btn'>";
+        echo "<span class='material-symbols-sharp'>more_vert</span>";
+        echo "<div class='menu-btn-box'>";
         checkBtnAction($product);
-        echo "<button type='button' onclick=\"deleteProduct('" . $product["product_name"] . "','" . $product["product_id"] . "')\" class='delete'>Delete</button>";
+        echo "<div onclick=\"updateProduct('" . $product["product_name"] . "','" . $product["qty_warehouse"] . "','" . $product["product_id"] . "')\" class='updates'>Update</div>";
+        echo "<div onclick=\"deleteProduct('" . $product["product_name"] . "','" . $product["product_id"] . "')\" >Delete</div>";
+        echo "</div>";
+        echo "</div>";
         echo "</td>";
         echo "</tr>";
     }
@@ -86,9 +94,9 @@ function showProduct()
 function checkBtnAction($product)
 {
     if ($product["deleted"] == 0) {
-        echo "<button onclick='hideProduct(" . $product["product_id"] . ")' type='button' class='hide'>Hide</button>";
+        echo "<div onclick=\"hideProduct('" . $product["product_name"] . "','" . $product["product_id"] . "')\" class='hide'>Hide</div>";
     } else {
-        echo "<button onclick='recoverProduct(" . $product["qty_warehouse"] . ", " . $product["product_id"] . ")' type='button' class='recover'>Recover</button>";
+        echo "<div onclick=\"recoverProduct('" . $product["product_name"] . "','" . $product["product_id"] . "')\" class='recover'>Recover</div>";
     }
 }
 
@@ -123,6 +131,7 @@ if ($products) {
     echo "<th>View</th>";
     echo "<th>Product Quantity</th>";
     echo "<th>Actions</th>";
+    echo "<th></th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";

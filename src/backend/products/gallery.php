@@ -30,8 +30,8 @@ if (isset($_POST["idSize"])) {
     <div>
         <h1>Category Management</h1>
         <button onclick="createCate()" class="create" type="button">Add new category</button>
-        <div>
-            <table>
+        <div class="table-coupon-box">
+            <table class="table-admin">
                 <thead>
                     <tr>
                         <th>Id</th>
@@ -50,7 +50,7 @@ if (isset($_POST["idSize"])) {
                             <td><?= $cate["cate_name"] ?></td>
                             <td><?php echo $row["total"] ?></td>
                             <td class="button">
-                                <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button">Edit</button>
+                                <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button"><span class='material-symbols-sharp icon'>edit_square</span></button>
                                 <?php if ($row["total"] > 0) { ?>
                                     <button class="notDelete delete">Delete</button>
                                 <?php  } else { ?>
@@ -65,8 +65,8 @@ if (isset($_POST["idSize"])) {
     </div>
     <div>
         <h1>Flavor Management</h1>
-        <div>
-            <table>
+        <div class="table-coupon-box">
+            <table class="table-admin">
                 <thead>
                     <tr>
                         <th></th>
@@ -105,7 +105,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $f["flavor_name"] ?></td>
                                 <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Edit</button>
+                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
                                     <button class="hide" onclick="hideFlavor(<?= $f['flavor_id'] ?>)">Hide</button>
                                     <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
@@ -116,7 +116,7 @@ if (isset($_POST["idSize"])) {
                                 <td><?= $f["flavor_name"] ?></td>
                                 <td><?= $f["qti_flavor"] ?> kg</td>
                                 <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)">Edit</button>
+                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
                                     <button class="recover" onclick="recoverFlavor(<?= $f['qti_flavor'] ?>, <?= $f['flavor_id'] ?>)">Recover</button>
                                     <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
                                 </td>
@@ -129,8 +129,8 @@ if (isset($_POST["idSize"])) {
     </div>
     <div>
         <h1>Size Management</h1>
-        <div>
-            <table>
+        <div class="table-coupon-box">
+            <table class="table-admin">
                 <thead>
                     <tr>
                         <th></th>

@@ -16,7 +16,7 @@ if (isset($_SESSION["auth_user"])) {
                                     WHERE user_id = $user_id 
                                     and comment_id = $comment_id");
                                     
-        if ($checkVoted == 0) {
+        if ($checkVoted == 0) { 
             $success = execute("INSERT INTO tb_like_comments 
             (user_id, comment_id, vote, vote_date) 
             VALUES ($user_id, $comment_id, $vote, '$date')");

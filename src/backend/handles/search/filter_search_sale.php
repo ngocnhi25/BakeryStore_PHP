@@ -31,8 +31,17 @@ if (isset($_POST["arrangeSale"]) && !empty($_POST["arrangeSale"])) {
         $sql .= " ORDER BY p.product_name DESC ";
     } elseif($arrangeSale == "ascending_percent"){
         $sql .= " ORDER BY s.percent_sale ASC ";
-    } else {
+    } elseif($arrangeSale == "decreasing_percent") {
         $sql .= " ORDER BY s.percent_sale DESC ";
+    } elseif ($arrangeSale == "ongoing") {
+        $sql .= "AND CURDATE() BETWEEN start_date AND end_date ";
+        $sqlCount .= "AND CURDATE() BETWEEN start_date AND end_date ";
+    } elseif ($arrangeSale == "ceased") {
+        $sql .= "AND CURDATE() > end_date ";
+        $sqlCount .= "AND CURDATE() > end_date ";
+    } elseif ($arrangeSale == "pending") {
+        $sql .= "AND CURDATE() < start_date ";
+        $sqlCount .= "AND CURDATE() < start_date ";
     }
 }
 
@@ -56,8 +65,8 @@ function showSale()
         echo "<td>". $s["start_date"] ."</td>";
         echo "<td>". $s["end_date"] ."</td>";
         echo "<td>";
-        echo "<button onclick='updateSale(". $s['sale_id'] .")' type='button' class='update'>Edit</button>";
-        echo "<button onclick='deleteSale('". $s['product_name'] ."', ". $s['sale_id'] .")' type='button' class='delete'>Delete</button>";
+        echo "<button onclick='updateSale(". $s['sale_id'] .")' type='button' class='update'><span class='material-symbols-sharp icon'>edit_square</span></button>";
+        echo "<button onclick=\"deleteSale('". $s['product_name'] ."', ". $s['sale_id'] .")\" type='button' class='delete'><span class='material-symbols-sharp icon'>auto_delete</span></button>";
         echo "</td>";
         echo "</tr>";
     }

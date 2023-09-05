@@ -47,7 +47,7 @@ function calculateSaleProductDetails()
   global $saleProductID, $product;
   return calculatePercentPrice($product["price"], $saleProductID["percent_sale"]);
 }
-
+ 
 
 ?>
 

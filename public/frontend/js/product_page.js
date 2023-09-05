@@ -331,6 +331,8 @@ $(document).ready(function () {
     ],
   });
 });
+
+
 $(document).ready(function () {
   $('input-reply-lv1').hide();
   showComment();
@@ -345,7 +347,7 @@ $(document).ready(function () {
         content: content,
         product_id: product_id,
         parent_id: 1,
-        reply_id: 0
+        reply_id: 0 
       },
       success: function (res) {
         if (res === "success") {
@@ -367,6 +369,7 @@ $(document).ready(function () {
       }
     });
   })
+  
   $("#comment").on("click", function () {
     $.ajax({
       url: "handles_page/check_login_status.php",

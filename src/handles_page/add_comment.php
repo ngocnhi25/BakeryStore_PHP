@@ -6,7 +6,7 @@ $date = date('Y-m-d H:i:s');
 
 if (isset($_SESSION["auth_user"])) {
     $user_id = $_SESSION["auth_user"]["user_id"];
-    if (isset($_POST["content"])) {
+    if (isset($_POST["content"]) && !empty($_POST["content"])) {
         $content = $_POST["content"];
         $parent_id = $_POST["parent_id"];
         $product_id = $_POST["product_id"];
@@ -26,7 +26,7 @@ if (isset($_SESSION["auth_user"])) {
 } else {
     echo "notLoggedIn";
 }
-
+ 
 function replaceProfanity($text)
 {
     $profanityList = array("fuck", "sex", "cc", "concac", "dm");

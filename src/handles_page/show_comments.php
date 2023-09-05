@@ -23,7 +23,7 @@ if (isset($_POST["product_id"])) {
             $comment_reply = $reply_id === 0 ? $c["comment_id"] : $reply_id;
 
             echo "<div class='comment comment-lv" . $c["parent_id"] . "' data-ibusername='".$c["username"]."'>";
-            echo "<div class='commentList'>";
+            echo "<div class='commentList'>"; 
             echo "<div class='content-comment'>";
             echo "<span class='user-comment'>" . $c["username"] . "</span>";
             echo "<p>".checkReplyUsername($c["reply_username"]) . $c["content"] . "</p>";
