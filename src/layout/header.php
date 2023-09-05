@@ -5,7 +5,11 @@ if (isset($_SESSION["auth_user"])) {
     $user_id = $_SESSION["auth_user"]["user_id"];
     $itemCart = executeSingleResult("SELECT COUNT(*) as total FROM tb_cart WHERE user_id = $user_id");
     $user = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
-    $bodyCart = executeResult("SELECT product_name, flavor, size, quantity, price, total_price FROM tb_cart");
+    $bodyCart = executeResult("
+    SELECT c.*, p.product_name, p.image, p.price
+    FROM tb_cart c
+    INNER JOIN tb_products p ON c.product_id = p.product_id
+");
     $footerCart = executeResult("SELECT SUM(total_price) as totalPrice FROM tb_cart");
 }
 $cates = executeResult("SELECT c.cate_id, c.cate_name, SUM(p.view) AS total_views

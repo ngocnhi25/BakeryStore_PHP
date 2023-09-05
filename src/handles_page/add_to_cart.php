@@ -204,22 +204,50 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 
 		// Display order success message
 		$data = '
-		<div class="order-success">
-			<h1 class="order-title">Thank You!</h1>
-			<h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
-			<div class="order-details">
-				<p><strong>Order ID:</strong> ' . $order_id . '</p>
-				<p><strong>Items Purchased:</strong> ' . $products_string . '</p>
-				<p><strong>Your Name:</strong> ' . $name . '</p>
-				<p><strong>Your E-mail:</strong> ' . $email . '</p>
-				<p><strong>Your Phone:</strong> ' . $phone . '</p>
-				<p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
-				<p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
-				<p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
-				<p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
-				<p><strong>Payment Mode:</strong> ' . $pmode . '</p>
-			</div>
-		</div>';
+    <h1 class="order-title">Thank You!</h1>
+    <h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
+    <div class="order-success" style="background-color: green;">
+        <div class="order-details">
+            <table class="order-table" style="width: 100%;">
+                <tr>
+                    <td style="text-align: center;"><strong>Your Name:</strong></td>
+                    <td style="text-align: center;">' . $name . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>' . $products_string . '</strong></td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Your E-mail:</strong></td>
+                    <td style="text-align: center;">' . $email . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Your Phone:</strong></td>
+                    <td style="text-align: center;">' . $phone . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Total Amount Paid:</strong></td>
+                    <td style="text-align: center;">' . number_format($grand_total, 0) . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Discount Amount:</strong></td>
+                    <td style="text-align: center;">' . number_format($discount_amount, 0) . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Deposit Amount:</strong></td>
+                    <td style="text-align: center;">' . number_format($deposit, 0) . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Total Pay:</strong></td>
+                    <td style="text-align: center;">' . number_format($total_pay, 0) . '</td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;"><strong>Payment Mode:</strong></td>
+                    <td style="text-align: center;">' . $pmode . '</td>
+                </tr>
+            </table>
+        </div>
+    </div>';
+
 
         $getEmail = executeSingleResult("SELECT tb_user.email FROM tb_order JOIN tb_user ON tb_order.user_id = tb_user.user_id WHERE tb_order.user_id = '$user_id'");
         $sendEmail = $getEmail['email'];

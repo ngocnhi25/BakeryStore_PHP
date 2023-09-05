@@ -85,6 +85,7 @@ function noOrderYet()
                                                                                                                             </div>
                                                                                                                             <div class="cal-total">
                                                                                                                             <button class="btn btn-danger cancel-btn" data-order-id="<?=$o["order_id"]?>">Cancel</button>
+                                                                                                                            <button class="btn btn-success success-btn" data-order-id="<?=$od["order_id"]?>">Success</button>
 
                                                                                                                             </div>
                                                                                                                         </div>
@@ -238,7 +239,6 @@ if (!empty($orders_details_completed)) {
                                                                                                     </div>
                                                                                                     <div class="cal-total">
                                                                             <button class="btn btn-warning return-btn" data-order-id="<?=$od["order_id"]?>" data-product-id="<?=$od["product_id"]?>">Return</button>
-                                                                            <button class="btn btn-success success-btn" data-order-id="<?=$od["order_id"]?>">Success</button>
                                                                         </div>
                                                                                                 </div>
                                                                                             </div>
@@ -323,26 +323,7 @@ if (!empty($cancelled_orders)) {
         $('.content[data-content="' + selectedTab + '"]').addClass('active');
     });
 
-    // Function to send an AJAX request for updating order status
-    function updateOrderStatus(order_id, new_status, data) {
-        $.ajax({
-            type: "POST",
-            url: "handles_page/update_order_status.php", // Replace with the actual path to your PHP script.
-            data: data,
-            success: function (response) {
-                // Display a success message using SweetAlert
-                handleSuccessPopup(response.title, response.message);
-            },
-            error: function () {
-                // Handle the error case if the processing fails
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: 'Something went wrong. Please try again later.'
-                });
-            }
-        });
-    }
+    
 
     $(document).ready(function () {
         $(".cancel-btn").click(function () {
@@ -357,11 +338,31 @@ if (!empty($cancelled_orders)) {
         });
 
         $(".success-btn").click(function () {
-            // Get the order_id from the data attribute
-            var order_id = $(this).data("order-id");
-            // Send an AJAX request to update the order status to "completed"
-            updateOrderStatus(order_id, "completed", { order_id: order_id, new_status: "completed" });
-        });
+    // Get the order_id from the data attribute
+    var order_id = $(this).data("order-id");
+    
+    // Define the data object to send
+    var data = {
+        order_id: order_id,
+        new_status: "completed"
+    };
+
+    // Send an AJAX request to the PHP script
+    $.ajax({
+        url: "handles_page/update_order_status.php", // Replace with the actual URL of your PHP script
+        type: "POST",
+        data: data,
+        success: function (response) {
+            // Handle the response from the server (e.g., display a success message)
+            alert(response);
+        },
+        error: function () {
+            // Handle errors (e.g., show an error message)
+            alert("An error occurred.");
+        }
+    });
+});
+
     });
 
 function handleCancellation(order_id) {
