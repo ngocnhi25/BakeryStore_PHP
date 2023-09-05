@@ -31,7 +31,7 @@ if (isset($_SESSION["auth_user"])) {
             }
         }
 
-        header("Location: changPass-inputNew.php");
+        header("Location: home.php");
         exit();
     }
 }
