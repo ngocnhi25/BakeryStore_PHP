@@ -388,158 +388,33 @@ $(document).ready(function () {
       }
     });
   })
-
+  
   $(document).on("click", ".btn-reply1", function () {
-    const html = `
-              <textarea name="" id="" cols="30" rows="10"></textarea>
-              <button class="send-reply-comment lv1">Send</button>
-            `;
     const commentContainer = $(this).closest('.comment');
-    commentContainer.find(".input-reply-lv1").show().empty().html(html);
-    commentContainer.find(".input-reply-lv1 textarea").focus();
+    setupReplyForm(commentContainer, 1);
   });
-
+  
   $(document).on("click", ".btn-reply2", function () {
-    const html = `
-              <textarea name="" id="" cols="30" rows="10"></textarea>
-              <button class="send-reply-comment lv2">Send</button>
-            `;
     const commentContainer = $(this).closest('.comment');
-    commentContainer.find(".input-reply-lv2").show().empty().html(html);
-    commentContainer.find(".input-reply-lv2 textarea").focus();
+    setupReplyForm(commentContainer, 2);
   });
-
+  
   $(document).on("click", ".send-reply-comment.lv1", function () {
     const commentContainer = $(this).closest('.comment');
-    const content = commentContainer.find(".input-reply-lv1 textarea").val();
-    const product_id = $("#proDetail-proID").data("id");
-    const reply_id = commentContainer.find(".input-reply-lv1").data("reply");
-    $.ajax({
-      url: "handles_page/add_comment.php",
-      method: "POST",
-      data: {
-        content: content,
-        product_id: product_id,
-        parent_id: 2,
-        reply_id: reply_id
-      },
-      success: function (res) {
-        if (res === "success") {
-          commentContainer.find(".input-reply-lv1").empty().hide();
-          showComment();
-        } else if (res === "notLoggedIn") {
-          Swal.fire({
-            icon: 'info',
-            title: 'Not Logged In',
-            text: 'Please login your account.',
-            didClose: () => {
-              window.location.href = "User/login.php";
-            }
-          });
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("error: " + error);
-      }
-    });
+    sendReply(commentContainer, 1);
   });
-
+  
   $(document).on("click", ".send-reply-comment.lv2", function () {
     const commentContainer = $(this).closest('.comment');
-    const content = commentContainer.find(".input-reply-lv2 textarea").val();
-    const product_id = $("#proDetail-proID").data("id");
-    const reply_id = commentContainer.find(".input-reply-lv2").data("reply");
-    $.ajax({
-      url: "handles_page/add_comment.php",
-      method: "POST",
-      data: {
-        content: content,
-        product_id: product_id,
-        parent_id: 2,
-        reply_id: reply_id
-      },
-      success: function (res) {
-        if (res === "success") {
-          commentContainer.find(".input-reply-lv2").empty().hide();
-          showComment();
-        } else if (res === "notLoggedIn") {
-          Swal.fire({
-            icon: 'info',
-            title: 'Not Logged In',
-            text: 'Please login your account.',
-            didClose: () => {
-              window.location.href = "User/login.php";
-            }
-          });
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("error: " + error);
-      }
-    });
+    sendReply(commentContainer, 2);
   });
 
   $(document).on("click", ".btn-like", function () {
-    const $this = $(this);
-    const id = $this.data("id");
-    $.ajax({
-      url: "handles_page/vote_comment.php",
-      method: "POST",
-      data: {
-        action: "like",
-        comment_id: id
-      },
-      success: function (res) {
-        if (res === "notLoggedIn") {
-          Swal.fire({
-            icon: 'info',
-            title: 'Not Logged In',
-            text: 'Please login your account.',
-            didClose: () => {
-              window.location.href = "User/login.php";
-            }
-          });
-        } else {
-          const response = JSON.parse(res);
-          $this.toggleClass('active');
-          $this.find('.qty-like').text(response.like);
-          $this.closest('.commentList').find('.btn-unlike').removeClass('active');
-          $this.closest('.commentList').find('.qty-unlike').text(response.unlike);
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("error: " + error);
-      }
-    });
+    handleVoteAction($(this), "like");
   });
+  
   $(document).on("click", ".btn-unlike", function () {
-    const id = $(this).data("id");
-    $.ajax({
-      url: "handles_page/vote_comment.php",
-      method: "POST",
-      data: {
-        action: "unlike",
-        comment_id: id
-      },
-      success: function (res) {
-        alert(res)
-        if (res === "success") {
-          
-        } else if (res === "notLoggedIn") {
-          Swal.fire({
-            icon: 'info',
-            title: 'Not Logged In',
-            text: 'Please login your account.',
-            didClose: () => {
-              window.location.href = "User/login.php";
-            }
-          });
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error("error: " + error);
-      }
-    });
+    handleVoteAction($(this), "unlike");
   });
 });
 
@@ -561,3 +436,94 @@ function showComment() {
   });
 }
 
+function handleVoteAction($element, action) {
+  const id = $element.data("id");
+  $.ajax({
+    url: "handles_page/vote_comment.php",
+    method: "POST",
+    data: {
+      action: action,
+      comment_id: id
+    },
+    success: function (res) {
+      if (res === "notLoggedIn") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Not Logged In',
+          text: 'Please login your account.',
+          didClose: () => {
+            window.location.href = "User/login.php";
+          }
+        });
+      } else {
+        const response = JSON.parse(res);
+        const $commentList = $element.closest('.commentList');
+        const $btnLike = $commentList.find('.btn-like');
+        const $btnUnlike = $commentList.find('.btn-unlike');
+        const $qtyLike = $btnLike.find('.qty-like');
+        const $qtyUnlike = $btnUnlike.find('.qty-unlike');
+
+        if (action === "like") {
+          $element.toggleClass('active');
+          $qtyLike.text(response.like);
+          $btnUnlike.removeClass('active');
+          $qtyUnlike.text(response.unlike);
+        } else if (action === "unlike") {
+          $element.toggleClass('active');
+          $qtyUnlike.text(response.unlike);
+          $btnLike.removeClass('active');
+          $qtyLike.text(response.like);
+        }
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("error: " + error);
+    }
+  });
+}
+
+function setupReplyForm(commentContainer, level) {
+  const html = `
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <button class="send-reply-comment lv${level}">Send</button>
+  `;
+  commentContainer.find(`.input-reply-lv${level}`).show().empty().html(html);
+  commentContainer.find(`.input-reply-lv${level} textarea`).focus();
+}
+
+function sendReply(commentContainer, level) {
+  const content = commentContainer.find(`.input-reply-lv${level} textarea`).val();
+  const product_id = $("#proDetail-proID").data("id");
+  const reply_id = commentContainer.find(`.input-reply-lv${level}`).data("reply");
+  const reply_username = commentContainer.data("ibusername");
+
+  $.ajax({
+    url: "handles_page/add_comment.php",
+    method: "POST",
+    data: {
+      content: content,
+      product_id: product_id,
+      parent_id: 2,
+      reply_id: reply_id,
+      reply_username: reply_username
+    },
+    success: function (res) {
+      if (res === "success") {
+        commentContainer.find(`.input-reply-lv${level}`).empty().hide();
+        showComment();
+      } else if (res === "notLoggedIn") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Not Logged In',
+          text: 'Please login your account.',
+          didClose: () => {
+            window.location.href = "User/login.php";
+          }
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("error: " + error);
+    }
+  });
+}

@@ -10,7 +10,7 @@ if (isset($_POST["product_id"])) {
 
     $product_id = $_POST["product_id"];
 
-    function getCommentReply($parent_id, $reply_id, $userReply)
+    function getCommentReply($parent_id, $reply_id)
     {
         global $product_id, $user_id;
         $orderBy = ($reply_id === 0) ? "DESC" : "ASC";
@@ -22,21 +22,21 @@ if (isset($_POST["product_id"])) {
         foreach ($commentsResult as $c) {
             $comment_reply = $reply_id === 0 ? $c["comment_id"] : $reply_id;
 
-            echo "<div class='comment comment-lv" . $c["parent_id"] . "'>";
+            echo "<div class='comment comment-lv" . $c["parent_id"] . "' data-ibusername='".$c["username"]."'>";
             echo "<div class='commentList'>";
             echo "<div class='content-comment'>";
-            echo "<span class='user-comment'>@" . $c["username"] . "</span>";
-            echo "<p><span class='user-comment'>" . $userReply . " </span>" . $c["content"] . "</p>";
+            echo "<span class='user-comment'>" . $c["username"] . "</span>";
+            echo "<p>".checkReplyUsername($c["reply_username"]) . $c["content"] . "</p>";
             echo "</div>";
             echo "<div class='reply-comment'>";
             echo "<div class='date-comment'>" . formatElapsedTime($c["inbox_date"]) . "</div>";
             echo "<div class='vote-comment btn-like ".checkVotedLike($user_id, $c["comment_id"])."' data-id='" . $c["comment_id"] . "'>";
             echo "<span class='material-icons'>thumb_up</span>";
-            echo "<span>" . countLikeComments($c["comment_id"]) . "</span>";
+            echo "<div class='qty-like'>" . countLikeComments($c["comment_id"]) . "</div>";
             echo "</div>";
             echo "<div class='vote-comment btn-unlike ".checkVotedUnlike($user_id, $c["comment_id"])."' data-id='" . $c["comment_id"] . "'>";
             echo "<span class='material-icons'>thumb_down</span>";
-            echo "<span>" . countUnlikeComments($c["comment_id"]) . "</span>";
+            echo "<div class='qty-unlike'>" . countUnlikeComments($c["comment_id"]) . "</div>";
             echo "</div>";
             echo "<div class='btn-reply btn-reply" . $c["parent_id"] . "'>";
             echo "<span>Reply</span>";
@@ -46,8 +46,14 @@ if (isset($_POST["product_id"])) {
             echo "<div class='input-reply-lv" . $c["parent_id"] . "' data-reply='" . $comment_reply . "'>";
             echo "</div>";
             echo "</div>";
-            getCommentReply($c["parent_id"] + 1, $c["comment_id"], $c["username"]);
+            getCommentReply($c["parent_id"] + 1, $c["comment_id"]);
         }
     }
-    getCommentReply(1, 0, '');
+    getCommentReply(1, 0);
+}
+
+function checkReplyUsername($username){
+    if($username != null){
+        return "<span class='user-comment'>@".$username." </span>";
+    }
 }
