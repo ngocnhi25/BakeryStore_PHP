@@ -4,20 +4,12 @@ if (isset($_POST["ajaxSidebar"])) {
 }
 
 // Retrieve orders from the database
-$orders = executeResult("SELECT * FROM tb_order ORDER BY order_date DESC");
-$returnOrder = executeResult("SELECT
-*
-FROM
-tb_return r
-INNER JOIN
-tb_order_detail od ON r.order_id = od.order_id;
-");
-$cancelledOrder = executeResult("SELECT *
-FROM tb_cancelled c
-INNER JOIN tb_order_detail od ON c.order_id = od.order_id
-INNER JOIN tb_products p ON c.product_id = p.product_id
-INNER JOIN tb_order o ON o.order_id = c.order_id
-ORDER BY o.order_date DESC");
+$order_details = executeResult("SELECT o.*, p.*, u.username, odr.order_date
+                                FROM tb_order_detail o
+                                JOIN tb_products p ON o.product_id = p.product_id
+                                JOIN tb_user u ON o.user_id = u.user_id
+                                JOIN tb_order odr ON o.order_id = odr.order_id
+                                ORDER BY o.order_detail_id DESC");
 
 ?>
 
@@ -180,122 +172,45 @@ ORDER BY o.order_date DESC");
             <thead>
                 <tr>
                     <th>Customer Name</th>
-                    <th>Contact Information</th>
                     <th>Order Date</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td>
-                            <?php echo $order['receiver_name']; ?>
-                        </td>
-                        <td>
-                            <p><strong>Phone:</strong>
-                                <?php echo $order['receiver_phone']; ?>
-                            </p>
-                            <p><strong>Address:</strong>
-                                <?php echo $order['receiver_address']; ?>
-                            </p>
-                        </td>
-                        <td>
-                            <?php echo $order['order_date']; ?>
-                        </td>
-                        <td>
-                            <?php echo $order['status']; ?>
-                        </td>
-                        <td>
-                            <button class="view-btn" data-order_id="<?php echo $order['order_id']; ?>">View</button>
-                        </td>
-                    </tr>
-                <?php endforeach;?>
-            </tbody>
-            <!-- <div id="order-details"></div> -->
-        </table>
-        
-    </div>
-
-    <div>
-        <h1>return request</h1>
-    </div>
-    <div style="width: 100%;">
-        <table class="table-product">
-            <thead>
-                <tr>
-                    <th>Reason for Return</th>
-                    <th>Customer Image</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($returnOrder as $r): ?>
-                    <tr>
-                        <td>#
-                            <?php echo $r['order_id']; ?>
-                        </td>
-                        <td>#
-                            <?php echo $r['user_id']; ?>
-                        </td>
-                        <td>
-                            <?php echo $r['reason']; ?>
-                        </td>
-                        <td>
-                            <?php echo $r['customer_image']; ?>
-                        </td>
-
-                        <td>
-                            <div id="confirmation-modal" class="">
-                                <button id="confirm-return-btn"
-                                    data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
-                                <button id="cancel-return-btn"
-                                    data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
-                            </div>
-                        </td>
-                    </tr>
-                <?php endforeach;?>
-            </tbody>
-            <!-- <div id="order-details"></div> -->
-        </table>
-    </div>
-
-    <div>
-        <h1>cancelled request</h1>
-    </div>
-    <div style="width: 100%;">
-        <table class="table-product">
-            <thead>
-                <tr>
-                    <th>Customer Name</th>
-                    <th>Reason for Cancelled</th>
+                    <th>Image Product</th>
+                    <th>Size</th>
                     <th>Product Name</th>
-                    <th>Image</th>
-                    <th>Action</th>
+                    <th>Flavor</th>
+                    <th>Quantity</th>
+                    <th>Money is discounted</th>
+                    <th>Total Pay</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cancelledOrder as $c): ?>
+                <?php foreach ($order_details as $od): ?>
                     <tr>
                         <td>
-                            <?php echo $c['receiver_name']; ?>
+                            <?php echo $od['username']; ?>
                         </td>
                         <td>
-                            <?php echo $c['reason']; ?>
+                            <?php echo $od['order_date']; ?>
                         </td>
                         <td>
-                            <?php echo $c['product_name']; ?>
+                            <img src="../../<?php echo $od['image']; ?>" alt="" width="100px" style="border-radius:10px;">
                         </td>
                         <td>
-                            <img src="../../<?= $c['image']?>" alt="" width="100px" style="border-radius:10px;">
+                            <?=$od['size'];?>
                         </td>
                         <td>
-                            <div id="confirmation-modal" class="">
-                                <button id="confirm-success-btn"
-                                    data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
-                                <button id="cancel-success-btn"
-                                    data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
-                            </div>
+                            <?=$od['product_name'];?>
+                        </td>
+                        <td>
+                            <?=$od['flavor'];?>
+                        </td>
+                        <td>
+                            <?=$od['quantity'];?>
+                        </td>
+                        <td>
+                            <?=$od['sale_product'] = number_format($od['sale_product'], 0)?> vnd
+                        </td>
+                        <td>
+                            <?=$od['total_money'] = number_format($od['total_money'], 0)?> vnd
                         </td>
                     </tr>
                 <?php endforeach;?>
@@ -303,6 +218,7 @@ ORDER BY o.order_date DESC");
             <!-- <div id="order-details"></div> -->
         </table>
     </div>
+
 
     <!-- Add the confirmation modal -->
 
@@ -310,8 +226,12 @@ ORDER BY o.order_date DESC");
 <div id="overlay" class="overlay"></div>
 <div id="modal" class="modal">
     <!-- <div class="close-btn" id="close-btn">X</div> -->
+    <div id="order-details"></div>
     <select id="status-editable">
-        <option value="shipping">Shipping</option>
+        <option value="pending">Pending</option>
+        <option value="processing">Processing</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
     </select>
     <button id="update-status-btn">Update Status</button>
 </div>
@@ -340,8 +260,8 @@ ORDER BY o.order_date DESC");
         var selectedOrderId; // Variable to store the selected order ID
 
         $(".view-btn").click(function () {
-            selectedOrderId = $(this).data("order_id");
-            // alert(selectedOrderId);
+            selectedOrderId = $(this).closest("tr").find(".order-id").val();
+            alert(selectedOrderId);
         });
 
         $("#update-status-btn").click(function () {
@@ -352,7 +272,6 @@ ORDER BY o.order_date DESC");
                 data: { order_id: selectedOrderId, new_status: newStatus },
                 success: function (response) {
                     // alert(response);
-                    // alert(newStatus);
                     $("#status-display").text(newStatus);
                     $("#overlay").css("display", "none");
                     $("#modal").css("display", "none");
@@ -378,9 +297,9 @@ ORDER BY o.order_date DESC");
 
         $("#confirm-return-btn").click(function () {
             var order_id = $(this).data("order-id");
-            // alert(order_id);
+            alert(order_id);
             $.ajax({
-                url: "../handles_page/confirm_Return.php",
+                url: "../handles_page/update_order_status.php",
                 type: "POST",
                 data: { order_id: order_id, new_status: "return" },
                 success: function (response) {
@@ -405,54 +324,6 @@ ORDER BY o.order_date DESC");
             var order_id = $(this).data("order-id");
             $.ajax({
                 url: "../handles_page/delete_return_request.php",
-                type: "POST",
-                data: { order_id: order_id },
-                success: function (response) {
-                    Swal.fire({
-                        icon: 'info',
-                        title: 'Return Request Cancelled',
-                        text: response,
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(function () {
-                        window.location.reload();
-                    });
-                },
-                error: function () {
-                    // Handle error
-                }
-            });
-        });
-
-        $("#confirm-success-btn").click(function () {
-            var order_id = $(this).data("order-id");
-            alert(order_id);
-            $.ajax({
-                url: "../handles_page/confirm_Return.php",
-                type: "POST",
-                data: { order_id: order_id, new_status: "cancelled" },
-                success: function (response) {
-                    alert(response);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Order Returned',
-                        text: response,
-                        timer: 2000,
-                        showConfirmButton: false
-                    }).then(function () {
-                        window.location.reload();
-                    });
-                },
-                error: function () {
-                    // Handle error
-                }
-            });
-        });
-
-        $("#cancel-success-btn").click(function () {
-            var order_id = $(this).data("order-id");
-            $.ajax({
-                url: "../handles_page/delete_cancelled_request.php",
                 type: "POST",
                 data: { order_id: order_id },
                 success: function (response) {

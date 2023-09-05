@@ -37,11 +37,9 @@ require_once("../src/connect/connectDB.php");
           <table class="table table-bordered table-striped text-center">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Image</th>
                 <th>Product</th>
                 <th>Flavor</th>
-                <th>Price</th>
                 <th>Quantity</th>
                 <th>Total Price</th>
                 <th>Remove</th>
@@ -51,7 +49,7 @@ require_once("../src/connect/connectDB.php");
               <?php
               require '../src/connect/connection.php';
 
-              $stmt = $conn->prepare('SELECT c.*, p.price, p.image AS product_image FROM tb_cart c
+              $stmt = $conn->prepare('SELECT c.*,  p.image AS product_image FROM tb_cart c
                         JOIN tb_products p ON c.product_id = p.product_id');
               $stmt->execute();
               $result = $stmt->get_result();
@@ -60,9 +58,7 @@ require_once("../src/connect/connectDB.php");
               while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                  <td>
-                    <?= $row['product_id'] ?>
-                  </td>
+
                   <td><img src="../<?= $row['product_image'] ?>" width="100"></td>
                   <td>
                     <?= $row['product_name'] ?>
@@ -71,13 +67,9 @@ require_once("../src/connect/connectDB.php");
                     <?= $row['flavor'] ?>
                   </td>
                   <td>
-                    <?= number_format($row['price'], 0); ?>
-                  </td>
-                  <td>
                     <input type="number" class="form-control itemQty" value="<?= $row['quantity'] ?>"
                       style="width: 75px;">
                     <input type="hidden" class="pid" value="<?= $row['product_id'] ?>">
-                    <input type="hidden" class="pprice" value="<?= $row['price'] ?>">
                   </td>
                   <td class="total_price">
                     <?= number_format($row['total_price'], 0); ?>
@@ -94,13 +86,13 @@ require_once("../src/connect/connectDB.php");
               }
               ?>
               <tr>
-                <td colspan="3">
+                <td colspan="2">
                   <a href="index.php" class="btn btn-success">
                     <i class="fas fa-cart-plus"></i>&nbsp;&nbsp;Continue Shopping
                   </a>
                 </td>
                 <td colspan="2"><b>Grand Total</b></td>
-                <td colspan="2"><b>
+                <td colspan="1"><b>
                     <?= number_format($grand_total, 0); ?>
                   </b></td>
                 <td>
