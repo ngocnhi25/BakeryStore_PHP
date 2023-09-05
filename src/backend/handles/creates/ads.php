@@ -85,26 +85,33 @@ if (isset($_POST["typeAds"]) && !empty($_POST["typeAds"])) {
             $errorNum = 1;
         }
     } elseif ($typeAds == 'product') {
-        if (isset($_POST["productID"]) && !empty($_POST["productID"])) {
-            $productID = $_POST["productID"];
-            if ($startDate != null && $endDate != null) {
-                if ($eventNum == 0) {
-                    $sqlNotContain = "SELECT * FROM tb_ads 
-                                        WHERE product_id = $productID
-                                        AND ((end_date BETWEEN '$startDate' AND '$endDate')
-                                        OR (start_date BETWEEN '$startDate' AND '$endDate'))";
-                } else {
-                    $sqlNotContain = "SELECT * FROM tb_ads 
-                                        WHERE product_id = $productID AND ads_id != $id
-                                        AND ((end_date BETWEEN '$startDate' AND '$endDate')
-                                        OR (start_date BETWEEN '$startDate' AND '$endDate'))";
+        if (isset($_POST["product_name"]) && !empty($_POST["product_name"])) {
+            $product_name = $_POST["product_name"];
+            $product = executeSingleResult("SELECT product_id FROM tb_products WHERE product_name = '$product_name'");
+            if($product){
+                $productID = $product["product_id"];
+                if ($startDate != null && $endDate != null) {
+                    if ($eventNum == 0) {
+                        $sqlNotContain = "SELECT * FROM tb_ads 
+                                            WHERE product_id = $productID
+                                            AND ((end_date BETWEEN '$startDate' AND '$endDate')
+                                            OR (start_date BETWEEN '$startDate' AND '$endDate'))";
+                    } else {
+                        $sqlNotContain = "SELECT * FROM tb_ads 
+                                            WHERE product_id = $productID AND ads_id != $id
+                                            AND ((end_date BETWEEN '$startDate' AND '$endDate')
+                                            OR (start_date BETWEEN '$startDate' AND '$endDate'))";
+                    }
+                    $checkSaleProductNotContain = checkRowTable($sqlNotContain);
+    
+                    if ($checkSaleProductNotContain != 0) {
+                        $errors["errorDate"] = 'The overlapping advertising periods.';
+                        $errorNum = 1;
+                    }
                 }
-                $checkSaleProductNotContain = checkRowTable($sqlNotContain);
-
-                if ($checkSaleProductNotContain != 0) {
-                    $errors["errorDate"] = 'The overlapping advertising periods.';
-                    $errorNum = 1;
-                }
+            } else {
+                $errors["errorTypeAds"] = "The product name does not exist";
+                $errorNum = 1;
             }
         } else {
             $errors["errorTypeAds"] = "Type advertising cannot be blank";

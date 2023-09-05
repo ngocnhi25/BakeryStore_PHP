@@ -25,10 +25,15 @@ if (isset($_POST["arrangeCoupon"]) && !empty($_POST["arrangeCoupon"])) {
         $sql .= " ORDER BY coupon_id DESC ";
     } elseif($arrangeCoupon == "old_to_new"){
         $sql .= " ORDER BY coupon_id ASC ";
-    } elseif($arrangeCoupon == "a_z"){
-        $sql .= " ORDER BY coupon_name ASC ";
-    } else{
-        $sql .= " ORDER BY coupon_name DESC ";
+    } elseif ($arrangeCoupon == "ongoing") {
+        $sql .= "AND CURDATE() BETWEEN start_date AND end_date ";
+        $sqlCount .= "AND CURDATE() BETWEEN start_date AND end_date ";
+    } elseif ($arrangeCoupon == "ceased") {
+        $sql .= "AND CURDATE() > end_date ";
+        $sqlCount .= "AND CURDATE() > end_date ";
+    } elseif ($arrangeCoupon == "pending") {
+        $sql .= "AND CURDATE() < start_date ";
+        $sqlCount .= "AND CURDATE() < start_date ";
     }
 }
 
@@ -56,10 +61,28 @@ function showCoupon()
         echo "<td>". $c["start_date"] ."</td>";
         echo "<td>". $c["end_date"] ."</td>";
         echo "<td>";
-        echo "<button onclick='updateCoupon(". $c['coupon_id'] .")' class='update'>Edit</button>";
-        echo "<button onclick='deleteCoupon('". $c['coupon_name'] ."', ". $c['coupon_id'] .")' class='delete'>Delete</button>";
+
+        echo "<button onclick='updateCoupon(". $c['coupon_id'] .")' class='update'><span class='material-symbols-sharp icon'>edit_square</span></button>";
+        echo "</td>";
+        echo "<td>";
+        echo "<div class='menu-btn'>";
+        echo "<span class='material-symbols-sharp'>more_vert</span>";
+        echo "<div class='menu-btn-box'>";
+        checkBtnAction($c);
+        echo "<div onclick=\"deleteCoupon('". $c['coupon_name'] ."', ". $c['coupon_id'] .")\" >Delete</div>";
+        echo "</div>";
+        echo "</div>";
         echo "</td>";
         echo "</tr>";
+    }
+}
+
+function checkBtnAction($c)
+{
+    if ($c["status"] == 0) {
+        echo "<div onclick=\"hideCoupon('" . $c["coupon_name"] . "','" . $c["coupon_id"] . "')\" class='hide'>Hide</div>";
+    } else {
+        echo "<div onclick=\"recoverCoupon('" . $c["coupon_name"] . "','" . $c["coupon_id"] . "')\" class='recover'>Recover</div>";
     }
 }
 
@@ -94,6 +117,7 @@ if ($coupons) {
     echo "<th>Start date</th>";
     echo "<th>End date</th>";
     echo "<th>Action</th>";
+    echo "<th></th>";
     echo "</tr>";
     echo "</thead>";
     echo "<tbody>";

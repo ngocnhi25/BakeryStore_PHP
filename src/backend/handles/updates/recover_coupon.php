@@ -11,15 +11,15 @@ if (isset($_SESSION["auth_user"])) {
 if(isset($_POST["id"])){
     $id = $_POST["id"];
 
-    $product = executeSingleResult("SELECT product_name from tb_products where product_id = $id");
+    $coupon = executeSingleResult("SELECT coupon_name from tb_coupon where coupon_id = $id");
 
-    $success = execute("UPDATE tb_products SET deleted = 0 WHERE product_id = $id");
+    $success = execute("UPDATE tb_coupon SET status = 0 WHERE coupon_id = $id");
 
     if ($success) {
-        $content = 'has updated product ' . $product["product_name"] . ' to working status';
+        $content = 'has updated coupon ' . $coupon["coupon_name"] . ' to working status';
         historyOperation($user_id, $content);
     }
 }
 
-echo 'products/products.php';
+echo 'sale.php';
 ?>

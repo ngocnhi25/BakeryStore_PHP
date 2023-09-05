@@ -84,13 +84,14 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     <select name="category" class="select-box" id="arrangeCoupon">
                         <option value="new_to_old">new - old</option>
                         <option value="old_to_new">old - new</option>
-                        <option value="a_z">a - z</option>
-                        <option value="z_a">z - a</option>
+                        <option value="ongoing">ongoing</option>
+                        <option value="ceased">ceased</option>
+                        <option value="pending">pending</option>
                     </select>
                 </div>
                 <div class="form-search-header">
                     <span class="material-symbols-sharp icon">search</span>
-                    <input id="filter-search-coupon" type="text" name="search" placeholder="Search product..." class="form-control">
+                    <input id="filter-search-coupon" type="text" name="search" placeholder="Search voucher code..." class="form-control">
                 </div>
             </div>
             <div class="table-coupon-box"></div>
@@ -135,7 +136,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     <button id="addSaleProduct" type="button" class="submit"><?= ($idSale != null ? 'Save update' : 'Save') ?></button>
                 </div>
             </div>
-            
+
             <div class="container-filter-table-sale">
                 <div class="filter-action">
                     <div class="select-container">
@@ -144,13 +145,16 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                             <option value="old_to_new">old - new</option>
                             <option value="a_z">a - z</option>
                             <option value="z_a">z - a</option>
-                            <option value="ascending_percent">ascending percentage</option>
-                            <option value="decreasing_percent">decreasing percentage</option>
+                            <option value="ascending_percent">increase %</option>
+                            <option value="decreasing_percent">decrease %</option>
+                            <option value="ongoing">ongoing</option>
+                            <option value="ceased">ceased</option>
+                            <option value="pending">pending</option>
                         </select>
                     </div>
                     <div class="form-search-header">
                         <span class="material-symbols-sharp icon">search</span>
-                        <input id="filter-search-sale" type="text" name="search" placeholder="Search product..." class="form-control">
+                        <input id="filter-search-sale" type="text" name="search" placeholder="Search product name..." class="form-control">
                     </div>
                 </div>
                 <div class="table-sale-box"></div>

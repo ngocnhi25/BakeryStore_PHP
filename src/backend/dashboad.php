@@ -267,9 +267,13 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
         .box-right .recent-updates {
             margin-bottom: 1rem;
         }
+        .box-right .recent-updates.history {
+            position: relative;
+        }
 
         .box-right .recent-updates h2 {
             margin-bottom: 0.8rem;
+            margin-left: 20px;
         }
 
         .box-right .recent-updates .top-best-order {
@@ -367,6 +371,22 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
         .box-right .recent-updates .history-shop-dashboad::-webkit-scrollbar-track {
             background-color: #eee;
         }
+        .box-right .recent-updates .show-all-history-box {
+            position: absolute;
+            bottom: 10px;
+            left: 40%;
+        }
+        .box-right .recent-updates .show-all-history-box button {
+            background-color: transparent;
+            box-shadow: none;
+            color: #6674ff;
+        }
+        .box-right .recent-updates .show-all-history-box button:hover {
+            border: 1px solid #6674ff;
+            color: #ff6262;
+        }
+
+        
     </style>
 </head>
 <div style="width: 100%;">
@@ -432,7 +452,7 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
                     <?php } ?>
                 </div>
             </div>
-            <div class="recent-updates">
+            <div class="recent-updates history">
                 <h2>History of store operations</h2>
                 <div class="history-shop-dashboad">
                     <?php foreach ($historyOperationStore as $h) { ?>
@@ -450,6 +470,9 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
                         </div>
                     <?php } ?>
                 </div>
+                <!-- <div class="show-all-history-box">
+                    <button class="show-all-history">Show all</button>
+                </div> -->
             </div>
         </div>
     </div>
@@ -556,4 +579,11 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        $(".show-all-history").click(function() {
+            alert("ok0");
+        })
+    })
+</script>
 <script src="../../public/backend/js/revenues.js"></script>

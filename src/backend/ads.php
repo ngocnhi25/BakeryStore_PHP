@@ -1,20 +1,22 @@
 <?php
 require_once("../connect/connectDB.php");
 
-$id = '';
+$id = $product_name = '';
 $adsUpdate = [];
 $adsUpdate["type_ads"] =
     $adsUpdate["product_id"] =
     $adsUpdate["cate_id"] = '';
 
 $cates = executeResult("SELECT * FROM tb_category");
-$products = executeResult("SELECT * FROM tb_products WHERE deleted = 0");
 $ads = executeResult("SELECT * FROM tb_ads ORDER BY ads_id DESC");
 
 if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $id = $_POST["id"];
 
     $adsUpdate = executeSingleResult("SELECT * FROM tb_ads where ads_id = $id");
+    $product_id = $adsUpdate["product_id"];
+    $product = executeSingleResult("SELECT product_name FROM tb_products Where product_id = $product_id");
+    $product_name = $product["product_name"];
 }
 
 function checkTypeAdsUpdate($value)
@@ -23,11 +25,6 @@ function checkTypeAdsUpdate($value)
     echo $adsUpdate["type_ads"] == $value ? "selected" : "";
 }
 
-function checkTypeProductUpdate($value)
-{
-    global $adsUpdate;
-    echo $adsUpdate["product_id"] == $value ? "selected" : "";
-}
 function checkTypeCateUpdate($value)
 {
     global $adsUpdate;
@@ -40,7 +37,8 @@ function checkTypeCateUpdate($value)
         .ads-page {
             width: 100%;
         }
-        .ads-page .ads-boxxxx {
+
+        .ads-page .ads-box {
             width: 100%;
             display: flex;
             gap: 0.5rem;
@@ -50,9 +48,9 @@ function checkTypeCateUpdate($value)
             border-radius: 10px;
             width: 40%;
             position: relative;
-            margin: auto;
             padding: 20px;
             background-color: #fff;
+            box-shadow: 0 0 3px #d2d2d2;
         }
 
         .ads-page .ads-add .ads-event {
@@ -85,7 +83,7 @@ function checkTypeCateUpdate($value)
             margin-left: 10px;
         }
 
-        label {
+        .ads-page label {
             font-size: 1.2rem;
             font-weight: 600;
         }
@@ -113,25 +111,19 @@ function checkTypeCateUpdate($value)
         }
 
         .ads-page .image-banner {
-            width: 200px;
+            width: 150px;
         }
 
         .ads-page .image-banner img {
             width: 100%;
             vertical-align: middle;
         }
-
-        .table_ads {
-            width: 1005;
-            border-radius: 5px;
-            overflow: auto;
-        }
     </style>
 </head>
 
 <div class="ads-page">
     <h1>Advertising Management</h1>
-    <div class="ads-boxxxx">
+    <div class="ads-box">
         <div class="ads-add">
             <div class="ads-event">
                 <h2>Create Advertising</h2>
@@ -182,48 +174,23 @@ function checkTypeCateUpdate($value)
                 </div>
             </form>
         </div>
-        <div class="table_ads">
-            <table class="table-admin">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Type</th>
-                        <th>Image</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($ads as $key => $a) { ?>
-                        <tr>
-                            <td><?= $key + 1 ?></td>
-                            <td>
-                                <?php if ($a["type_ads"] == "product") {
-                                    $showProductID = $a["product_id"];
-                                    $productShow = executeSingleResult("SELECT product_name FROM tb_products Where product_id = $showProductID");
-                                    echo $a["type_ads"] . ": " . $productShow["product_name"];
-                                } elseif ($a["type_ads"] == "category") {
-                                    $showCateID = $a["cate_id"];
-                                    $cateShow = executeSingleResult("SELECT cate_name FROM tb_category Where cate_id = $showCateID");
-                                    echo $a["type_ads"] . ": " . $cateShow["cate_name"];
-                                } else {
-                                    echo $a["type_ads"];
-                                } ?>
-                            </td>
-                            <td class="image-banner">
-                                <img src="../../<?= $a["image_ads"] ?>" alt="">
-                            </td>
-                            <td><?= $a["start_date"] ?></td>
-                            <td><?= $a["end_date"] ?></td>
-                            <td>
-                                <button class="update" type="button" onclick="updateAds(<?= $a['ads_id'] ?>)">Edit</button>
-                                <button class="delete" type="button" onclick="deleteAds(<?= $a['ads_id'] ?>)">Delete</button>
-                            </td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+        <div class="container-filter-table-ads">
+            <div class="filter-action">
+                <div class="select-container">
+                    <select name="category" class="select-box" id="arrangeAds">
+                        <option value="new_to_old">new - old</option>
+                        <option value="old_to_new">old - new</option>
+                        <option value="ongoing">ongoing</option>
+                        <option value="ceased">ceased</option>
+                        <option value="pending">pending</option>
+                    </select>
+                </div>
+                <div class="form-search-header">
+                    <span class="material-symbols-sharp icon">search</span>
+                    <input id="filter-search-ads" type="text" name="search" placeholder="Search product or category..." class="form-control">
+                </div>
+            </div>
+            <div class="table-ads-box"></div>
         </div>
     </div>
     <div id="success">
@@ -265,13 +232,11 @@ function checkTypeCateUpdate($value)
             $(".typeAdsOption").empty().append(html);
         } else if (typeAds == "product") {
             const html = `
-                    <div class="select-container">
-                        <select name="productID" class="select-box">
-                            <option value="">___Product Name___</option>
-                            <?php foreach ($products as $p) { ?>
-                                <option value="<?= $p["product_id"] ?>" <?= checkTypeProductUpdate($p["product_id"]) ?>><?= $p["product_name"] ?></option>
-                            <?php } ?>
-                        </select>
+                    <div class="search-product">
+                        <div class="box-input">
+                            <input type="text"  id="input-product-name" value="<?= ($id != null ? $product_name : '') ?>" name="product_name">
+                        </div>
+                        <div id="search-result-product"></div>
                     </div>
                 `;
             $(".typeAdsOption").empty().append(html);
@@ -292,7 +257,8 @@ function checkTypeCateUpdate($value)
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function(res) { 
+                success: function(res) {
+                    alert(res);
                     if (res === 'success') {
                         showSuccessMessage("ads.php");
                     } else {
@@ -309,14 +275,6 @@ function checkTypeCateUpdate($value)
         })
     })
 
-    $(document).ready(function() {
-        $('#imageAds').on("change", function() {
-            previewFiles(this, "#preview-images", 400);
-            $(".errorImages").empty().append('');
-            delete_oldThumbnail("image-ads");
-        });
-    });
-
     function deleteAds(id) {
         const html = `
         <div class="message-confirm-box">
@@ -327,8 +285,7 @@ function checkTypeCateUpdate($value)
                     <button id="delete-ads" class="delete" type="button">Delete</button>
                 </div>
             </div>
-        </div>
-    `;
+        </div>`;
         $("body").append(html);
 
         $(".cancel").click(function() {
@@ -354,4 +311,114 @@ function checkTypeCateUpdate($value)
         }
         ajaxPageData("ads.php", postData);
     }
+
+    function showAds() {
+        $.ajax({
+            url: "handles/search/filter_search_ads.php",
+            method: "POST",
+            data: {
+                arrangeProduct: $("#arrangeAds").val()
+            },
+            success: function(res) {
+                $(".table-ads-box").empty().html(res);
+            }
+        });
+    }
+
+    function ads_previous(id) {
+        $.ajax({
+            url: "handles/search/filter_search_ads.php",
+            method: "POST",
+            data: {
+                page: id - 1,
+                filter_search: $("#filter-search-ads").val(),
+                arrangeProduct: $("#arrangeCoupon").val()
+            },
+            success: function(res) {
+                $(".table-ads-box").empty().html(res);
+            }
+        });
+    };
+
+    function ads_next(id) {
+        $.ajax({
+            url: "handles/search/filter_search_ads.php",
+            method: "POST",
+            data: {
+                page: (id + 1),
+                filter_search: $("#filter-search-ads").val(),
+                arrangeProduct: $("#arrangeCoupon").val()
+            },
+            success: function(res) {
+                $(".table-ads-box").empty().html(res);
+            }
+        });
+    };
+
+    $(document).ready(function() {
+        showAds();
+
+        $('#imageAds').on("change", function() {
+            previewFiles(this, "#preview-images", 400);
+            $(".errorImages").empty().append('');
+            delete_oldThumbnail("image-ads");
+        });
+
+        $("#filter-search-ads").on("input", function() {
+            const search = $(this).val();
+            if (search !== "") {
+                $.ajax({
+                    url: "handles/search/filter_search_ads.php",
+                    method: "POST",
+                    data: {
+                        filter_search: search,
+                        arrangeAds: $("#arrangeAds").val()
+                    },
+                    success: function(res) {
+                        $(".table-ads-box").empty().html(res);
+                    }
+                });
+            } else {
+                showAds();
+            }
+        });
+
+        $("#arrangeAds").on("change", function() {
+            const arrangeAds = $(this).val();
+            $.ajax({
+                url: "handles/search/filter_search_ads.php",
+                method: "POST",
+                data: {
+                    filter_search: $("#filter-search-ads").val(),
+                    arrangeAds: arrangeAds
+                },
+                success: function(res) {
+                    $(".table-ads-box").empty().html(res);
+                }
+            });
+        });
+
+        $(document).on('input', "#input-product-name", function() {
+            var search = $(this).val();
+            if (search !== "") {
+                $.ajax({
+                    url: "handles/search/search_product.php",
+                    method: "POST",
+                    data: {
+                        product_name: search
+                    },
+                    success: function(response) {
+                        $("#search-result-product").show().html(response);
+                        $(".product-name").click(function() {
+                            var productName = $(this).text();
+                            $("#input-product-name").val(productName);
+                            $("#search-result-product").hide().empty();
+                        })
+                    }
+                });
+            } else {
+                $("#search-result-product").hide().empty();
+            }
+        })
+    });
 </script>
