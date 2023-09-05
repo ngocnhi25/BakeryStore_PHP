@@ -331,6 +331,8 @@ $(document).ready(function () {
     ],
   });
 });
+
+
 $(document).ready(function () {
   $('input-reply-lv1').hide();
   showComment();
@@ -367,6 +369,7 @@ $(document).ready(function () {
       }
     });
   })
+  
   $("#comment").on("click", function () {
     $.ajax({
       url: "handles_page/check_login_status.php",
