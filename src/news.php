@@ -157,7 +157,7 @@ if ($countResult != null) {
                       </a>
                     </p>
                     <p class="article-description">
-                      <?= $p["new_summary	"] ?>
+                    <div ><?= $p["new_summary"] ?></div>
                     </p>
                   </div>
                 </div>

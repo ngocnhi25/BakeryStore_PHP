@@ -135,6 +135,7 @@ if (isset($_POST["idSale"]) && !empty($_POST["idSale"])) {
                     <button id="addSaleProduct" type="button" class="submit"><?= ($idSale != null ? 'Save update' : 'Save') ?></button>
                 </div>
             </div>
+            
             <div class="container-filter-table-sale">
                 <div class="filter-action">
                     <div class="select-container">

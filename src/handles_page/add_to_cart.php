@@ -202,33 +202,24 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
         // Delete cart items after successful order
         execute("DELETE FROM tb_cart WHERE user_id = '$user_id'");
 
-        // Display order success message
-        $data = '
-			<div class="order-success">
-				<h1 class="order-title">Thank You!</h1>
-				<h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
-				<div class="order-details">
-					<h3>Order Information</h3>
-					<ul>
-						<li><strong>Order ID:</strong> ' . $order_id . '</li>
-						<li><strong>Items Purchased:</strong> ' . $products_string . '</li>
-						<li><strong>Total Amount Paid:</strong> ' . number_format($total_pay, 0) . '</li>
-					</ul>
-					<h3>Contact Information</h3>
-					<ul>
-						<li><strong>Name:</strong> ' . $name . '</li>
-						<li><strong>Email:</strong> ' . $email . '</li>
-						<li><strong>Phone:</strong> ' . $phone . '</li>
-					</ul>
-					<h3>Payment Details</h3>
-					<ul>
-						<li><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</li>
-						<li><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</li>
-						<li><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</li>
-						<li><strong>Payment Mode:</strong> ' . $pmode . '</li>
-					</ul>
-				</div>
-			</div>';
+		// Display order success message
+		$data = '
+		<div class="order-success">
+			<h1 class="order-title">Thank You!</h1>
+			<h2 class="order-subtitle">Your Order Has Been Placed Successfully!</h2>
+			<div class="order-details">
+				<p><strong>Order ID:</strong> ' . $order_id . '</p>
+				<p><strong>Items Purchased:</strong> ' . $products_string . '</p>
+				<p><strong>Your Name:</strong> ' . $name . '</p>
+				<p><strong>Your E-mail:</strong> ' . $email . '</p>
+				<p><strong>Your Phone:</strong> ' . $phone . '</p>
+				<p><strong>Total Amount Paid:</strong> ' . number_format($grand_total, 0) . '</p>
+				<p><strong>Discount Amount:</strong> ' . number_format($discount_amount, 0) . '</p>
+				<p><strong>Deposit Amount:</strong> ' . number_format($deposit, 0) . '</p>
+				<p><strong>Total Pay:</strong> ' . number_format($total_pay, 0) . '</p>
+				<p><strong>Payment Mode:</strong> ' . $pmode . '</p>
+			</div>
+		</div>';
 
         $getEmail = executeSingleResult("SELECT tb_user.email FROM tb_order JOIN tb_user ON tb_order.user_id = tb_user.user_id WHERE tb_order.user_id = '$user_id'");
         $sendEmail = $getEmail['email'];
@@ -238,20 +229,20 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 
         // Assuming you've already required the necessary PHPMailer files
 
-        $to = $sendEmail;
-        $subject = "Order Confirmation - Order ID: $order_id";
-        $message = "Thank you for your order!\n\n";
-        $message .= "Order ID: $order_id\n";
-        $message .= "Items Purchased:\n$products_string\n";
-        $message .= "Your Name: $name\n";
-        $message .= "Your E-mail: $email\n";
-        $message .= "Your Phone: $phone\n";
-        $message .= "Total Amount Paid: " . number_format($grand_total, 0) . "\n";
-        $message .= "Discount Amount: " . number_format($discount_amount, 0) . "\n";
-        $message .= "Deposit Amount: " . number_format($deposit, 0) . "\n";
-        $message .= "Total Pay: " . number_format($total_pay, 0) . "\n";
-        $message .= "Payment Mode: $pmode\n";
-        $message .= "Your order has been prepared";
+		$to = $sendEmail;
+		$subject = "Order Confirmation - Order ID: $order_id";
+		$message = "Thank you for your order!\n\n";
+		$message .= "Order ID: $order_id\n";
+		$message .= "Items Purchased:\n$products_string\n";
+		$message .= "Your Name: $name\n";
+		$message .= "Your E-mail: $email\n";
+		$message .= "Your Phone: $phone\n";
+		$message .= "Total Amount Paid: " . number_format($grand_total, 0) . "\n";
+		$message .= "Discount Amount: " . number_format($discount_amount, 0) . "\n";
+		$message .= "Deposit Amount: " . number_format($deposit, 0) . "\n";
+		$message .= "Total Pay: " . number_format($total_pay, 0) . "\n";
+		$message .= "Payment Mode: $pmode\n";
+		$message .= "Your order has been prepared";
 
         $mail = new PHPMailer(true);
 

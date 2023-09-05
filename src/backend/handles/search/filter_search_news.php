@@ -28,7 +28,14 @@ if (isset($_POST["filter_cate"]) && !empty($_POST["filter_cate"])) {
     $sql .= "AND p.new_cate_id = $cateID ";
     $sqlCount .= "AND p.new_cate_id = $cateID ";
 }
-
+// if (isset($_POST["arrangeProduct"]) && !empty($_POST["arrangeProduct"])) {
+//     $arrangeProduct = $_POST["arrangeProduct"];
+//     if($arrangeProduct == "new_to_old"){
+//         $sql .= " ORDER BY p.new_id DESC ";
+//     } elseif($arrangeProduct == "old_to_new"){
+//         $sql .= " ORDER BY p.new_id ASC ";
+//     } 
+// }
 
 
 // if (isset($_POST["arrangeProduct"]) && !empty($_POST["arrangeProduct"])) {

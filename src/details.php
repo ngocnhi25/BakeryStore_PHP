@@ -51,149 +51,6 @@ function calculateSaleProductDetails()
 
 ?>
 
-
-<head>
-  <style>
-    .product_detail_carosel {
-      width: 250px;
-    }
-
-    .form {
-      margin-top: 50px;
-      background-color: #fff;
-    }
-
-    .form .comment-form {
-      padding: 20px;
-    }
-
-    .comment-form.comments {
-      width: 90%;
-      margin: 0 auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .form .comment-form .commentForm {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form .comment-form .commentForm input[type="text"],
-    textarea {
-      display: block;
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .form .comment-form .commentForm .submit-comment {
-      padding: 10px;
-      background-color: darkgray;
-      width: 100px;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-
-    .form .comment-form .commentForm button:hover {
-      background-color: #0056b3;
-    }
-
-    .form .comment {
-      width: 100%;
-      margin-bottom: 15px;
-    }
-    .form .comment .input-reply{
-      width: 90%;
-      margin-left: 10%;
-      margin-top: 15px;
-    }
-    .form .comment .input-reply textarea{
-      width: 100%;
-      height: 100px;
-      margin-bottom: 10px;
-    }
-    .form .comment .input-reply .send-reply-comment{
-      border-radius: 3px;
-      padding: 8px;
-      background-color: #007bff;
-    }
-    .form .commentList {
-      padding: 20px;
-      position: relative;
-      border-radius: 10px;
-      background-color: #7b8c9f38;
-    }
-
-    .form .commentList .reply-comment {
-      display: flex;
-      gap: 2rem;
-      align-items: center;
-
-    }
-
-    .form .commentList .reply-comment .btn-reply {
-      font-size: 14px;
-      color: blue;
-      cursor: pointer;
-    }
-
-    .form .commentList .reply-comment .btn-reply:hover {
-      color: red;
-    }
-
-    .form .commentList .reply-comment .date-comment {
-      font-size: 14px;
-    }
-
-    .form .commentList .user-comment {
-      font-size: 16px;
-      font-weight: 700;
-    }
-
-    .form .commentList .user-comment .content-comment {
-      font-size: 14px;
-    }
-
-    .form .commentList .comment-lv1 {
-      margin-top: 10px;
-      padding: 30px 20px;
-      border-bottom: 1px solid #777;
-    }
-
-    .form .commentList-lv2 {
-      margin-top: 20px;
-      width: 93%;
-      margin-left: 7%;
-      position: relative;
-    }
-
-    .form .commentList-lv2 .comment-lv2 {
-      margin-bottom: 20px;
-    }
-
-    .form .comments .feedback-btn {
-      padding: 5px 40px;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    .form .comments .reply {
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    .form .comments .reply:hover {
-      color: red;
-    }
-  </style>
-</head>
-
 <?php include("layout/header.php") ?>
 <?php if (isset($_SESSION['status'])) { ?>
   <script>
@@ -429,11 +286,11 @@ function calculateSaleProductDetails()
       $danhgia = new danhgia();
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once 'connect/connectDB.php'; // Đảm bảo đường dẫn đúng
-      
+
         $db = new Database();
 
         // $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
-      
+
         $user_id = $_POST["user_id"];
         $rating = $_POST["rating"];
         $comment = $_POST["comment"];
@@ -585,10 +442,9 @@ function calculateSaleProductDetails()
           grid-area: star-5;
         }
       </style>
-      
+
 
       <script>
-        
         function validateSurveyForm() {
           var isLoggedIn = <?php echo (isset($_SESSION["auth_user"]) ? 'true' : 'false'); ?>;
           var ratingValue = document.querySelector('input[name="rating"]:checked');
@@ -616,7 +472,7 @@ function calculateSaleProductDetails()
                 foreach ($reviewArray as $review) {
                   // Chỉ hiển thị các đánh giá của sản phẩm có product_id trùng khớp
                   if ($review['product_id'] == $product_id) {
-                    ?>
+              ?>
                     <div class="review">
                       <p><strong>Name:</strong>
                         <?php echo $review['name']; ?> -
@@ -638,7 +494,7 @@ function calculateSaleProductDetails()
                         <?php echo isset($review['comment']) ? $review['comment'] : ''; ?>
                       </p>
                     </div>
-                    <?php
+              <?php
                   }
                 }
               } else {
@@ -671,7 +527,7 @@ function calculateSaleProductDetails()
 
                 if ($order_status_result && $order_status_result->num_rows > 0) {
                   // User can leave a review
-                  ?>
+            ?>
                   <!-- Review form -->
                   <form class="review-form" action="" method="POST">
                     <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
@@ -693,15 +549,14 @@ function calculateSaleProductDetails()
                       <input class="star star-1" id="star-1" type="radio" name="rating" value="1" />
                       <label class="star star-1" for="star-1"></label>
                     </div>
-                    
+
 
                     <label for="comment">Comment:</label>
                     <textarea name="comment" rows="4" required></textarea>
                     <br>
-                    <button class="send" type="submit" name="submit_danhgia"
-                      onclick="return validateSurveyForm();">Send</button>
+                    <button class="send" type="submit" name="submit_danhgia" onclick="return validateSurveyForm();">Send</button>
                   </form>
-                  <?php
+            <?php
                 } else {
                   echo "<p>You can only leave a review for products that have been prepare.</p>";
                 }
@@ -797,7 +652,6 @@ function calculateSaleProductDetails()
         <div class="comment-form">
           <h3>Comment</h3>
           <div class="commentForm">
-            <input type="hidden" id="name" name="name" required>
             <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
             <br>
             <button type="button" class="submit-comment">Submit</button>
@@ -806,6 +660,7 @@ function calculateSaleProductDetails()
         <hr>
 
         <div class="comments"></div>
+      </div>
     </div>
   </div>
 </section>

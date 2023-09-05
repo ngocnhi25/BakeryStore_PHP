@@ -178,7 +178,7 @@ function checkTypeCateUpdate($value)
                 </div>
                 <p style="color: red;" class="errorDate"></p>
                 <div class="ads-event">
-                    <button id="addAds" class="submit" type="button">Add</button>
+                    <button id="addAds" class="submit" type="button">Save</button>
                 </div>
             </form>
         </div>
@@ -217,7 +217,7 @@ function checkTypeCateUpdate($value)
                             <td><?= $a["start_date"] ?></td>
                             <td><?= $a["end_date"] ?></td>
                             <td>
-                                <button class="update" type="button" onclick="updateAds(<?= $a['ads_id'] ?>)">Update</button>
+                                <button class="update" type="button" onclick="updateAds(<?= $a['ads_id'] ?>)">Edit</button>
                                 <button class="delete" type="button" onclick="deleteAds(<?= $a['ads_id'] ?>)">Delete</button>
                             </td>
                         </tr>

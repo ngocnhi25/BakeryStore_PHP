@@ -188,6 +188,7 @@ function checkCate($value)
                         </div>
 
                     </div>
+                    
                     <div class="input-animation">
                         <div class="select-container">
                             <select id="input-cateID" name="cateID" class="select-box">
@@ -259,19 +260,19 @@ function checkCate($value)
     $("#success").hide();
     $("#submitData").click(function (e) {
         e.preventDefault();
-
+        
         $(document).ready(function () {
             var formData = new FormData();
-
+            
             <?php if ($id != null) { ?>
                 formData.append("id", <?php echo $id ?>);
-            <?php } ?>
+            <?php } ?>  
 
             formData.append("name", $('#input-name').val());
             formData.append("cateID", $('#input-cateID').val());
             formData.append("new_summary", CKEDITOR.instances.summary.getData());
             formData.append("new_description", CKEDITOR.instances.description.getData());
-
+            
             var totalFiles = $('#input-images').get(0).files.length;
             for (let i = 0; i < totalFiles; i++) {
                 formData.append("images[]", $('#input-images').get(0).files[i]);
@@ -284,7 +285,7 @@ function checkCate($value)
                 contentType: false,
                 processData: false,
                 success: function (res) {
-
+                    
                     if (res === 'success') {
                         showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {

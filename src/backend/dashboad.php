@@ -406,6 +406,7 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
                 </div>
             </div>
             <div class="chart">
+                <div></div>
                 <div class="chart-month-year">
                     <div class="revenue-box">
                         <canvas class="month-chart" id="month-chart"></canvas>
@@ -417,18 +418,6 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
             <div class="recent-updates">
                 <h2>Potential Customers</h2>
                 <div class="top-best-order">
-                    <?php foreach ($fourEmperorsBuy as $f) { ?>
-                        <div class="profile-dasboad">
-                            <div class="profile-photo">
-                                <img src="../../public/images/icon/badge.png" alt="admin 1">
-                                <div class="ratings-top-num">1</div>
-                            </div>
-                            <div class="account-top-order">
-                                <p><b><?= $f["username"] ?></b></p>
-                                <small class="text-muted">Total amount ordered: <span class="total-order-price"><?= displayPrice($f["total"]) ?> vnđ</span></small>
-                            </div>
-                        </div>
-                    <?php } ?>
                     <?php foreach ($fourEmperorsBuy as $f) { ?>
                         <div class="profile-dasboad">
                             <div class="profile-photo">
@@ -502,7 +491,6 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
                 </div>
             </div>
             <div class="bottom-gallery-left">
-                <p>Event statistics</p>
                 <div class="cal-gallery">
                     <table class="table-dashboad">
                         <thead>

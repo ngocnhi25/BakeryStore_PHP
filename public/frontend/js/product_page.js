@@ -44,7 +44,7 @@ function getProductAjax() {
   });
 }
 
-function pageClickPagination(page) {
+function pageClickPaginationProduct(page) {
   const action = 'data';
   const cate = getFilterText('filter_cate');
   const onSale = getFilterText('on_sale');
@@ -332,6 +332,7 @@ $(document).ready(function () {
   });
 });
 $(document).ready(function () {
+  $('input-reply-lv1').hide();
   showComment();
 
   $(".submit-comment").click(function () {
@@ -342,11 +343,23 @@ $(document).ready(function () {
       method: "POST",
       data: {
         content: content,
-        product_id: product_id
+        product_id: product_id,
+        parent_id: 1,
+        reply_id: 0
       },
       success: function (res) {
-        if(res === "success"){
+        if (res === "success") {
+          $("#comment").val("");
           showComment();
+        } else if (res === "notLoggedIn") {
+          Swal.fire({
+            icon: 'info',
+            title: 'Not Logged In',
+            text: 'Please login your account.',
+            didClose: () => {
+              window.location.href = "User/login.php";
+            }
+          });
         }
       },
       error: function (xhr, status, error) {
@@ -375,13 +388,41 @@ $(document).ready(function () {
       }
     });
   })
+  
+  $(document).on("click", ".btn-reply1", function () {
+    const commentContainer = $(this).closest('.comment');
+    setupReplyForm(commentContainer, 1);
+  });
+  
+  $(document).on("click", ".btn-reply2", function () {
+    const commentContainer = $(this).closest('.comment');
+    setupReplyForm(commentContainer, 2);
+  });
+  
+  $(document).on("click", ".send-reply-comment.lv1", function () {
+    const commentContainer = $(this).closest('.comment');
+    sendReply(commentContainer, 1);
+  });
+  
+  $(document).on("click", ".send-reply-comment.lv2", function () {
+    const commentContainer = $(this).closest('.comment');
+    sendReply(commentContainer, 2);
+  });
+
+  $(document).on("click", ".btn-like", function () {
+    handleVoteAction($(this), "like");
+  });
+  
+  $(document).on("click", ".btn-unlike", function () {
+    handleVoteAction($(this), "unlike");
+  });
 });
 
 function showComment() {
   let product_id = '';
   product_id = $("#proDetail-proID").data("id");
   $.ajax({
-    url: "handles_page/show_comments.php", // Replace with the actual URL to fetch the increaseSize
+    url: "handles_page/show_comments.php",
     method: "POST",
     data: {
       product_id: product_id
@@ -395,3 +436,94 @@ function showComment() {
   });
 }
 
+function handleVoteAction($element, action) {
+  const id = $element.data("id");
+  $.ajax({
+    url: "handles_page/vote_comment.php",
+    method: "POST",
+    data: {
+      action: action,
+      comment_id: id
+    },
+    success: function (res) {
+      if (res === "notLoggedIn") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Not Logged In',
+          text: 'Please login your account.',
+          didClose: () => {
+            window.location.href = "User/login.php";
+          }
+        });
+      } else {
+        const response = JSON.parse(res);
+        const $commentList = $element.closest('.commentList');
+        const $btnLike = $commentList.find('.btn-like');
+        const $btnUnlike = $commentList.find('.btn-unlike');
+        const $qtyLike = $btnLike.find('.qty-like');
+        const $qtyUnlike = $btnUnlike.find('.qty-unlike');
+
+        if (action === "like") {
+          $element.toggleClass('active');
+          $qtyLike.text(response.like);
+          $btnUnlike.removeClass('active');
+          $qtyUnlike.text(response.unlike);
+        } else if (action === "unlike") {
+          $element.toggleClass('active');
+          $qtyUnlike.text(response.unlike);
+          $btnLike.removeClass('active');
+          $qtyLike.text(response.like);
+        }
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("error: " + error);
+    }
+  });
+}
+
+function setupReplyForm(commentContainer, level) {
+  const html = `
+    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <button class="send-reply-comment lv${level}">Send</button>
+  `;
+  commentContainer.find(`.input-reply-lv${level}`).show().empty().html(html);
+  commentContainer.find(`.input-reply-lv${level} textarea`).focus();
+}
+
+function sendReply(commentContainer, level) {
+  const content = commentContainer.find(`.input-reply-lv${level} textarea`).val();
+  const product_id = $("#proDetail-proID").data("id");
+  const reply_id = commentContainer.find(`.input-reply-lv${level}`).data("reply");
+  const reply_username = commentContainer.data("ibusername");
+
+  $.ajax({
+    url: "handles_page/add_comment.php",
+    method: "POST",
+    data: {
+      content: content,
+      product_id: product_id,
+      parent_id: 2,
+      reply_id: reply_id,
+      reply_username: reply_username
+    },
+    success: function (res) {
+      if (res === "success") {
+        commentContainer.find(`.input-reply-lv${level}`).empty().hide();
+        showComment();
+      } else if (res === "notLoggedIn") {
+        Swal.fire({
+          icon: 'info',
+          title: 'Not Logged In',
+          text: 'Please login your account.',
+          didClose: () => {
+            window.location.href = "User/login.php";
+          }
+        });
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error("error: " + error);
+    }
+  });
+}

@@ -7,7 +7,7 @@
             view voucher history
         </div>
     </div>
-    <div class="wh-user-add-vch">
+    <!-- <div class="wh-user-add-vch">
         <div class="wh-vch-code">
             Voucher Code
         </div>
@@ -17,7 +17,7 @@
         <div class="save-vch">
             <button class="save-vch-btn">Save</button>
         </div>
-    </div>
+    </div> -->
     <div class="wh-tab-ui">
         <div class="wh-tabs">
             <div class="wh-tab-item active" data-tab="all">All</div>

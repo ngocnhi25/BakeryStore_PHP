@@ -2,7 +2,7 @@
 require_once("../../../connect/connectDB.php");
 require_once("../../../handles_page/handle_calculate.php");
 
-$limit = 10;
+$limit = 4;
 $page = 1;
 $number = 0;
 if(isset($_POST["page"])){
@@ -56,7 +56,7 @@ function showCoupon()
         echo "<td>". $c["start_date"] ."</td>";
         echo "<td>". $c["end_date"] ."</td>";
         echo "<td>";
-        echo "<button onclick='updateCoupon(". $c['coupon_id'] .")' class='update'>Update</button>";
+        echo "<button onclick='updateCoupon(". $c['coupon_id'] .")' class='update'>Edit</button>";
         echo "<button onclick='deleteCoupon('". $c['coupon_name'] ."', ". $c['coupon_id'] .")' class='delete'>Delete</button>";
         echo "</td>";
         echo "</tr>";

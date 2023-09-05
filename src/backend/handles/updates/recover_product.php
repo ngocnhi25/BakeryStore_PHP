@@ -12,8 +12,8 @@ if (isset($_SESSION["auth_user"])) {
 if(isset($_POST["id"])){
     $id = $_POST["id"];
     $product = executeSingleResult("SELECT product_name, qty_warehouse FROM tb_products where product_id = $id");
-    $product_name = $size["product_name"];
-    $qty_warehouse = $size["qty_warehouse"];
+    $product_name = $product["product_name"];
+    $qty_warehouse = $product["qty_warehouse"];
 }
 
 if(isset($_POST["qtyProduct"]) && !empty($_POST["qtyProduct"])){
