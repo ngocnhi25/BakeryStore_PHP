@@ -66,7 +66,7 @@ if(isset($_POST["sb-FormSupport"])){
     }
 
     supportForm_User($username, $email, $content);
-    $_SESSION['status'] = "Send email request support successfully !";
+    $_SESSION['status'] = "Send request support form successfully !";
     header("Location: ../contact.php");
     exit();
 
