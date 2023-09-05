@@ -13,14 +13,15 @@ $cates = executeResult("SELECT * FROM tb_news_cate c INNER JOIN tb_news p ON c.n
 
 <div class="products">
     <h1>News Management</h1>
-    <div class="filter-product">
+    <div class="filter-product" >
         <div class="form-search-header">
             <span class="material-symbols-sharp icon">search</span>
-            <input id="filter-search-product" type="text" name="search" placeholder="Search news..." class="form-control">
+            <input id="filter-search-product" type="text" name="search" placeholder="Search news..."
+                class="form-control">
         </div>
-        
+
         <div class="filter-product-box">
-            
+
             <div class="select-container">
                 <select name="category" class="select-box" id="cateSearch">
                     <option value="">__All Category__</option>

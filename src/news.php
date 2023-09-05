@@ -152,7 +152,7 @@ if ($countResult != null) {
                   </div>
                   <div class="product-info">
                     <p class="product-name">
-                      <a href="new_details.php?new_id=<?php $p["new_id"] ?>">
+                      <a href="new_details.php?new_id=<?= $p["new_id"] ?>">
                         <?php echo $p["new_title"] ?>
                       </a>
                     </p>

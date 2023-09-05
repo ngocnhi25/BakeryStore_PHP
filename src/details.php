@@ -171,7 +171,8 @@ function calculateSaleProductDetails()
       color: #919191;
       cursor: pointer;
     }
-    .form .commentList .reply-comment .btn-like.active, 
+
+    .form .commentList .reply-comment .btn-like.active,
     .form .commentList .reply-comment .btn-unlike.active {
       color: #007bff;
     }
@@ -201,7 +202,7 @@ function calculateSaleProductDetails()
   <script>
     alert('<?php echo $_SESSION['status']; ?>');
   </script>
-<?php
+  <?php
   unset($_SESSION['status']); // Clear the session status after displaying
 }
 ?>
@@ -249,13 +250,16 @@ function calculateSaleProductDetails()
         </div>
       </div>
       <div class="col-12 col-lg-5">
-        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>" data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
+        <div class="pname" id="proDetail-proID" data-id="<?= $product["product_id"] ?>"
+          data-name="<?= $product["product_name"] ?>"><?= $product["product_name"] ?></div>
         <p class="pd-view">Views: <span>
             <?= $product["view"] ?>
           </span></p>
         <div class="price-details">Price:
           <?php if ($saleProductID != null) { ?>
-            <span class="discounted-price" data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>" data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
+            <span class="discounted-price"
+              data-addCart="<?= calculatePercentPriceData($product['price'], $saleProductID["percent_sale"]) ?>"
+              data-price="<?= $product['price'] ?>" data-percent="<?= $saleProductID["percent_sale"] ?>">
               <?= calculateSaleProductDetails() ?> vnđ
             </span>
             <span class="original-price">
@@ -271,7 +275,8 @@ function calculateSaleProductDetails()
           <span>Choose cake size:</span>
           <div class="size-btn-items">
             <?php foreach ($size as $key => $s) { ?>
-              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>" data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
+              <button class="sizeBtn <?= ($key == 0 ? 'active' : '') ?>" data-size="<?= $s['cate_size_id'] ?>"
+                data-name="<?= $s['size_name'] ?>" data-increase="<?= $s["increase_size"] ?>">
                 <?php echo $s["size_name"] ?>cm
               </button>
             <?php } ?>
@@ -281,7 +286,8 @@ function calculateSaleProductDetails()
           <span>Choose cake flavor:</span>
           <div class="flavor-btn-items">
             <?php foreach ($flaror as $key => $f) { ?>
-              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>" value="<?= $f['flavor_name'] ?>">
+              <button class="flavorBtn <?= ($key == 0 ? 'active' : '') ?>" data-flavor="<?= $f['flavor_name'] ?>"
+                value="<?= $f['flavor_name'] ?>">
                 <?php echo $f["flavor_name"] ?>
               </button>
             <?php } ?>
@@ -292,7 +298,8 @@ function calculateSaleProductDetails()
           <span>Quantity:</span>
           <div class="btn-quantity">
             <button class="qty-btn-reduce">-</button>
-            <input class="qty-product-detail" type="text" value="1" oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
+            <input class="qty-product-detail" type="text" value="1"
+              oninput="this.value = this.value.replace(/[^0-9]/g, '');" readonly>
             <button class="qty-btn-increase">+</button>
           </div>
         </div>
@@ -309,13 +316,13 @@ function calculateSaleProductDetails()
           <input type="hidden" class="user_id" value="<?php echo $user_id ?>">
           <input type="hidden" class="IncreaseSize" value="" id="hiddenIncreaseSize">
           <input type="hidden" class="lastPrice" value="<?php
-                                                        if (isset($discountedPrice)) {
-                                                          echo $discountedPrice;
-                                                        } else {
-                                                          $discountedPrice = $price;
-                                                          echo $discountedPrice;
-                                                        }
-                                                        ?>">
+          if (isset($discountedPrice)) {
+            echo $discountedPrice;
+          } else {
+            $discountedPrice = $price;
+            echo $discountedPrice;
+          }
+          ?>">
         </form>
 
         <div class="btn-box">
@@ -328,7 +335,8 @@ function calculateSaleProductDetails()
       <div class="card-content-pro">
         <ul class="nav nav-pills tabs-categories" role="tablist">
           <li class="nav-item" style="cursor: none;">
-            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
+            <a class="nav-link active" id="pills-home-tab-left" data-toggle="pill" href="#pills-home" role="tab"
+              aria-controls="pills-home" aria-selected="true">
               Description
             </a>
           </li>
@@ -431,11 +439,11 @@ function calculateSaleProductDetails()
       $danhgia = new danhgia();
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once 'connect/connectDB.php'; // Đảm bảo đường dẫn đúng
-
+      
         $db = new Database();
 
         // $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
-
+      
         $user_id = $_POST["user_id"];
         $rating = $_POST["rating"];
         $comment = $_POST["comment"];
@@ -478,7 +486,7 @@ function calculateSaleProductDetails()
 
       ?>
       <link rel='stylesheet prefetch' href='https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css'>
-      <style>
+      <!-- <style>
         body {
           font-family: Arial, sans-serif;
           margin: 0;
@@ -586,8 +594,132 @@ function calculateSaleProductDetails()
         .star-5 {
           grid-area: star-5;
         }
-      </style>
+      </style> -->
+      <style>
+        
+        .body_danhgia {
+          font-family: Arial, sans-serif;
+          margin: 0;
+          padding: 0;
+          background-color: #f4f4f4;
+        }
 
+        .container {
+          width: 80%;
+          margin: auto;
+          overflow: hidden;
+        }
+
+        .danhgia {
+          background-color: #fff;
+          padding: 20px;
+          margin-top: 20px;
+          border-radius: 5px;
+        }
+
+        div.stars {
+          width: 270px;
+          display: inline-block;
+        }
+
+        input.star {
+          display: none;
+        }
+
+        label.star {
+          float: right;
+          margin-bottom: -15px; /* Thay đổi giá trị margin-top tùy theo cần thiết */
+          padding: 10px;
+          font-size: 36px;
+          color: #444;
+          transition: all .2s;
+        }
+
+        input.star:checked~label.star:before {
+          content: '\f005';
+          color: #FD4;
+          transition: all .25s;
+        }
+
+        input.star-5:checked~label.star:before {
+          color: #FE7;
+          text-shadow: 0 0 20px #952;
+        }
+
+        input.star-1:checked~label.star:before {
+          color: #F62;
+        }
+
+        label.star:hover {
+          transform: rotate(-15deg) scale(1.3);
+        }
+
+        label.star:before {
+          content: '\f006';
+          font-family: FontAwesome;
+        }
+
+        /* Additional CSS for the form and review section */
+        .danhgia {
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 20px;
+        }
+
+        .existing-reviews {
+          margin-top: 20px;
+        }
+
+        .review {
+          border: 1px solid #ccc;
+          padding: 10px;
+          margin-bottom: 15px;
+        }
+
+        /* CSS for the comment textarea */
+        label[for="comment"] {
+          display: block;
+          margin-top: 10px;
+          max-width: 600px;
+          margin: 0 auto;
+          padding: 0; /* 20px*/
+        }
+
+        textarea[name="comment"] {
+          width: 100%;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          max-width: 600px;
+          margin-left: 0;  /* 24% .Đặt giá trị margin-left về 0 để căn chỉnh vị trí */ 
+          padding: 20px;
+        }
+
+        /* CSS for the submit button */
+        .submit-container {
+          text-align: center;
+          margin-top: 20px;
+        }
+
+        .send {
+          background-color: #007BFF;
+          color: #fff;
+          padding: 10px 20px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s ease-in-out;
+          margin-left: 43%;/*47% */
+        }
+
+        button[type="submit"]:hover {
+          background-color: #0056b3;
+        }
+
+        span.star {
+          color: #FFCC00;
+        }
+      </style>
+      
 
       <script>
         function validateSurveyForm() {
@@ -609,15 +741,17 @@ function calculateSaleProductDetails()
         <div class="container">
           <div class="danhgia">
             <div class="existing-reviews">
-              <h2>
-                <?php echo $reviewCount; ?> Comment
-              </h2>
+              <?php if ($reviewCount > 0): ?>
+                <h2>
+                  <?php echo $reviewCount; ?> Comment
+                </h2>
+              <?php endif; ?>
               <?php
               if ($reviewCount > 0) {
                 foreach ($reviewArray as $review) {
                   // Chỉ hiển thị các đánh giá của sản phẩm có product_id trùng khớp
                   if ($review['product_id'] == $product_id) {
-              ?>
+                    ?>
                     <div class="review">
                       <p><strong>Name:</strong>
                         <?php echo $review['name']; ?> -
@@ -639,7 +773,7 @@ function calculateSaleProductDetails()
                         <?php echo isset($review['comment']) ? $review['comment'] : ''; ?>
                       </p>
                     </div>
-              <?php
+                    <?php
                   }
                 }
               } else {
@@ -649,10 +783,10 @@ function calculateSaleProductDetails()
             </div>
             <!-- Review form -->
 
-            <h2>Leave a comment</h2>
+            <h2>Leave a review</h2>
             <?php
             if (!isset($_SESSION["auth_user"])) {
-              echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a comment.</p>";
+              echo "<p>You need to <big><b><a href='User/login.php'>Login</a></b></big> to leave a review.</p>";
             } else {
               // Check if user has purchased the product
               $product_id = isset($_GET['product_id']) ? $_GET['product_id'] : null;
@@ -667,12 +801,12 @@ function calculateSaleProductDetails()
                 $order_id = $purchase_data['order_id'];
 
                 // Check if the order status is 'delivered'
-                $order_status_query = "SELECT * FROM tb_order WHERE order_id = $order_id AND status = 'prepare'";
+                $order_status_query = "SELECT * FROM tb_order WHERE order_id = $order_id AND status = 'completed'";
                 $order_status_result = $db->select($order_status_query);
 
                 if ($order_status_result && $order_status_result->num_rows > 0) {
                   // User can leave a review
-            ?>
+                  ?>
                   <!-- Review form -->
                   <form class="review-form" action="" method="POST">
                     <input type="hidden" name="product_id" value="<?php echo $product_id; ?>">
@@ -696,12 +830,14 @@ function calculateSaleProductDetails()
                     </div>
 
 
+
                     <label for="comment">Comment:</label>
                     <textarea name="comment" rows="4" required></textarea>
                     <br>
-                    <button class="send" type="submit" name="submit_danhgia" onclick="return validateSurveyForm();">Send</button>
+                    <button class="send" type="submit" name="submit_danhgia"
+                      onclick="return validateSurveyForm();">Send</button>
                   </form>
-            <?php
+                  <?php
                 } else {
                   echo "<p>You can only leave a review for products that have been prepare.</p>";
                 }
@@ -750,8 +886,10 @@ function calculateSaleProductDetails()
                     </div>
                   <?php } ?>
                   <div class="box-actions-hover">
-                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span class="material-symbols-sharp">visibility</span></a></button>
-                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span class="material-symbols-sharp">add_shopping_cart</span></button>
+                    <button><a href="details.php?product_id=<?= $p["product_id"] ?>"><span
+                          class="material-symbols-sharp">visibility</span></a></button>
+                    <button onclick="addNewCart(<?= $p['product_id'] ?>)" type="button"><span
+                        class="material-symbols-sharp">add_shopping_cart</span></button>
                   </div>
                 </div>
                 <div class="product-info">
@@ -797,7 +935,8 @@ function calculateSaleProductDetails()
         <div class="comment-form">
           <h3>Comment</h3>
           <div class="commentForm">
-            <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions" required></textarea>
+            <textarea id="comment" name="comment" rows="3" placeholder="Please comment or ask questions"
+              required></textarea>
             <br>
             <button type="button" class="submit-comment">Submit</button>
           </div>
@@ -818,7 +957,7 @@ function calculateSaleProductDetails()
     $.ajax({
       type: "GET",
       url: "handles_page/check_login_status.php",
-      success: function(response) {
+      success: function (response) {
         if (response === "loggedin") {
           addToCart(); // Call the addToCart function if logged in
         } else {
@@ -869,7 +1008,7 @@ function calculateSaleProductDetails()
         price: price,
         user_id: user_id,
       },
-      success: function(response) {
+      success: function (response) {
         Swal.fire({
           icon: 'success',
           title: 'Add to cart success',
@@ -877,15 +1016,15 @@ function calculateSaleProductDetails()
           showConfirmButton: false
         });
       },
-      error: function() {
+      error: function () {
         alert("Error adding product to cart");
       }
     });
   }
 
-  $(document).ready(function() {
+  $(document).ready(function () {
     // Add to cart button event listener
-    $(document).on("click", "#add", function(e) {
+    $(document).on("click", "#add", function (e) {
       e.preventDefault();
       checkLoginStatus();
     });

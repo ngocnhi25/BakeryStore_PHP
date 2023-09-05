@@ -36,7 +36,7 @@ function checkCate($value)
 <head>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../../public/backend/css/table.css">
-    <style>
+    <!-- <style>
         .title-page {
             margin-top: 20px;
             margin-left: 20px;
@@ -159,8 +159,145 @@ function checkCate($value)
         .error {
             margin-left: 20px;
         }
+    </style> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .title-page {
+            margin: 20px 0 0 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .addPro-wapper {
+            width: 650px;
+            margin: auto;
+            padding: 20px;
+            border: 1px #ccc;
+            /*solid */
+            border-radius: 10px;
+        }
+
+        .product-input-box {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .input-animation {
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            position: relative;
+            width: 100%;
+        }
+
+        .input-box label {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: #333;
+            padding: 0 5px;
+            pointer-events: none;
+            transition: 0.5s;
+        }
+
+        .input-box input {
+            width: 100%;
+            padding: 10px;
+            background: #41cb782e;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            outline: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #333;
+            transition: .5s;
+            box-shadow: 1px 1px 3px #333;
+        }
+
+        .input-box input:focus~label,
+        .input-box input:valid~label {
+            top: -5px;
+            left: 18px;
+            font-size: 13px;
+            background: #1d2b3e;
+            color: #0080ff;
+            padding: 0 12px;
+            border-radius: 5px;
+        }
+
+        .input-box input:focus,
+        .input-box input:valid {
+            border: 1px solid #0080ff;
+        }
+
+        .select-container {
+            width: 200px;
+            position: relative;
+            height: 40px;
+            /*30 */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 1px 1px 3px #333;
+        }
+
+        .select-box {
+            border: none;
+            width: 100%;
+            padding: 6px 10px;
+            color: #333;
+            background-color: #96dcd57a;
+            font-size: 16px;
+        }
+
+        .image-box {
+            margin-bottom: 15px;
+        }
+
+        .image-box label {
+            font-size: 16px;
+        }
+
+        .image-box input[type="file"] {
+            font-size: 14px;
+            border-radius: 5px;
+            box-shadow: 1px 1px 3px #333;
+            width: 200px;
+            outline: none;
+            margin-left: 0px;
+            /*10 */
+        }
+
+        ::-webkit-file-upload-button {
+            background-color: #96dcd57a;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .error {
+            margin-left: 20px;
+            color: red;
+        }
+
+        
+        
+        .ckeditor-box {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 1px solid #504e4e;
+        }
     </style>
-    
+
+
 </head>
 <div class="page-box">
     <h1 class="title-page">
@@ -188,7 +325,7 @@ function checkCate($value)
                         </div>
 
                     </div>
-                    
+
                     <div class="input-animation">
                         <div class="select-container">
                             <select id="input-cateID" name="cateID" class="select-box">
@@ -217,7 +354,7 @@ function checkCate($value)
                     <div class="errorImages error" style="color: red;"></div>
                 </div>
             </div>
-            <div class="ckeditor-box">
+            <div class="ckeditor-box summary-box">
                 <div>
                     <label for="">Summary:</label>
                     <textarea id="summary" name="new_summary">
@@ -226,6 +363,7 @@ function checkCate($value)
                     <div class="errorSummary" style="color: red;"></div>
                 </div>
             </div>
+            <div style="margin-bottom: 20px;"></div>
             <div class="ckeditor-box">
 
                 <div>
@@ -260,19 +398,19 @@ function checkCate($value)
     $("#success").hide();
     $("#submitData").click(function (e) {
         e.preventDefault();
-        
+
         $(document).ready(function () {
             var formData = new FormData();
-            
+
             <?php if ($id != null) { ?>
                 formData.append("id", <?php echo $id ?>);
-            <?php } ?>  
+            <?php } ?>
 
             formData.append("name", $('#input-name').val());
             formData.append("cateID", $('#input-cateID').val());
             formData.append("new_summary", CKEDITOR.instances.summary.getData());
             formData.append("new_description", CKEDITOR.instances.description.getData());
-            
+
             var totalFiles = $('#input-images').get(0).files.length;
             for (let i = 0; i < totalFiles; i++) {
                 formData.append("images[]", $('#input-images').get(0).files[i]);
@@ -285,7 +423,7 @@ function checkCate($value)
                 contentType: false,
                 processData: false,
                 success: function (res) {
-                    
+
                     if (res === 'success') {
                         showSuccessMessage("news/<?php echo (($id == null ? 'news_add.php' : 'news.php')) ?>");
                     } else {
