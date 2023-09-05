@@ -132,10 +132,30 @@ if (isset($_SESSION["auth_user"])) {
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="orders.php" class="nav-link">
-                            <span class="material-symbols-sharp">receipt_long</span>
-                            <h3>Orders</h3>
-                        </a>
+                        <div class="sub-btn nav-link">
+                            <div class="title">
+                                <span class="material-symbols-sharp">inventory</span>
+                                <h3>Order</h3>
+                            </div>
+                            <span class="material-symbols-sharp more">expand_more</span>
+                            <span class="material-symbols-sharp less">expand_less</span>
+                        </div>
+                        <ul class="sub-menu">
+                            <li class="menu-item">
+                                <a href="orders.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Order</h4>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="order_details_page.php">
+                                    <span class="material-symbols-sharp unchecked">radio_button_unchecked</span>
+                                    <span class="material-symbols-sharp checked">radio_button_checked</span>
+                                    <h4>Order Details</h4>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a href="sale.php" class="nav-link">

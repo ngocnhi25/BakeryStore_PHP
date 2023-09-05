@@ -1,24 +1,25 @@
 <?php
 session_start();
 
-require_once("connect/connectDB.php");
+require_once "connect/connectDB.php";
 
+$items = array();
 $grand_total = 0;
-$allItems = '';
-$items = [];
 
-$sql = "SELECT CONCAT(product_name, '(',quantity,')') AS ItemQty, total_price FROM tb_cart";
+$sql = "SELECT product_name, quantity, total_price, flavor FROM tb_cart";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 while ($row = $result->fetch_assoc()) {
-  $grand_total += $row['total_price'];
-  $items[] = $row['ItemQty'];
+    $grand_total += $row['total_price'];
+    $items[] = $row;
 }
-$allItems = implode(', ', $items);
+
+// Convert the items array to JSON
+$items_json = json_encode($items);
 
 if (isset($_SESSION["auth_user"])) {
-  $user_id = $_SESSION["auth_user"]["user_id"];
+    $user_id = $_SESSION["auth_user"]["user_id"];
 }
 
 ?>
@@ -64,26 +65,45 @@ if (isset($_SESSION["auth_user"])) {
 
 <body>
 
-  <?php include("layout/header.php"); ?>
+  <?php include "layout/header.php";?>
 
-  <div class="container">
+  <div class="">
     <div class="row justify-content-center">
       <div class="col-lg-6 px-4 pb-4" id="order">
         <h4 class="text-center text-info p-2">Complete your order!</h4>
         <div class="jumbotron p-3 mb-2 text-center">
-          <h6 class="lead"><b>Product(s) : </b>
-            <?= $allItems; ?>
-          </h6>
-          <h6 class="lead"><b>Delivery Charge : </b>Free</h6>
-          <h5><b>Total Amount Payable : </b>
-            <?= number_format($grand_total, 0) ?>/-
-          </h5>
+        <div class="container">
+          <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Product(s)</th>
+              <th>Flavor</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php $count = 1;?>
+            <?php foreach ($items as $item): ?>
+              <tr>
+                <td><?=$count?></td>
+                <td><?=$item['product_name']?></td>
+                <td><?=$item['flavor']?></td>
+                <td><?=$item['quantity']?></td>
+                <td><?=number_format($item['total_price'], 0)?></td>
+              </tr>
+              <?php $count++;?>
+            <?php endforeach;?>
+          </tbody>
+          </table>
+          <h5><b>Total Amount Payable:</b> <?=number_format($grand_total, 0)?></h5>
         </div>
         <form action="" method="post" id="placeOrder">
-          <input type="hidden" name="user_id" value="<?= isset($user_id) ? $user_id : ''; ?>">
+          <input type="hidden" name="user_id" value="<?=isset($user_id) ? $user_id : '';?>">
           <!-- Add this hidden input -->
-          <input type="hidden" name="products" value="<?= $allItems; ?>">
-          <input type="hidden" name="grand_total" value="<?= $grand_total; ?>">
+          <input type="hidden" name="products" value="<?=$items_json;?>">
+          <input type="hidden" name="grand_total" value="<?=$grand_total;?>">
           <div class="form-group">
             <input type="text" name="name" class="form-control" placeholder="Enter Name" required>
           </div>
@@ -100,88 +120,78 @@ if (isset($_SESSION["auth_user"])) {
             <textarea name="address" class="form-control" rows="3" cols="10"
               placeholder="Enter Delivery Address Here..."></textarea>
           </div>
-          <h6 class="text-center lead">Select Payment Mode</h6>
-          <div class="form-group">
-            <select name="pmode" class="form-control">
-              <option value="" selected disabled>-Select Payment Mode-</option>
-              <option value="cod">Cash On Delivery</option>
-              <option value="netbanking">Net Banking</option>
-              <option value="cards">Debit/Credit Card</option>
-            </select>
+            <div class="container mt-5">
+            <div class="row justify-content-center">
+              <div class="col-md-6">
+                <h6 class="text-center lead">Select Payment Mode</h6>
+                <div class="form-group">
+                  <select name="pmode" class="form-control" id="payment-mode">
+                    <option value="cod">Cash On Delivery</option>
+                    <option value="paypal">PayPal</option>
+                  </select>
+                </div>
+                <div id="paypal-button-container" style="display: none;"></div>
+              </div>
+            </div>
           </div>
+            <script src="https://www.paypal.com/sdk/js?client-id=AaiK0St63FF408Ut2I_lM0WFlyGUs9Wz4O5QthU3dGilujAwRruek1xceLSycd9RXBTYsgLOjT-bkZOg&currency=USD"></script>
+            <script>
+              const grand_total = <?=$grand_total?>;
 
-          <script
-            src='https://www.paypal.com/sdk/js?client-id=AaiK0St63FF408Ut2I_lM0WFlyGUs9Wz4O5QthU3dGilujAwRruek1xceLSycd9RXBTYsgLOjT-bkZOg&currency=USD'></script>
+              // Get elements
+              const paymentModeSelect = document.getElementById('payment-mode');
+              const paypalButtonContainer = document.getElementById('paypal-button-container');
+              const checkoutButton = document.getElementById('checkout-button');
 
-          <div id='paypal-button-container'></div>
+              // Listen for payment mode change
+              paymentModeSelect.addEventListener('change', function () {
+                const selectedPaymentMode = paymentModeSelect.value;
+                if (selectedPaymentMode === 'paypal') {
+                  paypalButtonContainer.style.display = 'block';
+                  checkoutButton.style.display = 'none';
+                } else {
+                  paypalButtonContainer.style.display = 'none';
+                  checkoutButton.style.display = 'block';
+                }
+              });
 
-          <script>
-            // Function to calculate total order amount
-            function calculateTotalAmount(grand_total) {
-              // Calculate the total order amount based on the grand_total
-              return grand_total;
-            }
-
-            // Function to get the list of purchased items as a formatted string
-            function getProductsAsString(allItems) {
-              // Convert the array of items to a formatted string
-              var itemsString = allItems.map(function (item) {
-                return item.product_name + " (Quantity: " + item.quantity + ")";
-              }).join(", ");
-
-              return itemsString;
-            }
-
-            // Get the grand_total value from the PHP variable
-            var grand_total = <?= $grand_total ?>;
-            var allItems = <?= json_encode($items) ?>; // Make sure $items is properly formatted as a JSON array of objects
-
-            // Initialize PayPal buttons
-            paypal.Buttons({
-              createOrder: function (data, actions) {
-                var totalAmount = calculateTotalAmount(grand_total);
-                var itemsString = getProductsAsString(allItems);
-
-                return actions.order.create({
-                  purchase_units: [{
-                    amount: {
-                      currency_code: "USD",
-                      value: totalAmount
-                    },
-                    description: itemsString
-                  }]
-                });
-              },
-              onApprove: function (data, actions) {
-                return actions.order.capture().then(function (orderData) {
-                  // Get transaction details from the PayPal response
-                  var transactionID = orderData.id;
-                  var payerName = orderData.payer.name.given_name + ' ' + orderData.payer.name.surname;
-                  var payerEmail = orderData.payer.email_address;
-                  var shippingAddress = orderData.purchase_units[0].shipping.address;
-                  var address = shippingAddress.address_line_1 + ', ' + shippingAddress.admin_area_2 + ', ' + shippingAddress.admin_area_1 + ', ' + shippingAddress.postal_code + ', ' + shippingAddress.country_code;
-
-                  // Send data to the server using AJAX
-                  $.ajax({
-                    url: 'handles_page/add_to_cart.php', // Adjust the correct processing URL
-                    method: 'post',
-                    data: {
-                      transactionID: transactionID,
-                      payerName: payerName,
-                      payerEmail: payerEmail,
-                      address: address,
-                      action: 'save_paypal_data' // Adjust the action to be performed in the processing code
-                    },
-                    success: function (response) {
-                      // Handle the server response if needed
-                      console.log(response);
-                    }
+              paypal.Buttons({
+                createOrder: function (data, actions) {
+                  return actions.order.create({
+                    purchase_units: [{
+                      amount: {
+                        currency_code: "USD",
+                        value: grand_total
+                      }
+                    }]
                   });
-                });
-              }
-            }).render('#paypal-button-container');
-          </script>
+                },
+                onApprove: function (data, actions) {
+                  return actions.order.capture().then(function (orderData) {
+                    // Get transaction details from the PayPal response
+                    const transactionID = orderData.id;
+                    const payerName = orderData.payer.name.given_name + ' ' + orderData.payer.name.surname;
+                    const payerEmail = orderData.payer.email_address;
 
+                    // Send data to the server using AJAX
+                    $.ajax({
+                      url: 'handles_page/add_to_cart.php', // Adjust the correct processing URL
+                      method: 'post',
+                      data: {
+                        transactionID: transactionID,
+                        payerName: payerName,
+                        payerEmail: payerEmail,
+                        action: 'save_paypal_data' // Adjust the action to be performed in the processing code
+                      },
+                      success: function (response) {
+                        // Handle the server response if needed
+                        console.log(response);
+                      }
+                    });
+                  });
+                }
+              }).render('#paypal-button-container');
+            </script>
           <div class="form-group">
             <input type="submit" name="submit" value="Place Order" class="btn btn-danger btn-block">
           </div>
@@ -190,7 +200,7 @@ if (isset($_SESSION["auth_user"])) {
     </div>
   </div>
 
-  <?php include("layout/footer.php"); ?>
+  <?php include "layout/footer.php";?>
 
   <!-- script link -->
   <script src="public/plugins/js/jquery3.3.1.min.js"></script>
