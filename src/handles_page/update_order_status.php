@@ -30,22 +30,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 function updateStatusToCompleted($order_id)
 {
-    // Thực hiện truy vấn để xóa đơn hàng với ID đã cho
-    $delete_sql = "DELETE FROM tb_order WHERE order_id = $order_id";
+    // Validate the input to prevent SQL injection
+    $order_id = intval($order_id); // Ensure $order_id is an integer
 
-    // Lấy thông tin email của người dùng
-    $getEmail = executeSingleResult("SELECT tb_user.email FROM tb_order JOIN tb_user ON tb_order.user_id = tb_user.user_id WHERE tb_order.order_id = $order_id");
-    $user_email = $getEmail['email'];
+    // Check if $order_id is a valid positive integer
+    if ($order_id <= 0) {
+        return "Invalid order ID.";
+    }
 
-    // Gọi hàm execute để thực hiện truy vấn
-    if (execute($delete_sql)) {
-        // Gửi email thông báo
-        sendOrderCompletedEmail($user_email);
-        return "Status updated to completed. Order deleted successfully and email sent.";
+    // Thực hiện truy vấn để cập nhật trạng thái đơn hàng thành "completed"
+    $update_sql = "UPDATE tb_order SET status = 'completed' WHERE order_id = $order_id";
+
+    // Gọi hàm execute để thực hiện truy vấn cập nhật trạng thái
+    if (execute($update_sql)) {
+        echo "thank you";
     } else {
-        return "Error deleting order after status update.";
+        // Xử lý lỗi cập nhật trạng thái
+        return "Error updating order status to completed.";
     }
 }
+
+
 
 function sendOrderCompletedEmail($user_email)
 {

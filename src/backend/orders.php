@@ -232,19 +232,13 @@ ORDER BY o.order_date DESC");
             <tbody>
                 <?php foreach ($returnOrder as $r): ?>
                     <tr>
-                        <td>#
-                            <?php echo $r['order_id']; ?>
-                        </td>
-                        <td>#
-                            <?php echo $r['user_id']; ?>
-                        </td>
                         <td>
                             <?php echo $r['reason']; ?>
                         </td>
                         <td>
-                            <?php echo $r['customer_image']; ?>
-                        </td>
-
+    <img src="../../public/images/return_img/<?= $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
+    <?= $r['customer_image']; ?>
+</td>
                         <td>
                             <div id="confirmation-modal" class="">
                                 <button id="confirm-return-btn"
