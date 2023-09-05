@@ -1,6 +1,7 @@
 <?php
-require_once("connect/connectDB.php");
 session_start();
+require_once("connect/connectDB.php");
+$errors = '';
 
 if (isset($_SESSION["auth_user"])) {
     $user_name = $_SESSION["auth_user"]["username"];
