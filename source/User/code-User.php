@@ -35,7 +35,7 @@ function sendEmail_verify($username, $email, $token){
         <h2>You have registered with NgocNhiBakery</h2>
         <h5>Verify your email address to log in with the below given link</h5>
         <br><br>
-        <a href='http://localhost/Group3-BakeryStore/src/User/code-User.php?token=$token'>Click me</a>
+        <a href='http://localhost/Group3-BakeryStore/source/User/code-User.php?token=$token'>Click me</a>
         ";
         $mail->Body = $mail_template;
         $mail->send();
@@ -67,7 +67,7 @@ function sendEmail_update_Password($get_name, $get_email, $token){
     <h2>You are receiving this email because we received a password reset request for your Account </h2>
     <h5>Verify your email address to update the new password with the below given link</h5>
     <br><br>
-    <a href='http://localhost/Group3-BakeryStore/src/User/forgot-inputNewPass.php?token=$token&email=$get_email'>Click me</a>
+    <a href='http://localhost/Group3-BakeryStore/source/User/forgot-inputNewPass.php?token=$token&email=$get_email'>Click me</a>
     ";
         $mail->Body = $mail_template;
         $mail->send();

@@ -13,12 +13,20 @@ if (isset($_SESSION["auth_user"])) {
         $newPassword = $_POST["new-password"];
         if (empty($newPassword)) {
             $_SESSION['status'] = "New Password must not be blank.";
+            header("Location: changPass-inputNew.php");
+            exit();
         } elseif (strpos($newPassword, ' ') !== false) {
             $_SESSION['status'] = "New Password must not contain spaces.";
+            header("Location: changPass-inputNew.php");
+            exit();
         } elseif (!preg_match("/^[a-zA-Z0-9!@#$%^&*()_+{}:;<>?~]{6,20}$/", $newPassword)) {
             $_SESSION['status'] = "New Password must be between 6 and 20 characters.";
+            header("Location: changPass-inputNew.php");
+            exit();
         } elseif ($newPassword !== $confirm_newPassword) {
             $_SESSION['status'] = "Password and Confirm Password do not match!";
+            header("Location: changPass-inputNew.php");
+            exit();
         } else {
             // Use more secure hashing method like password_hash
             $hashpass = md5($newPassword); 
@@ -27,13 +35,16 @@ if (isset($_SESSION["auth_user"])) {
             $sql_update2_run = mysqli_query($conn, $sql_update2);
             if ($sql_update2_run) {
                 $_SESSION['status'] = "Save new password successfully!";
+                header("Location: home.php");
+                exit();
             } else {
                 $_SESSION['status'] = "Failed to update password.";
+                header("Location: home.php");
+                exit();
             }
         }
 
-        header("Location: home.php");
-        exit();
+        
     }
 }
 ?>

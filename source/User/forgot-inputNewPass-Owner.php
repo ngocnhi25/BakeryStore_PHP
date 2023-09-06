@@ -31,9 +31,6 @@ session_start();
                         <label for=""> Confirm New Password  : </label>
                     </div>
                     <button type="submit" name="update-password-btn">Update Password </button>
-                    <div class="register">
-                        <a href="../../src/User/login.php"> Log in </a></p>
-                    </div>
                 </form>
         </div>
     </section>

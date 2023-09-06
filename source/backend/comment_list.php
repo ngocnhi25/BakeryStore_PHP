@@ -6,9 +6,6 @@ $comment = executeResult("SELECT * from tb_comments c
                             inner join tb_products p
                             on p.product_id  = c.product_id 
                             ORDER BY comment_id  DESC");
-
-// $cates = executeResult("SELECT * FROM tb_category c INNER JOIN tb_products p ON c.cate_id = p.cate_id GROUP BY c.cate_id");
-
 ?>
 
 <div class="products">

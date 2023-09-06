@@ -25,7 +25,7 @@ session_start();
                     </div>
                     <button type="submit" name="submit-resetPass">Send Password Reset Link </button>
                     <div class="register">
-                        <p> Remember your password? <a href="../../src/User/login.php"> Log in </a></p>
+                        <p> Remember your password? <a href="login.php"> Log in </a></p>
                     </div>
                 </form>
             </div>

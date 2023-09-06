@@ -11,7 +11,7 @@ if(isset($_POST["page"])){
 $firstIndex = ($page - 1) * $limit;
 
 $sql = "SELECT * FROM tb_user WHERE role = 1 AND 1   ";
-$sqlCount = "SELECT COUNT(*) AS total FROM tb_user WHERE role = 1";
+$sqlCount = "SELECT COUNT(*) AS total FROM tb_user WHERE role = 1 ";
 
 if (isset($_POST["filter_search"]) && !empty($_POST["filter_search"])) {
     $searchName = $_POST["filter_search"];

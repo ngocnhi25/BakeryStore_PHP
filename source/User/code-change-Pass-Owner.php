@@ -33,7 +33,7 @@ function sendEmail_update_Password_Owner($name, $email, $newtoken)
     <h2>You are receiving this email because we received a password reset request for your Account </h2>
     <h5>Verify your email address to update the new password with the below given link</h5>
     <br><br>
-    <a href='http://localhost/Group3-BakeryStore/src/User/forgot-inputNewPass-Owner.php?token=$newtoken&email=$email'>Click me</a>
+    <a href='http://localhost/Group3-BakeryStore/source/User/forgot-inputNewPass-Owner.php?token=$newtoken&email=$email'>Click me</a>
     ";
         $mail->Body = $mail_template;
         $mail->send();

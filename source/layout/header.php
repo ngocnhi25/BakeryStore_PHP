@@ -265,10 +265,10 @@ if (!empty($footerCart) && isset($footerCart[0]['totalPrice'])) {
                 <?php
 if (isset($_SESSION["auth_user"])) {
     $user = $_SESSION["auth_user"]; // Retrieve the user data from the session
-
+    $users = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
     if ($user["role"] == "1") {
         echo '<a href="my_account_user.php" class="user-header-button js-toggle-user-nav">';
-        echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $user["username"];
+        echo '<i class="fa fa-user" aria-hidden="true"></i> ' . $users["username"];
         echo '</a>';
         echo '<a href="User/logout.php" class="user-header-button js-toggle-user-nav">Log Out</a>';
     } else {
