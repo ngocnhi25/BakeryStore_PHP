@@ -272,7 +272,7 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banner1.png" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
         <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -329,7 +329,7 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banner2.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>
@@ -350,7 +350,7 @@ function showProductCarosel($p)
       <div class="tab-content row" id="pills-tabContent">
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banner1.png" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
         <div class="tab-pane fade show active col-md-9" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -407,7 +407,7 @@ function showProductCarosel($p)
         </div>
         <div class="col-md-3 pl-1 pr-1">
           <div class="banner-product">
-            <img src="../public/images/banners/z4458312751966_a4d358f764972b5361362862171e3f08.jpg" alt="banner sản phẩm" class="img-fluid">
+            <img src="../public/images/banner2.jpg" alt="banner sản phẩm" class="img-fluid">
           </div>
         </div>
       </div>

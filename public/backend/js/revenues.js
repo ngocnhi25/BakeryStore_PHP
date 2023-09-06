@@ -17,19 +17,17 @@ function createChartMonth(data) {
 
     var months = [];
     var incomes = [];
-    var expenses = [];
+    // var expenses = [];
 
-    // Tạo một mảng chứa tất cả các tháng trong năm
     var allMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    // Điều chỉnh dữ liệu để điền đầy đủ tất cả các tháng
     for (var i = 0; i < allMonths.length; i++) {
         var found = false;
         for (var j = 0; j < data.length; j++) {
             if (data[j].month === allMonths[i]) {
                 months.push(allMonths[i]);
                 incomes.push(data[j].income);
-                expenses.push(data[j].expense);
+                // expenses.push(data[j].expense);
                 found = true;
                 break;
             }
@@ -37,7 +35,7 @@ function createChartMonth(data) {
         if (!found) {
             months.push(allMonths[i]);
             incomes.push(0);
-            expenses.push(0);
+            // expenses.push(0);
         }
     }
 
@@ -48,20 +46,21 @@ function createChartMonth(data) {
             datasets: [
                 {
                     type: 'bar',
-                    label: "Khoản thu",
+                    label: "revenue",
                     data: incomes,
                     backgroundColor: "rgba(75, 192, 192, 1)",
                     borderColor: "rgba(75, 192, 192, 1)",
                     order: 2
-                }, {
-                    type: 'bar',
-                    label: "Chi phí",
-                    data: expenses,
-                    backgroundColor: "rgba(255, 99, 132, 1)",
-                    borderColor: "rgba(255, 99, 132, 1)",
-                    order: 1,
-                    fill: false,
-                }
+                }, 
+                // {
+                //     type: 'bar',
+                //     label: "Chi phí",
+                //     data: expenses,
+                //     backgroundColor: "rgba(255, 99, 132, 1)",
+                //     borderColor: "rgba(255, 99, 132, 1)",
+                //     order: 1,
+                //     fill: false,
+                // }
             ]
         },
         options: {

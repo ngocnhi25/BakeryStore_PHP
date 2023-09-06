@@ -11,18 +11,18 @@ if (isset($_POST['selectedTab'])) {
     $currentDate = date("Y-m-d");
     $twoDaysLater = date("Y-m-d", strtotime("+2 days"));
 
-    $all = executeResult("SELECT * FROM tb_coupon where CURDATE() BETWEEN start_date AND end_date and qti_coupon > 0");
+    $all = executeResult("SELECT * FROM tb_coupon where CURDATE() BETWEEN start_date AND end_date and qti_coupon > 0 and status = 0");
     $aboutToExprire = executeResult("SELECT * FROM tb_coupon 
-                                    WHERE end_date >= '$currentDate' AND end_date <= '$twoDaysLater' and qti_coupon > 0
+                                    WHERE end_date >= '$currentDate' AND end_date <= '$twoDaysLater' and qti_coupon > 0 and status = 0
                                     ORDER BY coupon_id DESC");
     $topUsedCoupon = executeResult("SELECT *, SUM(dc.count_used) as total FROM tb_depot_coupon dc 
                                     INNER JOIN tb_coupon c ON dc.coupon_id = c.coupon_id 
-                                    WHERE CURDATE() BETWEEN start_date AND end_date and qti_coupon > 0 
+                                    WHERE CURDATE() BETWEEN start_date AND end_date and qti_coupon > 0 and status = 0 
                                     GROUP BY dc.coupon_id 
                                     ORDER BY total DESC");
 
     $couponUserUsed = executeResult("SELECT * FROM tb_depot_coupon dc INNER JOIN tb_coupon c ON dc.coupon_id = c.coupon_id WHERE user_id = $user_id ORDER BY depot_coupon_id DESC");
-    $couponExpired = executeResult("SELECT * FROM tb_coupon WHERE CURDATE() > end_date ORDER BY coupon_id DESC");
+    $couponExpired = executeResult("SELECT * FROM tb_coupon WHERE CURDATE() > end_date or status = 1 ORDER BY coupon_id DESC");
 
     if ($selectedTab == 'all') {
         if ($all != null) {

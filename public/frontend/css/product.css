@@ -99,6 +99,7 @@
   font-size: 20px;
   font-weight: 500;
   color: #333;
+  text-transform: capitalize;
 }
 .product_details .pd-view {
   font-size: 14px;

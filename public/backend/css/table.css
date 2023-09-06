@@ -471,6 +471,9 @@ button:hover {
 
 
 /* PRODUCT */
+.container_table_product .product-name-css {
+  text-transform: capitalize;
+}
 .filter-product {
   position: relative;
   justify-content: space-between;

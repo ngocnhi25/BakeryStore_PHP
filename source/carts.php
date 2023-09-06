@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("../src/connect/connectDB.php");
+require_once("connect/connectDB.php");
 // $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = " . $row['product_id']);
 // $price = $priceResult['price'];
 ?>
@@ -47,7 +47,7 @@ require_once("../src/connect/connectDB.php");
             </thead>
             <tbody>
               <?php
-              require '../src/connect/connection.php';
+              require 'connect/connection.php';
 
               $stmt = $conn->prepare('SELECT c.*,  p.image AS product_image FROM tb_cart c
                         JOIN tb_products p ON c.product_id = p.product_id');

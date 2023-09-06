@@ -71,7 +71,7 @@ if (isset($_POST["codeCoupon"]) && !empty($_POST["codeCoupon"])) {
 if (isset($_POST["discount"]) && !empty($_POST["discount"])) {
     $discount = $_POST["discount"];
     if (is_numeric($discount)) {
-        if ($discount < 1000 || $discount > 100000) {
+        if ($discount < 1000 || $discount > 500000) {
             $errors["errorDiscount"] = 'Reduction amount must be greater than 1000 and less than 100000';
             $errorNum = 1;
         }

@@ -16,7 +16,7 @@
           </p>
           <p class="text">
             <i class="fa fa-link" aria-hidden="true" style="color: #F4C522;transform: rotateY(180deg); font-size: 17px;"></i>
-            <a href="" style="font-size: 16px">www.facebook.com/NgocNhiBakery</a>
+            <a href="https://www.facebook.com/loingocnhi2510/" style="font-size: 16px">www.facebook.com/NgocNhiBakery</a>
           </p>
           <a href="http://online.gov.vn/Home/WebDetails/631" target="blank">
             <img src="../public/images/icon/bocongthuong.png" alt="Bộ công thương">

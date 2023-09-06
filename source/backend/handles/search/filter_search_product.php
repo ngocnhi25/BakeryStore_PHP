@@ -70,7 +70,7 @@ function showProduct()
         echo "<td>";
         echo "<img src='../../" . $product["image"] . "' alt='' style='width: 70px; border-radius: 8px;'>";
         echo "</td>";
-        echo "<td>" . $product["product_name"] . "</td>";
+        echo "<td class='product-name-css'>" . $product["product_name"] . "</td>";
         echo "<td>" . displayPrice($product["price"]) . " VNĐ</td>";
         echo "<td>" . $product["cate_name"] . "</td>";
         echo "<td>" . $product["view"] . "</td>";

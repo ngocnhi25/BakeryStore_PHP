@@ -125,6 +125,20 @@ $(document).ready(function () {
         $(".history-container").toggleClass("active");
         $(".history-table-show").empty();
     })
+    $(document).on("click", ".show-all-history-box", function () {
+        $(".history-container").toggleClass("active");
+        $.ajax({
+            url: "handles/search/filter_search_history.php",
+            method: "POST",
+            data: {
+                filter_search: $("#filter-search-history").val(),
+                arrangeHistory: $("#arrangeHistory").val()
+            },
+            success: function (res) {
+                $(".history-table-show").html(res);
+            }
+        });
+    })
 
     $('.sidebar .nav-item .sub-btn').on('click', function () {
         $(this).next('.sub-menu').slideToggle();

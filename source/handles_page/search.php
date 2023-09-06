@@ -19,7 +19,7 @@ if (isset($_POST['query'])) {
                 echo "<img src='../" . $row['image'] . "' class='product-image' alt='Product Image'>";
                 echo "<div class='product-details'>";
                 echo "<p class='product-name'><a href='details.php?product_id=" . $row['product_id'] . "'>" . $row['product_name'] . "</a></p>";
-                echo "<p class='product-price'>Price: $" . displayPrice($row['price']) . "</p>";
+                echo "<p class='product-price'>Price: " . displayPrice($row['price']) . " ₫</p>";
                 echo "</div>";
                 echo "</div>";
                 echo "</div>";

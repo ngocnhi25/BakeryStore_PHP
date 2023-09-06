@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
 
 :root {
-  --color-pink: #E487AF;
-  --color-light-pink: #FFF6F2;
-  --color-primary: #E487AF;
+  --color-pink: #e487af;
+  --color-light-pink: #fff6f2;
+  --color-primary: #e487af;
   --color-danger: #ff7782;
   --color-success: #41f1b6;
   --color-warning: #ffbb55;
@@ -80,7 +80,8 @@ h2 {
   font-size: 1.4rem;
 }
 
-h3, h4 {
+h3,
+h4 {
   font-size: 0.87rem;
 }
 
@@ -127,7 +128,7 @@ b {
 aside {
   overflow-y: auto;
   overflow: -moz-scrollbars-none;
-    -ms-overflow-style: none;
+  -ms-overflow-style: none;
   padding: 15px;
   width: var(--width-sidebar);
   height: 100vh;
@@ -136,9 +137,9 @@ aside {
   border-left: 10px solid var(--color-light-pink);
   transition: all 400ms ease;
 }
-aside::-webkit-scrollbar { 
+aside::-webkit-scrollbar {
   width: 0 !important;
-  display: none; 
+  display: none;
 }
 
 aside .top {
@@ -187,18 +188,18 @@ aside .sidebar {
   left: 0;
 }
 
-aside h3, h4 {
+aside h3,
+h4 {
   font-weight: 500;
 }
 
-
-aside .sidebar ul{
+aside .sidebar ul {
   left: 0;
 }
 
 aside .sidebar .nav-link,
 aside .sidebar .sub-btn .title,
-aside .sidebar .nav-item .sub-menu a{
+aside .sidebar .nav-item .sub-menu a {
   position: relative;
   display: flex;
   gap: 1rem;
@@ -226,8 +227,6 @@ aside .sidebar .nav-item .sub-menu .menu-item.active .checked {
   display: block;
 }
 
-
-
 aside .sidebar .nav-item a span,
 aside .sidebar .sub-btn .title span {
   font-size: 1.6rem;
@@ -242,7 +241,7 @@ aside .sidebar .nav-item.active .nav-link {
 
 aside .sidebar ul .nav-item.active .nav-link a,
 aside .sidebar .nav-item.active .nav-link .title,
-aside .sidebar .nav-item .sub-menu .menu-item.active a{
+aside .sidebar .nav-item .sub-menu .menu-item.active a {
   color: var(--color-pink);
 }
 
@@ -295,7 +294,7 @@ aside .sidebar .sub-menu {
   display: none;
 }
 
-aside .sidebar .sub-btn .less{
+aside .sidebar .sub-btn .less {
   display: none;
 }
 
@@ -452,7 +451,6 @@ aside .sidebar .sub-btn .less{
 }
 
 @media screen and (max-width: 768px) {
-
   #main .top .menu #show-menu,
   #main .top .menu #shorten-menu,
   #main.show-menu .top .menu #shorten-menu,
@@ -463,7 +461,7 @@ aside .sidebar .sub-btn .less{
   #main .top .menu #menu-btn {
     display: inline;
   }
-  
+
   #main .top .menu #menu-btn {
     display: inline;
   }
@@ -551,7 +549,7 @@ aside .sidebar .sub-btn .less{
 
 .my-profile-page .profile-title p {
   margin-top: 0.1875rem;
-  font-size: .875rem;
+  font-size: 0.875rem;
   line-height: 1.0625rem;
   color: #555;
 }
@@ -591,7 +589,7 @@ aside .sidebar .sub-btn .less{
   border-radius: 3px;
   font-size: 16px;
   color: #141212;
-  transition: .5s;
+  transition: 0.5s;
 }
 
 .my-profile-page .update-profile-box .profile-update-image {
@@ -609,12 +607,22 @@ aside .sidebar .sub-btn .less{
   text-align: center;
 }
 
-.my-profile-page .update-profile-box .profile-update-image .profile-image .btn-photo input[type="file"] {
+.my-profile-page
+  .update-profile-box
+  .profile-update-image
+  .profile-image
+  .btn-photo
+  input[type="file"] {
   visibility: hidden;
 }
 
-.my-profile-page .update-profile-box .profile-update-image .profile-image .btn-photo input[type="file"]::before {
-  content: 'Choosen a photo';
+.my-profile-page
+  .update-profile-box
+  .profile-update-image
+  .profile-image
+  .btn-photo
+  input[type="file"]::before {
+  content: "Choosen a photo";
   display: inline-block;
   border: 1px solid #efefef;
   border-radius: 3px;
@@ -627,7 +635,11 @@ aside .sidebar .sub-btn .less{
   margin-left: 20px;
 }
 
-.my-profile-page .update-profile-box .profile-update-image .profile-image .preview-photo {
+.my-profile-page
+  .update-profile-box
+  .profile-update-image
+  .profile-image
+  .preview-photo {
   height: 6.25rem;
   width: 6.25rem;
   margin: 1.25rem 0;
@@ -644,7 +656,11 @@ aside .sidebar .sub-btn .less{
   vertical-align: middle;
 }
 
-.my-profile-page .update-profile-box .profile-update-image .profile-image .text {
+.my-profile-page
+  .update-profile-box
+  .profile-update-image
+  .profile-image
+  .text {
   text-align: left;
   display: flex;
   flex-direction: column;
@@ -666,4 +682,344 @@ aside .sidebar .sub-btn .less{
   box-shadow: none;
 }
 
+/* DASHBOAD */
+.name-page-db {
+  left: 20px;
+  top: 20px;
+}
 
+.dashboad-box {
+  display: flex;
+  position: relative;
+  gap: 0.5rem;
+  margin-bottom: 10px;
+}
+
+.dashboad-box .box-left {
+  width: 70%;
+}
+
+.dashboad-box .box-left .statistical-db {
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+}
+
+.dashboad-box .box-left .statistical-db .item-statistical {
+  width: 180px;
+  height: 100px;
+  border-radius: 5px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 1rem var(--color-light);
+  transition: all 300ms ease;
+}
+
+.dashboad-box .box-left .statistical-db .item-statistical:hover {
+  box-shadow: none;
+}
+
+.dashboad-box .box-left .statistical-db .item-statistical .middle {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboad-box .box-left .statistical-db .item-statistical .middle span {
+  width: 38px;
+  height: 38px;
+  font-size: 38px;
+}
+
+.dashboad-box .customer {
+  color: blue;
+}
+
+.dashboad-box .employee {
+  color: orange;
+}
+
+.dashboad-box .product {
+  color: #2ed5d8;
+}
+
+.dashboad-box .cate {
+  color: #9b00ff;
+}
+
+.dashboad-box .box-left .statistical-db h3 {
+  font-size: 13px;
+  color: #8a8989;
+}
+
+.dashboad-box .box-right {
+  width: 30%;
+}
+
+.dashboad-box .gallery-left {
+  width: 40%;
+}
+
+.dashboad-box .gallery-left p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #363949;
+}
+
+.dashboad-box .gallery-left .bottom-gallery-left {
+  margin-top: 20px;
+}
+
+.dashboad-box .gallery-left,
+.dashboad-box .order-list-box {
+  border-radius: 10px;
+  box-shadow: 0 0 1rem var(--color-light);
+  padding: 10px;
+  background-color: #fff;
+}
+.dashboad-box .order-list-box {
+  height: 450px;
+  overflow: auto;
+}
+.dashboad-box .order-list-box::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dashboad-box .order-list-box::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 5px;
+}
+
+.dashboad-box .order-list-box::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.dashboad-box .order-list-box::-webkit-scrollbar-track {
+  background-color: #eee;
+}
+
+.dashboad-box .gallery-left .cal-gallery,
+.dashboad-box .order-list-box .order-list {
+  margin-top: 1rem;
+  width: 100%;
+  border-radius: 0.6rem;
+  overflow: auto;
+}
+
+.dashboad-box td.text-left,
+.dashboad-box .gallery-left td.text-left {
+  text-align: left;
+}
+
+.dashboad-box .order-list-box {
+  width: 60%;
+}
+
+.dashboad-box .order-list-box p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #363949;
+}
+
+.table-dashboad thead th {
+  font-size: 13px;
+  color: #000;
+  padding: 0.5rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background-color: #e2ebee;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.table-dashboad thead th:last-child {
+  border: none;
+}
+
+.table-dashboad thead th:first-child,
+.table-dashboad tbody td:first-child {
+  text-align: center;
+  width: 3.7rem;
+}
+
+.table-dashboad tbody tr:nth-child(even) {
+  background-color: #0000000b;
+}
+
+.table-dashboad tbody tr:hover {
+  background-color: #d7f4f7e3 !important;
+}
+
+.table-dashboad td {
+  border-collapse: collapse;
+  padding: 0.6rem;
+  text-align: center;
+  color: #717171;
+}
+
+.chart {
+  width: 100%;
+  position: relative;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.chart .chart-month-year {
+  display: flex;
+  position: relative;
+  width: 100%;
+  /* height: 500px; */
+  justify-content: space-between;
+  background-color: #fff;
+  /* gap: 2rem; */
+}
+
+.chart .chart-month-year .revenue-box {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.chart .chart-month-year .month-chart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.chart .chart-month-year .year-chart {
+  position: relative;
+  width: 30%;
+  height: 300px;
+}
+
+.box-right .recent-updates {
+  margin-bottom: 1rem;
+}
+.box-right .recent-updates.history {
+  position: relative;
+}
+
+.box-right .recent-updates h2 {
+  margin-bottom: 0.8rem;
+  margin-left: 20px;
+}
+
+.box-right .recent-updates .top-best-order {
+  background: #fff;
+  padding: var(--card-padding);
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 0 1rem var(--color-light);
+  transition: all 300ms ease;
+}
+
+.box-right .recent-updates .top-best-order:hover,
+.box-right .recent-updates .history-shop-dashboad:hover {
+  box-shadow: none;
+}
+
+.box-right .recent-updates .top-best-order .profile-dasboad {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.box-right .recent-updates .top-best-order .profile-dasboad,
+.box-right .recent-updates .history-shop-dashboad .profile-dasboad {
+  margin-bottom: 1rem;
+}
+
+.box-right .recent-updates .top-best-order .profile-photo {
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffe900;
+}
+
+.box-right .recent-updates .top-best-order .profile-photo img {
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  object-fit: contain;
+}
+
+.box-right .recent-updates .top-best-order .profile-photo .ratings-top-num {
+  position: absolute;
+  top: 22%;
+  left: 43%;
+  font-weight: 600;
+}
+
+.box-right .recent-updates .top-best-order .total-order-price {
+  color: red;
+  font-size: 13px;
+}
+
+small.date-ago {
+  color: red;
+}
+
+.box-right .recent-updates .history-shop-dashboad {
+  background: #fff;
+  padding: var(--card-padding);
+  border-radius: var(--card-border-radius);
+  box-shadow: 0 0 1rem var(--color-light);
+  transition: all 300ms ease;
+  margin-top: 10px;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.box-right .recent-updates .history-shop-dashboad .time-history-dashboad {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 12px;
+  color: red;
+}
+
+.box-right .recent-updates .history-shop-dashboad .time-history-dashboad span {
+  font-size: 12px;
+}
+
+.box-right .recent-updates .history-shop-dashboad::-webkit-scrollbar {
+  width: 10px;
+}
+
+.box-right .recent-updates .history-shop-dashboad::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 5px;
+}
+
+.box-right
+  .recent-updates
+  .history-shop-dashboad::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.box-right .recent-updates .history-shop-dashboad::-webkit-scrollbar-track {
+  background-color: #eee;
+}
+.box-right .recent-updates .show-all-history-box {
+  position: absolute;
+  bottom: 10px;
+  left: 40%;
+}
+.box-right .recent-updates .show-all-history-box button {
+  background-color: transparent;
+  box-shadow: none;
+  color: #6674ff;
+}
+.box-right .recent-updates .show-all-history-box button:hover {
+  border: 1px solid #6674ff;
+  color: #ff6262;
+}
+
+/* END DASHBOAD */
