@@ -170,6 +170,12 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="comment_list.php" class="nav-link">
+                            <span class="material-symbols-sharp">3p</span>
+                            <h3>Comment</h3>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">news</span>

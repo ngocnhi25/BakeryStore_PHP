@@ -13,6 +13,7 @@ $firstIndex = ($page - 1) * $limit;
 $sql = "SELECT * FROM tb_products p
         INNER JOIN tb_category c 
         ON p.cate_id = c.cate_id WHERE 1 ";
+        
 $sqlCount = "SELECT COUNT(*) AS total FROM tb_products p
                 INNER JOIN tb_category c 
                 ON p.cate_id = c.cate_id WHERE 1 ";

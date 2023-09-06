@@ -2,8 +2,6 @@
 session_start();
 $from = $to = $error = '';
 require_once('../../connect/connectDB.php');
-
-
 $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
 
 ?>
@@ -35,43 +33,6 @@ $users = executeResult("SELECT * FROM tb_user WHERE role = 2");
 </div>
 </div>
 
-    <!-- <div class="table_customer">
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Employee</th>
-                    <th>Email</th>
-                    <th>Telephone</th>
-                    <th>Salary</th>
-                    <th>Create Date</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($users as $key => $user) {
-                    if ($user["role"] == 2) { ?>
-                        <tr>
-                            <td><?= $key + 1 ?></td>
-                            <td><?= $user["username"] ?></td>
-                            <td><?= $user["email"] ?></td>
-                            <td><?= $user["phone"] ?></td>
-                            <td><?= $user["salary"] ?></td>
-                            <td><?= $user["create_date"] ?></td>
-                            <td>
-                                <?php if ($user["role"] == 2 && $user["status"] == 1) { ?>
-                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="deactivateUser(<?= $user["user_id"] ?>)" style="background-color: greenyellow;">Activate</button>
-                                <?php } else { ?>
-                                    <button id="deactivateButton<?= $user["user_id"] ?>" onclick="ActivateUser(<?= $user["user_id"] ?>)" style="background-color: gray;">Deactivate</button>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                <?php }
-                } ?>
-            </tbody>
-        </table>
-    </div> -->
-</div>
 
 <script type="text/javascript">
     function deactivateUser(userId) {

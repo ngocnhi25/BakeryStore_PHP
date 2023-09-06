@@ -12,6 +12,8 @@ $errors["errorUsername"] =
     $errors["errorBirthday"] = '';
 $errorNum = 0; // Initialize error counter to 0
 
+$sex = $dob = $address = '';
+
 $userId = isset($_POST["userId"]) ? $_POST["userId"] : '';
 
 

@@ -8,6 +8,7 @@ if (isset($_SESSION["auth_user"])) {
     if ($user["role"] == 1) { 
         $user_name = $_SESSION["auth_user"]["username"];
         $user_id = $_SESSION["auth_user"]["user_id"];
+        $users = executeSingleResult("SELECT * FROM tb_user WHERE user_id = $user_id");
     } else {
         header("location: User/login.php");
     }
@@ -677,7 +678,7 @@ if (isset($_SESSION["auth_user"])) {
         <div class="sidebar-user">
             <div class="name-user">
                 <img src="../public/images/icon/user.png" alt="">
-                <h4> <?php echo $user["username"] ?> </h4>
+                <h4> <?php echo $users["username"] ?> </h4>
             </div>
             <div class="sidebar">
                 <ul>

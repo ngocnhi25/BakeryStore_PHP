@@ -28,11 +28,11 @@ session_start();
                         <label for="password">Password:</label>
                     </div>
                     <div class="forget">
-                        <a href="../User/forgot-inputEmail.php">Forgot Password ? </a>
+                        <a href="forgot-inputEmail.php">Forgot Password ? </a>
                     </div>
                     <button type="submit" name="submit-login-btn">Log In</button>
                     <div class="register">
-                        <p>Don't have an account yet? <a href="../../src/User/register.php">Register Now </a></p> 
+                        <p>Don't have an account yet? <a href="register.php">Register Now </a></p> 
                     </div>
                 </form>
             </div>

@@ -42,7 +42,7 @@ if(isset($_POST["update-password-btn"])){
 
         if (mysqli_num_rows($sql_checkToken_run) > 0){
             $hashpass = md5($newPassword); 
-                $sql_update_password = "UPDATE tb_user SET password = '$hashpass' , status = '1' WHERE token = '$token' ";
+                $sql_update_password = "UPDATE tb_user SET password = '$hashpass' , status = 1 WHERE token = '$token' ";
                 $sql_update_password_run = mysqli_query($conn, $sql_update_password );
                 
                 if($sql_update_password_run){
