@@ -230,11 +230,10 @@ if (isset($_SESSION["auth_user"])) {
                         <span class="material-symbols-sharp">arrow_left_alt</span>
                     </button>
                 </div>
-                <!-- <div class="input-search">
-                    <input type="search" placeholder="Search Data...">
-                    <img src="images/search.png" alt="">
-                </div> -->
                 <div class="profile-theme">
+                    <div class="history-top">
+                        <span class="material-symbols-sharp">history</span>
+                    </div>
                     <div class="theme-toggler">
                         <span class="material-symbols-sharp active">light_mode</span>
                         <span class="material-symbols-sharp">dark_mode</span>
@@ -252,7 +251,34 @@ if (isset($_SESSION["auth_user"])) {
                 <?php include("dashboad.php") ?>
             </div>
         </div>
+        <div class="history-container">
+            <div class="history-box">
+                <div class="close-history">
+                    <span class="material-symbols-sharp">close</span>
+                </div>
+                <h1>History of store operations</h1>
+                <div class="history-table">
+                    <div class="filter-action">
+                        <div class="select-container">
+                            <select name="category" class="select-box" id="arrangeHistory">
+                                <option value="">All</option>
+                                <option value="today">today</option>
+                                <option value="yesterday">yesterday</option>
+                                <option value="current_month">current month</option>
+                                <option value="last_month">last month</option>
+                            </select>
+                        </div>
+                        <div class="form-search-header">
+                            <span class="material-symbols-sharp icon">search</span>
+                            <input id="filter-search-history" type="text" name="search" placeholder="Search product name..." class="form-control">
+                        </div>
+                    </div>
+                    <div class="history-table-show"></div>
+                </div>
+            </div>
+        </div>
     </div>
+
 
     <script src="../../public/backend/js/admin.js"></script>
     <script src="../../public/backend/js/adminJquery.js"></script>
