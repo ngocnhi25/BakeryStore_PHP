@@ -16,7 +16,7 @@ on p.product_id  = c.product_id inner join tb_user u on c.user_id  = u.user_id  
 
 $sqlCount = "SELECT COUNT(*) AS total FROM tb_comments c
 INNER JOIN  tb_products p
-on p.product_id  = c.product_id  inner join tb_user u on c.user_id  = u.user_id WHERE 1";
+on p.product_id  = c.product_id  inner join tb_user u on c.user_id  = u.user_id WHERE 1 ";
 
 if (isset($_POST["filter_search"]) && !empty($_POST["filter_search"])) {
     $searchName = $_POST["filter_search"];
