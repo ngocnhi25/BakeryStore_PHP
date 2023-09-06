@@ -170,6 +170,12 @@ if (isset($_SESSION["auth_user"])) {
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="comment_list.php" class="nav-link">
+                            <span class="material-symbols-sharp">3p</span>
+                            <h3>Comment</h3>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <div class="sub-btn nav-link">
                             <div class="title">
                                 <span class="material-symbols-sharp">news</span>
@@ -278,11 +284,10 @@ if (isset($_SESSION["auth_user"])) {
                     if (response === 'inactive' || response === 'failstatus') {
                         alert("Your account is deactivated!");
                         window.location.href = "../User/out.php";
-                    } else if (response === 'failtoken'){
+                    } else if (response === 'failtoken') {
                         alert("Your account is other page login !");
                         window.location.href = "../User/out.php";
-                    }
-                    else if (response === 'success') {
+                    } else if (response === 'success') {
                         // User is active and token is valid, continue with normal flow
                     }
                 },
@@ -306,11 +311,11 @@ if (isset($_SESSION["auth_user"])) {
 </section>
 
 </html>
-<?php if(isset($_SESSION['status'])) { ?>
-        <script>
-            alert('<?php echo $_SESSION['status']; ?>');
-        </script>
-    <?php
-        unset($_SESSION['status']); // Clear the session status after displaying
-    }
-    ?>
+<?php if (isset($_SESSION['status'])) { ?>
+    <script>
+        alert('<?php echo $_SESSION['status']; ?>');
+    </script>
+<?php
+    unset($_SESSION['status']); // Clear the session status after displaying
+}
+?>

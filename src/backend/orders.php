@@ -1,7 +1,7 @@
 <?php
-if (isset($_POST["ajaxSidebar"])) {
-    require_once '../connect/connectDB.php';
-}
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+require_once '../connect/connectDB.php';
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order ORDER BY order_date DESC");
