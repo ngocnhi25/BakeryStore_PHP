@@ -21,14 +21,14 @@ if (isset($_POST["id"])) {
 
 ?>
 <div>
-    <div>
+    <div class="add-category">
         <h1><?= ($title != null ? $title : 'Create new category') ?></h1>
         <form id="cateForm" method="post" action="">
             <div>
                 <?php if ($id != null) { ?>
                     <input id="idUpdate" type="text" name="id" value="<?= $id ?>" style="display: none;">
                 <?php } ?>
-                <label for="">Category name:</label> <br>
+                <p>Category name:</p>
                 <div class="box-input">
                     <input id="input-name" type="text" name="name" value="<?= ($id != null ? $cate["cate_name"] : '') ?>">
                 </div>

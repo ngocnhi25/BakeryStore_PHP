@@ -2,6 +2,65 @@
   min-width: 1000px;
   width: 100%;
 }
+.history-top {
+  color: #676666;
+  cursor: pointer;
+}
+.history-top:hover {
+  color: #f05e5e;
+}
+
+.history-container {
+  display: none;
+}
+.history-container.active {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: #5f5f5f54;
+  z-index: 777;
+  display: flex;
+  align-items: center;
+}
+.history-container .history-box {
+  position: relative;
+  background-color: #fff;
+  width: 60%;
+  height: 97%;
+  margin: auto;
+  border-radius: 8px;
+  padding: 20px;
+}
+.history-container .history-box .close-history {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  cursor: pointer;
+}
+.pagination-history {
+  margin-top: 20px
+}
+.pagination-history .prod-page-box {
+  position: relative;
+  margin: 0 auto;
+  display: flex;
+  gap: 0.5rem;
+  height: 38px;
+}
+.pagination-history .prod-page-item {
+  height: 100%;
+}
+.pagination-history .prod-page-item .page-link{
+  border-radius: 5px;
+  padding: 8px 15px;
+  text-align: center;
+  background-color: #ccc;
+  cursor: pointer;
+}
+.pagination-history .prod-page-item.active .page-link{
+  background-color: #4e16ec;
+  color: #fff;
+}
 
 .table_box {
   margin-top: 1rem;
@@ -627,6 +686,7 @@ button:hover {
 
 .filter-product .form-search-header,
 .sale-page .form-search-header,
+.history-container .form-search-header,
 .ads-page .form-search-header {
   top: 30%;
   position: relative;
@@ -635,6 +695,7 @@ button:hover {
 
 .filter-product .form-search-header .icon,
 .sale-page .form-search-header .icon,
+.history-container .form-search-header .icon,
 .ads-page .form-search-header .icon {
   color: #777e90;
   position: absolute;
@@ -645,6 +706,7 @@ button:hover {
 
 .filter-product .form-search-header input,
 .sale-page .form-search-header input,
+.history-container .form-search-header input,
 .ads-page .form-search-header input {
   border-radius: 20px;
   padding-left: 30px;
@@ -652,6 +714,7 @@ button:hover {
 
 .filter-product .form-control:focus,
 .sale-page .form-control:focus,
+.history-container .form-control:focus,
 .ads-page .form-control:focus {
   color: #495057;
   background-color: #fff;
@@ -662,6 +725,7 @@ button:hover {
 
 .filter-product .form-control,
 .sale-page .form-control,
+.history-container .form-control,
 .ads-page .form-control {
   display: block;
   width: 100%;
@@ -966,7 +1030,8 @@ button:hover {
 }
 
 .sale-page .filter-action,
-.ads-page .filter-action {
+.ads-page .filter-action,
+.history-container .filter-action {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -981,3 +1046,109 @@ button:hover {
   padding: 20px;
 }
 /* END GALLERY */
+/* ADVERTISING */
+.ads-page {
+  width: 100%;
+}
+
+.ads-page .ads-box {
+  width: 100%;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ads-page .ads-add {
+  border-radius: 10px;
+  width: 40%;
+  position: relative;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 3px #d2d2d2;
+}
+
+.ads-page .ads-add .ads-event {
+  width: 100%;
+  text-align: center;
+  color: blue;
+  margin-bottom: 20px;
+}
+
+.ads-page .ads-add .ads-event button {
+  margin-top: 15px;
+}
+
+.ads-page .ads-date {
+  display: flex;
+  gap: 2rem;
+}
+
+.ads-page .ads-date input {
+  border-radius: 10px;
+  padding: 5px;
+  gap: 2rem;
+  margin-left: 10px;
+  box-shadow: 1px 1px 3px black;
+}
+
+.ads-page .type-ads-box .type-ads {
+  margin-left: 10px;
+}
+.ads-page .type-ads-box .typeAdsOption {
+  margin-top: 10px;
+}
+
+.ads-page label {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.ads-page .image-box {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.ads-page .image-box input[type="file"] {
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: 1px 1px 3px black;
+  width: 200px;
+  outline: none;
+  margin-left: 10px;
+}
+
+.ads-page .image-box input[type="file"]::-webkit-file-upload-button {
+  background-color: #96dcd57a;
+  padding: 8px;
+  border: none;
+  border-radius: 50px;
+  outline: none;
+}
+
+.ads-page .image-banner {
+  width: 150px;
+}
+
+.ads-page .image-banner img {
+  width: 100%;
+  vertical-align: middle;
+}
+/* END ADVERTISING */
+
+
+/* CATEGORY */
+.add-category {
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 3px #d2d2d2;
+}
+
+.add-category p{
+  font-size: 16px;
+  font-weight: 500;
+  color: #484848;
+  margin-bottom: 3px;
+}
+/* CATEGORY */
+

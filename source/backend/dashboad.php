@@ -59,6 +59,7 @@ $recentOrder = executeResult("SELECT o.order_id, u.username, p.product_name, o.o
             display: flex;
             position: relative;
             gap: 0.5rem;
+            margin-bottom: 10px;
         }
 
         .dashboad-box .box-left {
