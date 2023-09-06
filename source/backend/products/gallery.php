@@ -27,7 +27,7 @@ if (isset($_POST["idSize"])) {
 ?>
 
 <div class="table_category">
-    <div>
+    <div class="gallery">
         <h1>Category Management</h1>
         <button onclick="createCate()" class="create" type="button">Add new category</button>
         <div class="table-coupon-box">
@@ -52,9 +52,9 @@ if (isset($_POST["idSize"])) {
                             <td class="button">
                                 <button class="update" onclick='updateCate(<?= $cate["cate_id"] ?>)' type="button"><span class='material-symbols-sharp icon'>edit_square</span></button>
                                 <?php if ($row["total"] > 0) { ?>
-                                    <button class="notDelete delete">Delete</button>
+                                    <button class="notDelete delete"><span class='material-symbols-sharp icon'>auto_delete</span></button>
                                 <?php  } else { ?>
-                                    <button class="delete" onclick='deleteCate(<?= $cate["cate_id"] ?>)' type="button">Delete</button>
+                                    <button class="delete" onclick='deleteCate(<?= $cate["cate_id"] ?>)' type="button"><span class='material-symbols-sharp icon'>auto_delete</span></button>
                                 <?php } ?>
                             </td>
                         </tr>
@@ -63,7 +63,7 @@ if (isset($_POST["idSize"])) {
             </table>
         </div>
     </div>
-    <div>
+    <div class="gallery">
         <h1>Flavor Management</h1>
         <div class="table-coupon-box">
             <table class="table-admin">
@@ -73,6 +73,7 @@ if (isset($_POST["idSize"])) {
                         <th>Flavor name</th>
                         <th>Flavors in stock(kg)</th>
                         <th>Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -96,38 +97,38 @@ if (isset($_POST["idSize"])) {
                                 <p class="errorFlavorInStock" style="color: red;"></p>
                             </td>
                             <td><button id="submitFlavor" class="create" type="button"><?php echo ($idFlavor != null ? "Save" : "Create") ?></button></td>
+                            <td></td>
                         </tr>
                     </form>
                     <?php foreach ($flavors as $key => $f) { ?>
-                        <?php if ($f["qti_flavor"] > 0 && $f["deleted_flavor"] == 0) { ?>
-                            <tr>
-                                <td><?= $key + 1 ?></td>
-                                <td><?= $f["flavor_name"] ?></td>
-                                <td><?= $f["qti_flavor"] ?> kg</td>
-                                <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
-                                    <button class="hide" onclick="hideFlavor(<?= $f['flavor_id'] ?>)">Hide</button>
-                                    <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
-                                </td>
-                            </tr>
-                        <?php } else { ?>
-                            <tr style="opacity: 0.5;">
-                                <td><?= $key + 1 ?></td>
-                                <td><?= $f["flavor_name"] ?></td>
-                                <td><?= $f["qti_flavor"] ?> kg</td>
-                                <td class="button">
-                                    <button class="update" onclick="updateFlavor(<?= $f['flavor_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
-                                    <button class="recover" onclick="recoverFlavor(<?= $f['qti_flavor'] ?>, <?= $f['flavor_id'] ?>)">Recover</button>
-                                    <button class="delete" onclick='deleteFlavor("<?= $f["flavor_name"] ?>", <?= $f["flavor_id"] ?>)'>Delete</button>
-                                </td>
-                            </tr>
-                    <?php }
-                    } ?>
+                        <tr <?= ($f["deleted_flavor"] == 0 ? '' : 'style="opacity: 0.5;"') ?>>
+                            <td><?= $key + 1 ?></td>
+                            <td><?= $f["flavor_name"] ?></td>
+                            <td><?= $f["qti_flavor"] ?> kg</td>
+                            <td class="button">
+                                <button class="update" onclick="editFlavor(<?= $f['flavor_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
+                            </td>
+                            <td>
+                                <div class='menu-btn'>
+                                    <span class='material-symbols-sharp'>more_vert</span>
+                                    <div class='menu-btn-box'>
+                                        <?php if ($f["deleted_flavor"] == 0) { ?>
+                                            <div class="hide" onclick="hideFlavor('<?= $f['flavor_name'] ?>',<?= $f['flavor_id'] ?>)">Hide</div>
+                                        <?php } else { ?>
+                                            <div class="recover" onclick="recoverFlavor('<?= $f['flavor_name'] ?>', <?= $f['flavor_id'] ?>)">Recover</div>
+                                        <?php } ?>
+                                        <div onclick="updateFlavor('<?= $f['flavor_name'] ?>', <?= $f['qti_flavor'] ?>, <?= $f['flavor_id'] ?>)">Update</div>
+                                        <div onclick="deleteFlavor('<?= $f['flavor_name'] ?>', <?= $f['flavor_id'] ?>)">Delete</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </tbody>
             </table>
         </div>
     </div>
-    <div>
+    <div class="gallery">
         <h1>Size Management</h1>
         <div class="table-coupon-box">
             <table class="table-admin">
@@ -137,6 +138,7 @@ if (isset($_POST["idSize"])) {
                         <th>Size (cm)</th>
                         <th>Number of boxes</th>
                         <th>Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -160,32 +162,33 @@ if (isset($_POST["idSize"])) {
                                 <p class="errorqtiBoxSize" style="color: red;"></p>
                             </td>
                             <td><button id="submitSize" class="create" type="button">Create</button></td>
+                            <td></td>
                         </tr>
                     </form>
                     <?php foreach ($sizes as $key => $s) { ?>
-                        <?php if ($s["qti_boxes_size"] > 0 && $s["deleted_size"] == 0) { ?>
-                            <tr>
-                                <td><?= $key + 1 ?></td>
-                                <td><?= $s["size_name"] ?></td>
-                                <td><?= $s["qti_boxes_size"] ?> boxes</td>
-                                <td class="button">
-                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Edit</button>
-                                    <button class="hide" onclick="hideSize(<?= $s['size_id'] ?>)">Hide</button>
-                                    <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
-                                </td>
-                            </tr>
-                        <?php } else { ?>
-                            <tr style="opacity: 0.5;">
-                                <td><?= $key + 1 ?></td>
-                                <td><?= $s["size_name"] ?></td>
-                                <td><?= $s["qti_boxes_size"] ?> boxes</td>
-                                <td class="button">
-                                    <button class="update" onclick="updateSize(<?= $s['size_id'] ?>)">Edit</button>
-                                    <button class="recover" onclick="recoverSize(<?= $s['qti_boxes_size'] ?>, <?= $s['size_id'] ?>)">Recover</button>
-                                    <button class="delete" onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</button>
-                                </td>
-                            </tr>
-                    <?php }
+                        <tr <?= ($s["deleted_size"] == 0 ? '' : 'style="opacity: 0.5;"') ?>>
+                            <td><?= $key + 1 ?></td>
+                            <td><?= $s["size_name"] ?></td>
+                            <td><?= $s["qti_boxes_size"] ?> boxes</td>
+                            <td class="button">
+                                <button class="update" onclick="editSize(<?= $s['size_id'] ?>)"><span class='material-symbols-sharp icon'>edit_square</span></button>
+                            </td>
+                            <td>
+                                <div class='menu-btn'>
+                                    <span class='material-symbols-sharp'>more_vert</span>
+                                    <div class='menu-btn-box'>
+                                        <?php if ($s["deleted_size"] == 0) { ?>
+                                            <div class="hide" onclick="hideSize(<?= $s['size_name'] ?>,<?= $s['size_id'] ?>)">Hide</div>
+                                        <?php } else { ?>
+                                            <div class="recover" onclick="recoverSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Recover</div>
+                                        <?php } ?>
+                                        <div onclick="updateSize(<?= $s['size_name'] ?>, <?= $s['qti_boxes_size'] ?>, <?= $s['size_id'] ?>)">Update</div>
+                                        <div onclick="deleteSize(<?= $s['size_name'] ?>, <?= $s['size_id'] ?>)">Delete</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php
                     } ?>
                 </tbody>
             </table>

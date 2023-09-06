@@ -100,7 +100,7 @@ function showAds()
         echo "<td>" . $a["end_date"] . "</td>";
         echo "<td>";
         echo "<button class='update' type='button' onclick='updateAds(" . $a['ads_id'] . ")'><span class='material-symbols-sharp icon'>edit_square</span></button>";
-        echo "<button class='delete' type='button' onclick='deleteAds(" . $a['ads_id'] . ")'>Delete</button>";
+        echo "<button class='delete' type='button' onclick='deleteAds(" . $a['ads_id'] . ")'><span class='material-symbols-sharp icon'>auto_delete</span></button>";
         echo "</td>";
         echo "</tr>";
     }

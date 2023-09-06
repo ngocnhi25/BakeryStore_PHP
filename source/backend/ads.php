@@ -78,9 +78,10 @@ function checkTypeCateUpdate($value)
         }
 
         .ads-page .type-ads-box .type-ads {
-            display: flex;
-            gap: 1rem;
             margin-left: 10px;
+        }
+        .ads-page .type-ads-box .typeAdsOption {
+            margin-top: 10px;
         }
 
         .ads-page label {
@@ -282,7 +283,7 @@ function checkTypeCateUpdate($value)
                 <div>Are you sure to permanently delete ads?</div>
                 <div>
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="delete-ads" class="delete" type="button">Delete</button>
+                    <button id="delete-ads" class="deleted" type="button">Delete</button>
                 </div>
             </div>
         </div>`;
