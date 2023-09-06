@@ -32,12 +32,12 @@ if($errorNum == 0){
     if($size_qty == $qtiBoxSize) {
         $content = 'has updated the status for size ' . $size_name . ' to display';
     } else {
-        $content = 'has updated the quantity of cake boxes in the warehouse to be ' . $qtiBoxSize .' for size' . $size_name;
+        $content = 'has updated the quantity of cake boxes in the warehouse to be ' . $qtiBoxSize .' for size ' . $size_name;
     }
     if($success){
         historyOperation($user_id, $content);
+        echo 'success';
     }
-    echo 'success';
 } else {
     echo $errors;
 }

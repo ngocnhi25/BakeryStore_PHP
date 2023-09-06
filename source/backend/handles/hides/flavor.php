@@ -18,8 +18,8 @@ if(isset($_POST["id"])){
     if ($success) {
         $content = 'has temporarily suspended the operation of flavor ' . $flavor["flavor_name"];
         historyOperation($user_id, $content);
+        echo 'products/gallery.php';
     }
 }
 
-echo 'products/gallery.php';
 ?>

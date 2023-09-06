@@ -20,7 +20,7 @@ function deleteProduct(product_name, id) {
     <div class="message-confirm-box">
         <div class="message-confirm">
             <div>Are you sure to permanently delete product ${product_name}?</div>
-            <div>
+            <div class="btn-message">
                 <button class="cancel" type="button">Cancal</button>
                 <button id="delete-product" class="delete" type="button">Delete</button>
             </div>
@@ -79,7 +79,7 @@ function hideProduct(product_name, id) {
     <div class="message-confirm-box">
         <div class="message-confirm">
             <div>Are you sure you want to decommission product ${product_name}?</div>
-            <div>
+            <div class="btn-message">
                 <button class="cancel" type="button">Cancal</button>
                 <button id="hide-product" class="create" type="button">Ok</button>
             </div>
@@ -108,7 +108,7 @@ function recoverProduct(product_name, id) {
     <div class="message-confirm-box">
         <div class="message-confirm">
             <div>Are you sure you want to show product ${product_name} to the user?</div>
-            <div>
+            <div class="btn-message">
                 <button class="cancel" type="button">Cancal</button>
                 <button id="recover-product" class="create" type="button">Ok</button>
             </div>
@@ -144,9 +144,9 @@ function updateProduct(product_name, qtyProduct, id) {
                     </div>
                     <p class="errorQtyProductUpdate" style="color: red;"></p>
                 </div>
-                <div>
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="update-qti-product" class="update" type="button">Update</button>
+                    <button id="update-qti-product" class="updated" type="button">Update</button>
                 </div>
             </div>
         </div>

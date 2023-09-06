@@ -32,7 +32,7 @@ if($errorNum == 0){
     if($qty_warehouse == $qtyProduct) {
         $content = 'has updated the status for product ' . $product_name . ' to display';
     } else {
-        $content = 'has updated the quantity to ' . $qtyProduct .' for product' . $product_name;
+        $content = 'has updated the quantity to ' . $qtyProduct .' for product ' . $product_name;
     }
     if($success){
         historyOperation($user_id, $content);
