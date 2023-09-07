@@ -32,7 +32,7 @@ if (isset($_POST["idCate"])) {
                 <tbody>
                     <?php foreach ($cates as $key => $cate) {
                         $cate_id = $cate["new_cate_id"];
-                        $row = executeSingleResult("SELECT count(*) AS total FROM tb_news_cate WHERE new_cate_id = $cate_id");
+                        $row = executeSingleResult("SELECT count(*) AS total FROM tb_news WHERE new_cate_id = $cate_id");
                     ?>
                         <tr>
                             <td><?= $key + 1 ?></td>

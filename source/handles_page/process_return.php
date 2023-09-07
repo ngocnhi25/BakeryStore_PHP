@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reason = $_POST["reason"];
 
     // Xử lý tệp ảnh khách hàng
-    $target_dir = "../../public/images/returnImg"; // Đường dẫn tới thư mục lưu trữ ảnh của bạn
+    $target_dir = "../../"; // Đường dẫn tới thư mục lưu trữ ảnh của bạn
     $target_file = $target_dir . basename($_FILES["customer_image"]["name"]);
     
     if (move_uploaded_file($_FILES["customer_image"]["tmp_name"], $target_file)) {
