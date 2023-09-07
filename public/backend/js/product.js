@@ -15,41 +15,138 @@ function editProduct(id) {
     ajaxPageData("products/product_add.php", postData);
 }
 
-function deleteProduct(id) {
-    $.post(
-        "handles/deletes/product.php", {
-        id: id
-    },
-        function (data) {
-            ajaxPages(data);
-        }
-    )
+function deleteProduct(product_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure to permanently delete product ${product_name}?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="delete-product" class="delete" type="button">Delete</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#delete-product").click(function () {
+        $.post(
+            "handles/deletes/product.php", {
+            id: id
+        },
+            function (res) {
+                if (res === "doNotDelete") {
+                    const htmls = `
+                        <div class="message-confirm-box">
+                            <div class="message-confirm">
+                                <div>The product is in the user's shopping cart or the product has been ordered! Do not delete ! Do you want to decommission product ${product_name}?</div>
+                                <div>
+                                    <button class="cancel" type="button">Cancal</button>
+                                    <button id="hide-product" class="create" type="button">Ok</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    $("body").append(htmls);
+
+                    $(".cancel").click(function () {
+                        $(".message-confirm-box").remove();
+                    });
+                    $("#hide-product").click(function () {
+                        $.post(
+                            "handles/hides/product.php", {
+                            id: id
+                        },
+                            function (resData) {
+                                $(".message-confirm-box").remove();
+                                ajaxPages(resData);
+                            }
+                        )
+                    });
+                } else if(res === "success") {
+                    $(".message-confirm-box").remove();
+                    ajaxPages("products/products.php");
+                }
+            }
+        )
+    });
 }
 
-function hideProduct(id) {
-    $.post(
-        "handles/hides/product.php", {
-        id: id
-    },
-        function (data) {
-            ajaxPages(data);
-        }
-    )
+function hideProduct(product_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to decommission product ${product_name}?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="hide-product" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#hide-product").click(function () {
+        $.post(
+            "handles/hides/product.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
 }
-function recoverProduct(qtiProduct, id) {
+function recoverProduct(product_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to show product ${product_name} to the user?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="recover-product" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#recover-product").click(function () {
+        $.post(
+            "handles/updates/recover_product.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+
+function updateProduct(product_name, qtyProduct, id) {
     const html = `
         <div class="message-confirm-box">
             <div class="message-confirm">
-                <div>Update product quantity in stock</div>
+                <div>Do you want to update the quantity of product ${product_name} in stock?</div>
                 <div class="coupon-input">
                     <div class="box-input">
-                        <input id="qtyProductUpdate" type="text" name="qtyProduct" value="${qtiProduct}">
+                        <input id="qtyProductUpdate" type="text" name="qtyProduct" value="${qtyProduct}">
                     </div>
                     <p class="errorQtyProductUpdate" style="color: red;"></p>
                 </div>
-                <div>
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="update-qti-product" class="update" type="button">Update</button>
+                    <button id="update-qti-product" class="updated" type="button">Update</button>
                 </div>
             </div>
         </div>
@@ -63,7 +160,7 @@ function recoverProduct(qtiProduct, id) {
     $("#update-qti-product").click(function () {
         const qtyProduct = $("#qtyProductUpdate").val();
         $.post(
-            "handles/updates/recover_product.php", {
+            "handles/updates/update_qty_product.php", {
             id: id,
             qtyProduct: qtyProduct
         },
@@ -79,44 +176,13 @@ function recoverProduct(qtiProduct, id) {
     });
 }
 
-function deleteProduct(productName, id) {
-    const html = `
-        <div class="message-confirm-box">
-            <div class="message-confirm">
-                <div>Are you sure to permanently remove the product ${productName}?</div>
-                <div>
-                    <button class="cancel" type="button">Cancal</button>
-                    <button id="delete-product" class="delete" type="button">Delete</button>
-                </div>
-            </div>
-        </div>
-    `;
-    $("body").append(html);
-
-    $(".cancel").click(function () {
-        $(".message-confirm-box").remove();
-    });
-
-    $("#delete-product").click(function () {
-        $.post(
-            "handles/deletes/product.php", {
-            id: id
-        },
-            function (res) {
-                $(".message-confirm-box").remove();
-                ajaxPages(res);
-            }
-        )
-    });
-}
-
 function showProducts() {
     $.ajax({
         url: "handles/search/filter_search_product.php",
         method: "POST",
-        data: { 
+        data: {
             filter_cate: $("#cateSearch").val(),
-            arrangeProduct: $("#arrangeProduct").val() 
+            arrangeProduct: $("#arrangeProduct").val()
         },
         success: function (res) {
             $("#container_table_product").empty().html(res);
@@ -126,6 +192,8 @@ function showProducts() {
 
 $(document).ready(function () {
     showProducts();
+    slideOne();
+    slideTwo();
 
     $("#filter-search-product").on("input", function () {
         const search = $(this).val();
@@ -134,9 +202,9 @@ $(document).ready(function () {
                 url: "handles/search/filter_search_product.php",
                 method: "POST",
                 data: {
-                    filter_price: { 
-                        from: sliderOne.val(), 
-                        to: sliderTwo.val() 
+                    filter_price: {
+                        from: sliderOne.val(),
+                        to: sliderTwo.val()
                     },
                     filter_search: search,
                     arrangeProduct: $("#arrangeProduct").val()
@@ -158,9 +226,9 @@ $(document).ready(function () {
             data: {
                 filter_search: $("#filter-search-product").val(),
                 filter_cate: cateID,
-                filter_price: { 
-                    from: sliderOne.val(), 
-                    to: sliderTwo.val() 
+                filter_price: {
+                    from: sliderOne.val(),
+                    to: sliderTwo.val()
                 },
                 arrangeProduct: $("#arrangeProduct").val()
             },
@@ -178,9 +246,9 @@ $(document).ready(function () {
             data: {
                 filter_search: $("#filter-search-product").val(),
                 filter_cate: $("#cateSearch").val(),
-                filter_price: { 
-                    from: sliderOne.val(), 
-                    to: sliderTwo.val() 
+                filter_price: {
+                    from: sliderOne.val(),
+                    to: sliderTwo.val()
                 },
                 arrangeProduct: arrangeProduct
             },
@@ -196,9 +264,9 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 filter_search: $("#filter-search-product").val(),
-                filter_price: { 
-                    from: slideOne(), 
-                    to: sliderTwo.val() 
+                filter_price: {
+                    from: slideOne(),
+                    to: sliderTwo.val()
                 },
                 filter_cate: $("#cateSearch").val(),
                 arrangeProduct: $("#arrangeProduct").val()
@@ -214,8 +282,8 @@ $(document).ready(function () {
             method: "POST",
             data: {
                 filter_search: $("#filter-search-product").val(),
-                filter_price: { 
-                    from: sliderOne.val(), 
+                filter_price: {
+                    from: sliderOne.val(),
                     to: slideTwo()
                 },
                 filter_cate: $("#cateSearch").val(),
@@ -227,8 +295,19 @@ $(document).ready(function () {
         });
     });
 
-    slideOne();
-    slideTwo();
+    $(".menu-btn-box").hide();
+
+    $(document).on("click", ".menu-btn", function (e) {
+        e.stopPropagation();
+        $(".menu-btn-box").hide();
+        $(this).find(".menu-btn-box").toggle();
+
+    })
+    $(document).on("click", function (e) {
+        if (!$(".menu-btn-box").is(e.target) && $(".menu-btn-box").has(e.target).length === 0) {
+            $(".menu-btn-box").hide();
+        }
+    });
 });
 
 function formatVND(amount) {
@@ -267,9 +346,9 @@ function product_previous(id) {
         data: {
             page: id - 1,
             filter_search: $("#filter-search-product").val(),
-            filter_price: { 
-                from: sliderOne.val(), 
-                to: sliderTwo.val() 
+            filter_price: {
+                from: sliderOne.val(),
+                to: sliderTwo.val()
             },
             filter_cate: $("#cateSearch").val(),
             arrangeProduct: $("#arrangeProduct").val()
@@ -287,9 +366,9 @@ function product_next(id) {
         data: {
             page: (id + 1),
             filter_search: $("#filter-search-product").val(),
-            filter_price: { 
-                from: sliderOne.val(), 
-                to: sliderTwo.val() 
+            filter_price: {
+                from: sliderOne.val(),
+                to: sliderTwo.val()
             },
             filter_cate: $("#cateSearch").val(),
             arrangeProduct: $("#arrangeProduct").val()

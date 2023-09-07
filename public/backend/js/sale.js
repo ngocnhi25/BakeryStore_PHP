@@ -5,18 +5,77 @@ function updateCoupon(id) {
     ajaxPageData("sale.php", postData);
 }
 
+function hideCoupon(coupon_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to decommission voucher code ${coupon_name}?</div>
+            <div>
+                <button class="cancel" type="button">Cancal</button>
+                <button id="hide-coupon" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#hide-coupon").click(function () {
+        $.post(
+            "handles/hides/coupon.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+function recoverCoupon(coupon_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to show coupon ${coupon_name} to the user?</div>
+            <div>
+                <button class="cancel" type="button">Cancal</button>
+                <button id="recover-coupon" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#recover-coupon").click(function () {
+        $.post(
+            "handles/updates/recover_coupon.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+
 function deleteCoupon(couponName, id) {
     const html = `
-            <div class="message-confirm-box">
-                <div class="message-confirm">
-                    <div>Are you sure to permanently delete coupon ${couponName}?</div>
-                    <div>
-                        <button class="cancel" type="button">Cancal</button>
-                        <button id="delete-coupon" class="delete" type="button">Delete</button>
-                    </div>
-                </div>
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure to permanently delete voucher code ${couponName}?</div>
+            <div>
+                <button class="cancel" type="button">Cancal</button>
+                <button id="delete-coupon" class="deleted" type="button">Delete</button>
             </div>
-        `;
+        </div>
+    </div>`;
+
     $("body").append(html);
 
     $(".cancel").click(function () {
@@ -29,8 +88,37 @@ function deleteCoupon(couponName, id) {
             id: id
         },
             function (res) {
-                $(".message-confirm-box").remove();
-                ajaxPages(res);
+                if (res === "doNotDelete") {
+                    const htmls = `
+                        <div class="message-confirm-box">
+                            <div class="message-confirm">
+                                <div>There are already customers using this voucher! do not delete ! Do you want to deactivate voucher code ${couponName} or not?</div>
+                                <div>
+                                    <button class="cancel" type="button">Cancal</button>
+                                    <button id="hide-coupon" class="create" type="button">Ok</button>
+                                </div>
+                            </div>
+                        </div>`;
+                    $("body").append(htmls);
+
+                    $(".cancel").click(function () {
+                        $(".message-confirm-box").remove();
+                    });
+                    $("#hide-coupon").click(function () {
+                        $.post(
+                            "handles/hides/coupon.php", {
+                            id: id
+                        },
+                            function (resData) {
+                                $(".message-confirm-box").remove();
+                                ajaxPages(resData);
+                            }
+                        )
+                    });
+                } else if(res === "success") {
+                    $(".message-confirm-box").remove();
+                    ajaxPages("sale.php");
+                }
             }
         )
     });
@@ -67,7 +155,7 @@ function updateSale(id) {
     }
     ajaxPageData("sale.php", postData);
 }
-
+ 
 function deleteSale(productName, id) {
     const html = `
             <div class="message-confirm-box">
@@ -104,7 +192,7 @@ function showCoupon() {
         url: "handles/search/filter_search_coupon.php",
         method: "POST",
         data: { 
-            arrangeProduct: $("#arrangeProduct").val() 
+            arrangeCoupon: $("#arrangeCoupon").val() 
         },
         success: function (res) {
             $(".table-coupon-box").empty().html(res);
@@ -116,7 +204,7 @@ function showSale() {
         url: "handles/search/filter_search_sale.php",
         method: "POST",
         data: { 
-            arrangeProduct: $("#arrangeSale").val() 
+            arrangeSale: $("#arrangeSale").val() 
         },
         success: function (res) {
             $(".table-sale-box").empty().html(res);
@@ -160,6 +248,20 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(".menu-btn-box").hide();
+
+    $(document).on("click", ".menu-btn", function (e) {
+        e.stopPropagation();
+        $(".menu-btn-box").hide();
+        $(this).find(".menu-btn-box").toggle();
+
+    })
+    $(document).on("click", function (e) {
+        if (!$(".menu-btn-box").is(e.target) && $(".menu-btn-box").has(e.target).length === 0) {
+            $(".menu-btn-box").hide();
+        }
+    });
 });
 
 function coupon_previous(id) {
@@ -169,7 +271,7 @@ function coupon_previous(id) {
         data: {
             page: id - 1,
             filter_search: $("#filter-search-coupon").val(),
-            arrangeProduct: $("#arrangeCoupon").val()
+            arrangeCoupon: $("#arrangeCoupon").val()
         },
         success: function (res) {
             $(".table-coupon-box").empty().html(res);
@@ -183,7 +285,7 @@ function coupon_next(id) {
         data: {
             page: (id + 1),
             filter_search: $("#filter-search-coupon").val(),
-            arrangeProduct: $("#arrangeCoupon").val()
+            arrangeCoupon: $("#arrangeCoupon").val()
         },
         success: function (res) {
             $(".table-coupon-box").empty().html(res);
@@ -202,7 +304,7 @@ $(document).ready(function() {
                 method: "POST",
                 data: {
                     filter_search: search,
-                    arrangeProduct: $("#arrangeSale").val()
+                    arrangeCoupon: $("#arrangeSale").val()
                 },
                 success: function (res) {
                     $(".table-sale-box").empty().html(res);
@@ -236,7 +338,7 @@ function sale_previous(id) {
         data: {
             page: id - 1,
             filter_search: $("#filter-search-sale").val(),
-            arrangeProduct: $("#arrangeSale").val()
+            arrangeSale: $("#arrangeSale").val()
         },
         success: function (res) {
             $(".table-sale-box").empty().html(res);
@@ -250,7 +352,7 @@ function sale_next(id) {
         data: {
             page: (id + 1),
             filter_search: $("#filter-search-sale").val(),
-            arrangeProduct: $("#arrangeSale").val()
+            arrangeSale: $("#arrangeSale").val()
         },
         success: function (res) {
             $(".table-sale-box").empty().html(res);
