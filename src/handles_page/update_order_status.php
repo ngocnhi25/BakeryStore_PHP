@@ -10,7 +10,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $order_id = $_POST["order_id"];
         $new_status = $_POST["new_status"];
 
-        if ($new_status === "completed") {
+        if ($new_status == "received") {
+            $message = updateStatusToReceived($order_id);
+        } elseif ($new_status === "completed") {
             $message = updateStatusToCompleted($order_id);
         } elseif ($new_status === "cancelled" || $new_status === "return") {
             $message = updateStatusToCancelledOrReturned($order_id, $new_status);
@@ -49,8 +51,27 @@ function updateStatusToCompleted($order_id)
         return "Error updating order status to completed.";
     }
 }
+function updateStatusToReceived($order_id)
+{
+    // Validate the input to prevent SQL injection
+    $order_id = intval($order_id); // Ensure $order_id is an integer
 
+    // Check if $order_id is a valid positive integer
+    if ($order_id <= 0) {
+        return "Invalid order ID.";
+    }
 
+    // Thực hiện truy vấn để cập nhật trạng thái đơn hàng thành "completed"
+    $update_sql = "DELETE FROM tb_order WHERE order_id = $order_id";
+
+    // Gọi hàm execute để thực hiện truy vấn cập nhật trạng thái
+    if (execute($update_sql)) {
+        echo "thank you";
+    } else {
+        // Xử lý lỗi cập nhật trạng thái
+        return "Error updating order status to completed.";
+    }
+}
 
 function sendOrderCompletedEmail($user_email)
 {
@@ -216,4 +237,3 @@ function getUserEmailForOrder($order_id)
     $result = executeSingleResult($sql);
     return $result['email'];
 }
-?>

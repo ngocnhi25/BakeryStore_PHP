@@ -85,7 +85,6 @@ function noOrderYet()
                                                                                                                             </div>
                                                                                                                             <div class="cal-total">
                                                                                                                             <button class="btn btn-danger cancel-btn" data-order-id="<?=$o["order_id"]?>">Cancel</button>
-                                                                                                                            <button class="btn btn-success success-btn" data-order-id="<?=$od["order_id"]?>">Success</button>
 
                                                                                                                             </div>
                                                                                                                         </div>
@@ -200,56 +199,82 @@ if (!empty($orders_details_completed)) {
 
         <div class="content" data-content="completed">
         <?php
-$orders_details_completed = executeResult("
-    SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
-    FROM tb_order_detail od
-    INNER JOIN tb_products p ON od.product_id = p.product_id
-    INNER JOIN tb_order o ON od.order_id = o.order_id
-    WHERE od.user_id = $user_id
-    AND o.status = 'completed'
-");
+        $orders_details_completed = executeResult("
+            SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
+            FROM tb_order_detail od
+            INNER JOIN tb_products p ON od.product_id = p.product_id
+            INNER JOIN tb_order o ON od.order_id = o.order_id
+            WHERE od.user_id = $user_id
+            AND o.status = 'completed'
+        ");
 
-if (!empty($orders_details_completed)) {
-    foreach ($orders_details_completed as $od) {
+        if (!empty($orders_details_completed)) {
+            foreach ($orders_details_completed as $od) {
         ?>
-                                                                                            <div class="item-product-box">
-                                                                                                <div class="detail-order">
-                                                                                                    <div class="inf-prd">
-                                                                                                        <div>
-                                                                                                            <img src="../<?=$od["image"]?>" alt="">
-                                                                                                        </div>
-                                                                                                        <div class="inf-text">
-                                                                                                            <div class="prd-name"><?=$od["product_name"]?></div>
-                                                                                                            <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
-                                                                                                            <div>x<?=$od["quantity"]?></div>
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                    <div class="prd-price">
-                                                                                                        <?php if ($od["sale_product"] != 0) {?>
-                                                                                                                                                        <span class="price-del"><?=$od["total_money"]?> vnđ</span>
-                                                                                                                                                        <span class="price-hight-light"><?=$od["sale_product"]?> vnđ</span>
-                                                                                                        <?php } else {?>
-                                                                                                                                                        <span class="price-hight-light"><?=displayPrice($od["price"])?> vnđ</span>
-                                                                                                        <?php }?>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="status-cal">
-                                                                                                    <div class="status-ord">
-                                                                                                        <span class="<?=$od["order_status"]?>"><?=$od["order_status"]?></span>
-                                                                                                    </div>
-                                                                                                    <div class="cal-total">
-                                                                            <button class="btn btn-warning return-btn" data-order-id="<?=$od["order_id"]?>" data-product-id="<?=$od["product_id"]?>">Return</button>
-                                                                        </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        <?php
-}
-} else {
-    noOrderYet();
-}
-?>
+        <div class="item-product-box">
+            <div class="detail-order">
+                <div class="inf-prd">
+                    <div>
+                        <img src="../<?=$od["image"]?>" alt="">
+                    </div>
+                    <div class="inf-text">
+                        <div class="prd-name"><?=$od["product_name"]?></div>
+                        <div class="galary"><span>Size: <?=$od["size"]?>cm</span> <span>Flavor: <?=$od["flavor"]?></span></div>
+                        <div>x<?=$od["quantity"]?></div>
+                    </div>
+                </div>
+                <div class="prd-price">
+                    <?php if ($od["sale_product"] != 0) {?>
+                        <span class="price-del"><?=$od["total_money"]?> vnđ</span>
+                        <span class="price-hight-light"><?=$od["sale_product"]?> vnđ</span>
+                    <?php } else {?>
+                        <span class="price-hight-light"><?=displayPrice($od["price"])?> vnđ</span>
+                    <?php }?>
+                </div>
+            </div>
+            <div class="status-cal">
+                <div class="status-ord">
+                    <span class="<?=$od["order_status"]?>"><?=$od["order_status"]?></span>
+                </div>
+                <div class="cal-total">
+                    <button class="btn btn-warning return-btn" data-order-id="<?=$od["order_id"]?>" data-product-id="<?=$od["product_id"]?>">Return</button>
+                    <button class="btn btn-success success-btn" data-order-id="<?=$od["order_id"]?>">order received</button>
+                </div>
+            </div>
+            <!-- Đặt một div để hiển thị form trả hàng (ẩn đi ban đầu) -->
+            <div class="return-form" id="return-form-<?=$od["order_id"]?>" style="display: none;">
+                <h2>Đơn Trả Hàng</h2>
+                <form id="return-order-form" action="handles_page/process_return.php" method="POST" enctype="multipart/form-data">
+                    <!-- Hidden input fields to store order_id and product_id -->
+                    <input type="hidden" name="order_id" value="<?=$od["order_id"]?>">
+                    <input type="hidden" name="product_id" value="<?=$od["product_id"]?>">
+                    
+                    <div class="form-group">
+                        <label for="reason">Lý Do Trả Hàng:</label>
+                        <!-- Input field for reason -->
+                        <input type="text" name="reason" id="reason" class="form-control" required>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="customer_image">Hình ảnh khách hàng:</label>
+                        <!-- Input field for customer_image (file upload) -->
+                        <input type="file" name="customer_image" id="customer-image" accept="image/*" required>
+                    </div>
+
+                    <div class="form-group">
+                        <!-- Submit button to send the form data via AJAX -->
+                        <button type="button" class="btn btn-primary submit-return">Gửi Đơn Trả Hàng</button>
+                    </div>
+                </form>
+            </div>
         </div>
+        <?php
+            }
+        } else {
+            noOrderYet();
+        }
+        ?>
+    </div>
         <div class="content" data-content="cancelled">
         <?php
 $cancelled_orders = executeResult("
@@ -276,11 +301,11 @@ if (!empty($cancelled_orders)) {
                     </div>
                 </div>
                 <div class="prd-price">
-                    <?php if ($order["sale_product"] != 0) {?>
-                        <span class="price-del">item price: <?=displayPrice($order["price"])?> vnđ</span>
-                        <span class="price-hight-light"><?=calculateOldPrice($order["price"], $order["sale_product"])?> vnđ</span>
+                    <?php if ($od["sale_product"] != 0) {?>
+                        <span class="price-del"><?=$od["total_money"]?> vnđ</span>
+                        <span class="price-hight-light"><?=$od["sale_product"]?> vnđ</span>
                     <?php } else {?>
-                        <span class="price-hight-light"><?=displayPrice($order["price"])?> vnđ</span>
+                        <span class="price-hight-light"><?=displayPrice($od["price"])?> vnđ</span>
                     <?php }?>
                 </div>
             </div>
@@ -303,7 +328,54 @@ if (!empty($cancelled_orders)) {
 
         </div>
         <div class="content" data-content="return">
+        <?php
+$cancelled_orders = executeResult("
+    SELECT od.*, p.product_name, p.image, p.price, o.status as order_status
+    FROM tb_order_detail od
+    INNER JOIN tb_products p ON od.product_id = p.product_id
+    INNER JOIN tb_order o ON od.order_id = o.order_id
+    WHERE o.status = 'return' AND od.user_id = $user_id
+");
 
+if (!empty($cancelled_orders)) {
+    foreach ($cancelled_orders as $order) {
+        ?>
+        <div class="item-product-box">
+            <div class="detail-order">
+                <div class="inf-prd">
+                    <div>
+                        <img src="../<?=$order["image"]?>" alt="">
+                    </div>
+                    <div class="inf-text">
+                        <div class="prd-name"><?=$order["product_name"]?></div>
+                        <div class="galary"><span>Size: <?=$order["size"]?>cm</span> <span>Flavor: <?=$order["flavor"]?></span></div>
+                        <div>x<?=$order["quantity"]?></div>
+                    </div>
+                </div>
+                <div class="prd-price">
+                    <?php if ($od["sale_product"] != 0) {?>
+                        <span class="price-del"><?=$od["total_money"]?> vnđ</span>
+                        <span class="price-hight-light"><?=$od["sale_product"]?> vnđ</span>
+                    <?php } else {?>
+                        <span class="price-hight-light"><?=displayPrice($od["price"])?> vnđ</span>
+                    <?php }?>
+                </div>
+            </div>
+            <div class="status-cal">
+                <div class="status-ord">
+                    <span class="<?=$order["order_status"]?>"><?=$order["order_status"]?></span>
+                </div>
+                <div class="cal-total">
+                    <!-- Your action buttons here -->
+                </div>
+            </div>
+        </div>
+        <?php
+}
+} else {
+    noOrderYet();
+}
+?>
         </div>
     </div>
     
@@ -331,11 +403,8 @@ if (!empty($cancelled_orders)) {
             handleCancellation(order_id);
         });
 
-        $(".return-btn").click(function () {
-            const order_id = $(this).data("order-id");
-            const product_id = $(this).data("product-id");
-            handleReturn(order_id, product_id);
-        });
+       
+
 
         $(".success-btn").click(function () {
     // Get the order_id from the data attribute
@@ -344,7 +413,7 @@ if (!empty($cancelled_orders)) {
     // Define the data object to send
     var data = {
         order_id: order_id,
-        new_status: "completed"
+        new_status: "received"
     };
 
     // Send an AJAX request to the PHP script
@@ -405,49 +474,7 @@ function handleCancellation(order_id) {
 
 
 
-function handleReturn(order_id, product_id) {
-    Swal.fire({
-        title: 'Return Order',
-        html: `
-            <label for="return-reason">Reason for return:</label>
-            <textarea id="return-reason" class="swal2-input" style="height: 100px;"></textarea>
-            <label for="return-image">Upload an image of the issue:</label>
-            <input id="return-image" type="file" accept="image/*" class="swal2-file">
-        `,
-        icon: 'info',
-        showCancelButton: true,
-        confirmButtonText: 'Return Order',
-        cancelButtonText: 'Cancel',
-        focusConfirm: false,
-        preConfirm: () => {
-            const reason = document.getElementById('return-reason').value;
-            const imageFile = document.getElementById('return-image').files[0];
 
-            const formData = new FormData();
-            formData.append('order_id', order_id);
-            formData.append('product_id', product_id);
-            formData.append('new_status', 'return');
-            formData.append('reason', reason);
-            formData.append('image', imageFile);
-
-            return fetch('handles_page/update_order_status.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to return the order.');
-                }
-                return response.json();
-            });
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-        if (result.isConfirmed) {
-            handleSuccessPopup('Order Returned', 'Your return request has been submitted.');
-        }
-    });
-}
 
 
 function handleSuccessPopup(title, text) {
@@ -459,6 +486,42 @@ function handleSuccessPopup(title, text) {
         showConfirmButton: false
     });
 }
+
+
+$(document).ready(function() {
+            $('.return-btn').click(function() {
+                var orderId = $(this).data('order-id');
+                var returnForm = $('#return-form-' + orderId);
+
+                if (returnForm.is(":visible")) {
+                    returnForm.hide();
+                } else {
+                    returnForm.show();
+                }
+            });
+
+            // Attach a click event handler to the submit button
+            $(".submit-return").click(function() {
+                var formData = new FormData($(this).closest("form")[0]);
+
+                $.ajax({
+                    url: "handles_page/process_return.php",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log(response);
+                        // You can update the UI or perform any other actions here
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+            });
+        });
+
+
 
 
 

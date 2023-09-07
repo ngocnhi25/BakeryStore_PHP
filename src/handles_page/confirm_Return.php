@@ -29,7 +29,11 @@ function updateStatusToCancelled($order_id)
 
     // Gọi hàm execute để thực hiện truy vấn
     if (execute($sql)) {
-        return "Order status updated to cancelled.";
+        $deletedSQL = "DELETE FROM tb_cancelled WHERE order_id = $order_id";
+        if (execute($deletedSQL)) {
+            return "Order status updated to cancelled.";
+        }
+
     } else {
         return "Error updating order status to cancelled.";
     }
@@ -40,12 +44,13 @@ function updateStatusToReturn($order_id)
     // Thực hiện truy vấn để cập nhật trạng thái đơn hàng thành "return"
     $sql = "UPDATE tb_order SET status = 'return' WHERE order_id = $order_id";
 
-    // Gọi hàm execute để thực hiện truy vấn
     if (execute($sql)) {
-        return "Order status updated to return.";
+        $deletedSQL = "DELETE FROM tb_return WHERE order_id = $order_id";
+        if (execute($deletedSQL)) {
+            return "Order status updated to return.";
+        }
+
     } else {
         return "Error updating order status to return.";
     }
 }
-
-?>

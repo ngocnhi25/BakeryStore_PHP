@@ -46,7 +46,6 @@ if (isset($_GET['cartItem']) && $_GET['cartItem'] == 'cart_item') {
     echo $rows;
 }
 
-// Remove single items from cart
 if (isset($_GET['remove'])) {
 	$id = $_GET['remove'];
 
@@ -56,8 +55,11 @@ if (isset($_GET['remove'])) {
 
 	$_SESSION['showAlert'] = 'block';
 	$_SESSION['message'] = 'Item removed from the cart!';
-	header('location:cart.php');
+	
+	// Sử dụng đường dẫn tương đối đến carts.php
+	header('location: ../carts.php');
 }
+
 
 // Remove all items at once from cart
 if (isset($_GET['clear'])) {
@@ -68,24 +70,40 @@ if (isset($_GET['clear'])) {
 	header('location:../cart.php');
 }
 
-// Set total price of the product in the cart table
 if (isset($_POST['qty'])) {
-	$qty = $_POST['qty'];
-	$pid = $_POST['pid'];
-	$pprice = $_POST['price'];
+    $qty = $_POST['qty'];
+    $pid = $_POST['pid'];
 
-	$tprice = $qty * $pprice;
+    // Truy vấn để lấy giá của sản phẩm từ bảng tb_products
+    $getPriceQuery = "SELECT price FROM tb_products WHERE product_id = ?";
+    $stmtGetPrice = $conn->prepare($getPriceQuery);
+    $stmtGetPrice->bind_param('i', $pid);
+    $stmtGetPrice->execute();
+    $result = $stmtGetPrice->get_result();
 
-	$stmt = $conn->prepare('UPDATE tb_cart SET quantity=?, total_price=? WHERE product_id=?');
-	$stmt->bind_param('idi', $qty, $tprice, $pid);
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $pprice = $row['price'];
 
-	if ($stmt->execute()) {
-		echo "success";
-	} else {
-		echo "Error updating quantity";
-	}
-	exit();
+        // Tính toán tổng giá
+        $tprice = $qty * $pprice;
+
+        // Truy vấn để cập nhật bảng tb_cart với giá mới tính toán
+        $updateCartQuery = "UPDATE tb_cart SET quantity=?, total_price=? WHERE product_id=?";
+        $stmtUpdateCart = $conn->prepare($updateCartQuery);
+        $stmtUpdateCart->bind_param('idi', $qty, $tprice, $pid);
+
+        if ($stmtUpdateCart->execute()) {
+            echo "success";
+        } else {
+            echo "Error updating quantity";
+        }
+    } else {
+        echo "Product not found";
+    }
+    exit();
 }
+
 
 
 

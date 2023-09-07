@@ -5,13 +5,20 @@ if (isset($_POST["ajaxSidebar"])) {
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order ORDER BY order_date DESC");
-$returnOrder = executeResult("SELECT
-*
-FROM
-tb_return r
-INNER JOIN
-tb_order_detail od ON r.order_id = od.order_id;
+$returnOrder = executeResult("
+    SELECT
+        r.*, o.receiver_name
+    FROM
+        tb_return r
+    INNER JOIN
+        tb_order o ON o.order_id = r.order_id
+    INNER JOIN
+        tb_order_detail od ON r.order_id = od.order_id
+    ORDER BY
+        o.order_date DESC
 ");
+
+
 $cancelledOrder = executeResult("SELECT *
 FROM tb_cancelled c
 INNER JOIN tb_order_detail od ON c.order_id = od.order_id
@@ -187,31 +194,24 @@ ORDER BY o.order_date DESC");
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($orders as $order): ?>
-                    <tr>
-                        <td>
-                            <?php echo $order['receiver_name']; ?>
-                        </td>
-                        <td>
-                            <p><strong>Phone:</strong>
-                                <?php echo $order['receiver_phone']; ?>
-                            </p>
-                            <p><strong>Address:</strong>
-                                <?php echo $order['receiver_address']; ?>
-                            </p>
-                        </td>
-                        <td>
-                            <?php echo $order['order_date']; ?>
-                        </td>
-                        <td>
-                            <?php echo $order['status']; ?>
-                        </td>
-                        <td>
-                            <button class="view-btn" data-order_id="<?php echo $order['order_id']; ?>">View</button>
-                        </td>
-                    </tr>
-                <?php endforeach;?>
-            </tbody>
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?php echo $order['receiver_name']; ?></td>
+                    <td>
+                        <p><strong>Phone:</strong> <?php echo $order['receiver_phone']; ?></p>
+                        <p><strong>Address:</strong> <?php echo $order['receiver_address']; ?></p>
+                    </td>
+                    <td><?php echo $order['order_date']; ?></td>
+                    <td>
+                        <p class="hidden" id="statusCurrent_<?php echo $order['order_id']; ?>"><?php echo $order['status']; ?></p>
+                    </td>
+                    <td>
+                        <button class="view-btn" data-order_id="<?php echo $order['order_id']; ?>">View</button>
+                    </td>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+
             <!-- <div id="order-details"></div> -->
         </table>
         
@@ -221,9 +221,11 @@ ORDER BY o.order_date DESC");
         <h1>return request</h1>
     </div>
     <div style="width: 100%;">
+    
         <table class="table-product">
             <thead>
                 <tr>
+                <th>Customer Name</th>
                     <th>Reason for Return</th>
                     <th>Customer Image</th>
                     <th>Action</th>
@@ -233,12 +235,15 @@ ORDER BY o.order_date DESC");
                 <?php foreach ($returnOrder as $r): ?>
                     <tr>
                         <td>
+                            <?php echo $r['receiver_name']; ?>
+                        </td>
+                        <td>
                             <?php echo $r['reason']; ?>
                         </td>
                         <td>
-    <img src="../../public/images/return_img/<?= $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
-    <?= $r['customer_image']; ?>
+    <img src="<?php echo $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
 </td>
+
                         <td>
                             <div id="confirmation-modal" class="">
                                 <button id="confirm-return-btn"
@@ -258,6 +263,7 @@ ORDER BY o.order_date DESC");
         <h1>cancelled request</h1>
     </div>
     <div style="width: 100%;">
+   
         <table class="table-product">
             <thead>
                 <tr>
@@ -303,12 +309,12 @@ ORDER BY o.order_date DESC");
 </div>
 <div id="overlay" class="overlay"></div>
 <div id="modal" class="modal">
-    <!-- <div class="close-btn" id="close-btn">X</div> -->
-    <select id="status-editable">
-        <option value="shipping">Shipping</option>
-    </select>
-    <button id="update-status-btn">Update Status</button>
-</div>
+        <select id="status-editable">
+            <option value="shipping">Shipping</option>
+            <option value="completed">Completed</option>
+        </select>
+        <button id="update-status-btn">Update Status</button>
+    </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -331,39 +337,114 @@ ORDER BY o.order_date DESC");
             });
         });
 
-        var selectedOrderId; // Variable to store the selected order ID
+        $(document).ready(function () {
+    var selectedOrderId; // Variable to store the selected order ID
 
-        $(".view-btn").click(function () {
-            selectedOrderId = $(this).data("order_id");
-            // alert(selectedOrderId);
-        });
+    $(".view-btn").click(function () {
+        selectedOrderId = $(this).data("order_id");
+        // Lấy trạng thái hiện tại của đơn hàng dựa trên selectedOrderId
+        var currentStatus = $("#statusCurrent_" + selectedOrderId).text();
+        $("#status-editable").val(currentStatus); // Hiển thị trạng thái hiện tại trong dropdown
+    });
 
-        $("#update-status-btn").click(function () {
-            var newStatus = $("#status-editable").val();
+    $("#update-status-btn").click(function () {
+        var newStatus = $("#status-editable").val();
+        var currentStatus = $("#statusCurrent_" + selectedOrderId).text();
+
+        // Kiểm tra nếu newStatus là "completed" và currentStatus là "shipping"
+        if (newStatus === "completed" && currentStatus === "shipping") {
             $.ajax({
                 url: "../handles_page/update_order_status.php",
                 type: "POST",
                 data: { order_id: selectedOrderId, new_status: newStatus },
                 success: function (response) {
-                    // alert(response);
-                    // alert(newStatus);
-                    $("#status-display").text(newStatus);
-                    $("#overlay").css("display", "none");
-                    $("#modal").css("display", "none");
+                    if (response.toLowerCase().includes("error")) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Status Update Failed',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Cập nhật trạng thái hiện tại của đơn hàng
+                        $("#statusCurrent_" + selectedOrderId).text(newStatus);
+                        $("#overlay").css("display", "none");
+                        $("#modal").css("display", "none");
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status Updated',
-                        text: response,
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
                 },
                 error: function () {
-                    // Handle error
+                    // Xử lý lỗi
                 }
             });
-        });
+        } else if (currentStatus === "cancelled" || currentStatus === "return") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Status Update',
+                text: 'You cannot update the status when the order is in "return" or "cancelled" status.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else if (newStatus === currentStatus) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Status Update',
+                text: 'The new status cannot be the same as the current status.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            // Cho phép cập nhật từ trạng thái "prepare" sang bất kỳ trạng thái nào khác
+            $.ajax({
+                url: "../handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: selectedOrderId, new_status: newStatus },
+                success: function (response) {
+                    if (response.toLowerCase().includes("error")) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Status Update Failed',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Cập nhật trạng thái hiện tại của đơn hàng
+                        $("#statusCurrent_" + selectedOrderId).text(newStatus);
+                        $("#overlay").css("display", "none");
+                        $("#modal").css("display", "none");
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                },
+                error: function () {
+                    // Xử lý lỗi
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
 
         // $(".view-btn").click(function () {
         //     selectedOrderId = $(this).closest("tr").find(".order-id").val();
@@ -378,7 +459,7 @@ ORDER BY o.order_date DESC");
                 type: "POST",
                 data: { order_id: order_id, new_status: "return" },
                 success: function (response) {
-                    alert(response);
+                    // alert(response);
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
@@ -426,15 +507,12 @@ ORDER BY o.order_date DESC");
                 type: "POST",
                 data: { order_id: order_id, new_status: "cancelled" },
                 success: function (response) {
-                    alert(response);
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
-                        text: response,
+                        text: 'request sended successfully',
                         timer: 2000,
                         showConfirmButton: false
-                    }).then(function () {
-                        window.location.reload();
                     });
                 },
                 error: function () {
@@ -486,6 +564,32 @@ ORDER BY o.order_date DESC");
             } else {
                 $.ajax({
                     url: "../handles_page/loadDefault.php",
+                    success: function (data) {
+                        updateTableContent(data);
+                    }
+                });
+            }
+        });
+
+        function updateTableContent(content) {
+            $("#table-product").html(content);
+        }
+
+        $('#filter-search-order').keyup(function () {
+            var input = $(this).val();
+
+            if (input != "") {
+                $.ajax({
+                    url: "../handles_page/livesearchReturn.php",
+                    method: "POST",
+                    data: { input: input },
+                    success: function (data) {
+                        $("#table-product").html(data);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "../handles_page/loadDefaultReturn.php",
                     success: function (data) {
                         updateTableContent(data);
                     }
