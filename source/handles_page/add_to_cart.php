@@ -105,7 +105,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
     $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : null;
     $coupon_name = isset($_POST['coupon_name']) ? $_POST['coupon_name'] : null;
     $deposit = $grand_total * 0.3; // Calculate deposit as 30% of grand_total
-
+    $pmode = $_POST['pmode'];
+    // var_dump($pmode);
+    // die();
     if (!empty($coupon_name)) {
         // Get discount and condition_used_coupon from tb_coupon based on the coupon name
         $sql_coupon = "SELECT discount_coupon, condition_used_coupon, qti_coupon, qti_used_coupon FROM tb_coupon WHERE coupon_name = '$coupon_name'";
@@ -191,8 +193,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 
     // Insert order details into tb_order table
     global $coupon_name;
-    $sql_insert = "INSERT INTO tb_order (order_id, user_id, receiver_name, receiver_email, receiver_phone, receiver_address, order_date, deposit,coupon_used, status, total_pay)
-                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'prepare', $grand_total)";
+    $sql_insert = "INSERT INTO tb_order (order_id, user_id, receiver_name, receiver_email, receiver_phone, receiver_address, order_date, deposit, coupon_used, status, total_pay, payment)
+                    VALUES ('$order_id', '$user_id', '$name', '$email', '$phone', '$address', '$order_date', '$deposit', '$coupon_name', 'prepare', $grand_total, '$pmode')";
     $insert_result = execute($sql_insert);
     // var_dump($insert_result);
     // die();
