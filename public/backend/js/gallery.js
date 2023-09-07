@@ -22,29 +22,94 @@ function createCate() {
 }
 
 // flavor event
-function hideFlavor(id) {
-    $.post(
-        "handles/hides/flavor.php", {
-        id: id
-    },
-        function (data) {
-            ajaxPages(data);
-        }
-    )
-}
+$(document).ready(function() {
+    $(".menu-btn-box").hide();
 
-function recoverFlavor(qtiFlavor, id) {
+    $(document).on("click", ".menu-btn", function (e) {
+        e.stopPropagation();
+        $(".menu-btn-box").hide();
+        $(this).find(".menu-btn-box").toggle();
+
+    })
+    $(document).on("click", function (e) {
+        if (!$(".menu-btn-box").is(e.target) && $(".menu-btn-box").has(e.target).length === 0) {
+            $(".menu-btn-box").hide();
+        }
+    });
+})
+
+function hideFlavor(flavor_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to decommission flavor ${flavor_name}?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="hide-flavor" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#hide-flavor").click(function () {
+        $.post(
+            "handles/hides/flavor.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+function recoverFlavor(flavor_name, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to show flavor ${flavor_name} to the user?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="recover-flavor" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
+
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#recover-flavor").click(function () {
+        $.post(
+            "handles/updates/recover_flavor.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+function updateFlavor(flavor_name, qtyFlavor, id) {
     const html = `
         <div class="message-confirm-box">
             <div class="message-confirm">
-                <div>Update the number of flavors in stock</div>
-                <div class="box-input">
-                    <input id="flavorInStockUpdate" type="text" name="flavorInStock" value="${qtiFlavor}">
+                <div>Do you want to update the quantity of flavor ${flavor_name} in stock?</div>
+                <div class="coupon-input">
+                    <div class="box-input">
+                        <input id="qtyFlavorUpdate" type="text" name="qtyFlavor" value="${qtyFlavor}">
+                    </div>
+                    <p class="errorQtyFlavorUpdate" style="color: red;"></p>
                 </div>
-                <p class="errorFlavorInStockUpdate" style="color: red;"></p>
-                <div class"btn-message">
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="update-qti-flavor" class="update" type="button">Update</button>
+                    <button id="update-qti-flavor" class="updated" type="button">Update</button>
                 </div>
             </div>
         </div>
@@ -56,25 +121,24 @@ function recoverFlavor(qtiFlavor, id) {
     });
 
     $("#update-qti-flavor").click(function () {
-        const flavorInStock = $("#flavorInStockUpdate").val();
+        const qtyFlavor = $("#qtyFlavorUpdate").val();
         $.post(
-            "handles/updates/flavor_in_stock.php", {
+            "handles/updates/update_qty_flavor.php", {
             id: id,
-            flavorInStock: flavorInStock
+            qtyFlavor: qtyFlavor
         },
             function (res) {
                 if (res === "success") {
                     $(".message-confirm-box").remove();
                     ajaxPages("products/gallery.php");
                 } else {
-                    $('.errorFlavorInStockUpdate').empty().append(res);
+                    $('.errorQtyFlavorUpdate').empty().append(res);
                 }
             }
         )
     });
 }
-
-function updateFlavor(id) {
+function editFlavor(id) {
     var postData = {
         idFlavor: id
     }
@@ -85,9 +149,9 @@ function deleteFlavor(flavorName, id) {
         <div class="message-confirm-box">
             <div class="message-confirm">
                 <div>Are you sure to permanently delete flavor ${flavorName}?</div>
-                <div>
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="delete-flavor" class="delete" type="button">Delete</button>
+                    <button id="delete-flavor" class="deleted" type="button">Delete</button>
                 </div>
             </div>
         </div>
@@ -112,36 +176,84 @@ function deleteFlavor(flavorName, id) {
 }
 
 // size event
-function updateSize(id) {
+function editSize(id) {
     var postData = {
         idSize: id
     }
     ajaxPageData("products/gallery.php", postData);
 }
+function hideSize(sizeName, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to decommission size ${sizeName}?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="hide-size" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
 
-function hideSize(id) {
-    $.post(
-        "handles/hides/size.php", {
-        id: id
-    },
-        function (data) {
-            ajaxPages(data);
-        }
-    )
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#hide-size").click(function () {
+        $.post(
+            "handles/hides/size.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
 }
+function recoverSize(sizeName, id) {
+    const html = `
+    <div class="message-confirm-box">
+        <div class="message-confirm">
+            <div>Are you sure you want to show size ${sizeName} to the user?</div>
+            <div class="btn-message">
+                <button class="cancel" type="button">Cancal</button>
+                <button id="recover-size" class="create" type="button">Ok</button>
+            </div>
+        </div>
+    </div>`;
+    $("body").append(html);
 
-function recoverSize(qtiBoxSize, id) {
+    $(".cancel").click(function () {
+        $(".message-confirm-box").remove();
+    });
+
+    $("#recover-size").click(function () {
+        $.post(
+            "handles/updates/recover_size.php", {
+            id: id
+        },
+            function (res) {
+                $(".message-confirm-box").remove();
+                ajaxPages(res);
+            }
+        )
+    });
+}
+function updateSize(sizeName, qtiBoxSize, id) {
     const html = `
         <div class="message-confirm-box">
             <div class="message-confirm">
-                <div>Update the number of boxes in stock</div>
-                <div class="box-input">
-                    <input id="qtiBoxSizeUpdate" type="text" name="qtiBoxSize" value="${qtiBoxSize}">
+                <div>Do you want to update the number of size ${sizeName} boxes in stock?</div>
+                <div class="coupon-input">
+                    <div class="box-input">
+                        <input id="qtySizeUpdate" type="text" name="qtiBoxSize" value="${qtiBoxSize}">
+                    </div>
+                    <p class="errorQtyBoxesSizeUpdate" style="color: red;"></p>
                 </div>
-                <p class="errorqtiBoxSize" style="color: red;"></p>
-                <div class"btn-message">
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="update-qti-size" class="update" type="button">Update</button>
+                    <button id="update-qti-size" class="updated" type="button">Update</button>
                 </div>
             </div>
         </div>
@@ -153,9 +265,9 @@ function recoverSize(qtiBoxSize, id) {
     });
 
     $("#update-qti-size").click(function () {
-        const qtiBoxSize = $("#qtiBoxSizeUpdate").val();
+        const qtiBoxSize = $("#qtySizeUpdate").val();
         $.post(
-            "handles/updates/qty_boxes_size.php", {
+            "handles/updates/update_qty_boxes_size.php", {
             id: id,
             qtiBoxSize: qtiBoxSize
         },
@@ -164,21 +276,20 @@ function recoverSize(qtiBoxSize, id) {
                     $(".message-confirm-box").remove();
                     ajaxPages("products/gallery.php");
                 } else {
-                    $('.errorqtiBoxSize').empty().append(res);
+                    $('.errorQtyBoxesSizeUpdate').empty().append(res);
                 }
             }
         )
     });
 }
-
 function deleteSize(sizeName, id) {
     const html = `
         <div class="message-confirm-box">
             <div class="message-confirm">
                 <div>Are you sure to permanently delete size ${sizeName}?</div>
-                <div>
+                <div class="btn-message">
                     <button class="cancel" type="button">Cancal</button>
-                    <button id="delete-size" class="delete" type="button">Delete</button>
+                    <button id="delete-size" class="deleted" type="button">Delete</button>
                 </div>
             </div>
         </div>
