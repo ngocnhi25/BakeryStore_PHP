@@ -369,7 +369,6 @@ ORDER BY o.order_date DESC");
         $(document).ready(function () {
     var selectedOrderId; // Variable to store the selected order ID
 
-<<<<<<< HEAD:src/backend/orders.php
     $(".view-btn").click(function () {
         selectedOrderId = $(this).data("order_id");
         // Lấy trạng thái hiện tại của đơn hàng dựa trên selectedOrderId
@@ -401,28 +400,6 @@ ORDER BY o.order_date DESC");
                         $("#statusCurrent_" + selectedOrderId).text(newStatus);
                         $("#overlay").css("display", "none");
                         $("#modal").css("display", "none");
-=======
-        $(".view-btn").click(function() {
-            selectedOrderId = $(this).data("order_id");
-            // alert(selectedOrderId);
-        });
-
-        $("#update-status-btn").click(function() {
-            var newStatus = $("#status-editable").val();
-            $.ajax({
-                url: "../handles_page/update_order_status.php",
-                type: "POST",
-                data: {
-                    order_id: selectedOrderId,
-                    new_status: newStatus
-                },
-                success: function(response) {
-                    // alert(response);
-                    // alert(newStatus);
-                    $("#status-display").text(newStatus);
-                    $("#overlay").css("display", "none");
-                    $("#modal").css("display", "none");
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
 
                         Swal.fire({
                             icon: 'success',
@@ -433,13 +410,8 @@ ORDER BY o.order_date DESC");
                         });
                     }
                 },
-<<<<<<< HEAD:src/backend/orders.php
                 error: function () {
                     // Xử lý lỗi
-=======
-                error: function() {
-                    // Handle error
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                 }
             });
         } else if (currentStatus === "cancelled" || currentStatus === "return") {
@@ -514,18 +486,9 @@ ORDER BY o.order_date DESC");
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
-<<<<<<< HEAD:src/backend/orders.php
                 data: { order_id: order_id, new_status: "return" },
                 success: function (response) {
                     // alert(response);
-=======
-                data: {
-                    order_id: order_id,
-                    new_status: "return"
-                },
-                success: function(response) {
-                    alert(response);
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
@@ -573,28 +536,14 @@ ORDER BY o.order_date DESC");
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
-<<<<<<< HEAD:src/backend/orders.php
                 data: { order_id: order_id, new_status: "cancelled" },
                 success: function (response) {
-=======
-                data: {
-                    order_id: order_id,
-                    new_status: "cancelled"
-                },
-                success: function(response) {
-                    alert(response);
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
                         text: 'request sended successfully',
                         timer: 2000,
                         showConfirmButton: false
-<<<<<<< HEAD:src/backend/orders.php
-=======
-                    }).then(function() {
-                        window.location.reload();
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     });
                 },
                 error: function() {
@@ -657,7 +606,6 @@ ORDER BY o.order_date DESC");
             }
         });
 
-<<<<<<< HEAD:src/backend/orders.php
         function updateTableContent(content) {
             $("#table-product").html(content);
         }
@@ -685,9 +633,6 @@ ORDER BY o.order_date DESC");
         });
 
         $(window).click(function (event) {
-=======
-        $(window).click(function(event) {
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
             if (event.target === document.getElementById("overlay")) {
                 $("#overlay").css("display", "none");
                 $("#modal").css("display", "none");
