@@ -20,8 +20,8 @@ on p.product_id  = c.product_id  inner join tb_user u on c.user_id  = u.user_id 
 
 if (isset($_POST["filter_search"]) && !empty($_POST["filter_search"])) {
     $searchName = $_POST["filter_search"];
-    $sql .= "AND ( u.username LIKE '%$searchName%') ";
-    $sqlCount .= "AND (u.username LIKE '%$searchName%') ";
+    $sql .= "AND ( u.username LIKE '%$searchName%' or p.product_name LIKE '%$searchName%' ) ";
+    $sqlCount .= "AND (u.username LIKE '%$searchName%' or p.product_name LIKE '%$searchName%') ";
 }
 
 if (isset($_POST["arrangeComment"]) && !empty($_POST["arrangeComment"])) {
