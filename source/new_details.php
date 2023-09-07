@@ -6,7 +6,7 @@ require_once('connect/connectDB.php');
 
 if (isset($_GET["new_id"])) {
   $id = $_GET['new_id'];
-  $created_at = $product["created_at"];
+  // $created_at = $product["created_at"];
   $product = executeSingleResult("SELECT * FROM tb_news WHERE new_id = $id");
   $cate = executeSingleResult("SELECT * FROM tb_news_cate ");
   $news = executeResult("SELECT * FROM tb_news");
@@ -141,7 +141,7 @@ if (isset($_GET["new_id"])) {
     <h5 class="product-name">
       <?php echo $product["new_title"] ?>
     </h5>
-    <p>Created at: <?php echo $created_at; ?></p>
+    <!-- <p>Created at: <?php echo $created_at; ?></p> -->
 
 
     <div class="product-imgs">

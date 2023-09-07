@@ -169,7 +169,6 @@ function checkTypeCateUpdate($value)
                 contentType: false,
                 processData: false,
                 success: function(res) {
-                    alert(res);
                     if (res === 'success') {
                         showSuccessMessage("ads.php");
                     } else {

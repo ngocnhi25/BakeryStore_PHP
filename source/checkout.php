@@ -99,7 +99,7 @@ if (isset($_SESSION["auth_user"])) {
           </table>
           <h5><b>Total Amount Payable:</b> <?=number_format($grand_total, 0)?></h5>
         </div>
-        <form action="" method="post" id="placeOrder">
+        <form action="" method="post" id="placeOrderForm">
           <input type="hidden" name="user_id" value="<?=isset($user_id) ? $user_id : '';?>">
           <!-- Add this hidden input -->
           <input type="hidden" name="products" value="<?=$items_json;?>">
@@ -125,6 +125,7 @@ if (isset($_SESSION["auth_user"])) {
               <div class="col-md-6">
                 <h6 class="text-center lead">Select Payment Mode</h6>
                 <div class="form-group">
+                <input type="hidden" name="payment_mode" id="payment-mode-input" value="cod">
                   <select name="pmode" class="form-control" id="payment-mode">
                     <option value="cod">Cash On Delivery</option>
                     <option value="paypal">PayPal</option>
@@ -136,62 +137,71 @@ if (isset($_SESSION["auth_user"])) {
           </div>
             <script src="https://www.paypal.com/sdk/js?client-id=AaiK0St63FF408Ut2I_lM0WFlyGUs9Wz4O5QthU3dGilujAwRruek1xceLSycd9RXBTYsgLOjT-bkZOg&currency=USD"></script>
             <script>
-              const grand_total = <?=$grand_total?>;
+  const grand_total = <?=$grand_total?>;
 
-              // Get elements
-              const paymentModeSelect = document.getElementById('payment-mode');
-              const paypalButtonContainer = document.getElementById('paypal-button-container');
-              const checkoutButton = document.getElementById('checkout-button');
+  // Get elements
+  const paymentModeSelect = document.getElementById('payment-mode');
+  const paypalButtonContainer = document.getElementById('paypal-button-container');
+  const checkoutButton = document.getElementById('checkout-button');
+  const form = document.getElementById('placeOrderForm');
 
-              // Listen for payment mode change
-              paymentModeSelect.addEventListener('change', function () {
-                const selectedPaymentMode = paymentModeSelect.value;
-                if (selectedPaymentMode === 'paypal') {
-                  paypalButtonContainer.style.display = 'block';
-                  checkoutButton.style.display = 'none';
-                } else {
-                  paypalButtonContainer.style.display = 'none';
-                  checkoutButton.style.display = 'block';
-                }
-              });
+  // Listen for payment mode change
+  paymentModeSelect.addEventListener('change', function () {
+    const selectedPaymentMode = paymentModeSelect.value;
+    if (selectedPaymentMode === 'paypal') {
+      paypalButtonContainer.style.display = 'block';
+      checkoutButton.style.display = 'none';
+    } else {
+      paypalButtonContainer.style.display = 'none';
+      checkoutButton.style.display = 'block';
+    }
+  });
 
-              paypal.Buttons({
-                createOrder: function (data, actions) {
-                  return actions.order.create({
-                    purchase_units: [{
-                      amount: {
-                        currency_code: "USD",
-                        value: grand_total
-                      }
-                    }]
-                  });
-                },
-                onApprove: function (data, actions) {
-                  return actions.order.capture().then(function (orderData) {
-                    // Get transaction details from the PayPal response
-                    const transactionID = orderData.id;
-                    const payerName = orderData.payer.name.given_name + ' ' + orderData.payer.name.surname;
-                    const payerEmail = orderData.payer.email_address;
+  paypal.Buttons({
+  createOrder: function (data, actions) {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          currency_code: "USD",
+          value: grand_total
+        }
+      }]
+    });
+  },
+  onApprove: function (data, actions) {
+    return actions.order.capture().then(function (orderData) {
+      // Get transaction details from the PayPal response
+      const transactionID = orderData.id;
+      const payerName = orderData.payer.name.given_name + ' ' + orderData.payer.name.surname;
+      const payerEmail = orderData.payer.email_address;
+      
+      // Get the selected payment mode
+      const paymentMode = $('#payment-mode').val();
 
-                    // Send data to the server using AJAX
-                    $.ajax({
-                      url: 'handles_page/add_to_cart.php', // Adjust the correct processing URL
-                      method: 'post',
-                      data: {
-                        transactionID: transactionID,
-                        payerName: payerName,
-                        payerEmail: payerEmail,
-                        action: 'save_paypal_data' // Adjust the action to be performed in the processing code
-                      },
-                      success: function (response) {
-                        // Handle the server response if needed
-                        console.log(response);
-                      }
-                    });
-                  });
-                }
-              }).render('#paypal-button-container');
-            </script>
+      // Send data to the server using AJAX, including payment mode
+      $.ajax({
+        url: 'handles_page/add_to_cart.php',
+        method: 'post',
+        data: {
+          transactionID: transactionID,
+          payerName: payerName,
+          payerEmail: payerEmail,
+          action: 'save_paypal_data',
+          payment_mode: paymentMode, // Add payment mode to the data
+        },
+        success: function (response) {
+          // Handle the server response if needed
+          console.log('Data sent to server:', response); // Log the data sent to the server
+        }
+      });
+
+      // Submit the form with the name "submit" and value "Place Order"
+      form.submit();
+    });
+  }
+}).render('#paypal-button-container');
+</script>
+
           <div class="form-group">
             <input type="submit" name="submit" value="Place Order" class="btn btn-danger btn-block">
           </div>
@@ -219,18 +229,26 @@ if (isset($_SESSION["auth_user"])) {
   <script type="text/javascript">
     $(document).ready(function () {
       // Sending Form data to the server
-      $("#placeOrder").submit(function (e) {
-        e.preventDefault();
-        $.ajax({
-          url: 'handles_page/add_to_cart.php',
-          method: 'post',
-          data: $('form').serialize() + "&action=order",
-          success: function (response) {
-            $("#order").html(response);
-            // window.location.href = "home.php";
-          }
-        });
-      });
+       // Sending Form data to the server
+  $("#placeOrder").submit(function (e) {
+    e.preventDefault();
+
+    // Lấy giá trị phương thức thanh toán
+    const paymentMode = $("#payment-mode").val();
+
+    // Thêm giá trị phương thức thanh toán vào dữ liệu form
+    const formData = $('form').serialize() + "&action=order&pmode=" + paymentMode;
+
+    $.ajax({
+      url: 'handles_page/add_to_cart.php',
+      method: 'post',
+      data: formData,
+      success: function (response) {
+        $("#order").html(response);
+        // window.location.href = "home.php";
+      }
+    });
+  });
 
       // Load total no.of items added in the cart and display in the navbar
       load_cart_item_number();

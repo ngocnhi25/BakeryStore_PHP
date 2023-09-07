@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once("connect/connectDB.php");
+require_once("../source/connect/connectDB.php");
 // $priceResult = executeSingleResult("SELECT price FROM tb_products WHERE product_id = " . $row['product_id']);
 // $price = $priceResult['price'];
 ?>
@@ -47,7 +47,7 @@ require_once("connect/connectDB.php");
             </thead>
             <tbody>
               <?php
-              require 'connect/connection.php';
+              require '../source/connect/connection.php';
 
               $stmt = $conn->prepare('SELECT c.*,  p.image AS product_image FROM tb_cart c
                         JOIN tb_products p ON c.product_id = p.product_id');
@@ -75,7 +75,7 @@ require_once("connect/connectDB.php");
                     <?= number_format($row['total_price'], 0); ?>
                   </td>
                   <td>
-                    <a href="../src/handles_page/action.php?remove=<?= $row['product_id'] ?>" class="text-danger lead"
+                    <a href="../source/handles_page/action.php?remove=<?= $row['product_id'] ?>" class="text-danger lead"
                       onclick="return confirm('Are you sure want to remove this item?');">
                       <i class="fas fa-trash-alt"></i>
                     </a>
@@ -131,7 +131,7 @@ require_once("connect/connectDB.php");
           location.reload(true);
 
           $.ajax({
-            url: '../src/handles_page/action.php',
+            url: './handles_page/action.php',
             method: 'post',
             cache: false,
             data: {

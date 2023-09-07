@@ -65,7 +65,7 @@ function showProduct()
 {
     global $products;
     foreach ($products as $key => $product) {
-        echo "<tr" . (($product["deleted"] == 1) ? "style='opacity: 0.5;'" : '') . ">";
+        echo "<tr " . (($product["deleted"] == 1) ? "style='opacity: 0.5;'" : '') . ">";
         echo "<td>" . $key + 1 . "</td>";
         echo "<td>";
         echo "<img src='../../" . $product["image"] . "' alt='' style='width: 70px; border-radius: 8px;'>";

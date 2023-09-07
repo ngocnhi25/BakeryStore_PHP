@@ -3,13 +3,20 @@ require_once '../connect/connectDB.php';
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order ORDER BY order_date DESC");
-$returnOrder = executeResult("SELECT
-*
-FROM
-tb_return r
-INNER JOIN
-tb_order_detail od ON r.order_id = od.order_id;
+$returnOrder = executeResult("
+    SELECT
+        r.*, o.receiver_name
+    FROM
+        tb_return r
+    INNER JOIN
+        tb_order o ON o.order_id = r.order_id
+    INNER JOIN
+        tb_order_detail od ON r.order_id = od.order_id
+    ORDER BY
+        o.order_date DESC
 ");
+
+
 $cancelledOrder = executeResult("SELECT *
 FROM tb_cancelled c
 INNER JOIN tb_order_detail od ON c.order_id = od.order_id
@@ -184,6 +191,26 @@ ORDER BY o.order_date DESC");
                 </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD:src/backend/orders.php
+            <?php foreach ($orders as $order): ?>
+                <tr>
+                    <td><?php echo $order['receiver_name']; ?></td>
+                    <td>
+                        <p><strong>Phone:</strong> <?php echo $order['receiver_phone']; ?></p>
+                        <p><strong>Address:</strong> <?php echo $order['receiver_address']; ?></p>
+                    </td>
+                    <td><?php echo $order['order_date']; ?></td>
+                    <td>
+                        <p class="hidden" id="statusCurrent_<?php echo $order['order_id']; ?>"><?php echo $order['status']; ?></p>
+                    </td>
+                    <td>
+                        <button class="view-btn" data-order_id="<?php echo $order['order_id']; ?>">View</button>
+                    </td>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+
+=======
                 <?php foreach ($orders as $order) : ?>
                     <tr>
                         <td>
@@ -209,6 +236,7 @@ ORDER BY o.order_date DESC");
                     </tr>
                 <?php endforeach; ?>
             </tbody>
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
             <!-- <div id="order-details"></div> -->
         </table>
 
@@ -218,9 +246,11 @@ ORDER BY o.order_date DESC");
         <h1>return request</h1>
     </div>
     <div style="width: 100%;">
+    
         <table class="table-product">
             <thead>
                 <tr>
+                <th>Customer Name</th>
                     <th>Reason for Return</th>
                     <th>Customer Image</th>
                     <th>Action</th>
@@ -230,12 +260,21 @@ ORDER BY o.order_date DESC");
                 <?php foreach ($returnOrder as $r) : ?>
                     <tr>
                         <td>
+                            <?php echo $r['receiver_name']; ?>
+                        </td>
+                        <td>
                             <?php echo $r['reason']; ?>
                         </td>
                         <td>
+<<<<<<< HEAD:src/backend/orders.php
+    <img src="<?php echo $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
+</td>
+
+=======
                             <img src="../../public/images/return_img/<?= $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
                             <?= $r['customer_image']; ?>
                         </td>
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                         <td>
                             <div id="confirmation-modal" class="">
                                 <button id="confirm-return-btn" data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
@@ -253,6 +292,7 @@ ORDER BY o.order_date DESC");
         <h1>cancelled request</h1>
     </div>
     <div style="width: 100%;">
+   
         <table class="table-product">
             <thead>
                 <tr>
@@ -296,12 +336,12 @@ ORDER BY o.order_date DESC");
 </div>
 <div id="overlay" class="overlay"></div>
 <div id="modal" class="modal">
-    <!-- <div class="close-btn" id="close-btn">X</div> -->
-    <select id="status-editable">
-        <option value="shipping">Shipping</option>
-    </select>
-    <button id="update-status-btn">Update Status</button>
-</div>
+        <select id="status-editable">
+            <option value="shipping">Shipping</option>
+            <option value="completed">Completed</option>
+        </select>
+        <button id="update-status-btn">Update Status</button>
+    </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -326,8 +366,42 @@ ORDER BY o.order_date DESC");
             });
         });
 
-        var selectedOrderId; // Variable to store the selected order ID
+        $(document).ready(function () {
+    var selectedOrderId; // Variable to store the selected order ID
 
+<<<<<<< HEAD:src/backend/orders.php
+    $(".view-btn").click(function () {
+        selectedOrderId = $(this).data("order_id");
+        // Lấy trạng thái hiện tại của đơn hàng dựa trên selectedOrderId
+        var currentStatus = $("#statusCurrent_" + selectedOrderId).text();
+        $("#status-editable").val(currentStatus); // Hiển thị trạng thái hiện tại trong dropdown
+    });
+
+    $("#update-status-btn").click(function () {
+        var newStatus = $("#status-editable").val();
+        var currentStatus = $("#statusCurrent_" + selectedOrderId).text();
+
+        // Kiểm tra nếu newStatus là "completed" và currentStatus là "shipping"
+        if (newStatus === "completed" && currentStatus === "shipping") {
+            $.ajax({
+                url: "../handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: selectedOrderId, new_status: newStatus },
+                success: function (response) {
+                    if (response.toLowerCase().includes("error")) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Status Update Failed',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Cập nhật trạng thái hiện tại của đơn hàng
+                        $("#statusCurrent_" + selectedOrderId).text(newStatus);
+                        $("#overlay").css("display", "none");
+                        $("#modal").css("display", "none");
+=======
         $(".view-btn").click(function() {
             selectedOrderId = $(this).data("order_id");
             // alert(selectedOrderId);
@@ -348,20 +422,86 @@ ORDER BY o.order_date DESC");
                     $("#status-display").text(newStatus);
                     $("#overlay").css("display", "none");
                     $("#modal").css("display", "none");
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
 
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Status Updated',
-                        text: response,
-                        timer: 2000,
-                        showConfirmButton: false
-                    });
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
                 },
+<<<<<<< HEAD:src/backend/orders.php
+                error: function () {
+                    // Xử lý lỗi
+=======
                 error: function() {
                     // Handle error
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                 }
             });
-        });
+        } else if (currentStatus === "cancelled" || currentStatus === "return") {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Status Update',
+                text: 'You cannot update the status when the order is in "return" or "cancelled" status.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else if (newStatus === currentStatus) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Invalid Status Update',
+                text: 'The new status cannot be the same as the current status.',
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            // Cho phép cập nhật từ trạng thái "prepare" sang bất kỳ trạng thái nào khác
+            $.ajax({
+                url: "../handles_page/update_order_status.php",
+                type: "POST",
+                data: { order_id: selectedOrderId, new_status: newStatus },
+                success: function (response) {
+                    if (response.toLowerCase().includes("error")) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Status Update Failed',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    } else {
+                        // Cập nhật trạng thái hiện tại của đơn hàng
+                        $("#statusCurrent_" + selectedOrderId).text(newStatus);
+                        $("#overlay").css("display", "none");
+                        $("#modal").css("display", "none");
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Status Updated',
+                            text: response,
+                            timer: 2000,
+                            showConfirmButton: false
+                        });
+                    }
+                },
+                error: function () {
+                    // Xử lý lỗi
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
 
         // $(".view-btn").click(function () {
         //     selectedOrderId = $(this).closest("tr").find(".order-id").val();
@@ -374,12 +514,18 @@ ORDER BY o.order_date DESC");
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
+<<<<<<< HEAD:src/backend/orders.php
+                data: { order_id: order_id, new_status: "return" },
+                success: function (response) {
+                    // alert(response);
+=======
                 data: {
                     order_id: order_id,
                     new_status: "return"
                 },
                 success: function(response) {
                     alert(response);
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
@@ -427,20 +573,28 @@ ORDER BY o.order_date DESC");
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
+<<<<<<< HEAD:src/backend/orders.php
+                data: { order_id: order_id, new_status: "cancelled" },
+                success: function (response) {
+=======
                 data: {
                     order_id: order_id,
                     new_status: "cancelled"
                 },
                 success: function(response) {
                     alert(response);
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
-                        text: response,
+                        text: 'request sended successfully',
                         timer: 2000,
                         showConfirmButton: false
+<<<<<<< HEAD:src/backend/orders.php
+=======
                     }).then(function() {
                         window.location.reload();
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     });
                 },
                 error: function() {
@@ -503,7 +657,37 @@ ORDER BY o.order_date DESC");
             }
         });
 
+<<<<<<< HEAD:src/backend/orders.php
+        function updateTableContent(content) {
+            $("#table-product").html(content);
+        }
+
+        $('#filter-search-order').keyup(function () {
+            var input = $(this).val();
+
+            if (input != "") {
+                $.ajax({
+                    url: "../handles_page/livesearchReturn.php",
+                    method: "POST",
+                    data: { input: input },
+                    success: function (data) {
+                        $("#table-product").html(data);
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: "../handles_page/loadDefaultReturn.php",
+                    success: function (data) {
+                        updateTableContent(data);
+                    }
+                });
+            }
+        });
+
+        $(window).click(function (event) {
+=======
         $(window).click(function(event) {
+>>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
             if (event.target === document.getElementById("overlay")) {
                 $("#overlay").css("display", "none");
                 $("#modal").css("display", "none");
