@@ -1,5 +1,7 @@
 <?php
-require_once '../connect/connectDB.php';
+if (isset($_POST["ajaxSidebar"])) {
+    require_once '../connect/connectDB.php';
+}
 
 // Retrieve orders from the database
 $orders = executeResult("SELECT * FROM tb_order ORDER BY order_date DESC");
@@ -178,7 +180,8 @@ ORDER BY o.order_date DESC");
     <div style="width: 100%;">
         <div class="form-search-header">
             <span class="material-symbols-sharp icon">search</span>
-            <input id="filter-search-product" type="text" name="search" placeholder="Search product..." class="form-control">
+            <input id="filter-search-product" type="text" name="search" placeholder="Search product..."
+                class="form-control">
         </div>
         <table class="table-product" id="table-product">
             <thead>
@@ -191,7 +194,6 @@ ORDER BY o.order_date DESC");
                 </tr>
             </thead>
             <tbody>
-<<<<<<< HEAD:src/backend/orders.php
             <?php foreach ($orders as $order): ?>
                 <tr>
                     <td><?php echo $order['receiver_name']; ?></td>
@@ -210,36 +212,9 @@ ORDER BY o.order_date DESC");
             <?php endforeach;?>
         </tbody>
 
-=======
-                <?php foreach ($orders as $order) : ?>
-                    <tr>
-                        <td>
-                            <?php echo $order['receiver_name']; ?>
-                        </td>
-                        <td>
-                            <p><strong>Phone:</strong>
-                                <?php echo $order['receiver_phone']; ?>
-                            </p>
-                            <p><strong>Address:</strong>
-                                <?php echo $order['receiver_address']; ?>
-                            </p>
-                        </td>
-                        <td>
-                            <?php echo $order['order_date']; ?>
-                        </td>
-                        <td>
-                            <?php echo $order['status']; ?>
-                        </td>
-                        <td>
-                            <button class="view-btn" data-order_id="<?php echo $order['order_id']; ?>">View</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
             <!-- <div id="order-details"></div> -->
         </table>
-
+        
     </div>
 
     <div>
@@ -257,7 +232,7 @@ ORDER BY o.order_date DESC");
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($returnOrder as $r) : ?>
+                <?php foreach ($returnOrder as $r): ?>
                     <tr>
                         <td>
                             <?php echo $r['receiver_name']; ?>
@@ -266,23 +241,19 @@ ORDER BY o.order_date DESC");
                             <?php echo $r['reason']; ?>
                         </td>
                         <td>
-<<<<<<< HEAD:src/backend/orders.php
     <img src="<?php echo $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
 </td>
 
-=======
-                            <img src="../../public/images/return_img/<?= $r['customer_image']; ?>" alt="" width="100px" style="border-radius: 10px;">
-                            <?= $r['customer_image']; ?>
-                        </td>
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                         <td>
                             <div id="confirmation-modal" class="">
-                                <button id="confirm-return-btn" data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
-                                <button id="cancel-return-btn" data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
+                                <button id="confirm-return-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
+                                <button id="cancel-return-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
                             </div>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endforeach;?>
             </tbody>
             <!-- <div id="order-details"></div> -->
         </table>
@@ -304,7 +275,7 @@ ORDER BY o.order_date DESC");
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cancelledOrder as $c) : ?>
+                <?php foreach ($cancelledOrder as $c): ?>
                     <tr>
                         <td>
                             <?php echo $c['receiver_name']; ?>
@@ -316,16 +287,18 @@ ORDER BY o.order_date DESC");
                             <?php echo $c['product_name']; ?>
                         </td>
                         <td>
-                            <img src="../../<?= $c['image'] ?>" alt="" width="100px" style="border-radius:10px;">
+                            <img src="../../<?= $c['image']?>" alt="" width="100px" style="border-radius:10px;">
                         </td>
                         <td>
                             <div id="confirmation-modal" class="">
-                                <button id="confirm-success-btn" data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
-                                <button id="cancel-success-btn" data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
+                                <button id="confirm-success-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Confirm</button>
+                                <button id="cancel-success-btn"
+                                    data-order-id="<?php echo $order['order_id']; ?>">Cancel</button>
                             </div>
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endforeach;?>
             </tbody>
             <!-- <div id="order-details"></div> -->
         </table>
@@ -345,22 +318,20 @@ ORDER BY o.order_date DESC");
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $(".view-btn").click(function() {
+    $(document).ready(function () {
+        $(".view-btn").click(function () {
             var order_id = $(this).closest("tr").find(".order-id").val();
             $.ajax({
                 url: "../handles_page/get_order_details.php",
                 type: "GET",
-                data: {
-                    order_id: order_id
-                },
-                success: function(response) {
+                data: { order_id: order_id },
+                success: function (response) {
                     $("#order-details").html(response);
                     $("#status-editable").val($("#status-display").text());
                     $("#overlay").css("display", "block");
                     $("#modal").css("display", "block");
                 },
-                error: function() {
+                error: function () {
                     $("#order-details").html("Error fetching order details.");
                 }
             });
@@ -369,7 +340,6 @@ ORDER BY o.order_date DESC");
         $(document).ready(function () {
     var selectedOrderId; // Variable to store the selected order ID
 
-<<<<<<< HEAD:src/backend/orders.php
     $(".view-btn").click(function () {
         selectedOrderId = $(this).data("order_id");
         // Lấy trạng thái hiện tại của đơn hàng dựa trên selectedOrderId
@@ -380,7 +350,7 @@ ORDER BY o.order_date DESC");
     $("#update-status-btn").click(function () {
         var newStatus = $("#status-editable").val();
         var currentStatus = $("#statusCurrent_" + selectedOrderId).text();
-
+// alert(currentStatus);
         // Kiểm tra nếu newStatus là "completed" và currentStatus là "shipping"
         if (newStatus === "completed" && currentStatus === "shipping") {
             $.ajax({
@@ -401,28 +371,6 @@ ORDER BY o.order_date DESC");
                         $("#statusCurrent_" + selectedOrderId).text(newStatus);
                         $("#overlay").css("display", "none");
                         $("#modal").css("display", "none");
-=======
-        $(".view-btn").click(function() {
-            selectedOrderId = $(this).data("order_id");
-            // alert(selectedOrderId);
-        });
-
-        $("#update-status-btn").click(function() {
-            var newStatus = $("#status-editable").val();
-            $.ajax({
-                url: "../handles_page/update_order_status.php",
-                type: "POST",
-                data: {
-                    order_id: selectedOrderId,
-                    new_status: newStatus
-                },
-                success: function(response) {
-                    // alert(response);
-                    // alert(newStatus);
-                    $("#status-display").text(newStatus);
-                    $("#overlay").css("display", "none");
-                    $("#modal").css("display", "none");
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
 
                         Swal.fire({
                             icon: 'success',
@@ -433,13 +381,8 @@ ORDER BY o.order_date DESC");
                         });
                     }
                 },
-<<<<<<< HEAD:src/backend/orders.php
                 error: function () {
                     // Xử lý lỗi
-=======
-                error: function() {
-                    // Handle error
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                 }
             });
         } else if (currentStatus === "cancelled" || currentStatus === "return") {
@@ -508,121 +451,94 @@ ORDER BY o.order_date DESC");
         //     $("#confirmation-modal").addClass("show");
         // });
 
-        $("#confirm-return-btn").click(function() {
+        $("#confirm-return-btn").click(function () {
             var order_id = $(this).data("order-id");
             // alert(order_id);
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
-<<<<<<< HEAD:src/backend/orders.php
                 data: { order_id: order_id, new_status: "return" },
                 success: function (response) {
                     // alert(response);
-=======
-                data: {
-                    order_id: order_id,
-                    new_status: "return"
-                },
-                success: function(response) {
-                    alert(response);
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
                         text: response,
                         timer: 2000,
                         showConfirmButton: false
-                    }).then(function() {
+                    }).then(function () {
                         window.location.reload();
                     });
                 },
-                error: function() {
+                error: function () {
                     // Handle error
                 }
             });
         });
 
-        $("#cancel-return-btn").click(function() {
+        $("#cancel-return-btn").click(function () {
             var order_id = $(this).data("order-id");
             $.ajax({
                 url: "../handles_page/delete_return_request.php",
                 type: "POST",
-                data: {
-                    order_id: order_id
-                },
-                success: function(response) {
+                data: { order_id: order_id },
+                success: function (response) {
                     Swal.fire({
                         icon: 'info',
                         title: 'Return Request Cancelled',
                         text: response,
                         timer: 2000,
                         showConfirmButton: false
-                    }).then(function() {
+                    }).then(function () {
                         window.location.reload();
                     });
                 },
-                error: function() {
+                error: function () {
                     // Handle error
                 }
             });
         });
 
-        $("#confirm-success-btn").click(function() {
+        $("#confirm-success-btn").click(function () {
             var order_id = $(this).data("order-id");
-            alert(order_id);
+            // alert(order_id);
             $.ajax({
                 url: "../handles_page/confirm_Return.php",
                 type: "POST",
-<<<<<<< HEAD:src/backend/orders.php
                 data: { order_id: order_id, new_status: "cancelled" },
                 success: function (response) {
-=======
-                data: {
-                    order_id: order_id,
-                    new_status: "cancelled"
-                },
-                success: function(response) {
-                    alert(response);
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Returned',
                         text: 'request sended successfully',
                         timer: 2000,
                         showConfirmButton: false
-<<<<<<< HEAD:src/backend/orders.php
-=======
-                    }).then(function() {
-                        window.location.reload();
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
                     });
                 },
-                error: function() {
+                error: function () {
                     // Handle error
                 }
             });
         });
 
-        $("#cancel-success-btn").click(function() {
+        $("#cancel-success-btn").click(function () {
             var order_id = $(this).data("order-id");
             $.ajax({
                 url: "../handles_page/delete_cancelled_request.php",
                 type: "POST",
-                data: {
-                    order_id: order_id
-                },
-                success: function(response) {
+                data: { order_id: order_id },
+                success: function (response) {
                     Swal.fire({
                         icon: 'info',
                         title: 'Return Request Cancelled',
                         text: response,
                         timer: 2000,
                         showConfirmButton: false
-                    }).then(function() {
+                    }).then(function () {
                         window.location.reload();
                     });
                 },
-                error: function() {
+                error: function () {
                     // Handle error
                 }
             });
@@ -633,31 +549,28 @@ ORDER BY o.order_date DESC");
             $("#table-product").html(content);
         }
 
-        $('#filter-search-product').keyup(function() {
+        $('#filter-search-product').keyup(function () {
             var input = $(this).val();
 
             if (input != "") {
                 $.ajax({
                     url: "../handles_page/livesearch.php",
                     method: "POST",
-                    data: {
-                        input: input
-                    },
-                    success: function(data) {
+                    data: { input: input },
+                    success: function (data) {
                         $("#table-product").html(data);
                     }
                 });
             } else {
                 $.ajax({
                     url: "../handles_page/loadDefault.php",
-                    success: function(data) {
+                    success: function (data) {
                         updateTableContent(data);
                     }
                 });
             }
         });
 
-<<<<<<< HEAD:src/backend/orders.php
         function updateTableContent(content) {
             $("#table-product").html(content);
         }
@@ -685,13 +598,11 @@ ORDER BY o.order_date DESC");
         });
 
         $(window).click(function (event) {
-=======
-        $(window).click(function(event) {
->>>>>>> 670786bde30a25773e169f7706e7f2a57151dc9d:source/backend/orders.php
             if (event.target === document.getElementById("overlay")) {
                 $("#overlay").css("display", "none");
                 $("#modal").css("display", "none");
             }
         });
     });
+
 </script>

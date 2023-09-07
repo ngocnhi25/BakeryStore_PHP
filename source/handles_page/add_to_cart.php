@@ -121,11 +121,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
             // Calculate discount amount
             $discount_amount = 0;
 
-            if ($grand_total < $intcondition_used_coupon) {
+            if ($grand_total > $intcondition_used_coupon) {
                 $discount_amount = $discount_percent;
             } else {
                 $discount_amount = 0;
-                echo "Discount Amount Need To be < " . $intcondition_used_coupon;
+                echo "Discount Amount Need To be > " . $intcondition_used_coupon;
                 // exit();
             }
 
@@ -232,7 +232,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
                 </tr>
                 <tr>
                     <td style="text-align: center;"><strong>Discount Amount:</strong></td>
-                    <td style="text-align: center;">' . number_format($discount_amount, 0) . '</td>
+                    <td style="text-align: center;">' . $discount_amount . '</td>
                 </tr>
                 <tr>
                     <td style="text-align: center;"><strong>Deposit Amount:</strong></td>
@@ -268,7 +268,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'order') {
 		$message .= "Your E-mail: $email\n";
 		$message .= "Your Phone: $phone\n";
 		$message .= "Total Amount Paid: " . number_format($grand_total, 0) . "\n";
-		$message .= "Discount Amount: " . number_format($discount_amount, 0) . "\n";
+		$message .= "Discount Amount: " . $discount_amount . "\n";
 		$message .= "Deposit Amount: " . number_format($deposit, 0) . "\n";
 		$message .= "Total Pay: " . number_format($total_pay, 0) . "\n";
 		$message .= "Payment Mode: $pmode\n";
