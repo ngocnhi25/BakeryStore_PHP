@@ -781,7 +781,7 @@ function calculateSaleProductDetails()
   </div>
 </section>
 
-
+//nhi
 <section class="section-paddingY middle-section product-page">
   <div class="container">
     <div class="section-body">
